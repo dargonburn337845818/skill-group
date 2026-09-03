@@ -22,6 +22,7 @@ description: 把新蒸馏的 skill 入库到 dsh-skill-vault 的方法；告诉 
    - `distillation` 内容蒸馏 / 知识化
    - `research` 科研 / 组会 / 论文
    - `dsh-ops` DSH 运维 / 工具
+   - `github` GitHub 开源仓库 / Actions
 3. **生成 manifest**：在 skill 目录下写 `manifest.json`（可参考 `vault/manifest.schema.json`）。
 4. **插件入库**（可选，自动拷贝+生成 manifest）：
    - 调用 `skill_vault_add`，传 `sourcePath`、`scenario`、`id` 等。

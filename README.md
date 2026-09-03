@@ -42,6 +42,7 @@ dsh-skill-vault/
 │   ├── skills/distillation/
 │   ├── skills/research/
 │   ├── skills/dsh-ops/
+│   ├── skills/github/
 │   ├── corpus/
 │   └── manifest.schema.json
 ├── scripts/
