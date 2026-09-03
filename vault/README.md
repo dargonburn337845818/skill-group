@@ -17,7 +17,8 @@ vault/
 │   │       └── ...               # 可选资源（CONSENSUS/SOURCES/JSON）
 │   ├── distillation/             # 内容蒸馏 / 知识化
 │   ├── research/                 # 科研 / 组会 / 论文
-│   └── dsh-ops/                  # DSH 运维 / 工具
+│   ├── dsh-ops/                  # DSH 运维 / 工具
+│   └── github/                   # GitHub 开源仓库 / 发布
 ├── corpus/                       # 开源训练语料 / 原始素材（可复现）
 └── meta/
     └── skill-vault-publish/      # “如何入库”的元 skill
@@ -40,3 +41,4 @@ vault/
 | research | vlpc-consensus | VLPC 领域共识与组会报告 |
 | dsh-ops | dsh-optimization-consensus | DSH 运维与优化共识 |
 | dsh-ops | skill-management | Skill 管理方法 |
+| github | github-repo-consensus | GitHub 开源仓库页/隐私/结构/Actions 共识 |

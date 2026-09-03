@@ -17,6 +17,7 @@ const SCENARIO_TITLES: Record<string, string> = {
   distillation: '内容蒸馏 / 知识化',
   research: '科研 / 组会 / 论文',
   'dsh-ops': 'DSH 运维 / 工具',
+  github: 'GitHub 开源仓库 / 发布',
 }
 
 export function readCatalog(vaultRoot: string): SkillEntry[] {

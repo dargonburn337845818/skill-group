@@ -30,6 +30,10 @@ dev_inject_plugin /path/to/dsh-skill-vault
 正式 profile（按 `dsh-optimization-consensus` 先隔离冒烟）：
 
 ```bash
+# 推荐：一键装到默认 web profile（会自动备份 package.json）
+bash scripts/install-web-profile.sh web
+
+# 或手动：
 dsh plugin add /path/to/dsh-external-dsh-skill-vault-0.0.1.tgz
 ```
 

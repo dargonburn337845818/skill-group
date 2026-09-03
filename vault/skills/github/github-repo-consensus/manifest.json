@@ -1,0 +1,22 @@
+{
+  "id": "github-repo-consensus",
+  "name": "github-repo-consensus",
+  "title": "GitHub 开源仓库共识",
+  "description": "开源 GitHub 仓库页/README/元数据、隐私与安全、目录结构、GitHub Actions 的可执行检查清单；来源可追溯，含边界与反例。",
+  "whenToUse": "新建或改造 GitHub 开源仓库、写 README、清理 secrets、规划目录结构、配置 GitHub Actions 时。",
+  "scenario": "github",
+  "scenarios": ["github"],
+  "tags": ["GitHub", "开源", "README", "隐私", "安全", "目录结构", "GitHub Actions"],
+  "experts": ["GitHub Docs", "Open Source Guides", "GitHub Community", "OSS community skills"],
+  "sourceRefs": [
+    "https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories",
+    "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+    "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository",
+    "https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+    "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository",
+    "vault/skills/github/github-repo-consensus/SOURCES.md"
+  ],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}
