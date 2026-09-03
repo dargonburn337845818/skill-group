@@ -4,9 +4,23 @@
  * 交互：从 /skill-vault/api/list 拉取场景与 skill，渲染开关面板；
  * 点击 skill 行调用 /skill-vault/api/enable 或 /disable。
  */
-import type { SlotsService } from '@deepseek-ai/dsh-client-ui-slots'
+interface SlotRegistration {
+  name: string
+  id: string
+  label: () => string
+  component: () => { render(): HTMLElement }
+}
 
-type ClientContext = {
+interface SlotsService {
+  inject(slot: string, factory: () => unknown): unknown
+  register(reg: SlotRegistration): unknown
+}
+
+interface EffectContext {
+  effect(fn: () => unknown, label?: string): unknown
+}
+
+type ClientContext = EffectContext & {
   slots: SlotsService
 }
 

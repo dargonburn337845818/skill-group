@@ -29,7 +29,7 @@ export function registerApi(ctx: Context, manager: SkillVaultManager): void {
   ctx.effect(() => webserver.register({
     kind: 'prefix',
     path: '/skill-vault/api',
-    handler: async (req, res) => {
+    handler: async (req: IncomingMessage, res: ServerResponse) => {
       try {
         const pathname = new URL(req.url ?? '/', 'http://localhost').pathname
         const path = pathname.replace(/^\/skill-vault\/api/, '') || '/'

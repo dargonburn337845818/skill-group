@@ -15,7 +15,14 @@ if [ -z "$CHECKOUT" ]; then
   done
 fi
 if [ -z "$CHECKOUT" ] || [ ! -d "$CHECKOUT/packages" ]; then
-  echo "build: cannot locate the dsh checkout (set DSH_CHECKOUT)" >&2
+  # Local fallback: when the plugin has its own node_modules (pnpm install +
+  # symlinked DSH packages), compile directly without a DSH source checkout.
+  if [ -x "node_modules/.bin/tsc" ]; then
+    echo "build: no DSH checkout detected; using local node_modules tsc"
+    "node_modules/.bin/tsc" -p tsconfig.json
+    exit 0
+  fi
+  echo "build: cannot locate the dsh checkout (set DSH_CHECKOUT or run pnpm install)" >&2
   exit 1
 fi
 

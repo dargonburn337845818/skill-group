@@ -12,25 +12,23 @@ import type { Context } from 'cordis'
 import type { SkillVaultManager } from './manager.js'
 import type { SwitchScope } from './types.js'
 
+const STRING_ARRAY = {
+  type: 'array',
+  items: { type: 'string' },
+} as const
+
 export function registerTools(ctx: Context, manager: SkillVaultManager): void {
   ctx.tools.register(defineTool({
     name: 'skill_vault_list',
     description: '列出 dsh-skill-vault 中全部蒸馏 skill、场景分组与启用状态；可按场景/来源专家/启用状态筛选。',
     parameters: {
-      scenario: { type: 'string', required: false, description: '按场景 id 筛选，如 teaching/distillation/research/dsh-ops' },
-      status: { type: 'string', enum: ['enabled', 'disabled'], required: false, description: '按启用状态筛选' },
-      expert: { type: 'string', required: false, description: '按专家名或来源关键词筛选' },
-      source: { type: 'string', required: false, description: '按来源引用/来源文字筛选' },
+      scenario: { type: 'string', description: '按场景 id 筛选，如 teaching/distillation/research/dsh-ops' },
+      status: { type: 'string', enum: ['enabled', 'disabled'], description: '按启用状态筛选' },
+      expert: { type: 'string', description: '按专家名或来源关键词筛选' },
+      source: { type: 'string', description: '按来源引用/来源文字筛选' },
     },
     output: {
-      schema: {
-        type: 'object',
-        properties: {
-          entries: { type: 'array', items: { type: 'object' } },
-          scenarios: { type: 'array', items: { type: 'object' } },
-        },
-        required: ['entries', 'scenarios'],
-      },
+      schema: { type: 'json' },
       render: (_args, value) => {
         const rows = value as { entries: any[]; scenarios: any[] }
         const lines: string[] = []
@@ -59,7 +57,7 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
         if (args.source && !r.sourceRefs.some((x) => x.includes(args.source!)) && !r.description.includes(args.source)) return false
         return true
       })
-      return { entries: filtered, scenarios: scenarios.filter((s) => !args.scenario || s.id === args.scenario) }
+      return { entries: filtered, scenarios: scenarios.filter((s) => !args.scenario || s.id === args.scenario) } as any
     },
   }))
 
@@ -68,11 +66,12 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
     description: '启用一个蒸馏 skill，或启用整个场景下的所有 skill。默认写入全局配置（持久）；传 scope=session 只影响当前会话。',
     parameters: {
       target: { type: 'string', required: true, description: 'skill id（如 teacher-consensus）或场景 id（如 teaching）' },
-      scope: { type: 'string', enum: ['global', 'session'], required: false, description: 'global=持久全局（默认），session=仅当前会话' },
+      scope: { type: 'string', enum: ['global', 'session'], description: 'global=持久全局（默认），session=仅当前会话' },
     },
     output: {
       schema: {
         type: 'object',
+        additionalProperties: false,
         properties: {
           ok: { type: 'boolean' },
           type: { type: 'string' },
@@ -80,7 +79,6 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
           scope: { type: 'string' },
           message: { type: 'string' },
         },
-        required: ['ok', 'type', 'target', 'scope', 'message'],
       },
       render: (_args, value) => {
         const v = value as { ok: boolean; type: string; target: string; scope: string; message: string }
@@ -102,11 +100,12 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
     description: '关闭一个蒸馏 skill，或关闭整个场景下的所有 skill。默认写入全局配置（持久）；传 scope=session 只影响当前会话。',
     parameters: {
       target: { type: 'string', required: true, description: 'skill id 或场景 id' },
-      scope: { type: 'string', enum: ['global', 'session'], required: false, description: 'global=持久全局（默认），session=仅当前会话' },
+      scope: { type: 'string', enum: ['global', 'session'], description: 'global=持久全局（默认），session=仅当前会话' },
     },
     output: {
       schema: {
         type: 'object',
+        additionalProperties: false,
         properties: {
           ok: { type: 'boolean' },
           type: { type: 'string' },
@@ -114,7 +113,6 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
           scope: { type: 'string' },
           message: { type: 'string' },
         },
-        required: ['ok', 'type', 'target', 'scope', 'message'],
       },
       render: (_args, value) => {
         const v = value as { ok: boolean; type: string; target: string; scope: string; message: string }
@@ -137,16 +135,17 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
     parameters: {
       sourcePath: { type: 'string', required: true, description: '源目录绝对路径，必须含 SKILL.md' },
       scenario: { type: 'string', required: true, description: '目标场景 id：teaching/distillation/research/dsh-ops' },
-      id: { type: 'string', required: false, description: 'skill id（默认取源目录名）' },
-      title: { type: 'string', required: false },
-      description: { type: 'string', required: false },
-      tags: { type: 'array', items: { type: 'string' }, required: false },
-      experts: { type: 'array', items: { type: 'string' }, required: false },
-      sourceRefs: { type: 'array', items: { type: 'string' }, required: false },
+      id: { type: 'string', description: 'skill id（默认取源目录名）' },
+      title: { type: 'string', description: '显示标题' },
+      description: { type: 'string', description: '一句话说明' },
+      tags: STRING_ARRAY,
+      experts: STRING_ARRAY,
+      sourceRefs: STRING_ARRAY,
     },
     output: {
       schema: {
         type: 'object',
+        additionalProperties: false,
         properties: {
           ok: { type: 'boolean' },
           error: { type: 'string' },
@@ -154,7 +153,6 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
           path: { type: 'string' },
           message: { type: 'string' },
         },
-        required: ['ok', 'message'],
       },
       render: (_args, value) => {
         const v = value as { ok: boolean; error?: string; id?: string; path?: string; message: string }

@@ -55,7 +55,7 @@ export function apply(ctx: AppContext, config: Config): void {
   registerTools(ctx, manager)
   registerApi(ctx, manager)
 
-  ctx.effect(() => {
+  ctx.effect(() => () => {
     manager.dispose()
   })
 
