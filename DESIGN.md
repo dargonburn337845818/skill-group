@@ -98,4 +98,4 @@
 
 - 插件回滚：恢复 `node_modules` 中的实际文件 + `package.json` pin，真实启动验证。
 - Vault 内容回滚：git history。
-- 首次推送前：`git remote add origin git@github.com:dargonburn337845818/skill-group.git`。
+- 首次推送前：`git remote add origin https://github.com/dargonburn337845818/skill-group.git`。

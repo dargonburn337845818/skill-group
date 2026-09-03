@@ -6,7 +6,7 @@ description: 把新蒸馏的 skill 入库到 dsh-skill-vault 的方法；告诉 
 # 入库 dsh-skill-vault
 
 > 本 skill 是“向技能仓库发布新蒸馏产物”的操作手册。
-> 仓库根：`$HOME/work/dsh-skill-vault`（远程：`git@github.com:dargonburn337845818/skill-group.git`）
+> 仓库根：`$HOME/work/dsh-skill-vault`（远程：`https://github.com/dargonburn337845818/skill-group.git`）
 > 插件：`@dsh-external/dsh-skill-vault`
 
 ## 何时使用
@@ -27,7 +27,7 @@ description: 把新蒸馏的 skill 入库到 dsh-skill-vault 的方法；告诉 
    - 调用 `skill_vault_add`，传 `sourcePath`、`scenario`、`id` 等。
    - 工具只准备文件，**不会 git commit/push**。
 5. **人工审核**：检查 `SKILL.md` 是否过长、来源是否可追溯、有无示例。
-6. **手动推送**（必须人工，因为要输入密码/使用 SSH 密钥）：
+6. **手动推送**（必须人工，因为要输入 HTTPS 凭据）：
    ```bash
    cd $HOME/work/dsh-skill-vault
    bash scripts/push.sh

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 手动推送脚本（必须人工执行，因为需要输入 git 凭据/SSH 密码）。
+# 手动推送脚本（必须人工执行，因为需要输入 git HTTPS 凭据）。
 # 用途：把 vault 中新蒸馏的 skill、语料、产物提交并推送到远程仓库。
 set -euo pipefail
 

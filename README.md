@@ -1,7 +1,7 @@
 # @dsh-external/dsh-skill-vault
 
 > DSH 技能保险库：统筹你蒸馏的 skill，按场景/开关按需启用，agent 工具 + Web 可视化面板。
-> 单仓库既承载插件，也承载开源 skill/语料（远程：`git@github.com:dargonburn337845818/skill-group.git`）。
+> 单仓库既承载插件，也承载开源 skill/语料（远程：`https://github.com/dargonburn337845818/skill-group.git`）。
 
 ## 这个模块解决什么
 
@@ -86,4 +86,4 @@ cd $HOME/work/dsh-skill-vault
 bash scripts/push.sh
 ```
 
-脚本会提示并执行 `git add -A && git commit && git push`；由于需要输入密码/SSH 密钥，它只该在外部终端人工运行。
+脚本会提示并执行 `git add -A && git commit && git push`；由于需要输入 HTTPS 凭据，它只该在外部终端人工运行。
