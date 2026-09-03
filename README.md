@@ -79,6 +79,12 @@ npm run build:client
 - 回滚恢复实际文件，不只改 package.json pin。
 - 插件不自动 push；推送前先人工 review。
 
+## Release / 快速启动
+
+- `QUICKSTART.md`：安装、加载、开启 skill、发布新版本的完整引导。
+- `.github/workflows/release-plugin.yml`：推送 `v*` tag 后自动校验 vault、`npm pack`、创建 Release 并上传 `dsh-external-dsh-skill-vault-<version>.tgz`。
+- 仓库已包含预构建 `lib/`，因此 CI 无需 DSH 私有依赖即可打包。
+
 ## 手动推送
 
 ```bash
