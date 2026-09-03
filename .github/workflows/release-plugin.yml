@@ -1,0 +1,41 @@
+name: Release DSH Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # The vault is the human-readable data part; validate before packing.
+      - name: Validate vault
+        run: node scripts/validate-vault.mjs
+
+      # The plugin ships a prebuilt lib/ + lib/client.js.  Source changes are
+      # rebuilt locally with a DSH checkout (or via the local symlink fallback)
+      # before being committed, so the Action can pack without needing the
+      # private DSH package registry in CI.
+      - name: Pack DSH plugin
+        run: npm pack
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dsh-external-dsh-skill-vault-*.tgz
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
