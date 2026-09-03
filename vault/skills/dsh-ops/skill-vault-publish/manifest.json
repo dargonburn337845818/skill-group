@@ -1,0 +1,15 @@
+{
+  "id": "skill-vault-publish",
+  "name": "skill-vault-publish",
+  "title": "Skill Vault 入库/发布手册",
+  "description": "把新蒸馏 skill 入库 dsh-skill-vault 的方法、目录规范、校验步骤与手动推送流程。",
+  "whenToUse": "刚蒸馏完新技能；需要把产物放进技能仓库并提交开源。",
+  "scenario": "dsh-ops",
+  "scenarios": ["dsh-ops", "distillation"],
+  "tags": ["skill", "vault", "发布", "入库", "git"],
+  "experts": ["dsh-skill-vault 作者"],
+  "sourceRefs": ["$HOME/work/dsh-skill-vault/README.md", "scripts/push.sh"],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

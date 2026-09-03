@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "name": "vlpc-teacher-consensus",
+    "domain": "visible-light-positioning-communication (VLPC/VLCP)",
+    "target": "agent tutoring for paper reading and summarization",
+    "created_from": [
+      "Design and Analysis of an Integrated NOMA-VLPC System (IEEE LWC 2026)",
+      "S. Ma et al., IEEE TCOM 2023",
+      "O-RIS Assisted NOMA-VLC System: Integrated Positioning and Communications (IEEE 2025)"
+    ],
+    "discipline": "distillation-consensus"
+  },
+  "primitives": [
+    {
+      "id": "dc-ac-signal-split",
+      "name": "直流定位/交流通信拆分",
+      "layer": "consensus",
+      "experts": ["Ting Yang", "Ping Wang", "S. Ma"],
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (System Model)",
+        "S. Ma et al. Waveform Design and Optimization for Integrated VLPC, IEEE TCOM 2023"
+      ],
+      "trigger": "面对一个同时做定位和通信的可见光系统",
+      "action": "先确认接收端如何分离DC与AC；DC用于信道增益/位置指纹估计，AC用于数据通信",
+      "direction": "系统架构理解",
+      "feature_hint": "signal_component_split",
+      "algorithm_hints": ["VLPC", "DC定位", "AC通信", "滤波器分离"],
+      "question_templates": ["这个系统把信号分成哪两部分？", "DC分量用来做什么？AC分量用来做什么？"],
+      "counterexample": "若AC分量同时承担定位与通信，通常计算复杂或精度受限；本文采用DC定位/AC通信路线",
+      "confidence": 0.9,
+      "agreement": 0.85,
+      "evidence": "inferred-from-paper"
+    },
+    {
+      "id": "dc-drift-biphase",
+      "name": "双相编码抗直流漂移",
+      "layer": "consensus",
+      "experts": ["Ting Yang", "Ping Wang"],
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (Positioning Scheme)",
+        "Digital Communications (Sklar & Harris, 3rd ed.), ref [8] of paper"
+      ],
+      "trigger": "用直流分量做定位/信道估计，但消息比特随机导致直流分量漂移",
+      "action": "使用双相编码（0→-1 1，1→1 -1）使信息序列不影响DC；再对多个连续DC样本平均以抑制噪声",
+      "direction": "信号处理/编码",
+      "feature_hint": "dc_stability",
+      "algorithm_hints": ["biphase coding", "averaging", "dc estimation"],
+      "question_templates": ["数据比特随机会如何影响直流定位？", "论文用什么编码保证直流不漂移？"],
+      "counterexample": "只解决消息随机性；接收机噪声、LED非线性、背景光、同步误差仍会引入偏差",
+      "confidence": 0.85,
+      "agreement": 0.8,
+      "evidence": "inferred-from-paper"
+    },
+    {
+      "id": "noise-majority-two-stage",
+      "name": "平均+多数投票+两阶段定位",
+      "layer": "consensus",
+      "experts": ["Ting Yang", "Ping Wang"],
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (Positioning Scheme)",
+        "fingerprinting refs [10][11][12]"
+      ],
+      "trigger": "单次指纹定位结果受噪声和数据库粒度影响",
+      "action": "多次采样平均→多轮定位结果取众数→先粗定位缩小范围→局部精定位",
+      "direction": "定位算法",
+      "feature_hint": "noise_robustness",
+      "algorithm_hints": ["majority vote", "two-stage positioning", "fingerprinting"],
+      "question_templates": ["单次定位不可靠时怎么办？", "多数投票解决什么问题？"],
+      "counterexample": "增加时延/计算量；指纹库网格间距决定精度下限；环境变化会使离线库失效",
+      "confidence": 0.85,
+      "agreement": 0.8,
+      "evidence": "inferred-from-paper"
+    },
+    {
+      "id": "noma-sic-ipSIC",
+      "name": "NOMA按信道强弱排序+SIC",
+      "layer": "consensus",
+      "experts": ["Ting Yang", "Ping Wang", "O. K. H. Shanker", "A. K. Sah"],
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (Communication Scheme)",
+        "Multi-user grouping for NOMA enabled VLC system, IEEE Commun. Lett. 2024",
+        "SIC-free based indoor two-user NOMA-VLCP system, Photonics 2024"
+      ],
+      "trigger": "AC分量给多个用户做NOMA通信",
+      "action": "按信道增益排序，强用户先解码并做SIC；比较pSIC与ipSIC；考虑GRPA/FPA/NGDPA功率分配",
+      "direction": "多址与干扰管理",
+      "feature_hint": "sic_quality",
+      "algorithm_hints": ["NOMA", "SIC", "pSIC", "ipSIC", "power allocation"],
+      "question_templates": ["NOMA谁先解码？", "SIC不完美会怎样影响性能？"],
+      "counterexample": "ipSIC残留干扰降低总速率与EE；SIC顺序/功率系数/信道估计误差耦合",
+      "confidence": 0.88,
+      "agreement": 0.82,
+      "evidence": "inferred-from-paper"
+    },
+    {
+      "id": "dc-ac-power-tradeoff",
+      "name": "固定总功率下的DC/AC最优分配",
+      "layer": "consensus",
+      "experts": ["Ting Yang", "Ping Wang"],
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (Optimal DC Power Setting)"
+      ],
+      "trigger": "总电功率固定，DC用于定位，AC用于通信",
+      "action": "由Pmax(Idc^2)=min{Idc^2/K, Ptotal-Idc^2}，最优点Idc^2=K/(K+1)Ptotal；超过后需在定位与通信间权衡",
+      "direction": "资源分配",
+      "feature_hint": "power_allocation",
+      "algorithm_hints": ["DC power", "AC power", "energy efficiency"],
+      "question_templates": ["为什么需要最优DC功率？", "DC功率过大对通信有什么影响？"],
+      "counterexample": "解析最优基于理想线性LED；实际LED非线性、背景光、同步误差会使拐点偏移",
+      "confidence": 0.9,
+      "agreement": 0.85,
+      "evidence": "inferred-from-paper"
+    },
+    {
+      "id": "channel-gain-inversion-positioning",
+      "name": "信道增益反演定位",
+      "layer": "consensus",
+      "experts": ["Ting Yang", "Ping Wang", "Y. Chen"],
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (System Model/Fig.3-5)",
+        "Indoor real-time 3-D visible light positioning system using fingerprinting and extreme learning machine, IEEE Access 2020"
+      ],
+      "trigger": "理解VLPC/VLP定位精度规律",
+      "action": "建立信道增益与位置函数→由DC信号估计信道增益→在指纹库中最小化误差函数；精度随LED数、位置、高度变化",
+      "direction": "定位原理",
+      "feature_hint": "channel_gain_inversion",
+      "algorithm_hints": ["fingerprinting", "channel estimation", "error minimization"],
+      "question_templates": ["定位为什么可以看成信道反演？", "精度随哪些参数变化？"],
+      "counterexample": "定位误差随高度非单调（倒U）；角落误差大；指纹库网格限制精度",
+      "confidence": 0.82,
+      "agreement": 0.78,
+      "evidence": "inferred-from-paper"
+    },
+    {
+      "id": "fingerprint-vs-metaheuristic-complexity",
+      "name": "指纹+投票优于元启发式的复杂度判断",
+      "layer": "consensus",
+      "experts": ["Ting Yang", "Ping Wang"],
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (Computational Complexity, Table II)"
+      ],
+      "trigger": "对比定位算法精度与运行时间",
+      "action": "定位复杂度约O(M(Nc+Nf))，无迭代；通信模块解析解O(1)；在4cm精度目标下比WOA/HBA/GA/SSA/BA快",
+      "direction": "算法复杂度",
+      "feature_hint": "runtime_vs_accuracy",
+      "algorithm_hints": ["fingerprinting", "majority vote", "metaheuristic"],
+      "question_templates": ["本文定位方法为什么比元启发式快？", "复杂度主要由什么决定？"],
+      "counterexample": "元启发式更灵活、可不依赖指纹库；本文依赖离线库且误差受网格间隔限制",
+      "confidence": 0.85,
+      "agreement": 0.8,
+      "evidence": "inferred-from-paper"
+    }
+  ]
+}

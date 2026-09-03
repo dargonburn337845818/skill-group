@@ -1,0 +1,15 @@
+{
+  "id": "skill-management",
+  "name": "skill-management",
+  "title": "Skill 管理方法（DSH）",
+  "description": "管理、定位、启用 DSH agent skills，指导开发一键启用 skill 的插件/功能。",
+  "whenToUse": "用户问怎么管理/开启 skill、做 skill 开关面板、把本地 SKILL.md 变成可调用 skill。",
+  "scenario": "dsh-ops",
+  "scenarios": ["dsh-ops", "distillation"],
+  "tags": ["skill", "管理", "开关", "DSH插件"],
+  "experts": ["@deepseek-ai/dsh-skill", "@deepseek-ai/dsh-skill-filesystem"],
+  "sourceRefs": ["skill-management/SKILL.md", "@deepseek-ai/dsh-skill README"],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

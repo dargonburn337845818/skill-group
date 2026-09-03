@@ -1,0 +1,15 @@
+{
+  "id": "vlpc-consensus",
+  "name": "vlpc-consensus",
+  "title": "VLPC 领域共识与组会报告",
+  "description": "物理信息/VLPC 论文领域教师共识 + 组会报告技巧；用于论文总结、组会汇报、模拟问答。",
+  "whenToUse": "科研汇报、组会报告、论文总结、问题清单准备。",
+  "scenario": "research",
+  "scenarios": ["research"],
+  "tags": ["VLPC", "物理信息", "组会", "论文", "科研汇报"],
+  "experts": ["个人蒸馏", "课题组讨论"],
+  "sourceRefs": ["vlpc-editorial-output/"],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

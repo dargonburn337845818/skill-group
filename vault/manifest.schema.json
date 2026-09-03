@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "dsh-skill-vault skill manifest",
+  "type": "object",
+  "required": ["id", "description", "scenario"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "name": { "type": "string" },
+    "title": { "type": "string" },
+    "description": { "type": "string", "minLength": 1 },
+    "whenToUse": { "type": "string" },
+    "scenario": { "type": "string" },
+    "scenarios": { "type": "array", "items": { "type": "string" } },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "experts": { "type": "array", "items": { "type": "string" } },
+    "sourceRefs": { "type": "array", "items": { "type": "string" } },
+    "activation": { "enum": ["catalog", "always-on"] },
+    "version": { "type": "string" },
+    "license": { "type": "string" }
+  },
+  "additionalProperties": true
+}

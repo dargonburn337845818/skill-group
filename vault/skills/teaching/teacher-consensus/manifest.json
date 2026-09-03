@@ -1,0 +1,15 @@
+{
+  "id": "teacher-consensus",
+  "name": "teacher-consensus",
+  "title": "算法竞赛教师共识 · 熵减盘问",
+  "description": "顶尖选手思路 + 信息论 → 熵减盘问、概率矩阵；让 agent 作为大师引导拆题，不直接给答案。",
+  "whenToUse": "学生拿到题需要被引导而非被给答案；设计拆题问题流；把题解/访谈蒸馏成可计算知识。",
+  "scenario": "teaching",
+  "scenarios": ["teaching", "distillation"],
+  "tags": ["算法竞赛", "教师", "熵减盘问", "信息论", "拆题"],
+  "experts": ["tourist", "jiangly", "Benq", "Um_nik", "Errichto", "Petr", "maroonrk", "rng_58", "ecnerwala", "scott_wu", "tfg", "Radewoosh", "ksun48", "neal"],
+  "sourceRefs": ["teacher-consensus-skill/", "Codeforces 423篇博客", "14位专家提交记录"],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}
