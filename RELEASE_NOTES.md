@@ -25,4 +25,4 @@ DSH 技能保险库：统筹你蒸馏的 skill，按场景/单 skill 开关按�
 ## 仓库
 
 - 远程：https://github.com/dargonburn337845818/skill-group.git
-- 本地默认路径：`$HOME/work/dsh-skill-vault`
+- 本地默认路径：`$PROJECT_ROOT`

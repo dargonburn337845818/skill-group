@@ -1,0 +1,60 @@
+{
+  "id": "research-submission",
+  "name": "research-submission",
+  "title": "科研投稿子技能（选刊/cover letter/rebuttal）",
+  "description": "科研投稿流程子技能：选刊/会议匹配、cover letter、response to reviewers、拒稿处理的检查清单与模板；只做流程与方法，不伪造投稿结果。",
+  "whenToUse": "用户要选期刊/会议、写投稿信、回复审稿意见、处理拒稿或确定下一篇投哪里时；需要可执行动作与边界时。",
+  "boundary": "不承诺录用/影响/引用；不伪造实验；不以影响因子为唯一标准；具体投稿以目标期刊/会议 Guide for Authors / Call for Papers 为准。",
+  "scenario": "research",
+  "scenarios": [
+    "research"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "覆盖选刊/会议匹配、cover letter、response to reviewers、拒稿处理",
+      "触发/动作/边界/来源四件套齐全",
+      "有公开来源，不伪造投稿结果",
+      "每条导师视角标注具体 ready 专家或标 pending_distill"
+    ],
+    "reject": [
+      "无来源断言投稿结果",
+      "承诺录用或影响因子",
+      "忽略审稿意见或选择性回应",
+      "response 中新证据不进入正文/补充材料",
+      "把未 ready 专家当权威"
+    ],
+    "minIndependentSources": 2,
+    "notes": "投稿子技能是 research-module 内部子技能，activation=internal。"
+  },
+  "tags": [
+    "科研投稿",
+    "选刊",
+    "cover-letter",
+    "rebuttal",
+    "拒稿处理",
+    "学术出版",
+    "审稿回复"
+  ],
+  "experts": [
+    "ting-yang",
+    "ping-wang",
+    "s-ma",
+    "y-chen",
+    "richard-feynman"
+  ],
+  "sourceRefs": [
+    "https://thinkchecksubmit.org/journals/",
+    "https://www.elsevier.support/publishing/answer/what-should-be-included-in-a-cover-letter",
+    "https://preview.springer.com/jp/authors-editors/authorandreviewertutorials/submitting-to-a-journal-and-peer-review/cover-letters/10285574",
+    "https://www.nature.com/articles/s43588-025-00931-5",
+    "https://www.elsevier.com/zh-cn/connect/how-to-respond-to-reviewer-comments-the-calm-way",
+    "https://www.elsevier.com/zh-tw/connect/manuscript-rejected-five-insider-tips-to-see-you-to-success",
+    "https://www.jstage.jst.go.jp/article/grb/3/0/3_84/_article/-char/ja",
+    "https://www.aischolar.com/news/article/how-to-submit-a-paper-to-an-ieee-conference",
+    "$PROJECT_ROOT/vault/meta/EXPERT_LIBRARY.json"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

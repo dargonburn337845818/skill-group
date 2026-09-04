@@ -1,0 +1,223 @@
+{
+  "mode": "manual-round22-skill-engineering",
+  "raw_corpus_count": 10,
+  "raw_corpus": [
+    {
+      "chunk_id": "skill_engineering_01",
+      "text": "Keep SKILL.md short and procedural; push depth into references/ and scripts. Prefer deterministic scripts for anything the agent would otherwise guess. Don't add a new skill without at least one scenario in eval/scenarios/.",
+      "source": {
+        "type": "docs",
+        "url": "https://github.com/WordPress/agent-skills/blob/trunk/docs/authoring-guide.md",
+        "title": "WordPress agent-skills authoring guide",
+        "author": "WordPress",
+        "publisher": "GitHub",
+        "date": "2026-09-04",
+        "evidence_rank": "first-party-doc"
+      },
+      "claim": "Skill 成品应短、程序化、带确定性脚本与 eval 场景",
+      "gap_id": "skill_engineering_packaging",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "skill_engineering_02",
+      "text": "description must be third person and include both what the skill does and when to use it; keep SKILL.md body under 500 lines; keep references one level deep; test with all target models.",
+      "source": {
+        "type": "docs",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+        "title": "Anthropic Skill authoring best practices",
+        "author": "Anthropic",
+        "publisher": "Anthropic",
+        "date": "2026-09-04",
+        "evidence_rank": "first-party-doc"
+      },
+      "claim": "Skill 元数据/发现性/渐进披露有明确规范",
+      "gap_id": "skill_engineering_packaging",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "skill_engineering_03",
+      "text": "Task-first TDD for skills: write a task first, watch it fail, iterate until eval passes; paired no-skill baselines measure Skill Lift; deterministic verifier authoritative; anti-trigger tasks detect false positives.",
+      "source": {
+        "type": "docs",
+        "url": "https://github.com/olaservo/skilljack-evals",
+        "title": "skilljack-evals README",
+        "author": "olaservo",
+        "publisher": "GitHub",
+        "date": "2026-09-04",
+        "evidence_rank": "project-readme"
+      },
+      "claim": "Skill 评测应采用任务先行、基线配对、Skill Lift 与 anti-trigger",
+      "gap_id": "skill_engineering_eval",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "skill_engineering_04",
+      "text": "Verification standards with a claim-class proof table; every session starts with honesty rules; a check never observed failing has been run, not verified; adversarial spec review before gate; review everything changed since last review.",
+      "source": {
+        "type": "docs",
+        "url": "https://github.com/ncoevoet/claude-workflow-kit",
+        "title": "claude-workflow-kit README",
+        "author": "ncoevoet",
+        "publisher": "GitHub",
+        "date": "2026-09-04",
+        "evidence_rank": "project-readme"
+      },
+      "claim": "验证必须按声明类别配证明，并证明检查可失败",
+      "gap_id": "verification_standards",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "skill_engineering_05",
+      "text": "Subagent model tiers: haiku read-only mechanical, sonnet mechanical with edits, opus judgment; overlapping file sets sequenced; subagents never touch git state; churn-breaker after repeated edits on same file.",
+      "source": {
+        "type": "docs",
+        "url": "https://github.com/ncoevoet/claude-workflow-kit",
+        "title": "claude-workflow-kit README",
+        "author": "ncoevoet",
+        "publisher": "GitHub",
+        "date": "2026-09-04",
+        "evidence_rank": "project-readme"
+      },
+      "claim": "开发分层执行应有模型分派、文件隔离与换手机制",
+      "gap_id": "dev_execution",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "skill_engineering_06",
+      "text": "Audit questions: would a realistic request trigger this skill from metadata alone; does first screenful tell agent how to begin; is any paragraph teaching common knowledge; is there concrete evaluation loop.",
+      "source": {
+        "type": "docs",
+        "url": "https://github.com/uinaf/agents/blob/3cd37beb662b9038c5e1031fea4968e908741b5c/skills/skill-audit/references/best-practices.md",
+        "title": "uinaf agents skill-audit best practices",
+        "author": "uinaf",
+        "publisher": "GitHub",
+        "date": "2026-09-04",
+        "evidence_rank": "project-doc"
+      },
+      "claim": "Skill 需要审计问题而非仅风格建议",
+      "gap_id": "skill_engineering_audit",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "skill_engineering_07",
+      "text": "Red team coding agents: choose the right evidence for each risk; adversarial evidence collection is part of verification.",
+      "source": {
+        "type": "docs",
+        "url": "https://www.promptfoo.dev/docs/red-team/coding-agents/",
+        "title": "Promptfoo Red Team Coding Agents",
+        "author": "Promptfoo",
+        "publisher": "Promptfoo",
+        "date": "2026-09-04",
+        "evidence_rank": "docs"
+      },
+      "claim": "编码交付需按风险收集对抗证据",
+      "gap_id": "verification_standards",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "skill_engineering_08",
+      "text": "Degrees of freedom: high for context judgment, medium when preferred pattern exists, low for fragile/high-risk operations.",
+      "source": {
+        "type": "docs",
+        "url": "https://github.com/lgbarn/shipyard/blob/main/skills/shipyard-writing-skills/anthropic-best-practices.md",
+        "title": "shipyard anthropic best practices",
+        "author": "lgbarn/shipyard",
+        "publisher": "GitHub",
+        "date": "2026-09-04",
+        "evidence_rank": "second-hand-doc"
+      },
+      "claim": "Skill/指令应匹配任务脆弱度选择自由度",
+      "gap_id": "skill_engineering_guidance",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "local_work_consensus_01",
+      "text": "深模块优先；接口是测试面；文件系统即模块地图；每次只深化一个模块，先有测试保护。",
+      "source": {
+        "type": "local",
+        "url": "$WORKSPACE/AGENTS.md",
+        "title": "工作区共识 AGENTS.md",
+        "author": "local",
+        "publisher": "workspace",
+        "date": "2026-09-04",
+        "evidence_rank": "local-consensus"
+      },
+      "claim": "开发遵循深模块/接口测试/模块地图",
+      "gap_id": "dev_execution",
+      "evidence_class": "static"
+    },
+    {
+      "chunk_id": "local_dsh_opt_01",
+      "text": "子代理数量有界、升级插件先隔离兼容+冒烟、运行中 agent 禁止热更、破坏性操作先提醒并准备回滚。",
+      "source": {
+        "type": "local",
+        "url": "$DSH_HOME/dsh-optimization-consensus.md",
+        "title": "DSH 运维优化共识",
+        "author": "local",
+        "publisher": "workspace",
+        "date": "2026-09-04",
+        "evidence_rank": "local-consensus"
+      },
+      "claim": "DSH 运维安全边界",
+      "gap_id": "dev_ops_boundary",
+      "evidence_class": "static"
+    }
+  ],
+  "source_scope_reports": [
+    {
+      "source": "WordPress agent-skills",
+      "queries": 1,
+      "results": 1,
+      "evidence_rank": "first-party-doc"
+    },
+    {
+      "source": "Anthropic Skill best practices",
+      "queries": 1,
+      "results": 1,
+      "evidence_rank": "first-party-doc"
+    },
+    {
+      "source": "skilljack-evals",
+      "queries": 1,
+      "results": 1,
+      "evidence_rank": "project-readme"
+    },
+    {
+      "source": "claude-workflow-kit",
+      "queries": 1,
+      "results": 2,
+      "evidence_rank": "project-readme"
+    },
+    {
+      "source": "uinaf agents skill-audit",
+      "queries": 1,
+      "results": 1,
+      "evidence_rank": "project-doc"
+    },
+    {
+      "source": "Promptfoo Red Team",
+      "queries": 1,
+      "results": 1,
+      "evidence_rank": "docs"
+    },
+    {
+      "source": "shipyard anthropic summary",
+      "queries": 1,
+      "results": 1,
+      "evidence_rank": "second-hand-doc"
+    },
+    {
+      "source": "local work-consensus",
+      "queries": 0,
+      "results": 1,
+      "evidence_rank": "local-consensus"
+    },
+    {
+      "source": "local dsh-optimization-consensus",
+      "queries": 0,
+      "results": 1,
+      "evidence_rank": "local-consensus"
+    }
+  ],
+  "failures": []
+}

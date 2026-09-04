@@ -1,0 +1,47 @@
+{
+  "id": "dev-remove-ai-flavor",
+  "name": "dev-remove-ai-flavor",
+  "title": "去 AI 味（已蒸馏）",
+  "description": "去 AI 味子技能：识别代码注释/文档/UI 文案/消息中的 AI 腔模式，按信息密度与自然语气重写，并验证未丢失信息。",
+  "whenToUse": "审查/改写疑似 AI 生成味的代码注释、文档、UI 文案或模板化表达时；需要把空泛表达改成人话时。",
+  "boundary": "不以‘更像人’为唯一目标；不把个人文风当普适规则；不能牺牲技术准确性与可维护性。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "把删除所有形容词当去 AI 味",
+      "以‘更像人’替代技术准确性"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "AI味",
+    "文案",
+    "可读性",
+    "去模板化"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "$PROJECT_ROOT/vault/skills/writing/writing-module/subskills/copywriting/SKILL.md",
+    "$PROJECT_ROOT/vault/skills/writing/writing-module/SKILL.md",
+    "https://developers.google.com/style",
+    "https://www.gov.uk/guidance/content-design/writing-for-govuk",
+    "https://plainlanguagenetwork.org/",
+    "https://en.wikipedia.org/wiki/William_Zinsser",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.2.0",
+  "license": "MIT"
+}

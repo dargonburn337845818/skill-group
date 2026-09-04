@@ -1,0 +1,13 @@
+# BenchFlow 式矩阵配置示例
+# 用法: python3 tools/benchflow_runner.py --config benchmarks/benchflow.example.yaml
+name: skill-ab-example
+tasks:
+  - dir: evals/dev-security-enforce
+  - dir: evals/dev-security-anti
+skill_dir: vault/skills/dev/dev-security
+runs: 3
+model: deepseek-chat
+judge: false
+thresholds:
+  min_lift_percent: 5
+  max_discovery_false_positive: 0.5

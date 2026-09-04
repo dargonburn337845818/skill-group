@@ -1,0 +1,35 @@
+{
+  "id": "work-consensus",
+  "name": "work-consensus",
+  "title": "工作共识（深模块 · Deletion Test · 接口测试面）",
+  "description": "开工/重构前预载的工作共识：深模块、Deletion Test、接口即测试面、模块地图、AI 即新人。用于任何会话开始、架构重构、代码库整理前。",
+  "whenToUse": "任何会话开始、架构重构、代码库整理前。",
+  "scenario": "base",
+  "scenarios": [
+    "base"
+  ],
+  "tags": [
+    "深模块",
+    "重构",
+    "模块地图",
+    "接口测试",
+    "AI友好"
+  ],
+  "experts": [
+    "Matt Pocock",
+    "John Ousterhout",
+    "DeepSeek Harness 官方"
+  ],
+  "sourceRefs": [
+    "~/.dsh/AGENTS.md",
+    "work-consensus skill",
+    "Matt Pocock《Why Your Codebase Matters More Than Your Prompt》",
+    "John Ousterhout《A Philosophy of Software Design》"
+  ],
+  "activation": "always-on",
+  "version": "0.0.1",
+  "license": "MIT",
+  "routing": "base",
+  "boundary": "所有开发/运维任务都应遵守；不要用它替代具体领域知识。",
+  "notWhenToUse": "纯领域内容任务（教学/论文/GitHub 发布）不需要提前展开。"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "don-norman",
+  "name": "Don Norman",
+  "displayName": "Don Norman（认知科学家，Nielsen Norman Group 联合创始人，《设计心理学》作者）",
+  "displayNameZh": "唐·诺曼（Don Norman）",
+  "fame": "top",
+  "role": "产品/UX / 用户研究与设计心理学风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "product-ux"
+  ],
+  "style": "以用户心智模型与活动为中心，强调概念模型、约束（物理/逻辑/文化）、感知可供性（perceived affordance）与 signifier；设计是让人理解与易用，不是装饰。当用户需求与活动模型冲突时，强调以清晰概念模型与强设计愿景做取舍，必要时“听用户但不盲从”。情感设计分 visceral / behavioral / reflective 三层。",
+  "boundary": "风格/方法论推断，非本人原话；仅作参考，不构成 Norman 本人的定论。",
+  "sourceRefs": [
+    "https://jnd.org/signifiers-not-affordances/",
+    "https://jnd.org/affordances-and-design/",
+    "https://jnd.org/affordance-conventions-and-design-part-2/",
+    "https://jnd.org/human-centered-design-considered-harmful/",
+    "https://jnd.org/emotional-design-people-and-things/",
+    "https://www.nngroup.com/people/don-norman/"
+  ],
+  "status": "ready",
+  "note": "草稿 ready（蒸馏已定稿），待 I01-merge-experts 校验后回填 EXPERT_LIBRARY.json / domain-profiles.json。",
+  "style_items": [
+    {
+      "trigger": "设计一个新界面/产品，或判断“用户是否知道该怎么操作”时",
+      "action": "把可感知的线索（signifier）放在首要位置：让关键动作能被看见、被解读。屏幕界面尤其依赖约定（convention）、文字标签与一致的概念模型，而不是空洞的“affordance 名词”。用真实/虚拟环境观察确认用户是否真的读懂线索。",
+      "boundary": "signifier 常建立在文化约定上，不一定可靠（如空站台判断火车是否已走）；不能假设用户与你共享同一套约定，需用数据验证。",
+      "source_refs": [
+        "https://jnd.org/signifiers-not-affordances/",
+        "https://jnd.org/affordances-and-design/"
+      ]
+    },
+    {
+      "trigger": "面对一个全新对象/系统，想知道用户首次接触时如何理解操作时",
+      "action": "用概念模型（conceptual model）+ 约束（physical / logical / cultural）+ 感知可供性三件套来组织设计；底层概念模型是最重要的设计工具，所有其余部分要与它一致。用文字、隐喻、约定来帮助用户“学会”这个模型。",
+      "boundary": "单纯概念模型不足以自举——用户需要约定/文字/隐喻先入门；隐喻有误导风险，不能只靠隐喻。",
+      "source_refs": [
+        "https://jnd.org/affordance-conventions-and-design-part-2/"
+      ]
+    },
+    {
+      "trigger": "在用户研究与产品设计里遇到“要不要听用户意见/要不要按用户请求改”时",
+      "action": "转向活动中心设计（Activity-Centered Design）：先深挖要支持的活动/任务序列/工具约束，再看用户诉求是否符合这个模型。超出模型、会破坏一致性和理解性的用户建议应舍弃；必要时由有清晰愿景的“设计负责人”做取舍，甚至忽略部分用户请求。",
+      "boundary": "不是“永远不听用户”——是“听但不盲从”；若无强烈概念模型兜底，忽略用户可能造成灾难；同时警惕为了特定人群过度定制而牺牲其他群体。",
+      "source_refs": [
+        "https://jnd.org/human-centered-design-considered-harmful/"
+      ]
+    },
+    {
+      "trigger": "评估一个产品的吸引力/情感价值，或遇到“好看但不好用”的著名案例时",
+      "action": "按 visceral（外观/初始冲击）、behavioral（使用体验/功能）、reflective（事后感受/品牌形象/自我表达）三层拆解；分清该产品主要是功能品还是装饰/形象品，从而决定权重。警惕“漂亮但无法使用”的陷阱。",
+      "boundary": "三层可能互相冲突；对功能型产品 usability 优先于外观，对装饰/形象型产品外观与反思层可占主导。不能只盯一层下结论。",
+      "source_refs": [
+        "https://jnd.org/emotional-design-people-and-things/"
+      ]
+    },
+    {
+      "trigger": "团队在争论用户“想要什么/会怎么做”，但没有数据时",
+      "action": "停止臆测与理论争辩，去真实环境观察用户做真实活动；少量（3–5 人）真实用户观察通常足够提供方向。把结论建立在观察到的行为上，而不是“我相信用户会……”上。",
+      "boundary": "小样本观察只够定性方向，不是统计结论；必须在用户正常环境里看，而不是实验室/可用性测试房里看。",
+      "source_refs": [
+        "https://jnd.org/affordance-conventions-and-design-part-2/",
+        "https://www.nngroup.com/people/don-norman/"
+      ]
+    }
+  ]
+}

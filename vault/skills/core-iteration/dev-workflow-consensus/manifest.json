@@ -1,0 +1,55 @@
+{
+  "id": "dev-workflow-consensus",
+  "name": "dev-workflow-consensus",
+  "title": "开发工作流共识",
+  "description": "深模块优先、规格先行、对抗审查、证据化验证与分层执行的开发底座；用于编码/重构/插件开发时把强流程落到可检查步骤。",
+  "whenToUse": "开始写代码/重构/开发插件或新模块、需要制定开发计划、需要验证是否真正完成时。",
+  "boundary": "不替代领域知识；不自动允许 DSH/插件热更；一次性小脚本可简化流程，复用模块必须走接口与测试。",
+  "notWhenToUse": "用户只是查资料/蒸馏/运维，不涉及实现代码时。",
+  "scenario": "core-iteration",
+  "scenarios": [
+    "core-iteration",
+    "base"
+  ],
+  "routing": "base",
+  "qualityCriteria": {
+    "high": [
+      "规格 spec/accept/do/verify 齐全",
+      "对抗审查有 BLOCKER/GAP/NOTE 或 none found+six checks",
+      "关键检查见过变红",
+      "测试通过公开接口"
+    ],
+    "reject": [
+      "没模块地图直接写实现",
+      "接口无测试锁死",
+      "自写自过的验收",
+      "子代理无模型分层/重叠文件并行",
+      "热更 DSH 未按运维共识"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "开发",
+    "规格",
+    "验证",
+    "深模块",
+    "插件"
+  ],
+  "experts": [
+    "work-consensus",
+    "claude-workflow-kit",
+    "WordPress agent-skills",
+    "skilljack-evals",
+    "dsh-skill-router"
+  ],
+  "sourceRefs": [
+    "$WORKSPACE/AGENTS.md",
+    "https://github.com/ncoevoet/claude-workflow-kit",
+    "https://github.com/WordPress/agent-skills/blob/trunk/docs/authoring-guide.md",
+    "https://github.com/olaservo/skilljack-evals",
+    "https://github.com/yjh051108/dsh-routing-suite"
+  ],
+  "activation": "catalog",
+  "version": "0.3.0",
+  "license": "MIT"
+}

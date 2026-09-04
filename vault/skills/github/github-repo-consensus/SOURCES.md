@@ -45,6 +45,6 @@
 
 ## 本地实例
 
-- `$HOME/work/GITHUB_DESCRIPTIONS.md`
-- `$HOME/work/dsh-skill-vault/README.md` 与 `.github/workflows/release-plugin.yml`
-- `$HOME/work/dsh-optimization-consensus/CONSENSUS.md`
+- `$WORKSPACE/GITHUB_DESCRIPTIONS.md`
+- `$PROJECT_ROOT/README.md` 与 `.github/workflows/release-plugin.yml`
+- `$WORKSPACE/skills/dsh-optimization-consensus/CONSENSUS.md`

@@ -26,6 +26,7 @@ interface RuntimeSkill {
   description: string
   whenToUse?: string
   content: string
+  source: string
   invocation?: { modelInvocable: boolean; userInvocable: boolean }
   provider?: string
   resourceBase?: { kind: 'directory'; path: string }
@@ -66,12 +67,17 @@ export class SkillVaultManager {
         title: entry.title,
         description: entry.description,
         whenToUse: entry.whenToUse,
+        boundary: entry.boundary,
+        notWhenToUse: entry.notWhenToUse,
         scenario: entry.scenario,
         scenarioTitle: entry.scenarioTitle,
+        routing: entry.routing,
+        qualityCriteria: entry.qualityCriteria,
         tags: entry.tags,
         experts: entry.experts,
         sourceRefs: entry.sourceRefs,
         activation: entry.activation,
+        hidden: entry.hidden,
         version: entry.version,
         enabled: sessionEnabled,
         persistentEnabled,
@@ -142,6 +148,7 @@ export class SkillVaultManager {
           description: entry.description,
           whenToUse: entry.whenToUse,
           content: entry.content,
+          source: 'runtime',
           invocation: { modelInvocable: true, userInvocable: true },
           provider: 'skill-vault',
           resourceBase: { kind: 'directory', path: entry.dir },
@@ -159,6 +166,33 @@ export class SkillVaultManager {
       try { disposer() } catch { /* ignore */ }
     }
     this.disposers.clear()
+  }
+
+  /** Batch enable/disable in one refresh; used by the skill-router workflow switch. */
+  setMany(actions: Array<{ target: string; enabled: boolean; scope: SwitchScope }>): Array<{ ok: boolean; type: 'skill' | 'scenario'; target: string }> {
+    const results: Array<{ ok: boolean; type: 'skill' | 'scenario'; target: string }> = []
+    for (const action of actions) {
+      results.push(this.set(action.target, action.enabled, action.scope))
+    }
+    return results
+  }
+
+  /** Reset persistent switches so only the given base ids stay enabled. */
+  resetToBase(baseIds: string[]): void {
+    this.persistent = clonePersistedState(this.persistent)
+    this.persistent.scenarios = {}
+    this.persistent.skills = {}
+    for (const id of baseIds) {
+      this.persistent.skills[id] = true
+    }
+    savePersistedState(this.dataDir, this.persistent)
+    this.session = emptySessionState()
+    this.refresh()
+  }
+
+  /** Base skill ids: entries marked routing=base or activation=always-on. */
+  baseIds(): string[] {
+    return this.catalog.filter((e) => e.routing === 'base' || e.activation === 'always-on').map((e) => e.id)
   }
 
   /** Add a new skill package by copying an existing distilled skill directory. */

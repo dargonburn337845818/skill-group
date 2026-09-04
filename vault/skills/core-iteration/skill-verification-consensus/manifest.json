@@ -1,0 +1,55 @@
+{
+  "id": "skill-verification-consensus",
+  "name": "skill-verification-consensus",
+  "title": "检验与验证共识",
+  "description": "证据分类、可证伪检查、任务先行评测与对抗复核的检验底座；用于发布前校验、审计“是否真验证过”、建立可执行验收门槛。",
+  "whenToUse": "发布/更新 Skill 前需要检验，用户要求校验/质检/红队/审计，或需要判断某个验证是否可信时。",
+  "boundary": "只保证证据链完整与验证可复现，不保证领域知识本身正确；验证针对具体声明与版本。",
+  "notWhenToUse": "只需普通代码开发、不涉及验收证据链时，优先走开发工作流。",
+  "scenario": "core-iteration",
+  "scenarios": [
+    "core-iteration",
+    "base"
+  ],
+  "routing": "base",
+  "qualityCriteria": {
+    "high": [
+      "每条断言有 claim class 与唯一可接受证明",
+      "检查做过突变/可证伪（checks_observed_red）",
+      "Skill 有 eval 场景与 anti-trigger",
+      "红队独立裁决"
+    ],
+    "reject": [
+      "只写“验证过了”无证据",
+      "未见过失败的检查标已验证",
+      "同源转载当独立证据",
+      "judge 分数替代确定性 verifier",
+      "自写自过"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "验证",
+    "红队",
+    "证据",
+    "审计",
+    "可证伪"
+  ],
+  "experts": [
+    "WordPress agent-skills",
+    "Anthropic Skills",
+    "skilljack-evals",
+    "claude-workflow-kit",
+    "Promptfoo Red Team"
+  ],
+  "sourceRefs": [
+    "https://github.com/WordPress/agent-skills/blob/trunk/docs/authoring-guide.md",
+    "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+    "https://github.com/olaservo/skilljack-evals",
+    "https://github.com/ncoevoet/claude-workflow-kit",
+    "https://www.promptfoo.dev/docs/red-team/coding-agents/"
+  ],
+  "activation": "catalog",
+  "version": "0.3.0",
+  "license": "MIT"
+}

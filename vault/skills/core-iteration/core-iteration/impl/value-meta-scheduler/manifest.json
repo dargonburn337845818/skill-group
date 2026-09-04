@@ -1,0 +1,30 @@
+{
+  "id": "value-meta-scheduler",
+  "name": "value-meta-scheduler",
+  "title": "核心迭代元能力 · 价值驱动递归提升引擎",
+  "description": "整合“信息搜集→收益计算/过滤→蒸馏→迭代器→决策器→调度器”的核心迭代元能力；按收益曲线自动/受控迭代，输出最终 Skill、收敛报告、收益曲线与被丢弃语料清单。",
+  "whenToUse": "需要把搜索料、外部反馈或已有草案递归提升为可收敛的 Skill；需要多轮认知收益迭代、收敛判定、收益审计时。",
+  "scenario": "core-iteration",
+  "scenarios": [
+    "distillation",
+    "research"
+  ],
+  "tags": [
+    "元调度器",
+    "递归提升",
+    "收益曲线",
+    "收敛报告",
+    "轮次控制"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "用户规格：认知收益架构 / 价值驱动递归提升模块",
+    "vault/skills/core-iteration/benefit-filter/SKILL.md",
+    "vault/skills/core-iteration/distillation-consensus/SKILL.md",
+    "vault/skills/core-iteration/value-iterator/SKILL.md",
+    "vault/skills/core-iteration/value-validator/SKILL.md",
+    "vault/skills/core-iteration/web-research-consensus/SKILL.md"
+  ],
+  "version": "0.5.0",
+  "license": "MIT"
+}

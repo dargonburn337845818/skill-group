@@ -1,0 +1,61 @@
+{
+  "id": "dev-architecture",
+  "name": "dev-architecture",
+  "title": "系统设计/分布式（已蒸馏）",
+  "description": "系统设计/分布式子技能：系统级架构设计、服务拆分、消息/队列、一致性模型与容量估算的可执行检查清单。",
+  "whenToUse": "做系统设计、服务拆分、消息/队列选型、分布式一致性或容量估算时；需要判断系统层怎么选型、怎么拆分、怎么权衡时。",
+  "boundary": "不重复 dev-backend 的 API/数据模型/错误语义、dev-concurrency 的锁/并发原语、dev-performance 的测量/优化；容量估算不替代真实压测与剖析。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界",
+      "与 backend/concurrency/performance 边界清晰"
+    ],
+    "reject": [
+      "无来源断言",
+      "把框架/厂商特定方案写成普适规则",
+      "容量估算当成实测结论",
+      "把模块化/微服务当口号而无所有权与故障域"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "系统设计",
+    "分布式",
+    "微服务",
+    "消息队列",
+    "一致性",
+    "容量估算"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://martinfowler.com/bliki/MonolithFirst.html",
+    "https://martinfowler.com/bliki/BoundedContext.html",
+    "https://martinfowler.com/articles/microservices.html",
+    "https://martinfowler.com/articles/consumerDrivenContracts.html",
+    "https://martinfowler.com/articles/patterns-of-distributed-systems/",
+    "https://www.rabbitmq.com/docs/confirms",
+    "https://kafka.apache.org/documentation/#semantics",
+    "https://aws.amazon.com/builders-library/exactly-once-processing/",
+    "https://microservices.io/patterns/data/saga.html",
+    "https://microservices.io/patterns/data/transactional-outbox.html",
+    "https://sre.google/workbook/",
+    "https://en.wikipedia.org/wiki/Consistency_model",
+    "book: Designing Data-Intensive Applications, Martin Kleppmann, O'Reilly 2017",
+    "book: Building Microservices, Sam Newman, O'Reilly",
+    "book: Domain-Driven Design, Eric Evans, Addison-Wesley 2003",
+    "book: The Art of Capacity Planning, John Allspaw",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

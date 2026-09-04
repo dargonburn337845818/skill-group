@@ -1,0 +1,58 @@
+{
+  "id": "teacher-module",
+  "name": "teacher-module",
+  "title": "教师模块 · 人名专家团与回合式讨论",
+  "description": "按领域加载具体人名专家团，执行“每轮独立表态→冲突点表→主持人/用户裁决→带 expert_id/expert_name 结论”的回合式讨论协议；无 ready 专家时走“蒸馏/放弃专家团”缺口分支，不静默降级。",
+  "whenToUse": "用户需要多领域/多专家视角答疑、纠偏、方案分歧裁决，或需要侧边栏展示当前领域、专家团与每轮讨论记录时。",
+  "boundary": "只做公开人物的风格/方法论参考，不伪造原话；不替用户做最终裁决。",
+  "notWhenToUse": "不需要专家署名、只需要单一大模型直接回答，或当前没有可用的 ready 人名专家且用户已选择放弃专家团。",
+  "scenario": "teacher",
+  "scenarios": [
+    "teacher",
+    "teaching"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "专家条目含 id/name/displayName/role/persona_type/style/sourceRefs/status",
+      "每轮独立表态后必出冲突点表与裁决",
+      "每条结论带 expert_id + expert_name",
+      "无 ready 专家时明确走缺口分支"
+    ],
+    "reject": [
+      "把抽象角色冒充人名专家",
+      "伪造专家原话",
+      "无 sourceRefs 就置 status=ready",
+      "有分歧却静默合并"
+    ],
+    "minIndependentSources": 1,
+    "notes": "风格推断不是原话；ready 专家必须保留 sourceRefs。"
+  },
+  "tags": [
+    "教师",
+    "专家团",
+    "回合式讨论",
+    "裁决",
+    "领域识别"
+  ],
+  "experts": [
+    "tourist",
+    "jiangly",
+    "benq",
+    "um-nik",
+    "errichto",
+    "ecnerwala",
+    "radewoosh",
+    "neal",
+    "rng-58",
+    "petr"
+  ],
+  "sourceRefs": [
+    "vault/meta/EXPERT_LIBRARY.json",
+    "vault/meta/domain-profiles.json",
+    "$WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json"
+  ],
+  "activation": "catalog",
+  "version": "0.2.0",
+  "license": "MIT"
+}

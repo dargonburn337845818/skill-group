@@ -1,0 +1,4 @@
+# dsh-skill-vault bundle layer: insert the skill-vault host plugin into the profile.
+- insert:
+    - id: dsh-skill-vault
+      name: "@dsh-external/dsh-skill-vault"

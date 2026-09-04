@@ -38,6 +38,20 @@ export declare class SkillVaultManager {
     /** Re-register all skills according to the effective state. */
     refresh(): void;
     dispose(): void;
+    /** Batch enable/disable in one refresh; used by the skill-router workflow switch. */
+    setMany(actions: Array<{
+        target: string;
+        enabled: boolean;
+        scope: SwitchScope;
+    }>): Array<{
+        ok: boolean;
+        type: 'skill' | 'scenario';
+        target: string;
+    }>;
+    /** Reset persistent switches so only the given base ids stay enabled. */
+    resetToBase(baseIds: string[]): void;
+    /** Base skill ids: entries marked routing=base or activation=always-on. */
+    baseIds(): string[];
     /** Add a new skill package by copying an existing distilled skill directory. */
     addSkill(opts: {
         sourcePath: string;

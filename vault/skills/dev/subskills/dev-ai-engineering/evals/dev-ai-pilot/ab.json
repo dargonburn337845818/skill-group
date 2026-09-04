@@ -1,0 +1,355 @@
+{
+  "skill": "dev-ai-engineering",
+  "model": "deepseek-chat",
+  "judge_model": "deepseek-chat",
+  "judged": false,
+  "runs": 3,
+  "generated_by": "skilljack_runner.py",
+  "tasks": [
+    {
+      "id": "dev-ai-pilot",
+      "expected_skill": "dev-ai-engineering",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 2.0,
+      "efficiency_with": 3.0
+    }
+  ],
+  "details": {
+    "model": "deepseek-chat",
+    "api_base": "https://api.deepseek.com",
+    "tasks": [
+      {
+        "id": "dev-ai-pilot",
+        "no-skill": {
+          "id": "dev-ai-pilot",
+          "expected_skill": "dev-ai-engineering",
+          "runs": 3,
+          "success_rate": 1.0,
+          "skill_activation_rate": 0.0,
+          "avg_turns": 2.0,
+          "avg_duration_ms": 15924.667,
+          "avg_quality": null,
+          "avg_adherence": null,
+          "avg_discovery": null,
+          "run_details": [
+            {
+              "run": 1,
+              "result": {
+                "output": "已完成，方案已写入 `llm-integration-plan.md`。\n\n**方案覆盖四大核心模块：**\n\n1. **上下文预算** — 五区分配（系统/工具/RAG/历史/输出），含动态截断与硬上限策略\n2. **RAG 检索** — 混合检索（向量 + BM25）+ RRF 融合 + 元数据过滤 + 无结果降级\n3. **工具调用契约** — JSON Schema 定义、Schema 校验、白名单、超时/审计/轮数限制\n4. **评测与降级** — 离线评测指标 + 在线监控告警 + 四级降级链路（主模型→备用→规则引擎→人工）\n\n最后一行已输出 `CHECKLIST_OK`。",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 17139,
+                "turns": 2,
+                "skill_loads": [],
+                "tool_calls": [
+                  {
+                    "tool": "write_file",
+                    "toolUseId": "call_00_9iEtu0sAsFxXhJo9656r0754",
+                    "input": {
+                      "file_path": "llm-integration-plan.md",
+                      "content": "# 大模型集成最小可行方案（MVP）\n\n> 目标：为内部工具接入大模型能力，覆盖上下文预算、RAG 检索、工具调用契约、评测与降级四大核心模块。\n\n---\n\n## 1. 上下文预算（Context Budget）\n\n### 1.1 预算分配策略\n\n| 区域 | 预算占比 | 说明 |\n|------|---------|------|\n| 系统提示词 | 10% | 角色、规则、输出格式 |\n| 工具定义（JSON Schema） | 15% | 仅注入本次会话可能用到的工具 |\n| RAG 检索结果 | 25% | 按相关性截断，最多 5 段 |\n| 对话历史 | 30% | 滑动窗口，保留最近 N 轮 |\n| 输出预留 | 20% | 保证模型有足够空间生成 |\n\n### 1.2 实现要点\n\n- **Token 计数**：统一使用 `tiktoken`（OpenAI）或对应厂商的 tokenizer 进行精确计数。\n- **动态截断**：对话历史按「时间由近到远」裁剪，优先保留最近 10 轮；超出预算时丢弃最旧轮次。\n- **RAG 截断**：检索结果按 `score` 降序排列，逐段累加 token，超过预算上限即停止注入。\n- **硬上限**：设置全局硬上限（如 32K tokens），任何模块不得突破，防止超限报错。\n\n```python\ndef build_context(system, tools, rag_chunks, history, max_tokens=32000):\n    budget = {\n        \"system\": int(max_tokens * 0.10),\n        \"tools\":  int(max_tokens * 0.15),\n        \"rag\":    int(max_tokens * 0.25),\n        \"history\": int(max_tokens * 0.30),\n        \"output\": int(max_tokens * 0.20),\n    }\n    # ... 逐模块填充并截断\n```\n\n---\n\n## 2. RAG 检索\n\n### 2.1 架构\n\n```\n用户查询\n   │\n   ▼\n[查询改写] ──► [向量检索 (Top-K=20)] ──► [重排序 (RRF/Cohere)] ──► [Top-5 注入]\n   │\n   └──► [关键词检索 (BM25)] ──┘\n```\n\n### 2.2 数据管道\n\n- **文档切分**：按 Markdown 标题 / 段落切分，chunk 大小 512 tokens，重叠 64 tokens。\n- **向量化**：使用 `text-embedding-3-small`（或同等级开源模型），维度 1536。\n- **存储**：`pgvector` 或 `Qdrant`，支持混合检索。\n\n### 2.3 混合检索策略\n\n| 检索方式 | 权重 | 适用场景 |\n|---------|------|---------|\n| 向量检索 | 0.6 | 语义相似、同义改写 |\n| BM25 关键词 | 0.4 | 精确术语、代码片段、版本号 |\n\n- 使用 **RRF（Reciprocal Rank Fusion）** 融合两路结果，公式：`score = Σ 1/(k + rank)`，k=60。\n- 若检索结果最高分低于阈值（如 0.3），判定为「无相关内容」，不注入 RAG，直接走通用回答。\n\n### 2.4 元数据过滤\n\n- 支持按 `tenant_id`、`doc_version`、`updated_at` 过滤，确保只检索当前租户、最新版本的数据。\n\n---\n\n## 3. 工具调用契约（Tool Calling Contract）\n\n### 3.1 工具定义规范\n\n所有工具使用 **OpenAI Function Calling 格式**（JSON Schema），统一注册与校验。\n\n```json\n{\n  \"type\": \"function\",\n  \"function\": {\n    \"name\": \"query_internal_api\",\n    \"description\": \"查询内部业务系统 API\",\n    \"parameters\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"endpoint\": { \"type\": \"string\", \"enum\": [\"/orders\", \"/users\", \"/inventory\"] },\n        \"params\":   { \"type\": \"object\", \"additionalProperties\": true }\n      },\n      \"required\": [\"endpoint\"]\n    }\n  }\n}\n```\n\n### 3.2 调用流程\n\n```\n模型输出 tool_call\n      │\n      ▼\n[Schema 校验] ──失败──► 返回错误给模型，要求重新生成\n      │ 通过\n      ▼\n[参数白名单校验] ──失败──► 拒绝执行，记录审计日志\n      │ 通过\n      ▼\n[执行工具] ──► [结果截断 (≤2K tokens)] ──► [回填给模型]\n```\n\n### 3.3 安全约束\n\n| 约束项 | 规则 |\n|--------|------|\n| 工具白名单 | 仅允许注册过的工具，禁止动态调用 |\n| 参数校验 | 枚举值、类型、长度、正则全量校验 |\n| 超时控制 | 单次工具调用 ≤ 5s，超时返回错误 |\n| 审计日志 | 每次调用记录：工具名、参数、结果摘要、耗时 |\n| 最大调用轮数 | 单次对话工具调用 ≤ 5 轮，防止死循环 |\n\n### 3.4 工具结果回填\n\n- 工具结果统一截断至 2K tokens，超出部分提示「结果过长已截断」。\n- 若工具返回错误，将错误信息回传给模型，允许模型修正参数后重试（最多 2 次）。\n\n---\n\n## 4. 评测与降级（Evaluation & Fallback）\n\n### 4.1 评测体系\n\n#### 离线评测（发布前）\n\n| 评测维度 | 指标 | 通过标准 |\n|---------|------|---------|\n| 回答准确性 | 人工标注 + LLM-as-Judge | ≥ 85% |\n| RAG 命中率 | 检索结果是否包含正确答案 | ≥ 90% |\n| 工具调用正确率 | 参数是否与 ground truth 一致 | ≥ 95% |\n| 幻觉率 | 回答中无依据断言占比 | ≤ 5% |\n| 延迟 | P95 端到端延迟 | ≤ 3s |\n\n- 评测集：≥ 200 条真实业务问题，覆盖正常 / 边界 / 恶意输入。\n- 每次模型或 Prompt 变更，必须跑全量回归评测。\n\n#### 在线监控（发布后）\n\n| 指标 | 告警阈值 |\n|------|---------|\n| 错误率（4xx/5xx） | > 2% |\n| 超时率（>5s） | > 5% |\n| 空回复率 | > 3% |\n| 用户负反馈率 | > 5% |\n| Token 成本 / 请求 | 超基线 30% |\n\n### 4.2 降级策略（Fallback Chain）\n\n```\n主模型 (GPT-4o / 旗舰模型)\n   │ 失败 / 超时 / 超预算\n   ▼\n备用模型 (GPT-4o-mini / 轻量模型)\n   │ 失败\n   ▼\n规则引擎 (关键词匹配 + 模板回答)\n   │ 失败\n   ▼\n友好兜底文案 + 记录工单\n```\n\n| 触发条件 | 降级动作 |\n|---------|---------|\n| 主模型超时 / 限流 | 自动切换备用模型，重试 1 次 |\n| 主模型连续 3 次失败 | 熔断 60s，期间全部走备用模型 |\n| 备用模型也失败 | 降级到规则引擎（仅处理 FAQ 类问题） |\n| 规则引擎无法匹配 | 返回「暂时无法处理，已转人工」，并创建工单 |\n| RAG 检索无结果 | 跳过 RAG 注入，仅用模型通用知识回答，并标注「未检索到内部资料」 |\n| 工具调用校验失败 | 不执行工具，直接告知用户参数不合法 |\n\n### 4.3 降级可观测性\n\n- 每次降级记录：触发原因、降级层级、耗时、是否恢复。\n- 每日生成降级报告，用于优化主链路稳定性。\n\n---\n\n## 5. 技术栈建议（最小可执行）\n\n| 组件 | 选型 |\n|------|------|\n| LLM 网关 | LiteLLM / 自建代理（统一多厂商路由） |\n| 向量库 | pgvector（复用现有 PostgreSQL） |\n| 编排框架 | LangChain 或纯 Python 手写（MVP 建议手写，减少依赖） |\n| 缓存 | Redis（对话缓存、检索结果缓存 TTL=5min） |\n| 可观测 | OpenTelemetry + Prometheus + Grafana |\n\n---\n\n## 6. 实施里程碑\n\n| 阶段 | 内容 | 周期 |\n|------|------|------|\n| M1 | 上下文预算 + 基础对话链路 | 1 周 |\n| M2 | RAG 管道 + 混合检索 | 1 周 |\n| M3 | 工具调用契约 + 安全校验 | 1 周 |\n| M4 | 评测集构建 + 降级链路 | 1 周 |\n\n---\n\nCHECKLIST_OK\n"
+                    },
+                    "timestamp": 1788539009383
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": false,
+                "details": [
+                  "skill_activation expected=True actual=False",
+                  "marker '上下文预算' found=True",
+                  "marker 'RAG' found=True",
+                  "marker '评测' found=True",
+                  "marker '降级' found=True",
+                  "marker 'CHECKLIST_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 2,
+              "result": {
+                "output": "方案已输出至 `llm-integration-minimal-plan.md`，覆盖了全部四个必需模块：\n\n1. **上下文预算** — 按区域分配预算（系统提示 10% / 工具 15% / RAG 25% / 历史 20% / 用户输入 30%），含 token 估算、动态截断、历史压缩和 80% 硬性上限。\n2. **RAG 检索** — 数据管道（分块→向量化→入库）、混合检索（向量 + BM25）+ 重排序 + 相关性过滤，附命中率与 MRR 指标。\n3. **工具调用契约** — 统一 JSON Schema、参数校验、白名单注册表、超时控制、副作用二次确认、审计日志。\n4. **评测与降级** — 离线评测集与在线监控指标，四级降级策略（L0–L3）+ 熔断器 + 兜底话术。\n\n最后一行已输出 **CHECKLIST_OK**。",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 16089,
+                "turns": 2,
+                "skill_loads": [],
+                "tool_calls": [
+                  {
+                    "tool": "write_file",
+                    "toolUseId": "call_00_LEqw9AdaB9f39hJ2JnbC5599",
+                    "input": {
+                      "file_path": "llm-integration-minimal-plan.md",
+                      "content": "# 大模型集成最小可行方案（内部工具）\n\n> 目标：在 2 周内交付可用的 LLM 集成，覆盖上下文预算、RAG 检索、工具调用契约、评测与降级四大核心模块。\n\n---\n\n## 1. 上下文预算\n\n### 1.1 预算分配策略\n\n| 区域 | 预算占比 | 说明 |\n|------|---------|------|\n| 系统提示词 | 10% | 角色、规则、输出格式 |\n| 工具定义 | 15% | JSON Schema 描述 |\n| RAG 检索结果 | 25% | 按相关性截断 |\n| 对话历史 | 20% | 滑动窗口 + 摘要压缩 |\n| 用户当前输入 | 30% | 预留主任务空间 |\n\n### 1.2 实现要点\n\n- **Token 估算**：使用 `tiktoken`（OpenAI）或 `transformers` 的 `AutoTokenizer` 做本地估算，不依赖远端 API。\n- **动态截断**：\n  - 对话历史按「最近优先」保留，超出预算时丢弃最旧消息。\n  - 历史超过 2 轮且仍超预算时，调用摘要模型压缩为单条摘要消息。\n- **硬性上限**：单次请求总 token 数不超过模型 context window 的 **80%**，预留 20% 给输出。\n- **输出预算**：通过 `max_tokens` 参数限制生成长度，防止无限生成。\n\n```python\n# 伪代码示例\ndef build_context(user_input, history, rag_chunks, tools):\n    budget = model_context_window * 0.8\n    parts = {\n        \"system\": system_prompt,          # 10%\n        \"tools\": tool_schemas,            # 15%\n        \"rag\": truncate_rag(rag_chunks),  # 25%\n        \"history\": compress_history(history),  # 20%\n        \"user\": user_input,               # 30%\n    }\n    return enforce_budget(parts, budget)\n```\n\n---\n\n## 2. RAG 检索\n\n### 2.1 数据管道\n\n```\n文档入库 → 分块(chunking) → 向量化(embedding) → 存入向量库\n```\n\n- **分块策略**：按语义段落切分，块大小 500–800 tokens，重叠 10%。\n- **Embedding 模型**：`text-embedding-3-small` 或 `bge-m3`（本地部署可选）。\n- **向量库**：`Chroma` / `FAISS` / `pgvector`（按现有基础设施选型）。\n\n### 2.2 检索流程\n\n1. **混合检索**：向量相似度（top-20）+ 关键词 BM25（top-10），合并去重。\n2. **重排序**：用 `cross-encoder`（如 `bge-reranker`）对合并结果重排，取 top-5。\n3. **相关性过滤**：重排分数低于阈值（如 0.3）的块直接丢弃，避免噪声注入。\n4. **注入上下文**：按 1.1 中 25% 预算截断后注入 prompt。\n\n### 2.3 检索质量指标\n\n- **命中率（Hit Rate）**：top-5 内包含正确答案的比例 ≥ 0.8。\n- **MRR**：平均倒数排名 ≥ 0.6。\n- 离线用标注数据集评测，线上记录检索日志用于持续优化。\n\n---\n\n## 3. 工具调用契约\n\n### 3.1 统一 Schema（JSON Schema）\n\n所有工具通过 JSON Schema 暴露，模型输出严格遵循该结构。\n\n```json\n{\n  \"type\": \"function\",\n  \"function\": {\n    \"name\": \"query_internal_api\",\n    \"description\": \"查询内部业务 API\",\n    \"parameters\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"endpoint\": { \"type\": \"string\", \"enum\": [\"/orders\", \"/users\", \"/inventory\"] },\n        \"params\": { \"type\": \"object\", \"additionalProperties\": true }\n      },\n      \"required\": [\"endpoint\"]\n    }\n  }\n}\n```\n\n### 3.2 调用流程\n\n```\n模型输出 tool_call → 参数校验(JSON Schema) → 执行工具 → 结果回填 → 模型生成最终回复\n```\n\n### 3.3 契约约束\n\n| 约束 | 说明 |\n|------|------|\n| **参数校验** | 执行前用 `jsonschema` 库校验，失败则返回错误给模型重试（最多 2 次） |\n| **白名单** | 工具必须注册在 `TOOL_REGISTRY` 中，禁止动态调用任意函数 |\n| **超时** | 工具执行超时 10s，超时返回 `{\"error\": \"timeout\"}` |\n| **副作用控制** | 写操作（增删改）需二次确认，模型需输出 `confirm: true` 才执行 |\n| **审计日志** | 每次工具调用记录：入参、出参、耗时、调用方、时间戳 |\n\n### 3.4 工具注册表\n\n```python\nTOOL_REGISTRY = {\n    \"query_internal_api\": {\n        \"schema\": {...},          # JSON Schema\n        \"handler\": call_internal_api,  # 实际执行函数\n        \"side_effect\": False,     # 是否写操作\n        \"timeout\": 10,\n    }\n}\n```\n\n---\n\n## 4. 评测与降级\n\n### 4.1 评测体系\n\n#### 离线评测（发布前）\n- **数据集**：50–100 条标注 QA 对，覆盖典型场景 + 边界场景。\n- **指标**：\n  - 答案正确率（人工标注比对）\n  - 工具调用准确率（是否正确选择了工具与参数）\n  - 格式合规率（输出是否符合约定 JSON）\n  - 延迟 P95 < 5s\n\n#### 在线监控（发布后）\n- **自动指标**：调用成功率、平均延迟、token 消耗、工具调用失败率。\n- **人工反馈**：每条回复提供 👍/👎 按钮，收集用户反馈。\n- **日志采样**：随机采样 5% 请求做人工抽检。\n\n### 4.2 降级策略（分级）\n\n| 级别 | 触发条件 | 降级动作 |\n|------|---------|---------|\n| **L0 正常** | 一切正常 | 完整 LLM 流程 |\n| **L1 轻降级** | 模型 API 延迟 > 5s 或错误率 > 5% | 重试 1 次；关闭 RAG（用缓存结果） |\n| **L2 中降级** | 模型 API 持续不可用 > 1min | 切换到备用模型（如 GPT-4o → GPT-4o-mini） |\n| **L3 硬降级** | 所有模型不可用 | 回退到规则引擎 / 关键词匹配，返回预设兜底话术 |\n\n### 4.3 兜底话术\n\n```json\n{\n  \"L3_fallback\": \"系统暂时无法处理，请稍后重试或联系管理员。\",\n  \"tool_error\": \"工具执行失败，已记录日志，请稍后重试。\"\n}\n```\n\n### 4.4 熔断器\n\n- 连续 10 次调用失败 → 触发熔断，直接走 L3 降级。\n- 熔断 30s 后尝试半开（放行 1 个请求探测），成功则恢复 L0。\n\n---\n\n## 5. 交付清单\n\n| 模块 | 交付物 | 预估工时 |\n|------|--------|---------|\n| 上下文预算 | `context_builder.py` + 单元测试 | 2 天 |\n| RAG 检索 | 分块/向量化/检索 pipeline + 评测脚本 | 3 天 |\n| 工具调用 | 工具注册表 + 校验器 + 执行器 | 2 天 |\n| 评测与降级 | 离线评测集 + 监控 + 熔断器 | 2 天 |\n| 集成联调 | 端到端测试 + 部署 | 1 天 |\n\n**总计：约 10 个工作日**\n\n---\n\nCHECKLIST_OK\n"
+                    },
+                    "timestamp": 1788539025069
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": false,
+                "details": [
+                  "skill_activation expected=True actual=False",
+                  "marker '上下文预算' found=True",
+                  "marker 'RAG' found=True",
+                  "marker '评测' found=True",
+                  "marker '降级' found=True",
+                  "marker 'CHECKLIST_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 3,
+              "result": {
+                "output": "已完成，方案已写入 `llm-integration-plan.md`。\n\n方案覆盖了要求的四大核心模块：\n\n1. **上下文预算** — 分区预算表、token 精确计数、滑动窗口、截断优先级\n2. **RAG 检索** — 混合检索 + 重排序架构、分块策略、权限过滤、质量门槛\n3. **工具调用契约** — JSON Schema 统一格式、网关代理执行、统一返回信封、约束上限\n4. **评测与降级** — 五维指标与目标值、golden set 回归、L0–L4 多级降级策略、可观测性\n\n最后一行已输出 `CHECKLIST_OK`。",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 14546,
+                "turns": 2,
+                "skill_loads": [],
+                "tool_calls": [
+                  {
+                    "tool": "write_file",
+                    "toolUseId": "call_00_OBcxfU1JAJyfUfpnH2Rt4064",
+                    "input": {
+                      "file_path": "llm-integration-plan.md",
+                      "content": "# 大模型集成最小可行方案（MVP）\n\n> 目标：为内部工具接入 LLM，覆盖上下文预算、RAG 检索、工具调用契约、评测与降级四大核心环节，可落地、可执行、可验证。\n\n---\n\n## 1. 上下文预算（Context Budget）\n\n### 1.1 预算分配策略\n\n| 区域 | 预算占比 | 说明 |\n|------|---------|------|\n| 系统提示词 | ≤ 10% | 固定指令，静态内容 |\n| RAG 检索结果 | ≤ 40% | 动态注入，按需裁剪 |\n| 工具调用上下文 | ≤ 20% | 工具返回结果、中间状态 |\n| 用户输入 + 历史 | ≤ 30% | 对话与任务输入 |\n\n> 总预算上限：默认 **8K tokens**（可配置），超出即触发截断或拒绝。\n\n### 1.2 实现要点\n\n- 使用 `tiktoken` 或模型自带 tokenizer 做精确计数，禁止按字符估算。\n- 系统提示词模板化，编译期确定长度，运行时不再增长。\n- 历史对话采用 **滑动窗口**：保留最近 N 轮 + 摘要压缩（`map-reduce` 式摘要）。\n- 每次请求前执行 `budget_check()`，返回 `{ok, used, remaining, overflow_items}`。\n\n### 1.3 截断优先级\n\n```\n用户输入 > 工具结果 > RAG 片段 > 历史对话 > 系统提示词\n```\n\n---\n\n## 2. RAG 检索\n\n### 2.1 架构\n\n```\n用户查询\n   │\n   ├─ 查询改写（可选：HyDE / 多查询扩展）\n   │\n   ├─ 向量检索（Embedding: text-embedding-3-small 或 bge-m3）\n   │     └─ Top-K = 8\n   │\n   ├─ 混合检索（BM25 + 向量，RRF 融合）\n   │     └─ Top-K = 5\n   │\n   └─ 重排序（Cross-Encoder: bge-reranker-base）\n         └─ 最终取 Top-3\n```\n\n### 2.2 分块与索引\n\n- 分块大小：**512 tokens**，重叠 **64 tokens**。\n- 元数据：`{doc_id, title, source, updated_at, permission_level}`。\n- 索引存储：`Chroma` 或 `pgvector`（生产推荐 pgvector，事务一致）。\n- 权限过滤：检索时按用户角色过滤 `permission_level`，**检索前过滤**而非检索后过滤。\n\n### 2.3 检索质量门槛\n\n- 重排序后 Top-1 相似度 < 阈值（如 0.35）时，判定为 **无相关文档**，不注入 RAG 内容。\n- 注入格式：\n\n```\n[文档1] (来源: xxx, 更新: 2025-01-01)\n<正文片段>\n[文档2] ...\n```\n\n---\n\n## 3. 工具调用契约（Tool Calling Contract）\n\n### 3.1 统一 Schema（JSON Schema）\n\n```json\n{\n  \"name\": \"search_ticket\",\n  \"description\": \"按条件查询工单\",\n  \"parameters\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"ticket_id\":   { \"type\": \"string\", \"description\": \"工单号\" },\n      \"status\":      { \"type\": \"string\", \"enum\": [\"open\",\"closed\",\"pending\"] },\n      \"assignee\":    { \"type\": \"string\" },\n      \"limit\":       { \"type\": \"integer\", \"minimum\": 1, \"maximum\": 50, \"default\": 10 }\n    },\n    \"required\": []\n  }\n}\n```\n\n### 3.2 调用流程\n\n```\nLLM 输出 tool_call\n   → 参数校验（JSON Schema + 业务规则）\n   → 鉴权（RBAC 校验工具权限）\n   → 执行工具（超时 5s，幂等键可选）\n   → 结果截断（≤ 2K tokens）并回填上下文\n   → 若校验失败：返回结构化错误，引导 LLM 重新生成\n```\n\n### 3.3 契约约束\n\n- 工具数量 ≤ **20 个**，每个工具 description ≤ 200 字符。\n- 工具必须声明：`name / description / parameters / required`。\n- 所有工具返回统一信封：\n\n```json\n{\n  \"ok\": true,\n  \"data\": { \"...\": \"...\" },\n  \"error\": null,\n  \"truncated\": false\n}\n```\n\n- 禁止 LLM 直接执行工具，必须经 **网关代理** 执行（防注入、可审计）。\n\n---\n\n## 4. 评测与降级（Evaluation & Degradation）\n\n### 4.1 评测体系\n\n| 维度 | 指标 | 目标值 |\n|------|------|--------|\n| 检索质量 | Recall@3 / MRR | ≥ 0.8 / ≥ 0.7 |\n| 生成质量 | 人工评分（1-5） | ≥ 4.0 |\n| 工具调用 | 工具调用成功率 | ≥ 95% |\n| 端到端 | 任务完成率 | ≥ 85% |\n| 性能 | P95 首 token 延迟 | ≤ 2s |\n\n### 4.2 评测集\n\n- 建立 **golden set**：≥ 100 条真实/模拟任务，含边界与对抗样本。\n- CI 中每次模型/提示词变更自动跑评测，输出对比报告。\n- 使用 `promptfoo` 或自研 runner 做回归。\n\n### 4.3 降级策略（多级降级）\n\n| 级别 | 触发条件 | 动作 |\n|------|---------|------|\n| L0 正常 | — | 全功能 |\n| L1 软降级 | 上下文超预算 / RAG 无结果 | 裁剪上下文、跳过 RAG，仅用模型知识回答并标注 |\n| L2 硬降级 | 工具连续失败 ≥ 3 次 | 禁用工具调用，退回纯文本问答 |\n| L3 熔断 | LLM API 错误率 > 10% 或超时 > 5s | 切换备用模型 / 降级为规则引擎或人工入口 |\n| L4 完全降级 | 所有模型不可用 | 返回友好错误页 + 工单入口，不静默失败 |\n\n### 4.4 可观测性\n\n- 全链路日志：`request_id → 预算使用 → 检索片段 → tool_call → 生成 → 评分`。\n- 线上采样 10% 请求做自动质量打分（LLM-as-judge），异常自动告警。\n\n---\n\n## 5. 落地清单（执行顺序）\n\n1. 定义系统提示词模板 + 预算计数器。\n2. 搭建向量库与分块管线，接入混合检索。\n3. 定义工具 Schema 与网关代理。\n4. 构建 golden set 与评测 runner。\n5. 实现降级链路与熔断器。\n6. 灰度上线，逐步放量。\n\n---\n\nCHECKLIST_OK\n"
+                    },
+                    "timestamp": 1788539040572
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": false,
+                "details": [
+                  "skill_activation expected=True actual=False",
+                  "marker '上下文预算' found=True",
+                  "marker 'RAG' found=True",
+                  "marker '评测' found=True",
+                  "marker '降级' found=True",
+                  "marker 'CHECKLIST_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            }
+          ]
+        },
+        "with-skill": {
+          "id": "dev-ai-pilot",
+          "expected_skill": "dev-ai-engineering",
+          "runs": 3,
+          "success_rate": 1.0,
+          "skill_activation_rate": 1.0,
+          "avg_turns": 3.0,
+          "avg_duration_ms": 16946.0,
+          "avg_quality": null,
+          "avg_adherence": null,
+          "avg_discovery": null,
+          "run_details": [
+            {
+              "run": 1,
+              "result": {
+                "output": "方案已输出到 `llm-integration-minimal-plan.md`，覆盖了要求的四个核心模块，并附带了落地清单。\n\n**方案要点速览：**\n\n1. **上下文预算** — 显式预算表（系统提示 ≤2k / 检索 ≤6k / 历史 ≤8k / 单任务 ≤18k tokens），配合「引用优于复述」「持续精简」「长任务持久化」「缓存前缀稳定」四条规则，每条都给了可证伪检查。\n\n2. **RAG 检索** — 明确是管线而非单次向量搜索：`改写→混合检索→重排→过滤→组包`，强调 chunk 自包含、相关性阈值与「证据不足」输出、引用可回溯、防污染。\n\n3. **工具调用契约** — 命名空间化、schema 严格、返回可消费 JSON、错误可行动、副作用可控，并给了落盘的 JSON schema 示例。\n\n4. **评测与降级** — 真实任务评测集（≥10 条）作回归门禁；按错误分型（rate_limit / context_length / upstream_error / bad_response / 超预算 / 工具不可用 / 检索阈值）给出逐条降级路径表；成本按任务设上限并记录 token 指标。\n\n每个模块都遵循了「可证伪检查」原则，最后以落地清单收尾。\n\nCHECKLIST_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 16966,
+                "turns": 3,
+                "skill_loads": [
+                  "dev-ai-engineering"
+                ],
+                "tool_calls": [
+                  {
+                    "tool": "loadSkill",
+                    "toolUseId": "call_00_b3zbCwZFsvCGRVm1lGzq9805",
+                    "input": {
+                      "name": "dev-ai-engineering"
+                    },
+                    "timestamp": 1788539043133
+                  },
+                  {
+                    "tool": "write_file",
+                    "toolUseId": "call_00_W882hAxwN3K0gtcZf7fE6438",
+                    "input": {
+                      "file_path": "llm-integration-minimal-plan.md",
+                      "content": "# 内部工具 · 大模型集成最小可执行方案\n\n> 目标：为内部工具接入 LLM/Agent 能力，给出**可落地、可验证、可降级**的最小方案。\n> 原则：把上下文当有限预算，把工具当可验证契约，把 Agent 当有状态循环，把评测当作回归门禁。\n\n---\n\n## 0. 范围与假设\n\n- 场景：内部工具，单轮/多步问答 + 检索内部文档 + 少量工具调用（查库、写记录）。\n- 模型：固定 `provider/model/version`（见 §1），不写会漂移的短名。\n- 交付物：配置、请求契约文件、检索管线、工具 schema、评测集、降级策略。\n\n---\n\n## 1. 上下文预算\n\n### 1.1 显式预算表\n\n| 项 | 预算 | 说明 |\n|---|---|---|\n| 系统提示 | ≤ 2k tokens | 只放角色、目标、约束、工具清单摘要 |\n| 检索上下文 | ≤ 6k tokens | 检索结果经重排后只保留 top-k 且截断 |\n| 对话历史 | ≤ 8k tokens | 超过即压缩/裁剪 |\n| 单步输出 | ≤ 2k tokens | 结构化输出，禁止整页日志 |\n| **单任务总预算** | **≤ 18k tokens** | 超限走压缩或降级 |\n\n### 1.2 规则\n\n- **引用优于复述**：检索/工具结果给 `source + chunk/id`，让模型引用原文，不把长文再复述。\n- **持续精简**：每轮后压缩对话，保留「目标 / 约束 / 已完成 / 下一步」，丢弃无用工具输出。\n- **长任务持久化**：跨 session 任务把状态写进文件/DB/git（进度文件 + checkpoint），新 session 从状态恢复，不靠猜。\n- **缓存前缀稳定**：易变内容（时间、用户数据）放可变后缀，不污染 prompt caching 前缀。\n\n### 1.3 可证伪检查\n\n> 长任务第二个 session 不读持久化状态就无法知道「做到哪一步」→ 判失败；必须能从进度文件 + git 恢复。\n\n---\n\n## 2. RAG 检索\n\n### 2.1 管线（每步留日志）\n\n```\n查询改写/分解 → 混合检索(关键词+向量) → 重排 → 过滤/去重 → 组包(带引用)\n```\n\n### 2.2 规则\n\n- **chunk 自包含**：带来源、时间、章节/ID、必要上下文；宁可小而准，不要大而糊。\n- **阈值与「不知道」**：设最低相关性阈值；低于阈值明确输出「证据不足/未找到」，**禁止模型补编答案**。\n- **引用可回溯**：答案每个事实挂来源 chunk id；评测检查「无支撑断言」数量。\n- **防污染**：外部/用户可控文档做来源标记与权限过滤，不把高权限文档喂给低权限场景。\n\n### 2.3 可证伪检查\n\n> 构造 10 题「答案必须来自给定语料」的评测；某题答案正确但来源 chunk 不在检索结果中 → 记为失败。\n\n---\n\n## 3. 工具调用契约\n\n### 3.1 契约要求\n\n- **命名空间化**：如 `db.query_user`、`audit.write_log`，边界清晰。\n- **描述写清**「做什么 / 什么时候用 / 返回什么」，不只写函数签名。\n- **schema 严格**：类型、必填、枚举、长度都定义；服务端校验，非法参数返回结构化错误，不静默转换。\n- **返回可消费**：结构化 JSON + 状态 + 少量必要字段；不返回整页日志/HTML/超大原始数据。\n- **错误可行动**：失败给「为什么失败 + 下一步建议 + 错误码」，让 Agent 决定重试/换工具/上报。\n- **副作用可控**：写操作幂等；破坏性操作先确认、留审计、设权限边界。\n\n### 3.2 示例 schema（落盘为可校验 JSON）\n\n```json\n{\n  \"name\": \"db.query_user\",\n  \"description\": \"按用户 ID 查询内部用户档案。仅用于已授权查询场景。\",\n  \"input_schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"user_id\": { \"type\": \"string\", \"minLength\": 1, \"maxLength\": 64 }\n    },\n    \"required\": [\"user_id\"],\n    \"additionalProperties\": false\n  }\n}\n```\n\n### 3.3 可证伪检查\n\n> 用「错误参数 + 正常参数」两组用例跑工具：错误参数必须被 schema 拒绝；正常用例返回的可消费 JSON 能被下游稳定解析。\n\n---\n\n## 4. Agent 循环（有界状态机）\n\n```\ngather → decide → act → verify → update\n```\n\n- **显式状态机**：每步有输入/输出，不写「让它自己看着办」。\n- **有界运行**：`max_steps=8`、`max_tokens_per_step=2k`、`max_cost`、`max_wall_time`；到上限必须停止并汇报。\n- **失败处理**：同一工具连续失败 N=3 次后换策略或升级用户；格式/工具错误先修错误本身，不盲目重试。\n- **人在环**：不可逆、高成本、权限提升、对外发送前暂停并请用户确认。\n\n### 可证伪检查\n\n> 跑「工具永远失败」用例：Agent 必须在重试上限后停止并输出明确错误，而非无限循环或假装成功。\n\n---\n\n## 5. 评测与降级\n\n### 5.1 评测（回归门禁）\n\n- **任务先行**：评测集来自真实任务，≥10 条，覆盖关键分支与失败模式；每条含输入 + 期望输出/检查点。\n- **指标**：准确率、工具错误率、平均步骤、延迟、token 成本。\n- **回归**：改 prompt/模型/工具/检索后先跑同一评测，记录对比，不当场只看手感。\n- **可证伪**：断言「新版相对旧版在 N 条评测上不回归」；人工目测但无法用脚本复现的 → 降级为「未验证」。\n\n### 5.2 降级路径（按触发条件）\n\n| 触发 | 降级动作 |\n|---|---|\n| 主模型 `rate_limit` | 指数退避重试（仅安全请求） |\n| 主模型 `context_length` | 压缩/裁剪上下文后重试 |\n| 主模型 `upstream_error` | 重试 → 降级到次强模型 |\n| 主模型 `bad_response` | 修复请求 / 转人工 |\n| 超预算 / 超时 | 降功能：走规则/缓存答案 |\n| 工具不可用 | 明确告知能力受限，不编造结果 |\n| 检索低于阈值 | 输出「证据不足」，禁止补编 |\n\n- 降级也要有指标：记录触发次数、降级后成功率、成本节省。\n\n### 5.3 成本控制\n\n- 每任务设 token/金额上限；缓存、批量、小模型分流。\n- 高价值任务用强模型，低价值任务用弱模型。\n- 记录每次请求 `input_tokens` / `output_tokens` / 工具调用次数，按任务/租户聚合。\n\n---\n\n## 6. 落地清单（最小可执行）\n\n- [ ] 固定 `provider/model/version` 到配置\n- [ ] 系统提示、工具 schema、输出 JSON Schema 落盘为可校验文件\n- [ ] 定义上下文预算表并在代码侧强制截断/压缩\n- [ ] 长任务写进度文件 + checkpoint，可恢复\n- [ ] 检索管线每步留日志，设阈值与引用\n- [ ] 工具 schema 服务端校验，返回结构化可消费 JSON\n- [ ] Agent 循环设 max_steps / max_tokens / max_cost / max_wall_time\n- [ ] 建立 ≥10 条真实任务评测集并跑基线\n- [ ] 定义降级路径表并记录触发与成本指标\n\n---\n\nCHECKLIST_OK\n"
+                    },
+                    "timestamp": 1788539056138
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": true,
+                "details": [
+                  "skill_activation expected=True actual=True",
+                  "marker '上下文预算' found=True",
+                  "marker 'RAG' found=True",
+                  "marker '评测' found=True",
+                  "marker '降级' found=True",
+                  "marker 'CHECKLIST_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 2,
+              "result": {
+                "output": "方案已输出到 `llm-integration-plan.md`。核心要点如下：\n\n**1. 上下文预算** — 每任务显式预算表（system ≤2k / 检索 ≤6k / 历史 ≤4k / 单步 ≤2k / 总 ≤14k），持续精简、引用优于复述、缓存前缀稳定、跨 session 持久化手牌。\n\n**2. RAG 检索** — 六步管线（改写→混合检索→重排→过滤→组包），chunk 自包含、设相关性阈值、低于阈值明确\"证据不足\"禁止编造、引用可回溯、防污染。\n\n**3. 工具调用契约** — 命名空间化 + 描述写清\"做什么/何时用/返回什么\"，schema 严格校验、返回结构化可消费 JSON、错误可行动（原因+建议+错误码）、副作用幂等可控。\n\n**4. 评测与降级** — 真实任务评测集 ≥10 条作回归门禁；降级路径表覆盖 rate_limit / context_length / upstream_error / 工具失败 / 检索不足 / 人在环；成本预算与 token 可观测。\n\n每节都附了**可证伪检查**，并给出有界 Agent 状态机作为收尾。\n\nCHECKLIST_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 13869,
+                "turns": 3,
+                "skill_loads": [
+                  "dev-ai-engineering"
+                ],
+                "tool_calls": [
+                  {
+                    "tool": "loadSkill",
+                    "toolUseId": "call_00_vxMAjoxBAwwCDe0bF1K37721",
+                    "input": {
+                      "name": "dev-ai-engineering"
+                    },
+                    "timestamp": 1788539060093
+                  },
+                  {
+                    "tool": "write_file",
+                    "toolUseId": "call_00_WVAwd8timbajXNSWeda92434",
+                    "input": {
+                      "file_path": "llm-integration-plan.md",
+                      "content": "# 内部工具 · 大模型集成最小可执行方案\n\n> 目标：给内部工具接入 LLM 能力，覆盖 **上下文预算、RAG 检索、工具调用契约、评测与降级** 四个硬性边界。\n> 原则：把上下文当有限预算、把工具当可验证契约、把 Agent 当有界循环、把评测当回归门禁。\n\n---\n\n## 1. 上下文预算\n\n### 1.1 显式预算表（每任务）\n\n| 项 | 上限 | 说明 |\n|---|---|---|\n| 系统提示 | ≤ 2k tokens | 只放目标、约束、工具清单、输出格式 |\n| 检索上下文 | ≤ 6k tokens | 检索结果压缩后注入，保留 `source + chunk_id` |\n| 对话历史 | ≤ 4k tokens | 每轮后压缩，保留目标/已完成/下一步 |\n| 单步输出 | ≤ 2k tokens | 结构化 JSON，禁止整页日志/HTML |\n| **单任务总预算** | **≤ 14k tokens** | 超限即触发降级（见 §4） |\n\n### 1.2 执行规则\n\n- **持续精简**：每轮结束压缩对话——保留目标、约束、已完成事项、下一步；丢弃已无用的工具输出与重复摘要。\n- **引用优于复述**：检索/工具结果只给 `source + chunk_id`，让模型引用原文，不把长文复述进上下文。\n- **缓存前缀稳定**：把易变内容（时间、用户数据）放可变后缀，稳定前缀（system + 工具 schema）用于 prompt caching。\n- **持久化手牌**：跨 session 的长任务把状态写入 `progress.md` + git checkpoint；新 session 必须能从进度文件恢复，禁止靠猜。\n\n### 1.3 可证伪检查\n\n> 长任务第二个 session 中，不读持久化状态就无法知道\"做到哪一步\"，判为失败。\n\n---\n\n## 2. RAG 检索\n\n### 2.1 检索管线（每步留日志）\n\n```\n查询改写/分解 → 混合检索(关键词 + 向量) → 重排 → 过滤/去重 → 组包(≤6k tokens)\n```\n\n### 2.2 规则\n\n- **chunk 自包含**：带来源、时间、章节/ID、必要上下文；宁可小而准，不要大而糊。\n- **阈值与\"不知道\"**：设最低相关性阈值（如 0.6）；低于阈值明确输出 `evidence_insufficient`，**禁止模型补编答案**。\n- **引用可回溯**：答案中每个事实挂来源 `chunk_id`；评测统计\"无支撑断言\"数量。\n- **防污染**：对用户可控输入/外部文档做来源标记与权限过滤；不把高权限文档喂给低权限场景。\n\n### 2.3 可证伪检查\n\n> 构造 10 题\"答案必须来自给定语料\"的评测；若某题答案正确但对应来源 chunk 不在检索结果中，记为失败。\n\n---\n\n## 3. 工具调用契约\n\n### 3.1 工具命名与描述\n\n- 命名空间化且边界清晰，如 `ticket.create`、`ticket.search`、`user.resolve`。\n- 描述写清 **做什么 / 什么时候用 / 返回什么**，不只写函数签名。\n\n### 3.2 Schema 严格\n\n- 参数类型、必填、枚举、长度全部定义；服务端校验输入，非法参数返回结构化错误，**不静默转换**。\n- 返回结构化 JSON：`{ status, data, error_code?, message? }`，只含少量必要字段。\n\n### 3.3 错误可行动\n\n失败返回：`为什么失败 + 下一步建议 + 错误码`，让 Agent 决定重试 / 换工具 / 上报。\n\n### 3.4 副作用可控\n\n- 写操作尽量幂等（带幂等键）。\n- 破坏性/不可逆操作先确认、留审计、设权限边界。\n\n### 3.5 可证伪检查\n\n> 用\"错误参数 + 正常参数\"两组用例跑工具：错误参数必须被 schema 拒绝；正常用例返回的可消费 JSON 能被下游稳定解析。\n\n---\n\n## 4. 评测与降级\n\n### 4.1 评测集（任务先行）\n\n- 来自真实任务，每条含输入 + 期望输出/检查点；**至少 10 条**，覆盖关键分支与失败模式。\n- 指标：准确率、工具错误率、平均步骤、延迟、token 成本。\n\n### 4.2 回归门禁\n\n- 改 prompt / 模型 / 工具 / 检索后先跑同一评测，记录指标，**不当场只看手感**。\n- 断言：新版相对旧版在 N 条评测上**不回归**；人工目测但无法用脚本复现的，降级为\"未验证\"。\n\n### 4.3 降级路径（主模型失败/超预算/工具不可用）\n\n| 触发 | 降级动作 |\n|---|---|\n| 超 token/金额预算 | 截断/压缩上下文 → 降小模型 → 走规则/缓存 |\n| 主模型 `rate_limit` | 指数退避重试 |\n| 主模型 `context_length` | 压缩/截断后重试 |\n| 主模型 `upstream_error` | 有限重试 → 降级模型 |\n| 工具连续失败 N 次 | 换策略 → 升级用户 |\n| 检索低于阈值 | 输出 `evidence_insufficient`，不编造 |\n| 不可逆/高成本/权限提升 | **暂停，请用户确认**（人在环） |\n\n### 4.4 成本预算\n\n- 每任务设 token/金额上限；高价值任务用强模型，低价值任务用弱模型分流。\n- 记录每次请求 `input_tokens` / `output_tokens` / 工具调用次数，按任务/租户聚合。\n\n### 4.5 可证伪检查\n\n> 跑一个\"工具永远失败\"用例：Agent 必须在重试上限后停止并输出明确错误，而非无限循环或假装成功。\n\n---\n\n## 附：Agent 循环（有界状态机）\n\n```\ngather → decide → act → verify → update\n```\n\n- 显式 `max_steps`、`max_tokens_per_step`、`max_cost`、`max_wall_time`；到达上限必须停止并汇报。\n- 同一工具连续失败 N 次后换策略或升级用户；先修错误本身，不盲目重试。\n- 并行工具调用设上限，有关联/相互覆盖的操作串行。\n\n---\n\nCHECKLIST_OK\n"
+                    },
+                    "timestamp": 1788539070568
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": true,
+                "details": [
+                  "skill_activation expected=True actual=True",
+                  "marker '上下文预算' found=True",
+                  "marker 'RAG' found=True",
+                  "marker '评测' found=True",
+                  "marker '降级' found=True",
+                  "marker 'CHECKLIST_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 3,
+              "result": {
+                "output": "方案已输出到 `llm-integration-minimal-plan.md`。\n\n## 方案要点速览\n\n**覆盖四个硬性边界，全部给出可执行动作与可证伪检查：**\n\n1. **上下文预算** — 分层 token 预算（系统/检索/历史/输出），每轮压缩、引用优于复述、长任务持久化手牌，并给出\"第二个 session 不读状态就判失败\"的证伪检查。\n\n2. **RAG 检索** — 明确是管线（改写→混合检索→重排→过滤→组包），chunk 自包含、设相关性阈值、禁止编造、引用可回溯，附 10 题语料评测证伪检查。\n\n3. **工具调用契约** — 命名空间化、schema 严格、返回结构化 JSON + 错误码 + 可行动建议，给出最小工具集与返回契约 JSON 示例，附\"错误参数必须被拒绝\"证伪检查。\n\n4. **评测与降级** — ≥10 条真实任务评测集作回归门禁，指标含准确率/工具错误率/成本；降级路径做成触发条件→动作→指标的表，含成本预算与\"不把看起来更好当证据\"原则。\n\n**额外覆盖**：LLM API 契约（模型版本固定、错误分型、幂等、可观测）与有界 Agent 状态机，因为它们是上述四块的执行前提。\n\n**落地顺序**（§7）给出 9 步最小可执行路径，从固定模型到跑通证伪检查出基线报告。\n\n最后一行已按要求输出 `CHECKLIST_OK`。",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 20003,
+                "turns": 3,
+                "skill_loads": [
+                  "dev-ai-engineering"
+                ],
+                "tool_calls": [
+                  {
+                    "tool": "loadSkill",
+                    "toolUseId": "call_00_07sK2QrhpwuudCLZVY9A6582",
+                    "input": {
+                      "name": "dev-ai-engineering"
+                    },
+                    "timestamp": 1788539074141
+                  },
+                  {
+                    "tool": "write_file",
+                    "toolUseId": "call_00_QEXUujusYBTeFdFM2reB4610",
+                    "input": {
+                      "file_path": "llm-integration-minimal-plan.md",
+                      "content": "# 内部工具 · 大模型集成最小可执行方案\n\n> 目标：给内部工具接入 LLM/Agent 能力，用**最小可执行**方式落地，覆盖四个硬性边界：\n> 上下文预算、RAG 检索、工具调用契约、评测与降级。\n> 原则：**把上下文当有限预算，把工具当可验证契约，把 Agent 当有状态循环，把评测当作回归门禁。**\n\n---\n\n## 0. 范围与假设\n\n- 场景：内部工具，单轮/多步问答 + 少量工具动作（查库、写记录）。\n- 模型：显式固定 provider + model + 版本（见 §1），不写会漂移的短名。\n- 交付物：本方案 + 可运行的最小代码骨架 + 一份可重复执行的评测集。\n\n---\n\n## 1. LLM API 契约（前置约束）\n\n- **模型显式固定**：配置中记录 `provider=anthropic`、`model=claude-3-5-sonnet-20241022`、`version/date`；禁止裸写 `claude` / `gpt-4`。\n- **请求契约落盘**：系统提示、工具 schema、输出 JSON Schema 存为可校验文件；即使开 JSON mode，代码侧仍做 schema 校验。\n- **错误分型**（映射到不同处理）：\n\n| 错误类型 | 处理 |\n|---|---|\n| `rate_limit` | 指数退避重试（上限 3 次） |\n| `context_length` | 截断/压缩上下文后重试一次 |\n| `invalid_request` | 修复请求，不盲目重试 |\n| `upstream_error` | 重试一次，仍失败走降级 |\n| `bad_response` | 校验失败 → 转人工/降级 |\n\n- **超时/幂等**：非幂等副作用先做幂等键；重试只对可安全重试的请求。\n- **可观测**：每次请求记录 `input_tokens` / `output_tokens` / 工具调用次数，按任务聚合。\n- **缓存前缀稳定**：易变内容（时间、用户数据）放可变后缀，不污染 prompt caching 前缀。\n\n---\n\n## 2. 上下文预算\n\n- **每个任务设 token 预算**（默认 `max_tokens_per_task = 8k`，可配置），超预算即停止并汇报，不静默继续。\n- **分层预算分配**（示例，单位 token）：\n\n| 层 | 预算 | 说明 |\n|---|---|---|\n| 系统提示 + 工具 schema | ≤ 2k | 稳定前缀，利于缓存 |\n| 检索结果（RAG 组包） | ≤ 3k | 只放命中且去重后的 chunk |\n| 对话历史（压缩后） | ≤ 2k | 保留目标/约束/已完成/下一步 |\n| 输出预留 | ≤ 1k | 保证能产出结构化结果 |\n\n- **持续精简**：每轮后压缩对话，丢弃已无用的工具输出与重复摘要；**引用优于复述**——检索/工具结果给 `source + chunk/id`，不把长文再复述进上下文。\n- **长任务持久化手牌**：跨 context window 的任务把状态写文件/DB/git（进度文件、checkpoint），新 session 从持久化状态恢复，不靠猜。\n- **可证伪检查**：长任务第二个 session 若**不读持久化状态就无法知道做到哪一步**，判为失败；必须能从进度文件 + git 恢复。\n\n---\n\n## 3. RAG 检索\n\n- **检索是管线，不是一句向量搜索**：\n  `查询改写/分解 → 混合检索(关键词+向量) → 重排 → 过滤/去重 → 组包`，每步留日志。\n- **chunk 自包含**：带 `source`、`time`、`section/id`、必要上下文；**宁可小而准，不要大而糊**。\n- **阈值与\"不知道\"**：设最低相关性阈值（默认 `0.6`）；低于阈值明确输出\"证据不足/未找到\"，**禁止模型补编答案**。\n- **引用可回溯**：答案中每个事实挂来源 chunk id；评测统计\"无支撑断言\"数量。\n- **防检索污染**：用户可控输入/外部文档做来源标记与权限过滤；不把高权限/私人文档无差别喂给低权限场景。\n- **可证伪检查**：构造 10 题\"答案必须来自给定语料\"的评测；若某题答案正确但对应来源 chunk 不在检索结果中，记为失败。\n\n---\n\n## 4. 工具调用契约\n\n- **工具命名空间化、边界清晰**：描述写清\"做什么、什么时候用、返回什么\"，不只写函数签名。\n- **schema 严格**：参数类型、必填、枚举、长度都定义；服务端验证输入，非法参数返回结构化错误，**不静默转换**。\n- **返回结果可消费**：返回结构化 JSON + `status` + 少量必要字段；不返回整页日志/HTML/超大原始数据。\n- **错误可行动**：失败给\"为什么失败 + 下一步建议 + 错误码\"，让 Agent 决定重试/换工具/上报。\n- **工具不贪多**：按任务加载必要工具；同一领域用命名空间分组。\n- **副作用可控**：写操作幂等；破坏性/不可逆操作先确认、留审计、设权限边界。\n\n**最小工具集示例（契约）**：\n\n```json\n{\n  \"name\": \"records.query\",\n  \"description\": \"按条件查询内部记录。用于需要事实数据的问答。返回结构化 JSON。\",\n  \"input_schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"query\": { \"type\": \"string\", \"minLength\": 1, \"maxLength\": 200 },\n      \"limit\": { \"type\": \"integer\", \"minimum\": 1, \"maximum\": 20, \"default\": 10 }\n    },\n    \"required\": [\"query\"]\n  }\n}\n```\n\n**返回契约**：\n```json\n{ \"status\": \"ok\", \"data\": [ ... ], \"count\": 3, \"source\": \"records/v1\" }\n{ \"status\": \"error\", \"code\": \"NOT_FOUND\", \"message\": \"未找到匹配记录\", \"suggestion\": \"尝试放宽条件或换关键词\" }\n```\n\n- **可证伪检查**：用\"错误参数 + 正常参数\"两组用例跑工具；错误参数必须被 schema 拒绝，正常用例返回的可消费 JSON 能被下游稳定解析。\n\n---\n\n## 5. Agent 循环（最小状态机）\n\n```\ngather → decide → act → verify → update\n```\n\n- **有界运行**：`max_steps=5`、`max_tokens_per_step=2k`、`max_cost`、`max_wall_time=60s`；到上限必须停止并汇报。\n- **失败处理**：同一工具连续失败 3 次后换策略或升级用户；格式/工具错误先修错误本身，不盲目重试。\n- **人在环**：不可逆、高成本、权限提升、对外发送前暂停并请用户确认。\n- **可证伪检查**：跑\"工具永远失败\"用例，Agent 必须在重试上限后停止并输出明确错误，不无限循环、不假装成功。\n\n---\n\n## 6. 评测与降级\n\n### 6.1 评测集（回归门禁）\n\n- **任务先行**：评测集来自真实任务，每条含输入、期望输出/检查点；**至少 10 条**，覆盖关键分支与失败模式。\n- **指标**：准确率、工具错误率、平均步骤、延迟、token 成本、无支撑断言数。\n- **回归门禁**：改 prompt/模型/工具/检索后先跑同一评测；**不当场只看手感**。\n- **可证伪检查**：给出\"新版相对旧版在 N 条评测上不回归\"的断言；若某条靠人工目测通过但无法用检查脚本复现，降级为\"未验证\"。\n\n### 6.2 降级路径\n\n| 触发条件 | 降级动作 | 指标 |\n|---|---|---|\n| 主模型 `rate_limit`/`upstream_error` 超限 | 降级到弱模型（如 `claude-3-5-haiku`） | 降级触发率 |\n| 超 token/成本预算 | 降功能：关闭 RAG 或工具，仅规则/缓存回答 | 预算超限率 |\n| 工具不可用 | 走缓存/规则答案，明确标注\"非实时\" | 工具错误率 |\n| 检索低于阈值 | 输出\"证据不足\"，不编造 | 无支撑断言数 |\n| 全部失败 | 转人工 | 人工接管率 |\n\n- **成本有预算**：每任务设 token/金额上限；高价值任务用强模型，低价值任务用弱模型分流。\n- **记录决策**：评测结果、降级触发、成本数据写入报告；**不把\"看起来更好\"当证据**。\n\n---\n\n## 7. 落地清单（最小可执行顺序）\n\n1. 固定模型版本 + 落盘请求契约（system/tool/schema）。\n2. 实现错误分型 + 超时/重试/幂等 + token 可观测。\n3. 实现上下文预算分层 + 压缩 + 长任务持久化。\n4. 实现 RAG 管线（混合检索 + 阈值 + 引用）。\n5. 实现最小工具集 + schema 校验 + 结构化错误。\n6. 实现有界 Agent 状态机 + 人在环。\n7. 建 ≥10 条真实任务评测集 + 回归脚本。\n8. 定义并实现降级路径 + 成本预算。\n9. 跑通\"可证伪检查\"用例，输出基线报告。\n\n---\n\n## 8. 反例对照（避免踩坑）\n\n| 反例 | 正确做法 |\n|---|---|\n| 把整份文档塞进 prompt | 先定预算，检索后压缩筛选，保留引用 |\n| 工具返回全部原始日志 | 返回结构化、带错误码的最小可消费结果 |\n| Agent 卡住就多给几轮提示 | 查状态机/工具契约/上下文，设 max_steps |\n| 换新模型\"感觉更聪明\" | 跑同一评测集对比准确率/成本/错误率 |\n| RAG 没搜到就让模型猜 | 低于阈值明确\"证据不足\"，禁止编造 |\n| 低风险任务也用最强模型 | 按风险/收益分流，设成本预算与降级路径 |\n\n---\n\nCHECKLIST_OK\n"
+                    },
+                    "timestamp": 1788539089800
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": true,
+                "details": [
+                  "skill_activation expected=True actual=True",
+                  "marker '上下文预算' found=True",
+                  "marker 'RAG' found=True",
+                  "marker '评测' found=True",
+                  "marker '降级' found=True",
+                  "marker 'CHECKLIST_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            }
+          ]
+        },
+        "bench": {
+          "id": "dev-ai-pilot",
+          "expected_skill": "dev-ai-engineering",
+          "success_without": 1.0,
+          "success_with": 1.0,
+          "coverage_without": 0.0,
+          "coverage_with": 1.0,
+          "efficiency_without": 2.0,
+          "efficiency_with": 3.0
+        }
+      }
+    ]
+  }
+}

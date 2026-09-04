@@ -12,9 +12,10 @@
     "scripts",
     "README.md",
     "DESIGN.md",
-    "LICENSE"
+    "LICENSE",
+    "cordis.patch.yml"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "peerDependencies": {
     "@deepseek-ai/dsh-client-ui-slots": ">=0.0.1-rc <2",
     "@deepseek-ai/dsh-llm": ">=0.0.1-rc <2",
@@ -30,8 +31,10 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "build:client": "tsdown",
-    "validate:vault": "node scripts/validate-vault.mjs"
+    "build:client": "tsc -p tsconfig.json && node scripts/build-client.mjs",
+    "validate:vault": "node scripts/validate-vault.mjs",
+    "validate:tags": "node scripts/validate-tags.mjs",
+    "test": "node --test tests/*.test.mjs"
   },
   "exports": {
     ".": {
@@ -51,6 +54,20 @@
         "@deepseek-ai/dsh-client-ui-slots"
       ],
       "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dargonburn337845818/skill-group.git"
+  },
+  "homepage": "https://github.com/dargonburn337845818/skill-group",
+  "bugs": {
+    "url": "https://github.com/dargonburn337845818/skill-group/issues"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

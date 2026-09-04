@@ -1,0 +1,32 @@
+{
+  "name": "skill A/B benchmark template",
+  "instructions": "在相同任务集上，分别记录 模型不使用 skill 与 使用 skill 的结果。efficiency 越低越好。scale: success/coverage/calibration 0-1, quality 0-100, efficiency steps/time.",
+  "tasks": [
+    {
+      "id": "task_1",
+      "success_without": 0.5,
+      "success_with": 0.7,
+      "quality_without": 50,
+      "quality_with": 70,
+      "efficiency_without": 10,
+      "efficiency_with": 7,
+      "coverage_without": 0.4,
+      "coverage_with": 0.6,
+      "calibration_without": 0.6,
+      "calibration_with": 0.75
+    },
+    {
+      "id": "task_2",
+      "success_without": 0.6,
+      "success_with": 0.8,
+      "quality_without": 55,
+      "quality_with": 75,
+      "efficiency_without": 9,
+      "efficiency_with": 6,
+      "coverage_without": 0.5,
+      "coverage_with": 0.7,
+      "calibration_without": 0.65,
+      "calibration_with": 0.8
+    }
+  ]
+}

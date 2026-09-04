@@ -1,0 +1,27 @@
+{
+  "id": "core-iteration",
+  "name": "core-iteration",
+  "title": "核心迭代元能力",
+  "description": "搜索→过滤→蒸馏→迭代→校验→调度→审计的对外唯一入口；用于创建/精修 Skill 与价值驱动递归提升。",
+  "whenToUse": "把材料做成 Skill、迭代/校验/收敛、判断继续或停止、审计知识来源与效果时。",
+  "boundary": "不负责日常开发流程；没有 verified 证据的规则不能进核心。",
+  "notWhenToUse": "只做普通开发/写代码/重构时，请走开发工作流。",
+  "scenario": "core-iteration",
+  "scenarios": ["core-iteration"],
+  "routing": "core",
+  "qualityCriteria": {
+    "high": ["每条规则有 source_refs", "触发/动作/边界三件套齐全", "至少 2 个独立来源或单源逻辑自洽并降权", "有 trace_chain"],
+    "reject": ["无来源断言", "摘要代替蒸馏", "平均分歧", "为了交差硬编 Skill"],
+    "minIndependentSources": 2
+  },
+  "tags": ["蒸馏", "迭代", "收敛", "价值", "元能力"],
+  "experts": [],
+  "sourceRefs": [
+    "$WORKSPACE/skills/core-iteration/README.md",
+    "$WORKSPACE/skills/core-iteration/value-meta-scheduler/SKILL.md",
+    "https://github.com/yjh051108/dsh-routing-suite"
+  ],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

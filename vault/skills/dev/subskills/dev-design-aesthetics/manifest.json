@@ -1,0 +1,43 @@
+{
+  "id": "dev-design-aesthetics",
+  "name": "dev-design-aesthetics",
+  "title": "设计美学/风格库（已挂载）",
+  "description": "设计美学/风格库子技能：核心内容由 ui-aesthetics-design 填充，本挂载点负责 dev 调用入口、风格分支缺口与验收追踪。",
+  "whenToUse": "需要设计美学/风格库、UI 视觉审查或风格分支决策时；先引已填充的 ui-aesthetics-design，再按缺口补风格库。",
+  "boundary": "不重复蒸馏已有内容；不负责品牌 VI/Logo；单一风格必须标为风格分支并降权。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev",
+    "distillation"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界",
+      "风格分支明确降权"
+    ],
+    "reject": [
+      "重复抄写 ui-aesthetics-design 已覆盖内容",
+      "把单一风格偏好写成普适规则",
+      "无来源断言"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "设计",
+    "美学",
+    "风格库"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "$PROJECT_ROOT/vault/skills/distillation/ui-aesthetics-design/",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.2.0",
+  "license": "MIT"
+}

@@ -1,0 +1,23 @@
+name: Feature request
+description: 建议新增技能或插件能力
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: 解决什么痛点
+      description: 用户在什么场景下需要它
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议方案
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 可观测验收
+      description: 怎么判断这个功能真的做对了

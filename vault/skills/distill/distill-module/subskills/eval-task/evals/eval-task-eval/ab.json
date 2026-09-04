@@ -1,0 +1,301 @@
+{
+  "skill": "distill-eval-task",
+  "model": "deepseek-chat",
+  "judge_model": "deepseek-chat",
+  "judged": false,
+  "runs": 3,
+  "generated_by": "skilljack_runner.py",
+  "tasks": [
+    {
+      "id": "eval-task-eval",
+      "expected_skill": "distill-eval-task",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 1.333,
+      "efficiency_with": 2.0
+    }
+  ],
+  "details": {
+    "model": "deepseek-chat",
+    "api_base": "https://api.deepseek.com",
+    "tasks": [
+      {
+        "id": "eval-task-eval",
+        "no-skill": {
+          "id": "eval-task-eval",
+          "expected_skill": "distill-eval-task",
+          "runs": 3,
+          "success_rate": 1.0,
+          "skill_activation_rate": 0.0,
+          "avg_turns": 1.333,
+          "avg_duration_ms": 7426.667,
+          "avg_quality": null,
+          "avg_adherence": null,
+          "avg_discovery": null,
+          "run_details": [
+            {
+              "run": 1,
+              "result": {
+                "output": "# 技能评测任务包设计方案\n\n> 以 **「代码仓库结构分析技能」** 为例，展示一套完整的评测任务包设计。\n\n---\n\n## 1. 真实任务 Prompt 示例\n\n```text\n你是一名资深代码架构师。请分析当前工作目录下的仓库 /repo/myapp，\n输出一份 Markdown 结构报告，必须包含：\n1. 顶层目录与文件清单（树状图）\n2. 各模块职责一句话说明\n3. 识别出的技术栈（语言/框架/构建工具）\n4. 潜在架构问题（最多 3 条，按严重度排序）\n\n要求：先调用仓库分析工具收集信息，再基于真实数据作答，禁止臆测。\n```\n\n---\n\n## 2. 确定性 Checks 示例\n\n| # | Check 类型 | 判定方式 | 通过条件 |\n|---|-----------|---------|---------|\n| 1 | 结构完整性 | 正则匹配 | 输出包含 `## 目录结构` 与 `## 技术栈` 两个标题 |\n| 2 | 事实准确性 | 与 ground-truth 比对 | 报告中列出的顶层目录与仓库实际目录**完全一致**（忽略顺序） |\n| 3 | 技术栈识别 | 关键词匹配 | 输出中出现 `Python`、`FastAPI`、`Docker`（仓库真实依赖） |\n| 4 | 工具调用 | 日志断言 | 评测日志中检测到 ≥1 次 `analyze_repo` 工具调用记录 |\n| 5 | 输出格式 | 结构解析 | 报告可被 Markdown 解析器无错解析，且含 ≥1 个代码块 |\n\n> 每个 check 独立打分（0/1），最终得分为通过率，用于横向对比。\n\n---\n\n## 3. Anti-Trigger 任务\n\n用于验证技能**不会**在无关场景下被误触发：\n\n```text\n请帮我写一首关于春天的五言绝句，并解释其中\"意象\"的运用。\n```\n\n**判定规则：**\n- 若模型调用了 `analyze_repo` 等仓库分析工具 → **FAIL**（误触发）\n- 若模型仅正常写诗、未调用任何仓库工具 → **PASS**\n\n**补充 anti-trigger 变体：**\n```text\n请总结一下你刚才对话中提到的所有问题。\n```\n（纯对话回顾任务，同样不应触发仓库分析技能）\n\n---\n\n## 4. 无 / 有 Skill 对照设计\n\n| 维度 | 无 Skill（Baseline） | 有 Skill（Treatment） |\n|------|---------------------|----------------------|\n| 输入 | 同一真实任务 prompt | 同一真实任务 prompt |\n| 工具可用性 | 无任何工具（纯文本推理） | 注入 `analyze_repo` 技能 |\n| 预期差异 | 依赖猜测，目录/技术栈易出错 | 基于真实扫描，事实准确 |\n| 评测指标 | 同一套确定性 checks | 同一套确定性 checks |\n\n**对照实验流程：**\n```\n同一 prompt\n   ├─ 运行 A 组：无 skill 注入  → 记录 checks 得分 S_baseline\n   └─ 运行 B 组：注入 skill     → 记录 checks 得分 S_treatment\n\n结论判定：\n  S_treatment > S_baseline  → 技能有效（尤其 check #2 事实准确性）\n  S_treatment ≈ S_baseline  → 技能无增益，需优化\n  S_treatment < S_baseline  → 技能有害，需回退\n```\n\n**关键对照指标：**\n- **事实准确率**（check #2）：无 skill 时模型常编造目录结构，有 skill 时应达 100%\n- **工具调用率**：有 skill 组应显著 > 0，无 skill 组恒为 0\n- **误触发率**（anti-trigger）：两组都应接近 0\n\n---\n\n## 5. 评测任务包目录结构（交付物）\n\n```\neval_pack/\n├── prompts/\n│   ├── real_task.md          # 真实任务 prompt\n│   └── anti_trigger.md       # 反触发任务 prompt\n├── checks/\n│   ├── checks.yaml           # 确定性 check 定义\n│   └── ground_truth.json     # 仓库真实结构/技术栈基准\n├── harness/\n│   ├── run_baseline.py       # 无 skill 对照运行器\n│   ├── run_treatment.py      # 有 skill 运行器\n│   └── scorer.py             # 统一打分逻辑\n└── report/\n    └── template.md           # 对照结果输出模板\n```\n\n---\n\nEVAL_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 8518,
+                "turns": 2,
+                "skill_loads": [],
+                "tool_calls": [
+                  {
+                    "tool": "bash",
+                    "toolUseId": "call_00_rCvKk2V0Kh5GXeN0ODf38679",
+                    "input": {
+                      "command": "ls -la"
+                    },
+                    "timestamp": 1788542586516
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": false,
+                "details": [
+                  "skill_activation expected=True actual=False",
+                  "marker 'prompt' found=True",
+                  "marker 'checks' found=True",
+                  "marker 'anti-trigger' found=True",
+                  "marker '对照' found=True",
+                  "marker 'EVAL_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 2,
+              "result": {
+                "output": "# 技能评测任务包设计方案\n\n## 1. 评测目标技能\n**技能名称**：`code_review_agent`（代码审查助手）\n**技能描述**：对提交的代码片段进行静态审查，输出问题清单、严重级别、修复建议。\n\n---\n\n## 2. 真实任务 Prompt 示例\n\n```text\n你是资深代码审查专家。请审查以下 Python 代码，输出：\n1) 问题清单（按严重性排序：Critical / Major / Minor）\n2) 每个问题的行号、原因、修复建议\n3) 总体评价（3 句话以内）\n\n代码：\ndef calc(a, b):\n    result = a / b\n    return result\n\ndef main():\n    x = 10\n    y = 0\n    print(calc(x, y))\n```\n\n**期望输出要点**：必须指出 `ZeroDivisionError`（Critical）、缺少类型注解/文档（Minor）、建议防御式编程。\n\n---\n\n## 3. 确定性 Checks 示例\n\n| Check ID | 检查方式 | 判定规则 | 通过条件 |\n|----------|----------|----------|----------|\n| C1 | 关键词匹配 | 输出包含 `ZeroDivisionError` 或 `除零` | 命中任一 |\n| C2 | 严重级别标记 | 输出包含 `Critical` 且该行含除零问题 | 同时命中 |\n| C3 | 修复建议 | 输出包含 `if b == 0` 或 `try/except` 或 `防御` | 命中任一 |\n| C4 | 行号引用 | 输出包含 `line 2` 或 `第 2 行` | 命中任一 |\n| C5 | 负向检查 | 输出**不**包含 `代码无问题` / `一切正常` | 不命中 |\n\n> 说明：C1–C4 为正向确定性断言，C5 为负向断言，全部通过才算该任务通过。\n\n---\n\n## 4. Anti-Trigger 任务\n\n**目的**：验证技能在非目标输入下不误触发。\n\n```text\n请帮我写一首关于秋天的诗。\n```\n\n```text\n今天天气怎么样？请用一句话回答。\n```\n\n```text\n请把这段文字翻译成英文：Hello world。\n```\n\n**判定规则**：\n- 输出**不得**包含代码审查相关术语（`Critical`、`ZeroDivisionError`、`行号`、`修复建议`）。\n- 输出应正常完成用户请求（作诗 / 答天气 / 翻译）。\n- 若模型强行套用审查框架，判定为 anti-trigger 失败。\n\n---\n\n## 5. 无 / 有 Skill 对照设计\n\n| 维度 | 无 Skill（Baseline） | 有 Skill（Target） |\n|------|---------------------|--------------------|\n| 输入 | 同一份含除零 bug 的代码 | 同一份含除零 bug 的代码 |\n| 输出结构 | 自由发挥，可能只给一句\"会报错\" | 强制输出结构化清单（问题/级别/行号/建议） |\n| 严重级别 | 可能缺失或混乱 | 必须含 Critical/Major/Minor 分级 |\n| 修复建议 | 可能缺失 | 必须给出可执行修复代码 |\n| 行号定位 | 可能缺失 | 必须引用具体行号 |\n| 评测指标 | 通过率低（C1–C5 多数不满足） | 通过率高（C1–C5 全满足） |\n\n**对照结论**：通过对比两组在同一评测集上的通过率差值，量化技能带来的增益。若 Target 组通过率显著高于 Baseline 组（如 ≥ 40% 提升），则判定技能有效。\n\n---\n\n## 6. 评测集汇总\n\n| 任务类型 | 数量 | 用途 |\n|----------|------|------|\n| 真实任务（含 bug 代码） | 10 | 主评测，跑确定性 checks |\n| 真实任务（无 bug 代码） | 5 | 验证不误报（应输出\"无 Critical 问题\"） |\n| Anti-Trigger 任务 | 8 | 验证不误触发 |\n| 对照任务（无/有 skill） | 各 10 | 增益对比 |\n\n---\n\nEVAL_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 7520,
+                "turns": 1,
+                "skill_loads": [],
+                "tool_calls": []
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": false,
+                "details": [
+                  "skill_activation expected=True actual=False",
+                  "marker 'prompt' found=False",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 3,
+              "result": {
+                "output": "# 技能评测任务包设计方案\n\n## 1. 评测目标\n\n评测技能：**`code_reviewer`** — 对代码片段进行静态审查，输出问题清单与修复建议。\n\n---\n\n## 2. 真实任务 Prompt 示例\n\n```text\n你是资深代码审查员。请审查以下 Python 函数，找出所有潜在问题\n（bug、安全隐患、性能问题、可读性问题），按严重程度排序输出，\n每条问题需包含：问题描述、风险等级、修复建议。\n\ndef get_user_data(user_id, db):\n    query = \"SELECT * FROM users WHERE id = \" + str(user_id)\n    result = db.execute(query)\n    data = result.fetchone()\n    if data:\n        return {\"name\": data[1], \"email\": data[2]}\n    return None\n```\n\n**期望输出要点**：SQL 注入（高危）、无异常处理、魔法索引、返回结构不一致。\n\n---\n\n## 3. 确定性 Checks 示例\n\n| Check ID | 检查项 | 判定规则 |\n|----------|--------|----------|\n| `C1` | 识别 SQL 注入 | 输出文本必须包含 `SQL` 与 `注入`/`injection`（不区分大小写） |\n| `C2` | 风险等级标注 | 文本必须出现 `高危`/`High` 且与 SQL 注入条目关联 |\n| `C3` | 输出结构 | 每条问题必须包含 `修复建议` 字段（正则匹配 `修复建议|suggestion`） |\n| `C4` | 排序 | 首个列出的问题必须是 SQL 注入（`index(\"SQL\") < index(\"异常\")`） |\n| `C5` | 禁止幻觉 | 不得声称存在 `deadlock`/`race condition`（这些不适用） |\n\n> 判定方式：对模型输出做字符串/正则匹配，全部通过即 `pass`。\n\n---\n\n## 4. Anti-Trigger 任务\n\n用于验证技能**不会**在无关场景被误触发。\n\n```text\n请用一句话解释什么是 Python 的 GIL。\n```\n\n**通过标准**：模型应直接回答 GIL 概念，**不得**输出代码审查格式（问题清单/风险等级/修复建议）。若输出中出现 `修复建议` 或 `风险等级` 结构 → 判定为误触发，`fail`。\n\n---\n\n## 5. 无 / 有 Skill 对照设计\n\n| 组别 | 输入 | 预期表现 | 评测结论 |\n|------|------|----------|----------|\n| **无 Skill（基线）** | 同一真实审查 prompt | 泛泛回答，可能遗漏 SQL 注入或缺少结构化输出 | 记录基线分（如 C1~C5 通过率低） |\n| **有 Skill** | 同一真实审查 prompt | 严格按模板输出，命中全部确定性 checks | 通过率应显著高于基线 |\n\n**对照指标**：`C1~C5` 平均通过率、平均输出长度、结构化字段完整率。\n\n**判定阈值**：有 Skill 组通过率 ≥ 80% 且高于无 Skill 组 ≥ 30 个百分点 → 判定技能有效。\n\n---\n\n## 6. 评测流程\n\n```\n真实任务 prompt ──► 模型输出 ──► 确定性 checks 判定\nAnti-trigger 任务 ──► 模型输出 ──► 误触发检查\n无/有 skill 双组跑批 ──► 对比指标 ──► 输出评测报告\n```\n\n---\n\nEVAL_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 6242,
+                "turns": 1,
+                "skill_loads": [],
+                "tool_calls": []
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": false,
+                "details": [
+                  "skill_activation expected=True actual=False",
+                  "marker 'prompt' found=True",
+                  "marker 'checks' found=True",
+                  "marker 'anti-trigger' found=False",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            }
+          ]
+        },
+        "with-skill": {
+          "id": "eval-task-eval",
+          "expected_skill": "distill-eval-task",
+          "runs": 3,
+          "success_rate": 1.0,
+          "skill_activation_rate": 1.0,
+          "avg_turns": 2.0,
+          "avg_duration_ms": 8080.333,
+          "avg_quality": null,
+          "avg_adherence": null,
+          "avg_discovery": null,
+          "run_details": [
+            {
+              "run": 1,
+              "result": {
+                "output": "# 评测任务包方案：`distill-eval-task` 技能\n\n> 目标：验证 `distill-eval-task` 技能是否真的能帮助 agent 产出**可执行、可证伪、含真实 A/B 对照**的评测任务包，且不在无关任务上误触发。\n\n---\n\n## 1. 真实任务 prompt 示例\n\n**正向任务（不点名 skill）** — `distill-eval-task-enforce`：\n\n> 我蒸馏了一个新技能 `code-review-lite`，想判断它是否真的有用。请为它设计一份评测任务包：包含至少一个正向任务和一个 anti-trigger 任务，正向任务的 prompt 不能出现技能名；给出确定性 checks（用 `contains:` / `files:` 标记）；说明无 skill 基线与有 skill 的对照跑法（至少 3 次）；最后给出 Skill Lift 的解读口径。产出物写进 `report.md`，并在末尾输出 `SUCCESS_MARKER`。\n\n**anti-trigger 任务** — `distill-eval-task-anti`：\n\n> 帮我写一首关于秋天的五言绝句，并给这首诗起个名字。\n\n---\n\n## 2. 确定性 checks 示例\n\n| 检查 | 类型 | 通过条件 |\n|---|---|---|\n| `contains:SUCCESS_MARKER` | 标记 | 输出含 `SUCCESS_MARKER` |\n| `contains:anti-trigger` | 标记 | 方案含 anti-trigger 任务 |\n| `contains:runs 3` / `contains:--runs 3` | 标记 | 提到至少 3 次对照 |\n| `contains:no-skill` 与 `contains:with-skill` | 标记 | 含 A/B 对照设计 |\n| `files:report.md` | 文件 | 生成 `report.md` |\n| `not_contains:code-review-lite`（正向 prompt 内） | 标记 | prompt 未点名技能 |\n\n> ⚠️ 因 checks 非默认 `SUCCESS_MARKER`，须**同步替换占位 `verifier/verify.mjs`** 为真正检查上述标记的版本，否则自定义 checks 会被覆盖。\n\n---\n\n## 3. anti-trigger 任务\n\n- **任务 id**：`distill-eval-task-anti`\n- **prompt**：写诗/起名（明显无关请求）\n- **`expect_skill_invocation: false`**\n- **门禁**：`max_discovery_false_positive: 0.5`（误触发率阈值）\n- 若模型在无关任务上也调用 `loadSkill(distill-eval-task)` → 判定误触发，**不能发布**。\n\n---\n\n## 4. 无 / 有 skill 对照设计\n\n```bash\n# 生成任务包\npython3 tools/scaffold_eval_task.py --task-id distill-eval-task-enforce \\\n  --skill-name distill-eval-task \\\n  --prompt \"<上述正向 prompt>\" \\\n  --checks \"contains:SUCCESS_MARKER,contains:anti-trigger,contains:--runs 3,files:report.md\"\n\npython3 tools/scaffold_eval_task.py --task-id distill-eval-task-anti \\\n  --skill-name distill-eval-task --prompt \"<写诗 prompt>\" --anti-trigger\n\n# oracle gate：先证明 verifier 对正确解给 1.0\ncd evals/distill-eval-task-enforce && node oracle/solve.mjs && node verifier/verify.mjs\n\n# 真实 A/B：无 skill 基线 vs 有 skill，各 3 次\npython3 tools/skilljack_runner.py --task-dir evals/distill-eval-task-enforce \\\n  --mode both --runs 3 --output bench-results/distill-eval-task.json\n\n# 矩阵 + 门禁（含 anti-trigger 误触发检查）\npython3 tools/benchflow_runner.py \\\n  --task-dir evals/distill-eval-task-enforce \\\n  --task-dir evals/distill-eval-task-anti \\\n  --skill-dir vault/skills/distill/distill-eval-task \\\n  --runs 3 --output results/distill-eval-task.json \\\n  --min-lift-percent 5 --max-discovery-false-positive 0.5\n\n# Skill Lift 汇总\npython3 tools/skill_effect_bench.py --input bench-results/distill-eval-task.json\n```\n\n**验收口径**：\n- 基线（无 skill）**可见失败**（非 100% 恒过）→ 证明 verifier 有效；\n- 有 skill 后 `success_with - success_without` 提升 → Skill Lift 为正；\n- anti-trigger 误触发率 < 0.5；\n- 至少 3 次，否则只能标 `single-effect`；\n- 确定性 verifier 为权威，LLM judge 只做诊断。\n\n---\n\n## 5. 回填\n\n| 位置 | 内容 |\n|---|---|\n| `benchmarks/` | 任务包 + `ENHANCEMENT_REPORT.md` |\n| `CHANGELOG.md` | `skill lift = xx%`、任务集、日期 |\n| `manifest.json` `qualityCriteria` | 达到 Skill Lift ≥ x% |\n\n---\n\nEVAL_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 8192,
+                "turns": 2,
+                "skill_loads": [
+                  "distill-eval-task"
+                ],
+                "tool_calls": [
+                  {
+                    "tool": "loadSkill",
+                    "toolUseId": "call_00_vNMEqI1cMfiHvfP7MOB93943",
+                    "input": {
+                      "name": "distill-eval-task"
+                    },
+                    "timestamp": 1788542609313
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": true,
+                "details": [
+                  "skill_activation expected=True actual=True",
+                  "marker 'prompt' found=True",
+                  "marker 'checks' found=True",
+                  "marker 'anti-trigger' found=True",
+                  "marker '对照' found=True",
+                  "marker 'EVAL_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 2,
+              "result": {
+                "output": "# 评测任务包方案：`distill-eval-task` 技能评测\n\n> 目标：验证 `distill-eval-task` 技能能否让 agent 产出**可执行、可证伪、含真实 A/B 与 anti-trigger** 的评测任务包，而非模板化空壳。\n\n---\n\n## 1. 真实任务 prompt 示例（正向任务，不点名 skill）\n\n**任务 A · `distill-eval-task-enforce`**\n\n```\n你是一名评测工程师。请为一个名为 \"code-review-lite\" 的蒸馏技能设计一份评测任务包，\n用于判断该技能是否真的有用。要求：\n1) 至少包含一个正向任务和一个 anti-trigger 任务；\n2) 正向任务的 prompt 不得出现技能名；\n3) 给出确定性 checks（如 contains / files 类），并说明 verifier 是权威判分；\n4) 明确写出\"无 skill 基线 vs 有 skill\"的对照设计，并说明至少跑 3 次；\n5) 说明 Skill Lift 的解读口径（正例提升、误触发率、效率、绝对门槛）。\n\n完成后在输出末尾单独一行输出 SUCCESS_MARKER。\n```\n\n**任务 B · `distill-eval-task-anti`（anti-trigger）**\n\n```\n帮我写一首关于秋天的五言绝句，并给这首诗起个名字。\n```\n\n---\n\n## 2. 确定性 checks 示例\n\n```yaml\n# task.md 中 checks（确定性、可复现、可证伪）\nchecks:\n  - \"contains:SUCCESS_MARKER\"          # 任务完成标记\n  - \"contains:anti-trigger\"            # 方案含 anti-trigger 任务\n  - \"contains:no-skill\"                # 方案含无 skill 基线\n  - \"contains:with-skill\"              # 方案含有 skill 对照\n  - \"contains:runs 3\"                  # 明确至少 3 次\n  - \"files:report.md\"                  # 产出任务包文件\n```\n\n> ⚠️ 关键坑：`scaffold_eval_task.py` 默认 verifier 只查 `SUCCESS_MARKER`，若真实检查含 `contains:anti-trigger` 等自定义标记，**必须同步替换 `verifier/verify.mjs`**，否则自定义 checks 会被占位 verifier 覆盖。\n\n**verifier 权威判分逻辑**（`verify.mjs`）：\n- 读 `SKILLJACK_OUTPUT_FILE` / `SKILLJACK_TRAJECTORY_FILE`；\n- 检查上述所有 `contains` 标记 + `report.md` 文件存在；\n- 全部命中 → reward 1.0，否则 0.0；\n- 先跑 `oracle/solve.mjs` 确认对正确解给 1.0（oracle gate）。\n\n---\n\n## 3. anti-trigger 任务\n\n| 项 | 内容 |\n|---|---|\n| 任务 id | `distill-eval-task-anti` |\n| prompt | 写诗/起名等明显无关请求（见上） |\n| `expect_skill_invocation` | `false` |\n| 判定 | 轨迹中**不得**调用 `loadSkill(distill-eval-task)`；误触发率须低于阈值（如 `max_discovery_false_positive: 0.5`） |\n| 目的 | 防止技能在无关任务上误触发，误触发 = 不能发布 |\n\n---\n\n## 4. 无 / 有 skill 对照设计\n\n```bash\n# 单任务真实 A/B（默认 DeepSeek，至少 3 次）\npython3 tools/skilljack_runner.py \\\n  --task-dir evals/distill-eval-task-enforce \\\n  --mode both --runs 3 \\\n  --output bench-results/distill-eval-task.json\n\n# 矩阵 + 门禁（含 anti-trigger）\npython3 tools/benchflow_runner.py \\\n  --task-dir evals/distill-eval-task-enforce \\\n  --task-dir evals/distill-eval-task-anti \\\n  --skill-dir vault/skills/distill/distill-eval-task \\\n  --runs 3 --output results/distill-eval-task.json\n```\n\n**门禁阈值（`benchflow.config.yaml`）**\n```yaml\nthresholds:\n  min_lift_percent: 5\n  max_discovery_false_positive: 0.5\n```\n\n**Skill Lift 解读口径**\n- 正例成功率提升：`success_with - success_without`（有 skill 应显著更高）；\n- anti-trigger 误触发率：必须低于阈值；\n- 效率：有 skill 轮数不显著高于无 skill；\n- 绝对门槛：≥3 次、基线可见失败、verifier 是权威；\n- **诚实标注**：不用模板分数冒充真实 A/B；外部 runner 未配 key 就写\"本地真实结果/外部未配置\"。\n\n**基线可失败验证**：先跑 `--mode no-skill`，确认不是 100% 恒过；若恒过说明任务太简单或 verifier 无效，需先修任务。\n\n---\n\n## 5. 回填评测证据\n\n| 位置 | 内容 |\n|---|---|\n| `examples/ab/` 或 `benchmarks/` | 任务包 + `ENHANCEMENT_REPORT.md` |\n| `CHANGELOG.md` | `skill lift = xx%`、任务集、日期 |\n| `manifest.json` `qualityCriteria` | \"已在 <任务> 上达到 Skill Lift ≥ x%\" |\n\n---\n\nEVAL_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 8713,
+                "turns": 2,
+                "skill_loads": [
+                  "distill-eval-task"
+                ],
+                "tool_calls": [
+                  {
+                    "tool": "loadSkill",
+                    "toolUseId": "call_00_7fjbqXrUIL4Qg03KZQS09858",
+                    "input": {
+                      "name": "distill-eval-task"
+                    },
+                    "timestamp": 1788542617329
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": true,
+                "details": [
+                  "skill_activation expected=True actual=True",
+                  "marker 'prompt' found=True",
+                  "marker 'checks' found=True",
+                  "marker 'anti-trigger' found=True",
+                  "marker '对照' found=True",
+                  "marker 'EVAL_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            },
+            {
+              "run": 3,
+              "result": {
+                "output": "# 评测任务包方案：`distill-eval-task` 技能\n\n> 目标：验证 `distill-eval-task` 技能能否让模型产出**可执行、可判分、可证伪**的评测任务包，并防止在无关任务上误触发。\n\n---\n\n## 1. 真实任务 prompt 示例\n\n**正向任务（不点名 skill）** — `distill-eval-task-enforce`\n\n> 我新蒸馏了一个技能 `meeting-summarizer`，它负责把会议记录整理成结构化摘要。请为它设计一个评测任务包，用来验证这个技能是否真的有用。要求：\n> 1. 给出一个真实任务 prompt（不能出现技能名）；\n> 2. 给出确定性 checks（如 `contains:...` / `files:...`）；\n> 3. 配一个 anti-trigger 任务；\n> 4. 说明无 skill 基线 vs 有 skill 的对照设计。\n> 完成后在输出末尾写一行 `SUCCESS_MARKER`。\n\n**anti-trigger 任务** — `distill-eval-task-anti`\n\n> 帮我写一首关于秋天的五言绝句，并起一个好听的名字。\n\n---\n\n## 2. 确定性 checks 示例\n\n| 检查 | 判定 | 说明 |\n|---|---|---|\n| `contains:SUCCESS_MARKER` | 通过 | 模型确实产出了任务包 |\n| `contains:anti-trigger` | 通过 | 方案含 anti-trigger 设计 |\n| `contains:no-skill` 且 `contains:with-skill` | 通过 | 含 A/B 对照设计 |\n| `contains:runs 3` 或 `--runs 3` | 通过 | 满足\"至少 3 次\"门槛 |\n| `files:task.md` | 通过 | 产出任务包结构（含 task.md） |\n| `contains:SUCCESS_MARKER` | **不通过**（anti 任务） | anti-trigger 任务不应产出评测包 |\n\n> ⚠️ 若 checks 非默认 `SUCCESS_MARKER`，必须同步替换 `verifier/verify.mjs`，否则占位 verifier 会覆盖自定义 checks。\n\n---\n\n## 3. anti-trigger 任务\n\n- **任务**：写诗/起名（明显与评测任务包无关）。\n- **期望**：`expect_skill_invocation: false`，模型**不应**调用 `loadSkill(distill-eval-task)`。\n- **判分**：verifier 检查轨迹中无 `loadSkill` 调用；误触发率阈值 `max_discovery_false_positive ≤ 0.5`。\n- **意义**：防止技能在无关请求上被盲目套用。\n\n---\n\n## 4. 无/有 skill 对照设计\n\n| 维度 | 无 skill 基线 (`--mode no-skill`) | 有 skill (`--mode with-skill`) |\n|---|---|---|\n| 会话 | 真实 LLM agent，无技能挂载 | 挂载 `SKILL.md` 到 `environment/skills/` |\n| 判分 | 同一确定性 verifier | 同一确定性 verifier |\n| 次数 | 各 **3 次**（<3 只标 `single-effect`） | 各 3 次 |\n| 指标 | `success_without` / `quality_without` / `efficiency_without` | `success_with` / `quality_with` / `efficiency_with` |\n\n**Skill Lift 门禁**（`benchflow.config.yaml`）：\n```yaml\nthresholds:\n  min_lift_percent: 5\n  max_discovery_false_positive: 0.5\n```\n\n**有效性前提（先证明检查有效）**：\n1. oracle gate：`node oracle/solve.mjs` → verifier 给 1.0；\n2. 基线能失败：无 skill 不应 100% 恒过；\n3. 有 skill 有提升：否则评测无效。\n\n**回填**：把任务包 + `ENHANCEMENT_REPORT.md` 写入技能 `benchmarks/`，`CHANGELOG.md` 记录 `skill lift = xx%`。\n\n---\n\n## 5. 关键反例规避\n\n- ❌ 跑 1 次就宣布增益 → ✅ 至少 3 次\n- ❌ 无 skill 也 100% 过 → ✅ 先修任务/verifier\n- ❌ 只写正向任务 → ✅ 必配 anti-trigger\n- ❌ 用 LLM judge 分数当发布证据 → ✅ 确定性 verifier 是权威\n\n---\n\nEVAL_OK",
+                "is_error": false,
+                "error": "",
+                "duration_ms": 7336,
+                "turns": 2,
+                "skill_loads": [
+                  "distill-eval-task"
+                ],
+                "tool_calls": [
+                  {
+                    "tool": "loadSkill",
+                    "toolUseId": "call_00_r3wFTClbbT35e5CUkQHe0417",
+                    "input": {
+                      "name": "distill-eval-task"
+                    },
+                    "timestamp": 1788542626331
+                  }
+                ]
+              },
+              "deterministic": {
+                "passed": true,
+                "skill_activated": true,
+                "details": [
+                  "skill_activation expected=True actual=True",
+                  "marker 'prompt' found=True",
+                  "marker 'checks' found=True",
+                  "marker 'anti-trigger' found=True",
+                  "marker '对照' found=True",
+                  "marker 'EVAL_OK' found=True",
+                  "verifier rc=0"
+                ]
+              },
+              "verifier": {
+                "ran": true,
+                "returncode": 0,
+                "passed": true,
+                "output": "PASS",
+                "reward": null
+              },
+              "judge": null
+            }
+          ]
+        },
+        "bench": {
+          "id": "eval-task-eval",
+          "expected_skill": "distill-eval-task",
+          "success_without": 1.0,
+          "success_with": 1.0,
+          "coverage_without": 0.0,
+          "coverage_with": 1.0,
+          "efficiency_without": 1.333,
+          "efficiency_with": 2.0
+        }
+      }
+    ]
+  }
+}

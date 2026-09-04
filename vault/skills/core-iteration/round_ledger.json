@@ -1,0 +1,152 @@
+{
+  "round": 30,
+  "phase": "training",
+  "status": "converged",
+  "decision": "STOP",
+  "stop_reason": "diminishing_returns",
+  "convergence": "CONVERGED",
+  "human_score": 87.0,
+  "override": "user",
+  "live_metrics": {
+    "raw_count": 10,
+    "verified_high": 7,
+    "verified_single": 3,
+    "nodes": 19,
+    "effective_new": 1,
+    "validator_decision": "STOP",
+    "root_cause": "high_cost_next_actions",
+    "stop_reason": "diminishing_returns"
+  },
+  "yield_curve": [
+    {
+      "round": 20,
+      "raw_count": 42,
+      "verified_high": 31,
+      "verified_single": 42,
+      "nodes": 73,
+      "effective_new": 56,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 21,
+      "raw_count": 42,
+      "verified_high": 31,
+      "verified_single": 42,
+      "nodes": 73,
+      "effective_new": 0,
+      "decision": "STOP"
+    },
+    {
+      "round": 22,
+      "raw_count": 10,
+      "verified_high": 7,
+      "verified_single": 3,
+      "nodes": 5,
+      "effective_new": 5,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 23,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 2,
+      "effective_new": 2,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 24,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 1,
+      "effective_new": 1,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 25,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 1,
+      "effective_new": 1,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 26,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 2,
+      "effective_new": 2,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 27,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 2,
+      "effective_new": 2,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 28,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 1,
+      "effective_new": 1,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 29,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 3,
+      "effective_new": 3,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 30,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 1,
+      "effective_new": 1,
+      "decision": "STOP"
+    }
+  ],
+  "added_skills": [
+    "skill-verification-consensus",
+    "dev-workflow-consensus"
+  ],
+  "updated_skills": [
+    "distillation-consensus",
+    "search-source",
+    "web-research-consensus",
+    "info-source-adapter",
+    "value-meta-scheduler",
+    "value-effect-audit",
+    "return-forensics"
+  ],
+  "evolved_tools": [
+    "scorecard.py",
+    "smoke_test.py",
+    "skill_package_check.py",
+    "distill_skill_package.py",
+    "scaffold_eval_task.py",
+    "scaffold_dev_spec.py",
+    "final_evolution_report.py",
+    "github-file adapter in info_source_cli.py"
+  ],
+  "skill_enhancement_demo": {
+    "index": 23.2,
+    "grade": "明显增强",
+    "note": "真实 A/B 已落盘：dev-security 正例/反例任务包 + DeepSeek 3 次，门禁 PASS（evals/results/dev-security.result.json）"
+  },
+  "next_round": null,
+  "resume_guide": "TRAINING_STATE.md",
+  "updated_at": "2026-09-04"
+}

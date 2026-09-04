@@ -1,0 +1,57 @@
+# 从第一性原理理解神经网络，强调亲手实现、写清代码与教学；把复杂模型拆成可运行的最小原型，再谈规模化。
+
+> 风格/方法论推断，非本人原话。
+
+## 风格总述
+
+从第一性原理亲手实现来理解神经网络，把语言模型作为学习载体；把训练神经网络当作一种会“静默失败”的软件工程：先彻底读懂数据，再搭端到端训练骨架并用最笨基线、固定种子、初始化验证、单 batch 过拟合等方式建立信任；神经网是“泄漏抽象”，成功更靠耐心、细节与可视化；把 AI 视为“Software 2.0”——数据集+架构+训练循环代替手写规则。
+
+## item
+
+**Trigger**: 学习/讲解深度学习，判断“真懂”一个模型
+
+**Action**: 亲手写 backprop、小 tensor 库和字符级语言模型（micrograd→makemore→…→GPT）；用语言模型当学习载体；把复杂概念拆成可运行的最小原型；用讲解/教学视频把理解外化。
+
+**Boundary**: 从零实现花费高，不适合所有生产任务；需要 Python/微积分基础；大规模训练需依赖硬件与框架。
+
+**SourceRefs**: https://karpathy.ai/zero-to-hero.html; https://karpathy.ai/
+
+## item
+
+**Trigger**: 开始一个新 ML 问题，或训练效果不对
+
+**Action**: 先不碰模型代码：花时间扫描数千样本，寻找重复、损坏、不均衡、标注偏差；用代码搜索/筛选/排序，可视化分布与离群点；观察自己标注过程来启发架构/预处理。
+
+**Boundary**: 极大数据集无法全看，需采样/自动化；数据探索不是模型训练的替代；这步耗时与目标不符时按比例压缩。
+
+**SourceRefs**: https://karpathy.github.io/2019/04/25/recipe/
+
+## item
+
+**Trigger**: 拿到新问题准备训模型，或踩坑“训练能跑但不对”
+
+**Action**: 先搭端到端训练/评测骨架（固定种子）；用线性/极简模型做不可能出错的基线；关闭 augmentation 等 fancy 项；验证：loss@init 正确、final layer 初始化、输入无关基线应更差、overfit 一个 batch 到最低 loss、可视化 model(x) 前的原始张量、观察预测动态、用 backprop 查依赖；先写特例再泛化。
+
+**Boundary**: 这些检查面向监督学习/分类/回归，其他目标需适配；对超大模型过度验证可怕开销；“能跑”不必然失败，但这是找 bug 的高杠杆步骤。
+
+**SourceRefs**: https://karpathy.github.io/2019/04/25/recipe/
+
+## item
+
+**Trigger**: 用高层 ML 框架/现成模型，或“样例代码直接能跑”错觉
+
+**Action**: 不要轻信“off-the-shelf”；理解 backprop/batchnorm/RNN/RL 的边界；对逻辑型错误保持防御、偏执与可视化一切；用耐心与细节检查配置；接受“静默略微变差”是常态。
+
+**Boundary**: 不是每种抽象都要拆开；基础成熟任务可用框架；过度防御可能减速生产迭代。
+
+**SourceRefs**: https://karpathy.github.io/2019/04/25/recipe/
+
+## item
+
+**Trigger**: 讨论现代 AI 的编程范式、模型为中心 vs 数据为中心、LLM/Agent 应用
+
+**Action**: 把神经网络看作新一代软件：你编写“数据集+架构+训练循环”而非逐条规则；数据质量与 curation 成为主要工程；通过教学视频/入门课程把这种范式讲给普通受众；把 LLM 视作可调用的软件组件。
+
+**Boundary**: Software 2.0 是隐喻；对可解释性/高可靠系统仍要经典工程；不是所有任务都适合端到端学习，混合系统常见。
+
+**SourceRefs**: https://karpathy.ai/; https://karpathy.bearblog.dev/blog/; https://karpathy.ai/zero-to-hero.html

@@ -1,0 +1,80 @@
+{
+  "name": "skill-ab",
+  "model": "deepseek-chat",
+  "judged": true,
+  "runs": 3,
+  "tasks": [
+    {
+      "id": "dev-security-enforce",
+      "expected_skill": "dev-security",
+      "success_without": 0.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 2.0,
+      "efficiency_with": 3.0,
+      "quality_without": 66.667,
+      "quality_with": 48.333,
+      "calibration_without": 0.0,
+      "calibration_with": 1.0
+    },
+    {
+      "id": "dev-security-anti",
+      "expected_skill": "",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 0.0,
+      "efficiency_without": 2.0,
+      "efficiency_with": 2.0,
+      "quality_without": 85.0,
+      "quality_with": 85.0,
+      "calibration_without": 0.0,
+      "calibration_with": 0.0
+    }
+  ],
+  "cells": [
+    {
+      "task": {
+        "dir": "evals/dev-security-enforce"
+      },
+      "rows": [
+        {
+          "id": "dev-security-enforce",
+          "expected_skill": "dev-security",
+          "success_without": 0.0,
+          "success_with": 1.0,
+          "coverage_without": 0.0,
+          "coverage_with": 1.0,
+          "efficiency_without": 2.0,
+          "efficiency_with": 3.0,
+          "quality_without": 66.667,
+          "quality_with": 48.333,
+          "calibration_without": 0.0,
+          "calibration_with": 1.0
+        }
+      ]
+    },
+    {
+      "task": {
+        "dir": "evals/dev-security-anti"
+      },
+      "rows": [
+        {
+          "id": "dev-security-anti",
+          "expected_skill": "",
+          "success_without": 1.0,
+          "success_with": 1.0,
+          "coverage_without": 0.0,
+          "coverage_with": 0.0,
+          "efficiency_without": 2.0,
+          "efficiency_with": 2.0,
+          "quality_without": 85.0,
+          "quality_with": 85.0,
+          "calibration_without": 0.0,
+          "calibration_with": 0.0
+        }
+      ]
+    }
+  ]
+}

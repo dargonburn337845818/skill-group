@@ -1,0 +1,60 @@
+# Chip Huyen（AI 工程 / LLM 生产化与系统设计风格参考）
+
+> 风格/方法论推断，非本人原话。
+
+## 风格总述
+
+把 AI/LLM 应用当成生产系统来设计：能跑 demo 只是起点，demo-ready 到 production-ready 往往比想象久；先选最简可行方案，再量化成本/延迟/质量；用数据与人工评估兜底，对框架抽象保持警惕；从系统整体目标出发做设计。以上为风格/方法论推断，不是本人原话。
+
+## 结构化条目
+
+**Trigger**: 设计/选型时，面对“要不要上 vector DB / 复杂 agent / 高级框架”等选择时
+
+**Action**: 先列问题与约束，再从最简单方案开始（如 term-based retrieval、简单 prompt、few-shot）；只有当测量显示简单方案不达标时，再加复杂度
+
+**Boundary**: 需求本身就明确要求语义检索/复杂工具调用时，不能为了“简单”而不用必要能力；“简单”不等于“次优”
+
+**SourceRefs**: https://huyenchip.com/2025/01/16/ai-engineering-pitfalls.html; https://huyenchip.com/2023/04/11/llm-engineering.html
+
+**Trigger**: 团队/自己做出一个惊艳 demo，准备推向生产时
+
+**Action**: 系统列出生产问题：hallucination、延迟、成本、prompt 版本化、测试困难、合规/隐私、工具安全、AI-as-judge 不可靠；把“从 0 到 80%”和“从 80% 到 90%”的时间成本当成真实工程成本
+
+**Boundary**: 纯探索/R&D 阶段 demo 本身可以是目标；但宣传时不要用“We use AI”代替“We solve problem”
+
+**SourceRefs**: https://huyenchip.com/2023/04/11/llm-engineering.html; https://huyenchip.com/2025/01/16/ai-engineering-pitfalls.html
+
+**Trigger**: 需要评估 AI 应用/agent 质量，或怀疑 AI judge 可信度时
+
+**Action**: 对 AI judge 进行验证并与系统化人工评估关联；每天人工评估一份子集（30–1000 条）；精心编写标注指南；亲自盯数据 15 分钟往往能省几个小时
+
+**Boundary**: 人工评估成本高；低风险/小规模场景可减少频率，但不能完全去掉，否则可能把 AI judge 的偏见当真相
+
+**SourceRefs**: https://huyenchip.com/2025/01/16/ai-engineering-pitfalls.html; https://huyenchip.com/2020/06/22/mlops.html
+
+**Trigger**: 设计 LLM/agent 系统的请求或范式选择（prompting vs fine-tuning vs tool use）时
+
+**Action**: 按 token 成本与延迟估算：prompt 越长成本越高、链式思考增加 token、多步 agent 有 compound mistakes（如每步 95% 准确率走 10 步只剩 60%）；用工具（计算器/代码解释器）替代训练模型做弱项
+
+**Boundary**: 成本不是唯一目标；当质量/安全要求更高时应接受更高成本；不要只看单次成本而忽略端到端次数
+
+**SourceRefs**: https://huyenchip.com/2023/04/11/llm-engineering.html; https://huyenchip.com/2025/01/07/agents.html
+
+**Trigger**: 设计/评审 ML 或 GenAI 系统时，不应只看模型指标
+
+**Action**: 把每个设计决策放入系统整体目标中考虑：训练数据怎么来、特征/上下文怎么构建、retraining 频率、监控、部署、安全；用真实案例支撑，避免“单点最优”
+
+**Boundary**: 在单一实验/notebook 场景中，不需要整套生命周期流程；但在生产系统设计中必须考虑
+
+**SourceRefs**: https://huyenchip.com/books/; https://huyenchip.com/mlops/
+
+**Trigger**: 采用框架/工具/平台进行 AI 开发，尤其是其 prompt 或行为不透明时
+
+**Action**: 理解抽象背后的假设；审查默认 prompt；对框架升级保持敏感并回归测试；只在最佳实践已沉淀后再放心使用抽象
+
+**Boundary**: 抽象本身是好的；不要因害怕抽象而拒绝一切工具，关键是“先理解、再信任、再更新”
+
+**SourceRefs**: https://huyenchip.com/2025/01/16/ai-engineering-pitfalls.html; https://huyenchip.com/2023/04/11/llm-engineering.html
+
+**完整来源与验证**: `内部专家蒸馏材料（未随公开仓库发布） expert-drafts/expert-ai-llm-agent/sources.md`
+**完整风格文档**: `内部专家蒸馏材料（未随公开仓库发布） expert-drafts/expert-ai-llm-agent/style.md`

@@ -1,0 +1,60 @@
+{
+  "id": "teacher-math-consensus",
+  "name": "teacher-math-consensus",
+  "title": "数学教师共识 · 熵减盘问（证明/建模/分析）",
+  "description": "数学证明、建模与分析场景的教师共识：Polya/Tao/Zeitz/Lakatos 方法论 + 信息论 → 熵减式提问，不直接给答案。",
+  "whenToUse": "学生需要数学证明/建模/分析引导而非答案；设计苏格拉底式问题流；把数学方法论蒸馏成可复用知识节点。",
+  "boundary": "仅作数学教学风格/方法论参考；不伪造大师原话；来源可回溯；不替代学生对具体题目的判断。",
+  "notWhenToUse": "学生只需要快速计算/查公式时；没有定义与条件基础的纯技巧灌输；非数学领域的推理问题。",
+  "scenario": "teaching",
+  "scenarios": [
+    "teaching",
+    "distillation"
+  ],
+  "routing": "domain",
+  "activation": "catalog",
+  "tags": [
+    "数学",
+    "教师",
+    "熵减盘问",
+    "信息论",
+    "教学",
+    "证明",
+    "建模",
+    "分析"
+  ],
+  "experts": [
+    "george-polya",
+    "terence-tao",
+    "paul-zeitz",
+    "imre-lakatos"
+  ],
+  "sourceRefs": [
+    "https://press.princeton.edu/books/paperback/9780691164076/how-to-solve-it",
+    "http://math.buffalostate.edu/%7Ejcushman/MED383polya.html",
+    "https://terrytao.wordpress.com/career-advice/theres-more-to-mathematics-than-rigour-and-proofs/",
+    "https://klwang.tw/adapted/beyond-mathematical-rigour/",
+    "https://www.wiley.com/en-sg/The+Art+and+Craft+of+Problem+Solving%2C+3rd+Edition-p-9781119094845",
+    "https://www.cambridge.org/lk/universitypress/subjects/philosophy/philosophy-science/proofs-and-refutations-logic-mathematical-discovery-1?format=PB",
+    "https://www.ams.org/books/mawrld/007/mawrld007-endmatter.pdf"
+  ],
+  "qualityCriteria": {
+    "high": [
+      "每条共识原语有 trigger/action/boundary/source_refs",
+      "核心原语 ≥2 个独立来源或官方一手",
+      "提问协议一次只问一个高信息增益问题",
+      "区分严谨前/严谨/严谨后阶段，不抹平学生认知差异"
+    ],
+    "reject": [
+      "无来源断言",
+      "未理解问题就进入技巧灌输",
+      "直接给答案而不引导",
+      "把 Polya 四步当作固定算法流程",
+      "把‘不确定’当成‘否’"
+    ],
+    "minIndependentSources": 3,
+    "notes": "verified-high 来源至少 3 条；来源见 SOURCES.md。"
+  },
+  "version": "0.1.0",
+  "license": "MIT"
+}

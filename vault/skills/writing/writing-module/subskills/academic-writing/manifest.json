@@ -1,0 +1,54 @@
+{
+  "id": "academic-writing",
+  "name": "academic-writing",
+  "title": "学术写作/论文/LaTeX（已蒸馏）",
+  "description": "学术写作子技能：学术文体、摘要/引言/结论结构、LaTeX 模板与编译检查、引用/BibTeX 规范的可执行检查清单。",
+  "whenToUse": "写/改论文、投稿稿、学位论文章节，或检查 LaTeX 与引用规范时；需要把学术写作惯例变成可检查动作时。",
+  "boundary": "不判断研究价值、不生成实验数据、不替代专家评审；与 research paper-writing 分工为通用表达/排版层，不重复其角色化修改建议。",
+  "scenario": "writing",
+  "scenarios": [
+    "writing",
+    "research"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界",
+      "明确与 research paper-writing 的分工边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "把风格偏好写成普适规范",
+      "越界判断研究价值或生成实验数据",
+      "只有模板没有可检查动作/来源"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "学术写作",
+    "论文",
+    "LaTeX",
+    "BibTeX",
+    "引用",
+    "摘要",
+    "IMRaD",
+    "写作规范"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://owl.purdue.edu/owl/graduate_writing/graduate_writing_genres/graduate_writing_genres_abstracts_new.html",
+    "https://owl.purdue.edu/owl/graduate_writing/graduate_writing_topics/graduate_writing_organization_structure_new.html",
+    "https://www.nature.com/nature/for-authors/formatting-guide",
+    "https://apastyle.apa.org/style-grammar-guidelines/paper-format/abstract",
+    "https://www.chicagomanualofstyle.org/tools_citationguide.html",
+    "https://www.overleaf.com/learn/latex/Articles",
+    "https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex",
+    "$PROJECT_ROOT/vault/skills/writing/writing-module/",
+    "$PROJECT_ROOT/vault/skills/research/research-module/subskills/paper-writing/"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

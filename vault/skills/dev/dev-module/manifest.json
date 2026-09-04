@@ -1,0 +1,43 @@
+{
+  "id": "dev-module",
+  "name": "dev-module",
+  "title": "开发模块壳",
+  "description": "开发模块壳：dev 模式入口，挂载隐藏底座与九个已蒸馏/已挂载子技能；提供子技能清单与调用路径，不重复底座内容。",
+  "whenToUse": "用户任务进入开发模块（编码/重构/前后端/安全/并发/性能/测试/设计美学/去AI味）时先加载本模块壳。",
+  "boundary": "不重复隐藏底座；不代替真实 A/B 评测；本地 runner 已接入，未实跑的子技能证据应标注待验证；DSH 热更/重启走 dsh-optimization-consensus。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发条件/核心动作/边界/来源四件套齐全",
+      "子技能清单可扩展、状态可追踪",
+      "隐藏底座调用路径清晰"
+    ],
+    "reject": [
+      "重复抄写隐藏底座内容",
+      "把首版蒸馏宣称已通过真实 A/B",
+      "无来源或路径不可回溯"
+    ],
+    "minIndependentSources": 0
+  },
+  "tags": [
+    "开发模块",
+    "子技能",
+    "入口"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "$PROJECT_ROOT/FORMAL_SPEC.md",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/",
+    "$PROJECT_ROOT/vault/skills/distillation/ui-aesthetics-design/",
+    "$PROJECT_ROOT/vault/skills/dev/subskills/"
+  ],
+  "activation": "catalog",
+  "version": "0.2.0",
+  "license": "MIT"
+}

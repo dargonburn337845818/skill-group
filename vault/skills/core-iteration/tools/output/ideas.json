@@ -1,0 +1,980 @@
+{
+  "category": "all",
+  "total_found": 36,
+  "queries": [
+    "topic:agent-skills",
+    "topic:llm-plugin",
+    "topic:dsh",
+    "topic:ai-assistant",
+    "topic:skill-management",
+    "topic:cli plugin agent"
+  ],
+  "failures": [],
+  "ideas": [
+    {
+      "repo": "nexu-io/open-design",
+      "url": "https://github.com/nexu-io/open-design",
+      "score": 19,
+      "keywords": [
+        "dsh",
+        "deepseek-harness",
+        "skill",
+        "skills",
+        "plugin",
+        "agent",
+        "cli",
+        "harness"
+      ],
+      "suggestion": "DSH 生态直接参考：nexu-io/open-design — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "agent-skills",
+        "ai-design",
+        "byok",
+        "claude-code-for-design",
+        "claude-design",
+        "codex-design",
+        "coding-agents",
+        "cursor-design",
+        "deepseek",
+        "deepseek-harness",
+        "design-systems",
+        "desktop-app",
+        "dsh",
+        "dsh-plugin",
+        "figma-alternative",
+        "hermes-agent",
+        "local-first",
+        "prototyping",
+        "ui-generator",
+        "vibe-coding"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "ruvnet/ruflo",
+      "url": "https://github.com/ruvnet/ruflo",
+      "score": 16,
+      "keywords": [
+        "dsh",
+        "skill",
+        "skills",
+        "plugin",
+        "agent",
+        "workflow",
+        "harness"
+      ],
+      "suggestion": "Skill 生态参考：ruvnet/ruflo — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agentic-ai",
+        "agentic-framework",
+        "agentic-workflow",
+        "agents",
+        "ai-agents",
+        "ai-assistant",
+        "ai-skills",
+        "autonomous-agents",
+        "claude-code",
+        "codex",
+        "dsh-plugin",
+        "harness",
+        "mcp-server",
+        "multi-agent",
+        "multi-agent-systems",
+        "npm",
+        "skills",
+        "swarm",
+        "swarm-intelligence",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "agent-sh/agentsys",
+      "url": "https://github.com/agent-sh/agentsys",
+      "score": 13,
+      "keywords": [
+        "skill",
+        "skills",
+        "plugin",
+        "agent",
+        "workflow",
+        "cli",
+        "automation"
+      ],
+      "suggestion": "Skill 生态参考：agent-sh/agentsys — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent",
+        "ai",
+        "anthropic",
+        "automation",
+        "autonomous-agents",
+        "claude",
+        "claude-code",
+        "cli",
+        "code-review",
+        "codex",
+        "cursor",
+        "devtools",
+        "openai",
+        "opencode",
+        "plugins",
+        "productivity",
+        "skills",
+        "slash-commands",
+        "vibe-coding",
+        "workflow"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "thClaws/thClaws",
+      "url": "https://github.com/thClaws/thClaws",
+      "score": 13,
+      "keywords": [
+        "skill",
+        "skills",
+        "plugin",
+        "agent",
+        "cli",
+        "harness"
+      ],
+      "suggestion": "通用 agent/plugin 参考：thClaws/thClaws — Open-source AI agent harness in native Rust — GUI, CLI, headless, and webapp from one binary. Multi-provider, MCP, skills, plugins, agent teams. [repo: https://",
+      "topics": [
+        "agent-harness",
+        "agent-teams",
+        "ai-agent",
+        "anthropic",
+        "claude-code",
+        "cli",
+        "desktop-app",
+        "developer-tools",
+        "gemini",
+        "kms",
+        "llm",
+        "llm-wiki",
+        "mcp",
+        "model-context-protocol",
+        "multi-provider",
+        "ollama",
+        "openai",
+        "rust",
+        "tauri",
+        "telegram-bot"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "deepseek-ai/deepseek-harness",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "score": 12,
+      "keywords": [
+        "dsh",
+        "deepseek-harness",
+        "plugin",
+        "agent",
+        "harness"
+      ],
+      "suggestion": "通用 agent/plugin 参考：deepseek-ai/deepseek-harness — DeepSeek Harness: Everything is a Plugin. [repo: https://github.com/deepseek-ai/deepseek-harness]",
+      "topics": [
+        "ai-agents",
+        "cordis",
+        "dsh",
+        "dsh-plugin"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "stevesolun/ctx",
+      "url": "https://github.com/stevesolun/ctx",
+      "score": 12,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "knowledge",
+        "harness",
+        "automation"
+      ],
+      "suggestion": "Skill 生态参考：stevesolun/ctx — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agents",
+        "ai-agents",
+        "anthropic",
+        "automation",
+        "claude",
+        "claude-code",
+        "context-management",
+        "developer-tools",
+        "harness",
+        "knowledge-graph",
+        "llm",
+        "llm-wiki",
+        "mcp",
+        "micro-skills",
+        "obsidian",
+        "real-time",
+        "recommendation-engine",
+        "skill-management",
+        "skills",
+        "wiki"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "score": 11,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "workflow",
+        "cli",
+        "automation"
+      ],
+      "suggestion": "Skill 生态参考：ComposioHQ/awesome-claude-skills — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "ai-agents",
+        "antigravity",
+        "automation",
+        "claude",
+        "claude-code",
+        "codex",
+        "composio",
+        "cursor",
+        "developer-tools",
+        "gemini-cli",
+        "mcp",
+        "openai-codex",
+        "rube",
+        "saas",
+        "skill",
+        "workflow-automation"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "hesreallyhim/awesome-claude-code",
+      "url": "https://github.com/hesreallyhim/awesome-claude-code",
+      "score": 11,
+      "keywords": [
+        "skill",
+        "skills",
+        "plugin",
+        "agent",
+        "workflow"
+      ],
+      "suggestion": "Skill 生态参考：hesreallyhim/awesome-claude-code — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "agentic-code",
+        "agentic-coding",
+        "ai-workflow-optimization",
+        "ai-workflows",
+        "anthropic",
+        "anthropic-claude",
+        "awesome",
+        "awesome-claude-code",
+        "awesome-list",
+        "awesome-lists",
+        "awesome-resources",
+        "claude",
+        "claude-code",
+        "coding-agent",
+        "coding-agents",
+        "coding-assistant",
+        "coding-assistants",
+        "llm"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "wanghuan9/skilldock",
+      "url": "https://github.com/wanghuan9/skilldock",
+      "score": 11,
+      "keywords": [
+        "skill",
+        "skills",
+        "plugin",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "Skill 生态参考：wanghuan9/skilldock — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "ai-coding-agents",
+        "ai-coding-tools",
+        "ai-skill-manager",
+        "ai-skills",
+        "claude-code",
+        "claude-code-skills",
+        "codex",
+        "cursor",
+        "cursor-skills",
+        "desktop-app",
+        "gemini-cli",
+        "mcp",
+        "mcp-manager",
+        "mcp-tools",
+        "skill-management",
+        "skill-manager",
+        "skilldock",
+        "skills",
+        "skills-manager",
+        "windsurf"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "clay-run/agent-plugins",
+      "url": "https://github.com/clay-run/agent-plugins",
+      "score": 11,
+      "keywords": [
+        "skill",
+        "skills",
+        "plugin",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：clay-run/agent-plugins — Build with Clay in your AI coding agent - skills, MCP tools, and the clay CLI for Claude Code, Codex, and Cursor. Search companies and people, run enrichment ro",
+      "topics": [
+        "ai-agents",
+        "claude-code",
+        "clay",
+        "cli",
+        "codex",
+        "cursor",
+        "data-enrichment",
+        "go-to-market",
+        "mcp"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "url": "https://github.com/DietrichGebert/ponytail",
+      "score": 10,
+      "keywords": [
+        "skill",
+        "skills",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：DietrichGebert/ponytail — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "ai-agents",
+        "claude",
+        "claude-code",
+        "claude-code-plugin",
+        "cursor-rules",
+        "developer-tools",
+        "llm",
+        "prompt-engineering",
+        "yagni"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "anywhere-labs/dsh-desktop",
+      "url": "https://github.com/anywhere-labs/dsh-desktop",
+      "score": 10,
+      "keywords": [
+        "dsh",
+        "deepseek-harness",
+        "plugin",
+        "harness"
+      ],
+      "suggestion": "DSH 生态直接参考：anywhere-labs/dsh-desktop — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "cordis",
+        "cordis-plugin",
+        "deepseek",
+        "deepseek-harness",
+        "desktop",
+        "dsh",
+        "dsh-plugin",
+        "dsh-plugin-desktop"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "walkinglabs/learn-harness-engineering",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering",
+      "score": 9,
+      "keywords": [
+        "dsh",
+        "plugin",
+        "agent",
+        "harness"
+      ],
+      "suggestion": "通用 agent/plugin 参考：walkinglabs/learn-harness-engineering — Harness engineering beginner tutorial, from 0 to 1 [repo: https://github.com/walkinglabs/learn-harness-engineering]",
+      "topics": [
+        "agent",
+        "agentic",
+        "agentic-ai",
+        "ai",
+        "ai-agent",
+        "ai-agents",
+        "dsh",
+        "dsh-plugin",
+        "harness",
+        "harness-engineering",
+        "harness-framework",
+        "llm"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "rebelytics/one-skill-to-rule-them-all",
+      "url": "https://github.com/rebelytics/one-skill-to-rule-them-all",
+      "score": 9,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "automation"
+      ],
+      "suggestion": "Skill 生态参考：rebelytics/one-skill-to-rule-them-all — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "agentic-skills",
+        "ai-skills",
+        "augmented-expertise",
+        "awesome-skills",
+        "claude",
+        "claude-code",
+        "claude-cowork",
+        "improve-skills",
+        "meta-skill",
+        "meta-skills",
+        "rebelytics",
+        "skill",
+        "skill-automation",
+        "skill-builder",
+        "skill-creation",
+        "skill-generation",
+        "skill-improvement",
+        "skill-management",
+        "skills"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：anthropics/skills — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：addyosmani/agent-skills — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "antigravity",
+        "claude-code",
+        "codex",
+        "cursor",
+        "skills"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "esengine/DeepSeek-Reasonix",
+      "url": "https://github.com/esengine/DeepSeek-Reasonix",
+      "score": 8,
+      "keywords": [
+        "dsh",
+        "plugin",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：esengine/DeepSeek-Reasonix — DeepSeek-native AI coding agent for your terminal. Engineered around prefix-cache stability — leave it running. [repo: https://github.com/esengine/DeepSeek-Reas",
+      "topics": [
+        "agent",
+        "agent-framework",
+        "ai-agent",
+        "ai-coding",
+        "cli",
+        "coding-agent",
+        "deepseek",
+        "developer-tools",
+        "dsh",
+        "dsh-plugin",
+        "ink",
+        "llm",
+        "prompt-caching",
+        "r1",
+        "terminal",
+        "tool-use",
+        "tui",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "nanocoai/nanoclaw",
+      "url": "https://github.com/nanocoai/nanoclaw",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：nanocoai/nanoclaw — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "ai-agents",
+        "ai-assistant",
+        "claude-code",
+        "claude-skills",
+        "openclaw"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "nocobase/nocobase",
+      "url": "https://github.com/nocobase/nocobase",
+      "score": 8,
+      "keywords": [
+        "dsh",
+        "plugin",
+        "agent",
+        "workflow"
+      ],
+      "suggestion": "通用 agent/plugin 参考：nocobase/nocobase — NocoBase is an open-source AI + no-code platform for building business systems fast. Instead of generating everything from scratch, AI works on top of productio",
+      "topics": [
+        "admin-dashboard",
+        "ai-agent",
+        "ai-agents",
+        "ai-assistant",
+        "ai-tools",
+        "crm",
+        "crud",
+        "dsh-plugin",
+        "erp",
+        "internal-tool",
+        "internal-tools",
+        "low-code",
+        "lowcode",
+        "no-code",
+        "nocode",
+        "project-management",
+        "salesforce",
+        "self-hosted",
+        "workflows"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "iflytek/skillhub",
+      "url": "https://github.com/iflytek/skillhub",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：iflytek/skillhub — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-framework",
+        "ai-agent",
+        "ai-governance",
+        "ai-infrastructure",
+        "ai-orchestration",
+        "audit-log",
+        "enterprise-ai",
+        "iflytek-astron",
+        "openclaw",
+        "openclaw-skills",
+        "rbac",
+        "skill",
+        "skill-hub",
+        "skill-management",
+        "skill-manager",
+        "skill-registry",
+        "skills",
+        "version-control"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "qufei1993/skills-hub",
+      "url": "https://github.com/qufei1993/skills-hub",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：qufei1993/skills-hub — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "ai-agent",
+        "claude-code",
+        "codex",
+        "cursor",
+        "desktop-app",
+        "react",
+        "rust",
+        "skill-management",
+        "skills-manager",
+        "tauri"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "beizhu-1209/AIHelms",
+      "url": "https://github.com/beizhu-1209/AIHelms",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：beizhu-1209/AIHelms — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent",
+        "ai-gateway",
+        "ai-management",
+        "ai-observability",
+        "aihub",
+        "claude",
+        "cost-control",
+        "deepseek",
+        "docker",
+        "enterprise-ai",
+        "fastapi",
+        "llm-governance",
+        "mcp",
+        "model-gateway",
+        "openai",
+        "skill-management",
+        "skillspector",
+        "token-hub",
+        "tokenhub",
+        "vue3"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "Nagi-ovo/voyager",
+      "url": "https://github.com/Nagi-ovo/voyager",
+      "score": 7,
+      "keywords": [
+        "dsh",
+        "plugin",
+        "harness"
+      ],
+      "suggestion": "通用 agent/plugin 参考：Nagi-ovo/voyager — Enhancement suite for Gemini, AI Studio, Claude & ChatGPT — plus a prompt manager for any web UI, DeepSeek Harness included. / 面向 Gemini、AI Studio、Claude 与 Chat",
+      "topics": [
+        "ai-studio",
+        "browser-extension",
+        "bun",
+        "chat-management",
+        "chatgpt",
+        "chrome-extension",
+        "claude-ai",
+        "dsh",
+        "dsh-plugin",
+        "edge-addon",
+        "firefox-addons",
+        "gemini",
+        "safari-extension"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "jarrodwatts/claude-hud",
+      "url": "https://github.com/jarrodwatts/claude-hud",
+      "score": 5,
+      "keywords": [
+        "plugin",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：jarrodwatts/claude-hud — A Claude Code plugin that shows what's happening - context usage, active tools, running agents, and todo progress [repo: https://github.com/jarrodwatts/claude-h",
+      "topics": [
+        "anthropic",
+        "claude",
+        "claude-code",
+        "cli",
+        "plugin",
+        "statusline",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "2aronS/Duel-Agents",
+      "url": "https://github.com/2aronS/Duel-Agents",
+      "score": 5,
+      "keywords": [
+        "plugin",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：2aronS/Duel-Agents — CLI, SDK, and IDE plugins for Duel Agents [repo: https://github.com/2aronS/Duel-Agents]",
+      "topics": [
+        "ai-agents",
+        "anthropic",
+        "claude-code",
+        "cli",
+        "cursor",
+        "duel-agents",
+        "llm",
+        "npm",
+        "openai-compatible",
+        "openclaw",
+        "sdk",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "Yesterday-AI/paperclip-plugin-company-wizard",
+      "url": "https://github.com/Yesterday-AI/paperclip-plugin-company-wizard",
+      "score": 5,
+      "keywords": [
+        "plugin",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：Yesterday-AI/paperclip-plugin-company-wizard — Bootstrap AI agent companies from modular templates.  [repo: https://github.com/Yesterday-AI/paperclip-plugin-company-wizard]",
+      "topics": [
+        "ai-agents",
+        "bootstrap",
+        "cli",
+        "company-as-code",
+        "company-templates",
+        "multi-agent",
+        "orchestration",
+        "paperclip",
+        "templates"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "sukhbinder/llm-embed-ollama",
+      "url": "https://github.com/sukhbinder/llm-embed-ollama",
+      "score": 3,
+      "keywords": [
+        "plugin",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：sukhbinder/llm-embed-ollama — Ollama provides Few embedding models. This plugin enables the usage of those models using Ollama. [repo: https://github.com/sukhbinder/llm-embed-ollama]",
+      "topics": [
+        "cli",
+        "embedding",
+        "llm",
+        "llm-plugin",
+        "ollama"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "eugenepyvovarov/llm-mcp",
+      "url": "https://github.com/eugenepyvovarov/llm-mcp",
+      "score": 3,
+      "keywords": [
+        "plugin",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：eugenepyvovarov/llm-mcp — LLM CLI plugin for Model Context Protocol (MCP) [repo: https://github.com/eugenepyvovarov/llm-mcp]",
+      "topics": [
+        "llm",
+        "llm-plugin",
+        "mcp",
+        "mcp-client"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "gl0bal01/llm-1minai",
+      "url": "https://github.com/gl0bal01/llm-1minai",
+      "score": 3,
+      "keywords": [
+        "plugin",
+        "cli"
+      ],
+      "suggestion": "通用 agent/plugin 参考：gl0bal01/llm-1minai — LLM plugin providing access to AI models through 1min.ai API with web search, mixed context, and persistent options [repo: https://github.com/gl0bal01/llm-1mina",
+      "topics": [
+        "ai",
+        "anthropic",
+        "chatgpt",
+        "claude",
+        "cli-tool",
+        "conversational-ai",
+        "deepseek",
+        "gemini",
+        "llm",
+        "llm-plugin",
+        "mistral",
+        "multi-model",
+        "openai",
+        "web-search"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "leon-ai/leon",
+      "url": "https://github.com/leon-ai/leon",
+      "score": 3,
+      "keywords": [
+        "agent",
+        "automation"
+      ],
+      "suggestion": "通用 agent/plugin 参考：leon-ai/leon — 🧠 Leon is your open-source personal assistant. [repo: https://github.com/leon-ai/leon]",
+      "topics": [
+        "ai",
+        "ai-agent",
+        "ai-assistant",
+        "artificial-intelligence",
+        "assistant",
+        "automation",
+        "bot",
+        "chatbot",
+        "leon",
+        "nodejs",
+        "offline",
+        "personal-assistant",
+        "privacy",
+        "python",
+        "speech-recognition",
+        "speech-synthesis",
+        "speech-to-text",
+        "text-to-speech",
+        "virtual-assistant",
+        "voice-assistant"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "agustif/llm-arxiv",
+      "url": "https://github.com/agustif/llm-arxiv",
+      "score": 2,
+      "keywords": [
+        "plugin"
+      ],
+      "suggestion": "通用 agent/plugin 参考：agustif/llm-arxiv — arXiv fragment loader plugin for https://llm.datasette.io/ [repo: https://github.com/agustif/llm-arxiv]",
+      "topics": [
+        "arxiv",
+        "arxiv-papers",
+        "llm",
+        "llm-plugin"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "peternaf/digmore",
+      "url": "https://github.com/peternaf/digmore",
+      "score": 2,
+      "keywords": [
+        "plugin"
+      ],
+      "suggestion": "通用 agent/plugin 参考：peternaf/digmore — digmore [repo: https://github.com/peternaf/digmore]",
+      "topics": [
+        "business-analyst",
+        "business-analytics",
+        "business-intelligence",
+        "deepresearch",
+        "llm-plugin",
+        "llm-tools",
+        "research-analyst",
+        "research-assistant",
+        "research-tools",
+        "webscraping",
+        "websearch"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "justyns/llm-tools-searxng",
+      "url": "https://github.com/justyns/llm-tools-searxng",
+      "score": 2,
+      "keywords": [
+        "plugin"
+      ],
+      "suggestion": "通用 agent/plugin 参考：justyns/llm-tools-searxng — SearXNG tool plugin for https://llm.datasette.io/ [repo: https://github.com/justyns/llm-tools-searxng]",
+      "topics": [
+        "llm",
+        "llm-plugin",
+        "llm-tool",
+        "searxng"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "CopilotKit/CopilotKit",
+      "url": "https://github.com/CopilotKit/CopilotKit",
+      "score": 2,
+      "keywords": [
+        "agent"
+      ],
+      "suggestion": "通用 agent/plugin 参考：CopilotKit/CopilotKit — The Frontend Stack for Agents & Generative UI. React, Angular, Mobile, Slack, and more.  Makers of the AG-UI Protocol [repo: https://github.com/CopilotKit/Copil",
+      "topics": [
+        "agent",
+        "agent-native",
+        "agentic-ai",
+        "agents",
+        "ai",
+        "ai-agent",
+        "ai-assistant",
+        "assistant",
+        "assistant-chat-bots",
+        "copilot",
+        "copilot-chat",
+        "generative-ui",
+        "js",
+        "llm",
+        "nextjs",
+        "open-source",
+        "react",
+        "reactjs",
+        "ts",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "Usagi-org/ai-goofish-monitor",
+      "url": "https://github.com/Usagi-org/ai-goofish-monitor",
+      "score": 1,
+      "keywords": [
+        "automation"
+      ],
+      "suggestion": "通用 agent/plugin 参考：Usagi-org/ai-goofish-monitor — 基于 Playwright 和AI实现的闲鱼多任务实时/定时监控与智能分析系统，配备了功能完善的后台管理UI。帮助用户从闲鱼海量商品中，找到心仪产品。 [repo: https://github.com/Usagi-org/ai-goofish-monitor]",
+      "topics": [
+        "ai",
+        "ai-assistant",
+        "ai-tools",
+        "automation",
+        "gemini",
+        "goofish",
+        "open-source",
+        "openai",
+        "playwright",
+        "tool",
+        "xian-yu",
+        "xianyu",
+        "xianyu-bot"
+      ],
+      "source_type": "github"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "skill": "dev-ai-engineering",
+  "status": "verified",
+  "model": "deepseek-chat",
+  "evals": [
+    {
+      "id": "dev-ai-pilot",
+      "task_dir": "evals/dev-ai-pilot",
+      "runs": 3,
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 2.0,
+      "efficiency_with": 3.0,
+      "note": "真实任务通过；skill 被发现并加载；无通过率增益（基线已达成），效率略增 1 turn。"
+    },
+    {
+      "id": "dev-ai-anti",
+      "task_dir": "evals/dev-ai-anti",
+      "runs": 3,
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 0.0,
+      "efficiency_without": 7.0,
+      "efficiency_with": 8.667,
+      "note": "anti-trigger 未误触发 skill。"
+    }
+  ],
+  "checks_observed_red": true,
+  "verdict": "verified"
+}

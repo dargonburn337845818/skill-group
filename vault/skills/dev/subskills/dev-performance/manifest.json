@@ -1,0 +1,47 @@
+{
+  "id": "dev-performance",
+  "name": "dev-performance",
+  "title": "性能优化（已蒸馏）",
+  "description": "性能优化子技能：测量与基线、热点定位、网络/渲染/内存/数据库优化优先级、缓存边界与性能回归的可执行检查清单。",
+  "whenToUse": "处理性能问题、性能测量、热点分析、延迟/内存/包体优化时；需要判断性能问题与优化优先级时。",
+  "boundary": "先测量再优化；不把微优化当普适灵药；不为性能牺牲接口除非有证据。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "未测量就断言瓶颈",
+      "把单个循环微优化当普适规则"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "性能",
+    "优化",
+    "profiling",
+    "基线"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://web.dev/learn/performance/",
+    "https://developer.mozilla.org/en-US/docs/Web/API/Performance",
+    "https://developer.chrome.com/docs/devtools/performance/reference",
+    "https://www.postgresql.org/docs/current/using-explain.html",
+    "https://hpbn.co/",
+    "https://sre.google/workbook/",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.2.0",
+  "license": "MIT"
+}

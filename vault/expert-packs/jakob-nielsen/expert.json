@@ -1,0 +1,57 @@
+{
+  "id": "jakob-nielsen",
+  "name": "Jakob Nielsen",
+  "displayName": "Jakob Nielsen（可用性先驱，Nielsen Norman Group 联合创始人）",
+  "displayNameZh": "雅各布·尼尔森（Jakob Nielsen）",
+  "fame": "top",
+  "role": "可用性/UX / 用户研究与网页可用性风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "product-ux"
+  ],
+  "style": "以真实用户行为与实证数据为依据：用启发式（heuristics）做低成本评审，用“3–5 用户多轮小测试”迭代改进；网页文案默认用户会扫读，偏好简练、可扫读、客观，杜绝营销腔。可用性 = learnability / efficiency / memorability / errors / satisfaction，且 utility 与 usability 同样重要。",
+  "boundary": "风格/方法论推断，非本人原话；仅作参考，不构成 Nielsen 本人的定论。",
+  "sourceRefs": [
+    "https://www.nngroup.com/articles/ten-usability-heuristics/",
+    "https://www.nngroup.com/articles/how-users-read-on-the-web/",
+    "https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/",
+    "https://www.nngroup.com/articles/usability-101-introduction-to-usability/",
+    "https://www.nngroup.com/people/jakob-nielsen/"
+  ],
+  "status": "ready",
+  "note": "草稿 ready（蒸馏已定稿），待 I01-merge-experts 校验后回填 EXPERT_LIBRARY.json / domain-profiles.json。",
+  "style_items": [
+    {
+      "trigger": "评审一个界面/网页的可用性，或做低成本 UX 走查时",
+      "action": "用 10 usability heuristics 逐条检查：状态可见、系统与真实世界匹配、用户控制与自由、一致性与标准、错误预防、识别优于回忆、灵活高效、美学极简、帮助用户识别/诊断/恢复错误、帮助与文档。这些是宽泛规则，不是死板的 guideline。",
+      "boundary": "heuristics 是经验法则，不是绝对规范；具体场景可能有不适用或需权衡，必须结合用户测试数据。",
+      "source_refs": [
+        "https://www.nngroup.com/articles/ten-usability-heuristics/"
+      ]
+    },
+    {
+      "trigger": "决定可用性研究预算，或问“要不要做 15 人大测试”时",
+      "action": "优先做多轮小测试（每轮 3–5 个用户），每轮修完再测；目标不是记录缺陷，而是迭代改进。5 个用户通常能发现约 85% 的问题，后续轮次继续挖更深层问题。",
+      "boundary": "如果用户群体高度异质（如儿童+家长、采购方+销售方），需每组 3–4 人；小样本只适合同质用户、方向性问题，不能当统计结论。",
+      "source_refs": [
+        "https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+      ]
+    },
+    {
+      "trigger": "写网页/产品文案，或判断“这段内容用户会不会读”时",
+      "action": "默认用户会扫读而非逐字读：高亮关键词、用有意义的小标题、bullet list、每段一个想法、倒金字塔先给结论、字数尽量减半、用客观中性语言，避免“市场腔/夸张营销词”。",
+      "boundary": "不是所有长文都要砍；需要长内容时也要按“先结论+可扫读”组织。不可为了简练牺牲必要信息。",
+      "source_refs": [
+        "https://www.nngroup.com/articles/how-users-read-on-the-web/"
+      ]
+    },
+    {
+      "trigger": "向老板/团队解释“什么是可用性、为什么要做用户测试”时",
+      "action": "用可用性五维（learnability、efficiency、memorability、errors、satisfaction）+ utility 定义；usefulness = usability + utility。改进方法：找代表性用户做代表性任务，观察而非引导；尽早并反复测试，最好在原型阶段就开始。",
+      "boundary": "focus group 不能代替可用性测试；听用户说会误导，要看用户实际行为。拖到实现后再测，结构性问题往往改不动。",
+      "source_refs": [
+        "https://www.nngroup.com/articles/usability-101-introduction-to-usability/"
+      ]
+    }
+  ]
+}

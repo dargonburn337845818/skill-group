@@ -8,7 +8,7 @@
   "scenarios": ["dsh-ops", "distillation"],
   "tags": ["skill", "管理", "开关", "DSH插件"],
   "experts": ["@deepseek-ai/dsh-skill", "@deepseek-ai/dsh-skill-filesystem"],
-  "sourceRefs": ["skill-management/SKILL.md", "@deepseek-ai/dsh-skill README"],
+  "sourceRefs": ["$WORKSPACE/skills/skill-management/SKILL.md", "@deepseek-ai/dsh-skill README"],
   "activation": "catalog",
   "version": "0.1.0",
   "license": "MIT"

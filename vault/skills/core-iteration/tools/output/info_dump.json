@@ -1,0 +1,533 @@
+{
+  "mode": "live",
+  "raw_corpus_count": 15,
+  "raw_corpus": [
+    {
+      "chunk_id": "github_repo_1031912724",
+      "text": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io [repo: https://github.com/farion1231/cc-switch]",
+      "source": {
+        "type": "github",
+        "url": "https://github.com/farion1231/cc-switch",
+        "title": "farion1231/cc-switch",
+        "author": "farion1231",
+        "publisher": "GitHub",
+        "date": "2026-09-04T05:47:18Z",
+        "evidence_rank": "repo-metadata"
+      },
+      "claim": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io",
+      "gap_id": null,
+      "metadata": {
+        "stars": 130980,
+        "forks": 9005,
+        "language": "Rust",
+        "topics": [
+          "ai-tools",
+          "claude-code",
+          "codex",
+          "desktop-app",
+          "grok",
+          "grokbuild",
+          "hermes",
+          "hermes-agent",
+          "mcp",
+          "open-source",
+          "openclaw",
+          "openclaw-ui",
+          "opencode",
+          "pi",
+          "provider-management",
+          "rust",
+          "skills",
+          "skills-management",
+          "tauri",
+          "wsl-support"
+        ],
+        "license": "MIT",
+        "created_at": "2025-08-04T14:16:16Z",
+        "pushed_at": "2026-09-04T04:50:29Z",
+        "open_issues": 2615,
+        "archived": false,
+        "default_branch": "main"
+      },
+      "popularity_signals": {
+        "stars": 130980,
+        "forks": 9005,
+        "note": "stars/forks are popularity signals, NOT evidence"
+      }
+    },
+    {
+      "chunk_id": "github_repo_299354207",
+      "text": "An open-source remote desktop application designed for self-hosting, as an alternative to TeamViewer. [repo: https://github.com/rustdesk/rustdesk]",
+      "source": {
+        "type": "github",
+        "url": "https://github.com/rustdesk/rustdesk",
+        "title": "rustdesk/rustdesk",
+        "author": "rustdesk",
+        "publisher": "GitHub",
+        "date": "2026-09-04T05:55:17Z",
+        "evidence_rank": "repo-metadata"
+      },
+      "claim": "An open-source remote desktop application designed for self-hosting, as an alternative to TeamViewer.",
+      "gap_id": null,
+      "metadata": {
+        "stars": 122550,
+        "forks": 18830,
+        "language": "Rust",
+        "topics": [
+          "android",
+          "anydesk",
+          "dart",
+          "flatpak",
+          "flutter",
+          "flutter-apps",
+          "ios",
+          "linux",
+          "macos",
+          "p2p",
+          "rdp",
+          "remote-control",
+          "remote-desktop",
+          "rust",
+          "rust-lang",
+          "teamviewer",
+          "vnc",
+          "wayland",
+          "windows"
+        ],
+        "license": "AGPL-3.0",
+        "created_at": "2020-09-28T15:36:08Z",
+        "pushed_at": "2026-09-04T03:14:20Z",
+        "open_issues": 147,
+        "archived": false,
+        "default_branch": "master"
+      },
+      "popularity_signals": {
+        "stars": 122550,
+        "forks": 18830,
+        "note": "stars/forks are popularity signals, NOT evidence"
+      }
+    },
+    {
+      "chunk_id": "github_repo_724712",
+      "text": "Empowering everyone to build reliable and efficient software. [repo: https://github.com/rust-lang/rust]",
+      "source": {
+        "type": "github",
+        "url": "https://github.com/rust-lang/rust",
+        "title": "rust-lang/rust",
+        "author": "rust-lang",
+        "publisher": "GitHub",
+        "date": "2026-09-04T05:52:25Z",
+        "evidence_rank": "repo-metadata"
+      },
+      "claim": "Empowering everyone to build reliable and efficient software.",
+      "gap_id": null,
+      "metadata": {
+        "stars": 117426,
+        "forks": 15516,
+        "language": "Rust",
+        "topics": [
+          "compiler",
+          "language",
+          "rust"
+        ],
+        "license": "Apache-2.0",
+        "created_at": "2010-06-16T20:39:03Z",
+        "pushed_at": "2026-09-04T05:21:10Z",
+        "open_issues": 12617,
+        "archived": false,
+        "default_branch": "main"
+      },
+      "popularity_signals": {
+        "stars": 117426,
+        "forks": 15516,
+        "note": "stars/forks are popularity signals, NOT evidence"
+      }
+    },
+    {
+      "chunk_id": "github_issue_5268668228",
+      "text": "move bug and span_bug macros to rustc_span\n<!-- homu-ignore:start -->\r\n*[View all comments](https://triagebot.infra.rust-lang.org/gh-comments/rust-lang/rust/pull/161873)*\r\n<!-- homu-ignore:end -->\r\n\r\nThis allows them to be used without depending on rustc_middle.\r\n\r\nThis is done by using a rustc_interface callback so that, if the callback is set, a internal compiler error diagnostic is printed through that. After that the panic is initiated.\r\n\r\nr? @jdonszelmann @bjorn3 ",
+      "source": {
+        "type": "github_issue",
+        "url": "https://github.com/rust-lang/rust/pull/161873",
+        "title": "move bug and span_bug macros to rustc_span",
+        "author": "mejrs",
+        "publisher": "GitHub Issues",
+        "date": "2026-08-27T14:26:44Z",
+        "evidence_rank": "issue-thread"
+      },
+      "claim": "move bug and span_bug macros to rustc_span",
+      "gap_id": null,
+      "metadata": {
+        "state": "open",
+        "comments": 29,
+        "labels": [
+          "A-LLVM",
+          "A-attributes",
+          "T-compiler",
+          "S-waiting-on-review",
+          "F-autodiff"
+        ],
+        "created_at": "2026-08-27T14:26:44Z",
+        "updated_at": "2026-09-03T16:45:33Z",
+        "closed_at": null
+      }
+    },
+    {
+      "chunk_id": "github_issue_5299575086",
+      "text": "Some cleanups around fatal errors and delayed bugs\nWith the aim of making it easier to move some compiler passes to different locations. And in particular to allow moving them across `has_errors_or_delayed_bugs` calls. This is a prerequisite for a local change that improves the effectiveness of cargo build pipelining.",
+      "source": {
+        "type": "github_issue",
+        "url": "https://github.com/rust-lang/rust/pull/162057",
+        "title": "Some cleanups around fatal errors and delayed bugs",
+        "author": "bjorn3",
+        "publisher": "GitHub Issues",
+        "date": "2026-08-31T11:24:40Z",
+        "evidence_rank": "issue-thread"
+      },
+      "claim": "Some cleanups around fatal errors and delayed bugs",
+      "gap_id": null,
+      "metadata": {
+        "state": "open",
+        "comments": 4,
+        "labels": [
+          "A-LLVM",
+          "T-compiler",
+          "S-waiting-on-review"
+        ],
+        "created_at": "2026-08-31T11:24:40Z",
+        "updated_at": "2026-09-03T22:28:48Z",
+        "closed_at": null
+      }
+    },
+    {
+      "chunk_id": "github_issue_4995612306",
+      "text": "Fix a splat legacy demangling display bug\n<!-- homu-ignore:start -->\n*[View all comments](https://triagebot.infra.rust-lang.org/gh-comments/rust-lang/rust/pull/160050)*\n<!-- homu-ignore:end -->\n\nTracking issue: https://github.com/rust-lang/rust/issues/153629\r\n\r\n<!-- homu-ignore:start -->\r\n<!--\r\nIf this PR is related to an unstable feature or an otherwise tracked effort,\r\nplease link to the relevant tracking issue here. If you don't know of a related\r\ntracking issue or there are none, feel free to ignore this.\r\n\r\nThis PR will get automatically assigned to a reviewer. In case you would like\r\na specific user to review your work, you can assign it to them by using\r\n\r\n    r? <reviewer name>\r\n-->\r\n<!-- homu-ignore:end -->\r\n\r\nThis PR fixes a splat legacy demangling display bug, where the comma is in the wrong place in the argument list.\r\n\r\nIt also does a cleanup from @folkertdev's PR rust-lang/rust#159643 review:\r\n- move rustfmt::skip to main() and deduplicate it: https://github.com/rust-lang/rust/pull/159643#discussion_r3650148585\r\n",
+      "source": {
+        "type": "github_issue",
+        "url": "https://github.com/rust-lang/rust/pull/160050",
+        "title": "Fix a splat legacy demangling display bug",
+        "author": "teor2345",
+        "publisher": "GitHub Issues",
+        "date": "2026-07-28T06:25:46Z",
+        "evidence_rank": "issue-thread"
+      },
+      "claim": "Fix a splat legacy demangling display bug",
+      "gap_id": null,
+      "metadata": {
+        "state": "open",
+        "comments": 15,
+        "labels": [
+          "T-compiler",
+          "C-bug",
+          "S-blocked",
+          "A-name-mangling",
+          "F-splat"
+        ],
+        "created_at": "2026-07-28T06:25:46Z",
+        "updated_at": "2026-09-03T20:57:16Z",
+        "closed_at": null
+      }
+    },
+    {
+      "chunk_id": "github_release_382035148",
+      "text": "Rust 1.98.1\n<a id=\"1.98.1\"></a>\n\n- [rustc: fix miscompilation in generating vtables](https://github.com/rust-lang/rust/issues/161441)\n",
+      "source": {
+        "type": "github_release",
+        "url": "https://github.com/rust-lang/rust/releases/tag/1.98.1",
+        "title": "Rust 1.98.1",
+        "author": "rustbot",
+        "publisher": "GitHub Releases",
+        "date": "2026-09-03T13:14:07Z",
+        "evidence_rank": "release-notes"
+      },
+      "claim": "Rust 1.98.1",
+      "gap_id": null,
+      "metadata": {
+        "tag_name": "1.98.1",
+        "prerelease": false,
+        "draft": false,
+        "published_at": "2026-09-03T13:14:07Z",
+        "created_at": "2026-09-03T13:14:00Z",
+        "assets_count": 0
+      }
+    },
+    {
+      "chunk_id": "github_release_373931400",
+      "text": "Rust 1.98.0\n<a id=\"1.98.0-Language\"></a>\n\n## Language\n\n- [Allow shortening lifetime of `&mut` when unsize-coercing, even in an invariant position.](https://github.com/rust-lang/rust/pull/149219) For example, you can now coerce a `Cell<&'long mut i32>` to a `Cell<&'short mut dyn Send>`. Such shortenings were already previously allowed when coercing a `&mut` to a `&`, or coercing a `&` to a `&`.\n- [Add deny-by-default `invalid_runtime_symbol_definitions` lint and warn-by-default `suspicious_runtime_symbol_definitions` lint](https://github.com/rust-lang/rust/pull/155521)\n  - The lints currently specifically targets `core` runtime symbols like `memcmp`, `memset`, `strlen`, ... and is planned to be expanded in the next few releases.\n- [Add warn-by-default `c_void_returns` lint to check `core::ffi::c_void` as a return type](https://github.com/rust-lang/rust/pull/156379)\n\n<a id=\"1.98.0-Platform-Support\"></a>\n\n## Platform Support\n\n- [Add `powerpc64-unknown-linux-gnuelfv2` as Tier 3](https://github.com/rus",
+      "source": {
+        "type": "github_release",
+        "url": "https://github.com/rust-lang/rust/releases/tag/1.98.0",
+        "title": "Rust 1.98.0",
+        "author": "rustbot",
+        "publisher": "GitHub Releases",
+        "date": "2026-08-20T18:05:33Z",
+        "evidence_rank": "release-notes"
+      },
+      "claim": "Rust 1.98.0",
+      "gap_id": null,
+      "metadata": {
+        "tag_name": "1.98.0",
+        "prerelease": false,
+        "draft": false,
+        "published_at": "2026-08-20T18:05:33Z",
+        "created_at": "2026-08-20T17:10:21Z",
+        "assets_count": 0
+      }
+    },
+    {
+      "chunk_id": "github_release_355073850",
+      "text": "Rust 1.97.1\n<a id=\"1.97.1\"></a>\n\n- [rustc: Fix miscompilation in LLVM optimization](https://github.com/rust-lang/rust/issues/159035) This backports an LLVM submodule bump to include the LLVM-side fix and a revert of the rustc change that is one known trigger for the bug. The rustc side revert should not be strictly necessary but is done out of abundance of caution.\n",
+      "source": {
+        "type": "github_release",
+        "url": "https://github.com/rust-lang/rust/releases/tag/1.97.1",
+        "title": "Rust 1.97.1",
+        "author": "rustbot",
+        "publisher": "GitHub Releases",
+        "date": "2026-07-16T12:29:15Z",
+        "evidence_rank": "release-notes"
+      },
+      "claim": "Rust 1.97.1",
+      "gap_id": null,
+      "metadata": {
+        "tag_name": "1.97.1",
+        "prerelease": false,
+        "draft": false,
+        "published_at": "2026-07-16T12:29:15Z",
+        "created_at": "2026-07-16T12:29:08Z",
+        "assets_count": 0
+      }
+    },
+    {
+      "chunk_id": "github_commit_71238e21fc55e73ab3aad8c9f79fed7a47a179e1",
+      "text": "Auto merge of #162254 - JonathanBrouwer:rollup-Q3zP05f, r=JonathanBrouwer\n\nRollup of 12 pull requests\n\nSuccessful merges:\n\n - rust-lang/rust#161227 (implement `Add` and `Sub` for `Complex`)\n - rust-lang/rust#161280 (make target feature ABI check a hard error on ARM)\n - rust-lang/rust#161893 (Add custom allocator support to `(try_)map` on `UniqueArc` and `UniqueRc`)\n - rust-lang/rust#162154 (fix[154166]: closure debug capture print)\n - rust-lang/rust#161951 (Windows: add fallback if `canonicalize` fails)\n - rust-lang/rust#162173 (fix supposedly unreachable `bug!` being reachable)\n - rust-lang/rust#162180 (remove outdated next-solver handling)\n - rust-lang/rust#162191 (core: mark float `ClampBounds` methods as `#[inline]`)\n - rust-lang/rust#162195 (docs(time): clarify exact seconds for week and day)\n - rust-lang/rust#162199 (docs(time): clarify exact seconds for hour and minute)\n - rust-lang/rust#162222 (coverage: Small cleanups in `extract_hir_info`)\n - rust-lang/rust#162230 (Pass -Z me",
+      "source": {
+        "type": "github_commit",
+        "url": "https://github.com/rust-lang/rust/commit/71238e21fc55e73ab3aad8c9f79fed7a47a179e1",
+        "title": "71238e21fc55",
+        "author": "bors",
+        "publisher": "GitHub Commits",
+        "date": "2026-09-04T02:14:20Z",
+        "evidence_rank": "commit-history"
+      },
+      "claim": "Auto merge of #162254 - JonathanBrouwer:rollup-Q3zP05f, r=JonathanBrouwer",
+      "gap_id": null,
+      "metadata": {
+        "sha": "71238e21fc55e73ab3aad8c9f79fed7a47a179e1",
+        "author_name": "bors",
+        "author_login": "bors",
+        "date": "2026-09-04T02:14:20Z",
+        "message": "Auto merge of #162254 - JonathanBrouwer:rollup-Q3zP05f, r=JonathanBrouwer\n\nRollup of 12 pull requests\n\nSuccessful merges:\n\n - rust-lang/rust#161227 (implement `Add` and `Sub` for `Complex`)\n - rust-lang/rust#161280 (make target feature ABI check a hard error on ARM)\n - rust-lang/rust#161893 (Add custom allocator support to `(try_)map` on `UniqueArc` and `UniqueRc`)\n - rust-lang/rust#162154 (fix[154166]: closure debug capture print)\n - rust-lang/rust#161951 (Windows: add fallback if `canonicalize"
+      }
+    },
+    {
+      "chunk_id": "github_commit_86be46f85d36826b7e82c43056c360c8656f826d",
+      "text": "Rollup merge of #162230 - zmodem:unchecked_math, r=nikic\n\nPass -Z merge-functions=disabled in tests/codegen-llvm/intrinsics/unchecked_math.rs\n\nOtherwise e.g. `@unchecked_add_unsigned` and `@unchecked_add_signed` get merged after https://github.com/llvm/llvm-project/pull/220015, breaking the test's expectations.",
+      "source": {
+        "type": "github_commit",
+        "url": "https://github.com/rust-lang/rust/commit/86be46f85d36826b7e82c43056c360c8656f826d",
+        "title": "86be46f85d36",
+        "author": "JonathanBrouwer",
+        "publisher": "GitHub Commits",
+        "date": "2026-09-03T18:03:00Z",
+        "evidence_rank": "commit-history"
+      },
+      "claim": "Rollup merge of #162230 - zmodem:unchecked_math, r=nikic",
+      "gap_id": null,
+      "metadata": {
+        "sha": "86be46f85d36826b7e82c43056c360c8656f826d",
+        "author_name": "Jonathan Brouwer",
+        "author_login": "JonathanBrouwer",
+        "date": "2026-09-03T18:03:00Z",
+        "message": "Rollup merge of #162230 - zmodem:unchecked_math, r=nikic\n\nPass -Z merge-functions=disabled in tests/codegen-llvm/intrinsics/unchecked_math.rs\n\nOtherwise e.g. `@unchecked_add_unsigned` and `@unchecked_add_signed` get merged after https://github.com/llvm/llvm-project/pull/220015, breaking the test's expectations."
+      }
+    },
+    {
+      "chunk_id": "github_commit_7294c08bbb99a5684e91b74ebd87651cf0afa11e",
+      "text": "Rollup merge of #162222 - Zalathar:extract-hir-info, r=nnethercote\n\ncoverage: Small cleanups in `extract_hir_info`\n\nTwo small improvements that I noticed while contemplating follow-ups to https://github.com/rust-lang/rust/pull/161517.\n\n- Using a recursive call to modify function arguments is cute but confusing.\n- Using a single deeply-nested pattern ends up being less readable than a multi-step let-chain.\n\nThere should be no change to compiler output.",
+      "source": {
+        "type": "github_commit",
+        "url": "https://github.com/rust-lang/rust/commit/7294c08bbb99a5684e91b74ebd87651cf0afa11e",
+        "title": "7294c08bbb99",
+        "author": "JonathanBrouwer",
+        "publisher": "GitHub Commits",
+        "date": "2026-09-03T18:02:59Z",
+        "evidence_rank": "commit-history"
+      },
+      "claim": "Rollup merge of #162222 - Zalathar:extract-hir-info, r=nnethercote",
+      "gap_id": null,
+      "metadata": {
+        "sha": "7294c08bbb99a5684e91b74ebd87651cf0afa11e",
+        "author_name": "Jonathan Brouwer",
+        "author_login": "JonathanBrouwer",
+        "date": "2026-09-03T18:02:59Z",
+        "message": "Rollup merge of #162222 - Zalathar:extract-hir-info, r=nnethercote\n\ncoverage: Small cleanups in `extract_hir_info`\n\nTwo small improvements that I noticed while contemplating follow-ups to https://github.com/rust-lang/rust/pull/161517.\n\n- Using a recursive call to modify function arguments is cute but confusing.\n- Using a single deeply-nested pattern ends up being less readable than a multi-step let-chain.\n\nThere should be no change to compiler output."
+      }
+    },
+    {
+      "chunk_id": "github_pr_5344680168",
+      "text": "Introduce `rustc_middle::middel::resolve`\nThere are various types used to carry name resolution results across crate boundaries. They are scattered across places like `rustc_middle::ty`, `rustc_middle::metadata`, and `rustc_hir::def`.\r\n\r\nThis commit moves them into the new module, a more logical place for them to live. As part of this it eliminates the small `rustc_middle::metadata` module.\r\n\r\nOne nice consequence of this change: it removes the single use of a `LocalDefId` in `rustc_ast`. (This is what got my attention in the first place.)\r\n\r\nr? @petrochenkov ",
+      "source": {
+        "type": "github_pr",
+        "url": "https://github.com/rust-lang/rust/pull/162277",
+        "title": "Introduce `rustc_middle::middel::resolve`",
+        "author": "nnethercote",
+        "publisher": "GitHub PR",
+        "date": "2026-09-04T05:45:55Z",
+        "evidence_rank": "pr-thread"
+      },
+      "claim": "Introduce `rustc_middle::middel::resolve`",
+      "gap_id": null,
+      "metadata": {
+        "state": "open",
+        "comments": 0,
+        "labels": [
+          "T-rustdoc",
+          "T-compiler",
+          "S-waiting-on-review"
+        ],
+        "created_at": "2026-09-04T05:45:55Z",
+        "updated_at": "2026-09-04T05:45:59Z",
+        "pr_url": "https://github.com/rust-lang/rust/pull/162277",
+        "pr_merged_at": null
+      }
+    },
+    {
+      "chunk_id": "github_pr_5344382821",
+      "text": "Avoid wrong unwrap suggestions for never option value\nFixes rust-lang/rust#162241",
+      "source": {
+        "type": "github_pr",
+        "url": "https://github.com/rust-lang/rust/pull/162276",
+        "title": "Avoid wrong unwrap suggestions for never option value",
+        "author": "chenyukang",
+        "publisher": "GitHub PR",
+        "date": "2026-09-04T04:58:04Z",
+        "evidence_rank": "pr-thread"
+      },
+      "claim": "Avoid wrong unwrap suggestions for never option value",
+      "gap_id": null,
+      "metadata": {
+        "state": "open",
+        "comments": 1,
+        "labels": [
+          "T-compiler",
+          "S-waiting-on-review"
+        ],
+        "created_at": "2026-09-04T04:58:04Z",
+        "updated_at": "2026-09-04T04:58:09Z",
+        "pr_url": "https://github.com/rust-lang/rust/pull/162276",
+        "pr_merged_at": null
+      }
+    },
+    {
+      "chunk_id": "github_pr_5344352775",
+      "text": "Do not increase recursion depth for coroutine witness and rigid opaques when proving auto traits\n\r\n<!-- homu-ignore:start -->\r\n<!--\r\nPlease read our [LLM policy] before opening a PR,\r\nIf you used an LLM to generate any part of this PR, including the PR description, please disclose that according to our [guidelines][disclosure guidelines].\r\nLLM contributions are not banned, but are held to a higher standard of review and correctness.\r\n\r\n[LLM policy]: https://forge.rust-lang.org/policies/llm-usage.html\r\n[disclosure guidelines]: https://rustc-dev-guide.rust-lang.org/llm-guidance/writing.html#disclosure-guidelines\r\n\r\nIf this PR is related to an unstable feature or an otherwise tracked effort,\r\nplease link to the relevant tracking issue here. If you don't know of a related\r\ntracking issue or there are none, feel free to ignore this.\r\n\r\nThis PR will get automatically assigned to a reviewer. In case you would like\r\na specific user to review your work, you can assign it to them by using\r\n\r\n    r? <reviewer name>\r\n\r\nWhen merged, your PR's description becomes part of the commit message of a",
+      "source": {
+        "type": "github_pr",
+        "url": "https://github.com/rust-lang/rust/pull/162275",
+        "title": "Do not increase recursion depth for coroutine witness and rigid opaques when proving auto traits",
+        "author": "adwinwhite",
+        "publisher": "GitHub PR",
+        "date": "2026-09-04T04:52:52Z",
+        "evidence_rank": "pr-thread"
+      },
+      "claim": "Do not increase recursion depth for coroutine witness and rigid opaques when proving auto traits",
+      "gap_id": null,
+      "metadata": {
+        "state": "open",
+        "comments": 0,
+        "labels": [
+          "T-compiler",
+          "S-waiting-on-author",
+          "WG-trait-system-refactor"
+        ],
+        "created_at": "2026-09-04T04:52:52Z",
+        "updated_at": "2026-09-04T04:53:06Z",
+        "pr_url": "https://github.com/rust-lang/rust/pull/162275",
+        "pr_merged_at": null
+      }
+    }
+  ],
+  "source_scope_reports": [
+    {
+      "sources_queried": [
+        {
+          "type": "github",
+          "endpoint": "/search/repositories",
+          "queries": 1,
+          "results": 3,
+          "failures": []
+        }
+      ],
+      "total_candidates": 3,
+      "failures": [],
+      "degradation": [],
+      "coverage_notes": "live API"
+    },
+    {
+      "sources_queried": [
+        {
+          "type": "github_issue",
+          "endpoint": "/search/issues",
+          "queries": 1,
+          "results": 3,
+          "failures": []
+        }
+      ],
+      "total_candidates": 3,
+      "failures": [],
+      "degradation": [],
+      "coverage_notes": "live API"
+    },
+    {
+      "sources_queried": [
+        {
+          "type": "github_release",
+          "endpoint": "/repos/rust-lang/rust/releases",
+          "queries": 1,
+          "results": 3,
+          "failures": []
+        }
+      ],
+      "total_candidates": 3,
+      "failures": [],
+      "degradation": [],
+      "coverage_notes": "live API"
+    },
+    {
+      "sources_queried": [
+        {
+          "type": "github_commit",
+          "endpoint": "/repos/rust-lang/rust/commits",
+          "queries": 1,
+          "results": 3,
+          "failures": []
+        }
+      ],
+      "total_candidates": 3,
+      "failures": [],
+      "degradation": [],
+      "coverage_notes": "live API"
+    },
+    {
+      "sources_queried": [
+        {
+          "type": "github_pr",
+          "endpoint": "/search/issues?type=pr",
+          "queries": 1,
+          "results": 3,
+          "failures": []
+        }
+      ],
+      "total_candidates": 3,
+      "failures": [],
+      "degradation": [],
+      "coverage_notes": "live API"
+    }
+  ],
+  "failures": [
+    "osv: {\"error\": \"network failure: <urlopen error host proxy did not return JSON (may not be accelerated): 域名 api.osv.dev 可能已经被 DNS 污染，如果域名为本机域名，请解析为非回环 IP。>\", \"hint\": \"use --offline for sandbox testing\"}\n # using Watt host proxy via --resolve: 172.30.160.1:443",
+    "pypi: {\"error\": \"network failure: <urlopen error host proxy did not return JSON for pypi.org (may not be accelerated): 域名 pypi.org 可能已经被 DNS 污染，如果域名为本机域名，请解析为非回环 IP。>\", \"hint\": \"use --offline for sandbox testing\"}\n # using Watt host proxy via --resolve: 172.30.160.1:443",
+    "npm: {\"error\": \"network failure: <urlopen error host proxy did not return JSON for registry.npmjs.org (may not be accelerated): 域名 registry.npmjs.org 可能已经被 DNS 污染，如果域名为本机域名，请解析为非回环 IP。>\", \"hint\": \"use --offline for sandbox testing\"}\n # using Watt host proxy via --resolve: 172.30.160.1:443",
+    "crates: {\"error\": \"network failure: <urlopen error host proxy did not return JSON for crates.io (may not be accelerated): 域名 crates.io 可能已经被 DNS 污染，如果域名为本机域名，请解析为非回环 IP。>\", \"hint\": \"use --offline for sandbox testing\"}\n # using Watt host proxy via --resolve: 172.30.160.1:443"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "html_url": "https://github.com/example/oss-tool",
+      "full_name": "example/oss-tool",
+      "description": "A real OSS tool for testing adapter normalization.",
+      "owner": {"login": "example"},
+      "updated_at": "2026-09-01T00:00:00Z",
+      "stargazers_count": 1234
+    },
+    {
+      "id": 2,
+      "html_url": "https://github.com/example/another-tool",
+      "full_name": "example/another-tool",
+      "description": "Second repo to prove independent entry.",
+      "owner": {"login": "example"},
+      "updated_at": "2026-08-20T00:00:00Z",
+      "stargazers_count": 88
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "dev-ops-sre",
+  "name": "dev-ops-sre",
+  "title": "部署 / CI/CD / 可观测性（已蒸馏）",
+  "description": "运维可靠性子技能：发布流水线、CI/CD 门禁、容器镜像、日志/指标/追踪、告警与回滚的可执行检查清单。",
+  "whenToUse": "搭建或评审部署流程、CI/CD、容器镜像、监控告警、on-call 与回滚方案时；需要判断发布与运维可靠性边界时。",
+  "boundary": "不与 dev-security/dev-performance/dev-testing 重复；不把特定厂商工具当成普适标准；无 ≥2 来源的规则必须降权。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "厂商特定功能写成普适规则",
+      "把“加了监控/告警”当成可观测性完成"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "部署",
+    "CI/CD",
+    "容器",
+    "可观测性",
+    "告警",
+    "回滚"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://docs.github.com/en/actions",
+    "https://docs.gitlab.com/ee/ci/",
+    "https://docs.docker.com/build/building/best-practices/",
+    "https://docs.docker.com/build/building/multi-stage/",
+    "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+    "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/",
+    "https://opentelemetry.io/docs/concepts/observability-primer/",
+    "https://prometheus.io/docs/alerting/latest/overview/",
+    "https://prometheus.io/docs/practices/alerting/",
+    "https://12factor.net/build-release-run",
+    "https://12factor.net/dev-prod-parity",
+    "https://12factor.net/logs",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

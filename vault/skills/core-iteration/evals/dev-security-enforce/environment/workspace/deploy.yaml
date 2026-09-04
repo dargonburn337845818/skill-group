@@ -1,0 +1,16 @@
+app:
+  env: production
+  secret: REPLACE_WITH_FAKE_SECRET
+  debug: true
+  admin:
+    path: /admin
+    token: REPLACE_WITH_FAKE_TOKEN
+  cors:
+    origin: "*"
+  db:
+    user: root
+    password: REPLACE_WITH_FAKE_PASSWORD
+    connection: mysql://root:root@db:3306/app
+  logging:
+    level: debug
+    body: true

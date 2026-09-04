@@ -1,0 +1,11 @@
+[
+  {
+    "sha": "abc123def456",
+    "html_url": "https://github.com/example/repo/commit/abc123def456",
+    "commit": {
+      "author": {"name": "Jane Doe", "date": "2026-01-01T00:00:00Z"},
+      "message": "fix: example commit message\n\nBody line."
+    },
+    "author": {"login": "janedoe"}
+  }
+]

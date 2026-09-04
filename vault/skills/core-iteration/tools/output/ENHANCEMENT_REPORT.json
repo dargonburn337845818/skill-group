@@ -1,0 +1,43 @@
+{
+  "tasks": 2,
+  "metrics": [
+    {
+      "metric": "success",
+      "label": "任务成功率",
+      "weight": 0.3,
+      "without": 1.0,
+      "with": 0.834,
+      "without_norm": 100.0,
+      "with_norm": 83.4,
+      "gain": -0.166,
+      "gain_percent": -16.6
+    },
+    {
+      "metric": "efficiency",
+      "label": "效率(越少越好)",
+      "weight": 0.15,
+      "without": 9.834,
+      "with": 8.333,
+      "without_norm": null,
+      "with_norm": null,
+      "gain": 0.153,
+      "gain_percent": 15.3
+    },
+    {
+      "metric": "coverage",
+      "label": "能力覆盖",
+      "weight": 0.15,
+      "without": 0.0,
+      "with": 0.5,
+      "without_norm": 0.0,
+      "with_norm": 50.0,
+      "gain": 0.5,
+      "gain_percent": 50.0
+    }
+  ],
+  "base_model_score": 30.0,
+  "skill_model_score": 32.5,
+  "enhancement_index": 8.0,
+  "enhancement_grade": "轻微增强",
+  "interpretation": "使用 skill 后综合能力提升 8.0%：轻微增强。"
+}

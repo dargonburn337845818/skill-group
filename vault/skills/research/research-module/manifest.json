@@ -1,0 +1,57 @@
+{
+  "id": "research-module",
+  "name": "research-module",
+  "title": "科研多 agent 导师团队与论文/组会流程",
+  "description": "科研模块骨架：按“回合式讨论 + 人名专家”协议读论文、理脉络、写论文、组会、PPT、模拟导师审查与职业路径。",
+  "whenToUse": "用户进入科研/论文/组会/导师审查/研究 PPT/职业路径等场景时；需要多 agent 导师团队以具体人名给出意见时。",
+  "boundary": "流程骨架，不替代论文原文；专家意见为风格/方法论参考，不伪造原话；无 ready 导师团时走专家缺口分支，不静默降级。",
+  "notWhenToUse": "纯算法刷题（走 teacher 模块）；纯开发/重构（走 dev 模块）；不需要署名专家意见的简单问答。",
+  "scenario": "research",
+  "scenarios": [
+    "research",
+    "teaching"
+  ],
+  "tags": [
+    "科研",
+    "论文",
+    "组会",
+    "导师团队",
+    "多agent"
+  ],
+  "experts": [
+    "ting-yang",
+    "ping-wang",
+    "s-ma",
+    "y-chen",
+    "o-k-h-shanker",
+    "a-k-sah",
+    "richard-feynman"
+  ],
+  "sourceRefs": [
+    "$PROJECT_ROOT/vault/meta/EXPERT_LIBRARY.json",
+    "$PROJECT_ROOT/vault/meta/domain-profiles.json",
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/VLPC教师共识.md",
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/组会报告技巧共识.md",
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/vlpc_teacher_consensus.json"
+  ],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT",
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "子技能含触发/动作/边界",
+      "每条指导标注 expert_id + expert_name",
+      "导师审查按学生汇报→提问→问题/创新汇总→下一步四段",
+      "科研专家有具体人名/领域/sourceRefs"
+    ],
+    "reject": [
+      "把抽象角色冒充人名专家",
+      "伪造导师原话",
+      "无 sourceRefs 就置 status=ready",
+      "有分歧却静默合并"
+    ],
+    "minIndependentSources": 1,
+    "notes": "科研专家为公开论文/材料中的风格参考，不是本人原话。"
+  }
+}

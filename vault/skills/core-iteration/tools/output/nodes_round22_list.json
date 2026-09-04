@@ -1,0 +1,115 @@
+[
+  {
+    "id": "cap_skill_verification_consensus",
+    "claim": "新增检验底座：证据分类+可证伪检查+任务先行评测+红队对抗复核，让“验证过了”变成可审计证据链",
+    "trigger": "发布/更新 Skill、代码或交付物前需要校验；用户要求质检/红队/审计",
+    "action": "列主张→配唯一证明→突变测试→eval 基线→对抗审查→输出校验报告",
+    "boundary": "只保证证据链完整，不保证领域知识正确；验证针对具体声明与版本",
+    "source_refs": [
+      "https://github.com/WordPress/agent-skills/blob/trunk/docs/authoring-guide.md",
+      "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "https://github.com/olaservo/skilljack-evals",
+      "https://github.com/ncoevoet/claude-workflow-kit",
+      "https://www.promptfoo.dev/docs/red-team/coding-agents/"
+    ],
+    "evidence": "verified-high",
+    "weight": 1.0,
+    "provenance": "new",
+    "trace_chain": [
+      "skill_engineering_03 -> verified-high -> skill-verification-consensus"
+    ],
+    "metadata": {
+      "skill_id": "skill-verification-consensus",
+      "version": "0.1.0"
+    }
+  },
+  {
+    "id": "cap_dev_workflow_consensus",
+    "claim": "新增开发底座：Frame→Interview→Plan→Spec→对抗审查→Gate→Build→证据化验证→Review→Ship",
+    "trigger": "编码/重构/模块/插件开发，需规格先行与验收门禁",
+    "action": "先冻结接口与验收→模块地图→子代理分层→关键检查证明可变红→终验",
+    "boundary": "不替代领域知识；不自动允许热更 DSH；一次性小脚本可简化",
+    "source_refs": [
+      "$WORKSPACE/AGENTS.md",
+      "https://github.com/ncoevoet/claude-workflow-kit",
+      "https://github.com/olaservo/skilljack-evals",
+      "https://github.com/yjh051108/dsh-routing-suite"
+    ],
+    "evidence": "verified-high",
+    "weight": 1.0,
+    "provenance": "new",
+    "trace_chain": [
+      "skill_engineering_05 -> verified-high -> dev-workflow-consensus"
+    ],
+    "metadata": {
+      "skill_id": "dev-workflow-consensus",
+      "version": "0.1.0"
+    }
+  },
+  {
+    "id": "cap_distillation_packaging",
+    "claim": "蒸馏共识新增成品发布门槛：元数据可发现、渐进披露、eval 场景、配对基线、检验底座",
+    "trigger": "蒸馏产出要发布为 Skill 前",
+    "action": "检查 description/瘦身/一层引用/确定性脚本/至少1个eval+anti-trigger/CHANGELOG",
+    "boundary": "评测通过≠知识正确；仅证明可测增益与无误触发",
+    "source_refs": [
+      "https://github.com/WordPress/agent-skills/blob/trunk/docs/authoring-guide.md",
+      "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "https://github.com/olaservo/skilljack-evals"
+    ],
+    "evidence": "verified-high",
+    "weight": 1.0,
+    "provenance": "updated",
+    "trace_chain": [
+      "skill_engineering_01/02/03 -> verified-high -> distillation-consensus v0.5.0"
+    ],
+    "metadata": {
+      "skill_id": "distillation-consensus",
+      "version": "0.5.0"
+    }
+  },
+  {
+    "id": "cap_search_source_ledger",
+    "claim": "搜索底座新增来源台账/独立判定/搜索预算/evidence_class",
+    "trigger": "任何搜索/查资料/核验来源前",
+    "action": "拆问题→独立入口→归一化并标 evidence_class→台账→预算防止空转",
+    "boundary": "只负责找得到+来源可信，不负责收益过滤与蒸馏",
+    "source_refs": [
+      "https://github.com/WordPress/agent-skills/blob/trunk/docs/authoring-guide.md",
+      "https://github.com/olaservo/skilljack-evals",
+      "$WORKSPACE/skills/skill-verification-consensus/SKILL.md"
+    ],
+    "evidence": "verified-high",
+    "weight": 1.0,
+    "provenance": "updated",
+    "trace_chain": [
+      "skill_engineering_01/03 -> verified-high -> search-source v0.2.0"
+    ],
+    "metadata": {
+      "skill_id": "search-source",
+      "version": "0.2.0"
+    }
+  },
+  {
+    "id": "cap_web_research_evidence_class",
+    "claim": "web-research 输出契约新增 evidence_class 字段，打通搜索→验证证据链",
+    "trigger": "生成 raw_corpus 交给下游验证/蒸馏时",
+    "action": "每条 raw_corpus_entry 可标 static/runtime/data/rendering/tooling",
+    "boundary": "evidence_class 只是标注，不替代真实证明",
+    "source_refs": [
+      "https://github.com/ncoevoet/claude-workflow-kit",
+      "https://github.com/olaservo/skilljack-evals",
+      "$WORKSPACE/skills/skill-verification-consensus/SKILL.md"
+    ],
+    "evidence": "verified-high",
+    "weight": 1.0,
+    "provenance": "updated",
+    "trace_chain": [
+      "skill_engineering_03/04 -> verified-high -> web-research-consensus v0.3.0"
+    ],
+    "metadata": {
+      "skill_id": "web-research-consensus",
+      "version": "0.3.0"
+    }
+  }
+]

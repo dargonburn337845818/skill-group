@@ -1,0 +1,51 @@
+{
+  "id": "writing-module",
+  "name": "writing-module",
+  "title": "文稿模块（提示词/文案/文档/报告文本服务）",
+  "description": "文稿模块：为 dev/teacher/research/distill 提供提示词、文案、文档/报告等可复用文本；通过 topic/domain/audience/type 接口调用，不替代各领域专家判断。",
+  "whenToUse": "需要生产或改写提示词、提问稿、文案、PPT 文案、README、组会报告、成果汇报等文本，并由其他模块按文本接口调用时。",
+  "boundary": "只负责文本表达质量；不负责领域研究、事实核验、技术/学术判断；不编造引用、数据与结论归属。",
+  "notWhenToUse": "用户只需要领域结论本身、需要专家判断、需要检索/验证事实，或已有成熟文本无需润色时。",
+  "scenario": "writing",
+  "scenarios": [
+    "writing",
+    "dev",
+    "teacher",
+    "research",
+    "distill"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "输入经文本接口 topic/domain/audience/type 解析",
+      "输出包含可复用文本与占位符/待确认项",
+      "保留专家署名与分歧，不抹平结论归属",
+      "模板可直接用于 dev/teacher/research 的典型场景"
+    ],
+    "reject": [
+      "无输入契约或输出契约",
+      "代作领域判断：编造事实/数据/引用",
+      "将多专家分歧改写成单一结论",
+      "虽有模板但无边界与触发说明"
+    ]
+  },
+  "tags": [
+    "文稿",
+    "提示词",
+    "文案",
+    "报告",
+    "文本服务",
+    "去AI味"
+  ],
+  "experts": [
+    "文案写作共识（个人蒸馏）",
+    "技术写作共识（个人蒸馏）"
+  ],
+  "sourceRefs": [
+    "FORMAL_SPEC.md 第 2 节 writing 定义",
+    "vault/meta/modules.json writing.gaps"
+  ],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "dsh-optimization-consensus",
+  "name": "dsh-optimization-consensus",
+  "title": "DSH 运维与优化共识",
+  "description": "子代理数量有界、升级插件先隔离兼容+冒烟、运行中 agent 禁止热更、破坏性操作先提醒用户并准备回滚。",
+  "whenToUse": "任何 DSH/插件升级、子代理调度、热更新或重启决策前。",
+  "scenario": "base",
+  "scenarios": [
+    "base"
+  ],
+  "tags": [
+    "DSH运维",
+    "热更",
+    "子代理",
+    "回滚",
+    "升级安全"
+  ],
+  "experts": [
+    "DeepSeek Harness 官方",
+    "dsh-market",
+    "LCYLYM",
+    "Luck9Star",
+    "leonardoxr",
+    "y08lin4",
+    "weijiafu14",
+    "tintinweb"
+  ],
+  "sourceRefs": [
+    "~/.dsh/dsh-optimization-consensus.md",
+    "$WORKSPACE/skills/dsh-optimization-consensus/"
+  ],
+  "activation": "always-on",
+  "version": "0.1.0",
+  "license": "MIT",
+  "routing": "base",
+  "boundary": "所有开发/运维任务都应遵守；不要用它替代具体领域知识。",
+  "notWhenToUse": "纯领域内容任务（教学/论文/GitHub 发布）不需要提前展开。"
+}

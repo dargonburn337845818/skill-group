@@ -8,7 +8,7 @@
   "scenarios": ["teaching", "distillation"],
   "tags": ["算法竞赛", "教师", "熵减盘问", "信息论", "拆题"],
   "experts": ["tourist", "jiangly", "Benq", "Um_nik", "Errichto", "Petr", "maroonrk", "rng_58", "ecnerwala", "scott_wu", "tfg", "Radewoosh", "ksun48", "neal"],
-  "sourceRefs": ["teacher-consensus-skill/", "Codeforces 423篇博客", "14位专家提交记录"],
+  "sourceRefs": ["$WORKSPACE/skills/teacher-consensus-skill/", "Codeforces 423篇博客", "14位专家提交记录"],
   "activation": "catalog",
   "version": "0.1.0",
   "license": "MIT"

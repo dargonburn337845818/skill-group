@@ -1,0 +1,10 @@
+{
+  "info": {
+    "name": "example-package",
+    "version": "1.2.3",
+    "summary": "Example PyPI package for offline adapter test.",
+    "author": "Jane Doe",
+    "project_url": "https://pypi.org/project/example-package/",
+    "upload_time": "2026-06-01T00:00:00Z"
+  }
+}

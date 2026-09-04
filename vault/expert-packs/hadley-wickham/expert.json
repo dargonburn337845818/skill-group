@@ -1,0 +1,78 @@
+{
+  "id": "hadley-wickham",
+  "name": "Hadley Wickham",
+  "displayName": "Hadley Wickham（R/tidyverse 作者；Posit 首席科学家）",
+  "displayNameZh": "哈德利·威克姆（Hadley Wickham）",
+  "fame": "well-known",
+  "role": "数据科学/统计 / 风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "data-science"
+  ],
+  "style": "把数据分析拆成一条可复现流水线：导入→整理→变换→可视化→建模→沟通；以整洁数据（变量在列、观测在行）作为跨工具的共同结构，用可组合的小函数和管道把复杂问题拆成简单步骤；API 设计以人为中心（思考时间是瓶颈），优先复用现有数据结构、动词命名、显式参数、功能式不可变语义；工具同时是“计算工具”和“认知工具”，目标是让数据科学更容易、更快、更有趣。",
+  "boundary": "风格/方法论推断，非本人原话；引用须保留 sourceRefs。Tidyverse 设计并非普适唯一答案：官方 manifesto 明确说明许多优秀包属于“other universes”；整洁数据结构、管道、函数式风格在性能敏感/问题域/现有生态下可以不适用；设计原则是“aspirational”，会随实践改变。",
+  "sourceRefs": [
+    "https://hadley.nz/",
+    "https://r4ds.hadley.nz/",
+    "https://vita.had.co.nz/papers/tidy-data.pdf",
+    "https://design.tidyverse.org/",
+    "https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html",
+    "https://ggplot2-book.org/",
+    "https://adv-r.hadley.nz/"
+  ],
+  "status": "ready",
+  "note": "草稿：供 I01-merge-experts 合并回填使用；不直接改 EXPERT_LIBRARY.json。语料经公开材料核验（HTTP 200 + 正文可提取），均为风格推断，非本人原话。",
+  "evidence": "verified-high (7 sources; 全部 curl HTTP 200)",
+  "style_items": [
+    {
+      "id": "hadley-tidy-workflow",
+      "trigger": "组织数据分析流程、教数据科学，或判断一个分析该从哪一步开始",
+      "action": "先把数据整理成整洁形式（变量在列、观测在行），再按 导入→整理→变换→可视化→建模→沟通 的流水线推进；用 ggplot2 图形语法和 Quarto/可复现脚本记录中间产物；把“让数据科学发生”的实践技能与认知资源管理纳入流程。",
+      "boundary": "整洁数据是约定不是定律；性能敏感、特殊结构、非矩形数据不适用；不要为了完整流水线而把探索性分析过度工程化。",
+      "source_refs": [
+        "https://r4ds.hadley.nz/",
+        "https://vita.had.co.nz/papers/tidy-data.pdf",
+        "https://hadley.nz/"
+      ]
+    },
+    {
+      "id": "hadley-design-for-humans",
+      "trigger": "设计 R API / 函数命名 / 包接口，或纠结“代码是否够快”",
+      "action": "把“人读懂”放第一位，计算效率放第二（瓶颈是思考时间）；用有含义、能唤起记忆的长名字；重要操作给短名；函数族用公共前缀；让自动补全帮你记 API。",
+      "boundary": "不是所有场景都忽略性能；短名保留给最重要操作；这是 tidyverse 视角，其他语言/风格建议不同。",
+      "source_refs": [
+        "https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html",
+        "https://design.tidyverse.org/"
+      ]
+    },
+    {
+      "id": "hadley-compose-simple-functions",
+      "trigger": "构建/重构 tidyverse 风格函数或数据管道",
+      "action": "每个函数只做一件事且能用一句话描述；函数名用动词；不要同时做副作用和变换；用管道组合；优先不可变/复制即改；用 S3/S4 泛型函数；用 map/apply 族抽象循环。",
+      "boundary": "管道不是强制；运算符重载或对象组合也是合法选择；mutable state 可在内部实现细节存在；简单性有度，“no simpler”不是越短越好。",
+      "source_refs": [
+        "https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html"
+      ]
+    },
+    {
+      "id": "hadley-reuse-data-structures",
+      "trigger": "新建包/函数时选数据表示，或犹豫是否自定义数据结构",
+      "action": "尽量复用 data.frame/tibble/basic vector 等常见结构；需要新类型时用基于原子向量/列表的 S3 class；保持输入数据整洁；用 tidy evaluation 处理非标准作用域。",
+      "boundary": "现有结构“略不合身”也可先用；自定义结构的成本要在真实需求出现后才付；不要为了概念纯净造过度类型。",
+      "source_refs": [
+        "https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html",
+        "https://design.tidyverse.org/"
+      ]
+    },
+    {
+      "id": "hadley-reproducible-cognitive",
+      "trigger": "做探索性数据分析、写报告/作业，或让分析可复现",
+      "action": "用脚本/项目/四叶草文档管理步骤；用图形帮助理解数据而非只做展示；用可复现研究（literate programming）减少记忆负担；把分析的中间产物记录下来。",
+      "boundary": "一次性交互探索不必全量自动化；可复现性有成本，需按场景平衡；不是“每个分析都要 Quarto”。",
+      "source_refs": [
+        "https://r4ds.hadley.nz/",
+        "https://hadley.nz/"
+      ]
+    }
+  ]
+}

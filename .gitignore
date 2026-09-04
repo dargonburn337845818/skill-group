@@ -1,3 +1,15 @@
 node_modules/
 *.tsbuildinfo
 *.tgz
+.DS_Store
+*.bak
+*.bak-*
+lib.bak-*/
+__pycache__/
+*.pyc
+.Python
+*.pyo
+
+# Internal development artifacts not published with the skill library.
+/assignments/
+/evals/

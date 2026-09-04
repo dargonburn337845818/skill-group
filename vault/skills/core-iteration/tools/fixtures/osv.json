@@ -1,0 +1,10 @@
+{
+  "vulns": [
+    {
+      "id": "CVE-2026-1",
+      "summary": "Example package has a cross-site scripting issue before version 2.0.0.",
+      "details": "Fixed in 2.0.0.",
+      "published": "2026-01-15T00:00:00Z"
+    }
+  ]
+}

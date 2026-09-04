@@ -1,0 +1,23 @@
+{
+  "id": "monotone-ask",
+  "name": "把最优化转判定",
+  "layer": "consensus",
+  "trigger": "求最小/最大/最早/最晚，且可行性或答案随某个参数单调",
+  "action": "先写一个 check(x)，把最优化问题变成判定问题，再二分",
+  "boundary": "check 不单调、有多个峰、或判定本身无法贪心验证时，不能直接二分",
+  "source_refs": [
+    "$WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json",
+    "local practice: monotone / binary_answer"
+  ],
+  "direction": "剪枝决策",
+  "feature_hint": "monotonic / binary_answer",
+  "algorithm_hints": ["二分答案", "二分查找"],
+  "question_templates": [
+    "答案或可行性判定随某个量单调吗？",
+    "能把最优化改成判定问题吗？"
+  ],
+  "user_reminder": "先不用想最优解，先问：答案是不是随着某个值变大而“只会更容易/只会更难”？如果是，就先写一个判定函数，再用二分找分界点。",
+  "confidence": 0.92,
+  "agreement": 0.8,
+  "evidence_type": "expert_consensus + common_lore"
+}

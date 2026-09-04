@@ -1,0 +1,51 @@
+{
+  "id": "research-experiment-design",
+  "name": "research-experiment-design",
+  "title": "实验设计与统计可复现（已蒸馏）",
+  "description": "科研实验设计/统计/可复现子技能：从变量与假设、检验选择、p值与效应量、样本量功效分析到可复现性清单的可执行检查流程。",
+  "whenToUse": "设计实验、选统计检验、解读显著性/效应量、计算样本量、写或审查方法节/实验设置，以及评估研究可复现性时。",
+  "boundary": "是检查框架而非统计教材；不替代领域规范与统计师；不生成或篡改实验数据；复杂设计需查专门标准。",
+  "scenario": "research",
+  "scenarios": [
+    "research"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "含触发/动作/边界/反例四件套",
+      "覆盖实验变量、假设检验、显著性/效应量、样本量与可复现性清单",
+      "核心规则 ≥2 独立来源或官方一手"
+    ],
+    "reject": [
+      "把 p<0.05 当作效应存在或证明因果",
+      "跳过预注册/先验假设，事后编假设",
+      "用事后功效代替事前样本量计算",
+      "无来源且无边界地给统计结论"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "实验设计",
+    "统计",
+    "假设检验",
+    "效应量",
+    "样本量",
+    "可复现"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://www.itl.nist.gov/div898/handbook/",
+    "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285",
+    "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510",
+    "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124",
+    "https://www.nature.com/articles/sdata201618",
+    "https://www.go-fair.org/fair-principles/",
+    "https://nap.nationalacademies.org/catalog/25303/reproducibility-and-replicability-in-science",
+    "https://europepmc.org/article/MED/36909790",
+    "https://www.tandfonline.com/doi/full/10.1080/00031305.2016.1154108",
+    "https://doi.org/10.1177/0956797611417632"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

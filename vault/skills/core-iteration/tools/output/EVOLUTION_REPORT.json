@@ -1,0 +1,78 @@
+{
+  "round": 30,
+  "decision": "STOP",
+  "overall_score": 87.0,
+  "grade": "A",
+  "dimensions": {
+    "search": 85.0,
+    "distill": 90.0,
+    "verify": 85.0,
+    "dev": 80.0,
+    "meta": 87.5
+  },
+  "scorecard_total": 204,
+  "scorecard_skills": 12,
+  "package_check": {
+    "ok": true,
+    "avg_score": 95.4,
+    "checked": 12
+  },
+  "tool_count": 13,
+  "tools": [
+    "validate_contract.py",
+    "scorecard.py",
+    "behavior_test.py",
+    "smoke_test.py",
+    "skill_package_check.py",
+    "distill_skill_package.py",
+    "scaffold_eval_task.py",
+    "scaffold_dev_spec.py",
+    "info_source_cli.py",
+    "run_improve_validate.py",
+    "mine_ideas.py",
+    "meta_report.py",
+    "skill_draft_builder.py"
+  ],
+  "convergence": "已按成本/收益边界收敛（decision=STOP）",
+  "yield_tail": [
+    {
+      "round": 28,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 1,
+      "effective_new": 1,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 29,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 3,
+      "effective_new": 3,
+      "decision": "CONTINUE"
+    },
+    {
+      "round": 30,
+      "raw_count": 0,
+      "verified_high": 0,
+      "verified_single": 0,
+      "nodes": 1,
+      "effective_new": 1,
+      "decision": "STOP"
+    }
+  ],
+  "evaluation": {
+    "search": "检索/来源链路已工具化并有 evidence_class 贯通",
+    "distill": "蒸馏端已有打包与质检自动化",
+    "verify": "检验端已有可执行门禁与评测脚手架",
+    "dev": "开发端已有规格/路径手册脚手架与深模块强流程",
+    "meta": "元能力调度/评分卡可复用"
+  },
+  "next_high_value": [
+    "补真实 Skill A/B（skilljack-evals 风格）替换模板增强指数",
+    "把 scaffold_eval_task.py 产物接入真实 runner",
+    "将 dev/spec 门禁接入 dsh-skill-router 插件（隔离冒烟后）"
+  ]
+}

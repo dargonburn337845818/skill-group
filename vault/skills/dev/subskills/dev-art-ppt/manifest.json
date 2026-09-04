@@ -1,0 +1,47 @@
+{
+  "id": "dev-art-ppt",
+  "name": "dev-art-ppt",
+  "title": "美术与 PPT（已蒸馏）",
+  "description": "美术与 PPT 制作子技能：演示叙事、版式层级、图表选择、PPT 专用视觉边界与交付检查清单。",
+  "whenToUse": "做 PPT、演示文稿、宣传图或视觉叙事时；需要组织演示内容与视觉结构时。",
+  "boundary": "不把单一模板/皮肤风格当普适标准；不负责品牌 VI/Logo；网页规则不能原样照搬。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "单一模板风格写成普适规则",
+      "把网页 UI 规则照搬到 PPT 而无边界"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "美术",
+    "PPT",
+    "演示",
+    "图表"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "$WORKSPACE/ai-ppt-skill/SKILL.md",
+    "$PROJECT_ROOT/vault/skills/distillation/ui-aesthetics-design/",
+    "https://www.presentationzen.com/",
+    "https://www.storytellingwithdata.com/",
+    "https://www.data-to-viz.com/",
+    "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.2.0",
+  "license": "MIT"
+}

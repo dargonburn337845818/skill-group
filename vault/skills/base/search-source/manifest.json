@@ -1,0 +1,45 @@
+{
+  "id": "search-source",
+  "name": "search-source",
+  "title": "搜索与来源底座",
+  "description": "常驻搜索底座：多源检索、来源归一化与可信度判断，供所有工作流先检索再进入蒸馏/开发。",
+  "whenToUse": "任何需要查资料、搜 GitHub、查论文/包生态、核验信息来源、生成 raw_corpus 的任务。",
+  "boundary": "只负责找得到+来源可信；不负责收益过滤与蒸馏判断。",
+  "notWhenToUse": "不需外部信息、只需读本地文件时。",
+  "scenario": "base",
+  "scenarios": [
+    "base",
+    "core-iteration"
+  ],
+  "routing": "base",
+  "qualityCriteria": {
+    "high": [
+      "来自上游一手（源码/commit/release/公告/论文原文）",
+      "至少两个独立来源或单源逻辑自洽",
+      "带可回溯 URL/版本/commit"
+    ],
+    "reject": [
+      "无来源的断言",
+      "只有 README/star/awesome 当作证据",
+      "同一通稿/转载算独立来源"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "搜索",
+    "来源",
+    "核验",
+    "GitHub",
+    "学术"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://github.com/yjh051108/dsh-routing-suite",
+    "$WORKSPACE/skills/web-research-consensus-skill/SKILL.md",
+    "$WORKSPACE/skills/core-iteration/info-source-adapter/SKILL.md",
+    "$WORKSPACE/skills/skill-verification-consensus/SKILL.md"
+  ],
+  "activation": "always-on",
+  "version": "0.3.0",
+  "license": "MIT"
+}

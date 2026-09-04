@@ -1,0 +1,26 @@
+{
+  "id": "info-source-adapter",
+  "name": "info-source-adapter",
+  "title": "信息获取执行适配器",
+  "description": "把 GitHub/OSV/包生态/学术/OSS 社区信息源变成可调用、可归一化的检索适配器，输出 raw_corpus 与 source_scope_report。",
+  "whenToUse": "需要真正调用外部信息源获取一手资料，或需要把多渠道检索结果归一化成原语料时。",
+  "scenario": "core-iteration",
+  "tags": [
+    "信息获取",
+    "GitHub",
+    "OSV",
+    "适配器",
+    "多源检索"
+  ],
+  "experts": [
+    "GitHub Docs",
+    "OSV"
+  ],
+  "sourceRefs": [
+    "https://docs.github.com/en/rest/search/search",
+    "https://osv.dev/",
+    "本地 web-research-consensus/benefit-filter"
+  ],
+  "version": "0.7.0",
+  "license": "MIT"
+}

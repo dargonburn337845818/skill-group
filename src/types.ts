@@ -6,18 +6,30 @@
  * metadata; this file only mirrors it in memory.
  */
 
+export interface QualityCriteria {
+  high?: string[]
+  reject?: string[]
+  minIndependentSources?: number
+  notes?: string
+}
+
 export interface SkillManifest {
   id: string
   name?: string
   title?: string
   description: string
   whenToUse?: string
+  boundary?: string
+  notWhenToUse?: string
   scenario: string
   scenarios?: string[]
+  routing?: 'base' | 'core' | 'domain'
+  qualityCriteria?: QualityCriteria
   tags?: string[]
   experts?: string[]
   sourceRefs?: string[]
-  activation?: 'catalog' | 'always-on'
+  activation?: 'catalog' | 'always-on' | 'internal'
+  hidden?: boolean
   version?: string
   license?: string
 }
@@ -28,12 +40,17 @@ export interface SkillEntry {
   title: string
   description: string
   whenToUse?: string
+  boundary?: string
+  notWhenToUse?: string
   scenario: string
   scenarioTitle: string
+  routing: 'base' | 'core' | 'domain'
+  qualityCriteria?: QualityCriteria
   tags: string[]
   experts: string[]
   sourceRefs: string[]
-  activation: 'catalog' | 'always-on'
+  activation: 'catalog' | 'always-on' | 'internal'
+  hidden: boolean
   version: string
   license?: string
   /** Absolute directory of the skill package. */
@@ -68,12 +85,17 @@ export interface CatalogRow {
   title: string
   description: string
   whenToUse?: string
+  boundary?: string
+  notWhenToUse?: string
   scenario: string
   scenarioTitle: string
+  routing: string
+  qualityCriteria?: QualityCriteria
   tags: string[]
   experts: string[]
   sourceRefs: string[]
   activation: string
+  hidden: boolean
   version: string
   enabled: boolean
   persistentEnabled: boolean

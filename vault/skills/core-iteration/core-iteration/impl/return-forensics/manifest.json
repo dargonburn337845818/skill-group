@@ -1,0 +1,23 @@
+{
+  "id": "return-forensics",
+  "name": "return-forensics",
+  "title": "收益下降根因分析器",
+  "description": "在收益下降/强制评估/意外 STOP 时，定位语料、过滤、蒸馏、接口、效果、范围六类根因，并输出可追溯思维链。",
+  "whenToUse": "边际收益下降、连续两轮收益 <3、forced_review、或需要解释“为什么迭代没进展”时。",
+  "scenario": "core-iteration",
+  "tags": [
+    "收益下降",
+    "根因分析",
+    "思维链",
+    "审计"
+  ],
+  "experts": [
+    "Convergence Detection",
+    "Convergence Protocol"
+  ],
+  "sourceRefs": [
+    "本地 value-meta-scheduler/value-validator/value-effect-audit"
+  ],
+  "version": "0.2.0",
+  "license": "MIT"
+}

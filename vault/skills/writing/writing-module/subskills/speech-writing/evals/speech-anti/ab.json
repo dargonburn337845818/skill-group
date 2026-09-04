@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "id": "speech-eval",
+      "expected_skill": "speech-writing",
+      "success_without": 1.0,
+      "success_with": 0.667,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 2.0,
+      "efficiency_with": 3.0
+    },
+    {
+      "id": "speech-anti",
+      "expected_skill": "",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 0.0,
+      "efficiency_without": 4.0,
+      "efficiency_with": 2.333
+    }
+  ]
+}

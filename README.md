@@ -22,7 +22,7 @@ dsh-skill-vault 插件
 ├── src/manager.ts    # 开关状态（全局持久 + 会话临时）、注册/注销
 ├── src/tools.ts      # skill_vault_list / enable / disable / add
 ├── src/api.ts        # /skill-vault/api（Web 面板数据接口）
-└── src/client/       # conversation.view 可视化开关面板
+└── src/client/       # 可视化开关面板（settings.section 设置页 + conversation.view 快捷面板）
         ▲
         │ 读取
         │
@@ -38,9 +38,14 @@ vault/ （本仓库数据）
 dsh-skill-vault/
 ├── src/                    # 插件 TS 源码
 ├── vault/                  # 开源 skill 仓库（可单独浏览）
-│   ├── skills/teaching/    # 教学引导 / 拆题
-│   ├── skills/distillation/
-│   ├── skills/research/
+│   ├── skills/base/         # 常驻底座：搜索/工作共识/DSH 运维底线
+│   ├── skills/core-iteration/  # 核心迭代元能力 / 价值递归提升
+│   ├── skills/dev/          # 开发模块：模块壳 + 九个子技能
+│   ├── skills/distill/      # 蒸馏模块：模块缺口 → 新 Skill/专家 → 回填
+│   ├── skills/teacher/      # 教师模块：人名专家团 + 回合式讨论
+│   ├── skills/research/     # 科研模块：论文/组会/PPT/导师审查
+│   ├── skills/writing/      # 文稿模块：提示词/文案/文档/报告
+│   ├── skills/distillation/   # 内容蒸馏（已并入 core-iteration 唯一入口）
 │   ├── skills/dsh-ops/
 │   ├── skills/github/
 │   ├── corpus/
@@ -89,8 +94,23 @@ npm run build:client
 ## 手动推送
 
 ```bash
-cd $HOME/work/dsh-skill-vault
+cd $PROJECT_ROOT
 bash scripts/push.sh
 ```
 
 脚本会提示并执行 `git add -A && git commit && git push`；由于需要输入 HTTPS 凭据，它只该在外部终端人工运行。
+
+
+## Manifest 扩展（v0.1.0+）
+
+- `routing`: `base | core | domain` —— 主卡/底座/领域分类。
+- `qualityCriteria`: `{ high, reject, minIndependentSources }` —— 场景化筛选标准。
+- `boundary` / `notWhenToUse`：卡片展开时的边界与不适用说明。
+- `activation: internal` / `hidden: true`：内部实现，不进入目录。
+- 新增 `/skill-vault/api/route` 与 `/skill-vault/api/reset-base`，供 dsh-skill-router 调用。
+
+## 贡献与安全
+
+- 贡献流程见 `CONTRIBUTING.md`；漏洞上报见 `SECURITY.md`；社区行为见 `CODE_OF_CONDUCT.md`。
+- `.github/workflows/ci.yml` 在 push/PR 上运行 vault 校验、tag 校验与插件测试。
+- 公开仓库不发布内部开发产物：`assignments/`（任务分派）与顶层 `evals/`（A/B 结果）已通过 `.gitignore` 排除；技能包内的可复现 eval 证据仍保留在各自 `evals/` 目录。

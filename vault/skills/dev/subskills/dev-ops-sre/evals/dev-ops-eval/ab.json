@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "id": "dev-ops-eval",
+      "expected_skill": "dev-ops-sre",
+      "success_without": 0.333,
+      "success_with": 0.333,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 11.333,
+      "efficiency_with": 8.667
+    },
+    {
+      "id": "dev-ops-anti",
+      "expected_skill": "",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 0.0,
+      "efficiency_without": 3.667,
+      "efficiency_with": 2.333
+    }
+  ]
+}

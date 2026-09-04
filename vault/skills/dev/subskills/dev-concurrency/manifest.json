@@ -1,0 +1,47 @@
+{
+  "id": "dev-concurrency",
+  "name": "dev-concurrency",
+  "title": "并发调优（已蒸馏）",
+  "description": "并发调优子技能：共享状态/原子性、锁与并发原语、异步模型、死锁/活锁/饥饿、并发性能测量的可执行检查清单。",
+  "whenToUse": "处理并发、异步、锁、竞态、死锁或并行性能时；需要判断并发方案与并发 bug 时。",
+  "boundary": "不把‘用锁就行’当结论；不把单一语言并发模型当普适标准；先测再优化。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "把单语言并发模型当普适标准",
+      "不加测量就断言并发更快"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "并发",
+    "竞态",
+    "锁",
+    "异步"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://go.dev/blog/race-detector",
+    "https://go.dev/blog/codelab-share",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Worker",
+    "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
+    "https://docs.python.org/3/library/threading.html",
+    "https://doc.rust-lang.org/nomicon/send-and-sync.html",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.2.0",
+  "license": "MIT"
+}

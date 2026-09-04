@@ -1,0 +1,55 @@
+{
+  "id": "dev-ai-engineering",
+  "name": "dev-ai-engineering",
+  "title": "LLM/Agent 工程（已蒸馏）",
+  "description": "LLM/Agent 工程子技能：LLM API 契约、上下文预算与持久化、RAG 检索、工具调用契约、Agent 循环、评测与降级/成本边界的可执行检查清单。",
+  "whenToUse": "做 LLM API 集成、Agent、RAG、工具调用、评测或成本控制时；需要把 LLM 工程经验变成可检查动作时。",
+  "boundary": "不复制厂商文档全文；不把单厂商魔数当普适规则；无 ≥2 来源的规则必须降权；模型能力细节以对应 provider 文档为准。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界",
+      "每条关键规则可被测试或评测证伪"
+    ],
+    "reject": [
+      "无来源断言",
+      "把模型提示词模板当工程规则",
+      "没有评测/降级/成本边界却宣称可用",
+      "把厂商文档整段复制而非提炼可检查动作"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "LLM",
+    "Agent",
+    "上下文",
+    "RAG",
+    "工具调用",
+    "评测",
+    "降级",
+    "成本"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+    "https://www.anthropic.com/engineering/writing-tools-for-agents",
+    "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+    "https://www.anthropic.com/engineering/advanced-tool-use",
+    "https://developers.openai.com/api/docs/guides/evaluation-best-practices",
+    "https://developers.openai.com/blog/eval-skills",
+    "https://docs.langchain.com/oss/python/langchain/retrieval",
+    "https://docs.aws.amazon.com/pdfs/prescriptive-guidance/latest/writing-best-practices-rag/writing-best-practices-rag.pdf",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

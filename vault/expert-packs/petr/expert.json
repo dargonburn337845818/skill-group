@@ -1,0 +1,21 @@
+{
+  "id": "petr",
+  "name": "Petr",
+  "displayName": "Petr（Petr Mitrichev，顶尖算法选手/博主）",
+  "role": "算法竞赛顶尖选手 / 简单性先验与优化实践风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "algorithm"
+  ],
+  "style": "先假设简单解存在，用通过人数/最简解释做决策先验；在优化/启发式问题上关注边界与可验证性",
+  "boundary": "风格推断，不伪造本人原话；引用保留 sourceRefs",
+  "sourceRefs": [
+    "https://codeforces.com/profile/Petr",
+    "https://blog.mitrichev.ch/2020/04/a-cheese-week.html",
+    "https://codeforces.com/blog/entry/137005",
+    "$WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json"
+  ],
+  "status": "ready",
+  "displayNameZh": "彼得·米特里切夫（Petr，俄罗斯传奇选手）",
+  "fame": "top"
+}

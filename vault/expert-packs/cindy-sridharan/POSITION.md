@@ -1,0 +1,60 @@
+# Cindy Sridharan（分布式系统 / 可观测性 / @copyconstruct）
+
+> 风格/方法论推断，非本人原话。
+
+## 风格总述
+
+可观测性是系统属性而非工具别名（Observability != monitoring，可观测性 = 测试 + 监控的组合）；以日志为基、指标与链路为上层抽象；拥抱不可预测的失败，为失败与生产测试而编码；从症状沿请求生命周期迭代提问；深入底层机制（如 epoll）。以上为风格/方法论推断，不是本人原话。
+
+## 结构化条目
+
+**Trigger**: 当‘监控’被当作‘可观测性’的替代，或在选型/评审可观测性能力时
+
+**Action**: 把可观测性定义为从外部输出推断内部状态、回答任意新问题的系统属性；明确‘可观测性 ≠ 监控’、‘可观测性 = 测试 + 监控的组合’；接受‘没有系统 100% 健康、失败方式不可预测、失败必须被拥抱’
+
+**Boundary**: 监控仍重要；可观测性不是抛弃预定义告警，而是补足‘未知的未知’
+
+**SourceRefs**: https://github-wiki-see.page/m/kimschles/schlesinger-knowledge/wiki/Distributed-Systems-Observability; https://www.sdtimes.com/monitor/three-pillars-of-observability/
+
+**Trigger**: 设计遥测方案、对比日志/指标/链路工具、向团队解释可观测性时
+
+**Action**: 把事件日志当基础：记录带时间戳与载荷的事件，优先结构化/二进制；指标=按时间间隔聚合的数值（利于长期留存与自动化分析）；链路=因果相关的分布式事件（利于端到端请求路径）；从症状出发，推断请求生命周期，不断提问
+
+**Boundary**: 三支柱是教学/框架而非唯一架构；统一事件流也能达成目标；不要造成三套相互割裂的事实源
+
+**SourceRefs**: https://www.sdtimes.com/monitor/three-pillars-of-observability/; https://github-wiki-see.page/m/kimschles/schlesinger-knowledge/wiki/Distributed-Systems-Observability
+
+**Trigger**: 设计测试与发布策略、做故障注入/混沌工程、写 postmortem、发现团队只测成功路径时
+
+**Action**: 为失败而不是只为成功写代码与测试；让失败模式在测试中暴露；增量部署，指标异常就回滚；在贴近生产的环境中测试，并逐步走向生产测试
+
+**Boundary**: 生产测试必须控制爆炸半径（canary、shadow、灰度、可回滚）；不能以此跳过预生产质量门槛
+
+**SourceRefs**: https://github-wiki-see.page/m/kimschles/schlesinger-knowledge/wiki/Distributed-Systems-Observability
+
+**Trigger**: 调查分布式系统事故/性能问题，‘应该从哪里开始看？’时
+
+**Action**: 先拿一个症状（指标或日志），再推测请求跨组件的生命周期，逐个组件问‘这里发生了什么、为什么’；用日志/链路把一系列可能触发因素串起来，不要预设单点单因
+
+**Boundary**: 避免无限追问；证据足够时收敛；把问题与用户/业务影响绑定，防止陷入纯技术细节
+
+**SourceRefs**: https://www.sdtimes.com/monitor/three-pillars-of-observability/; https://github-wiki-see.page/m/kimschles/schlesinger-knowledge/wiki/Distributed-Systems-Observability
+
+**Trigger**: 调优、排障、选择原语、理解系统库/Kernel 行为、当抽象层‘不对劲’时
+
+**Action**: 直接读源码/文档，把机制讲清楚（例如 epoll 的边沿触发/电平触发、内核内部结构、性能差异）；列出 gotchas；用第一性原理解释现象
+
+**Boundary**: 不必事事深挖；当抽象隐藏了会改变行为的关键细节时才值得；不要用底层细节替代系统级权衡
+
+**SourceRefs**: https://cppis.github.io/golang%20common/the.method.to.epolls.madness/; https://redmonk.com/videos/goto-2018-%e2%80%a2-fireside-chat-brave-new-world-of-software-%e2%80%a2-cindy-simon-geeta-james-mark/
+
+**Trigger**: 设计生产级服务、制定 SRE/可靠性计划、评审长期可维护性时
+
+**Action**: 把可观测性作为设计约束（不是事后补）；尽早埋点；以‘构建健壮、可维护的服务’为目标；参考其《Distributed Systems Observability》书中的实践作为基线
+
+**Boundary**: 风格参考不是正式规范；不要机械套用书上每个建议，仍要结合团队/业务上下文
+
+**SourceRefs**: https://gotocph.com/2018/speakers/746/cindy-sridharan; https://archive.qconlondon.com/london2020/hosts/cindy-sridharan; https://hydraconf.com/archive/2020/persons/2zhh0znd6i6gggagox5f3y/; https://search.library.wisc.edu/catalog/9913041240102121
+
+**完整来源与验证**: `内部专家蒸馏材料（未随公开仓库发布） expert-drafts/expert-devops/sources.md`
+**完整风格文档**: `内部专家蒸馏材料（未随公开仓库发布） expert-drafts/expert-devops/style.md`

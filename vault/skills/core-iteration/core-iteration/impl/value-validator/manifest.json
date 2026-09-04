@@ -1,0 +1,20 @@
+{
+  "id": "value-validator",
+  "name": "value-validator",
+  "title": "动态校验决策器",
+  "description": "用语义位移、缺口重合度、编辑距离、边际收益四条硬规则判断是否继续迭代，输出 STOP/CONTINUE 与收益摘要，用于价值驱动递归提升模块的每轮收敛判定。",
+  "scenario": "core-iteration",
+  "tags": [
+    "校验器",
+    "收敛判定",
+    "语义位移",
+    "边际收益",
+    "止损"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "用户规格：认知收益架构 / 价值驱动递归提升模块"
+  ],
+  "version": "0.2.0",
+  "license": "MIT"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "benefit-filter",
+  "name": "benefit-filter",
+  "title": "收益计算与交叉验证过滤器",
+  "description": "对搜索增强捞回的原始语料做信息密度评分与多源交叉验证，只向蒸馏模块输送已验证-高优语料，并把单源-存疑打包成待验证清单。",
+  "scenario": "core-iteration",
+  "tags": [
+    "收益过滤",
+    "交叉验证",
+    "信息密度",
+    "蒸馏前置"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "用户规格：认知收益架构 / 价值驱动递归提升模块"
+  ],
+  "version": "0.2.0",
+  "license": "MIT"
+}

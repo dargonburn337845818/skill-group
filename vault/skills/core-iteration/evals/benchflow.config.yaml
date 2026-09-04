@@ -1,0 +1,12 @@
+name: dev-security-ab
+tasks:
+  - dir: evals/dev-security-enforce
+  - dir: evals/dev-security-anti
+skill_dir: evals/skills
+runs: 3
+model: deepseek-chat
+judge: true
+output: evals/results/dev-security
+thresholds:
+  min_lift_percent: 5
+  max_discovery_false_positive: 0.5

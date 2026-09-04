@@ -1,0 +1,47 @@
+{
+  "id": "dev-frontend",
+  "name": "dev-frontend",
+  "title": "前端开发（已蒸馏）",
+  "description": "前端开发子技能：组件边界、状态管理、样式/响应式、可访问性与前端工程化的可执行检查清单。",
+  "whenToUse": "做前端页面、组件、状态管理、样式或前端工程化时；需要快速判断前端做法与规范时。",
+  "boundary": "不把框架偏好当普适规则；不覆盖 UI 美学细节；无 ≥2 来源的规则必须降权。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "框架偏好写成普适规则",
+      "占位冒充已填充"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "前端",
+    "组件",
+    "状态管理",
+    "可访问性"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://developer.mozilla.org/",
+    "https://react.dev/learn/managing-state",
+    "https://vuejs.org/guide/essentials/reactivity-fundamentals.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/",
+    "https://web.dev/learn/accessibility/",
+    "https://web.dev/learn/performance/",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.2.0",
+  "license": "MIT"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "value-iterator",
+  "name": "value-iterator",
+  "title": "价值驱动迭代器",
+  "description": "接收当前 Skill 草案与外部反馈/新验证语料，比较新旧知识节点数，按收益规则决定接受或回退，并强制生成变更日志，用于核心能力 Skill 的反复精修。",
+  "scenario": "core-iteration",
+  "tags": [
+    "迭代器",
+    "知识节点",
+    "变更日志",
+    "Skill精修"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "用户规格：认知收益架构 / 价值驱动递归提升模块"
+  ],
+  "version": "0.3.0",
+  "license": "MIT"
+}

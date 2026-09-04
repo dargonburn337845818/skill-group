@@ -364,6 +364,6 @@ assets/ 或 resources/# 图片/资源（注意大小）
 
 ### 本地实践
 
-- `$HOME/work/GITHUB_DESCRIPTIONS.md`：现有仓库 description 示例。
-- `$HOME/work/dsh-skill-vault/`：本仓库的 README/`.github/workflows/release-plugin.yml` 是“仓库页 + Actions”实例。
-- `$HOME/work/dsh-optimization-consensus/CONSENSUS.md`：与“先提醒用户、先隔离冒烟、回滚实际文件”一致的运维纪律，在公开/发布操作时同样适用。
+- `$WORKSPACE/GITHUB_DESCRIPTIONS.md`：现有仓库 description 示例。
+- `$PROJECT_ROOT/`：本仓库的 README/`.github/workflows/release-plugin.yml` 是“仓库页 + Actions”实例。
+- `$WORKSPACE/skills/dsh-optimization-consensus/CONSENSUS.md`：与“先提醒用户、先隔离冒烟、回滚实际文件”一致的运维纪律，在公开/发布操作时同样适用。

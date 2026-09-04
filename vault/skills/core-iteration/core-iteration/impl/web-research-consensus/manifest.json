@@ -1,0 +1,36 @@
+{
+  "id": "web-research-consensus",
+  "name": "web-research-consensus",
+  "title": "网络信息搜集与核验共识",
+  "description": "可靠来源判断、精确检索、高效核验与 Agent 引用纪律；用于网络调研、事实核查、开源信息收集、学术检索等任务。",
+  "scenario": "core-iteration",
+  "tags": [
+    "网络检索",
+    "信息搜集",
+    "来源核验",
+    "事实核查",
+    "学术检索"
+  ],
+  "experts": [
+    "Google Search Help",
+    "Bing Advanced Search",
+    "UNCC SIFT",
+    "CSU Chico CRAAP",
+    "Stanford Civic Online Reasoning",
+    "Bellingcat",
+    "Hermes Agent Grounded Citations",
+    "Firecrawl Research Engine"
+  ],
+  "sourceRefs": [
+    "https://support.google.com/websearch/answer/2466433?hl=en",
+    "https://support.microsoft.com/en-us/bing/advanced-search-options",
+    "https://guides.library.charlotte.edu/c.php?g=1499262&p=11347573",
+    "https://libguides.csuchico.edu/c.php?g=414299&p=2822727",
+    "https://cor.inquirygroup.org/blog/module-for-high-school/",
+    "https://libguides.library.drexel.edu/c.php?g=1484012&p=11065571",
+    "https://www.poynter.org/fact-checking/2023/how-to-uncover-out-of-context-quotes/",
+    "https://hermes-agent.nousresearch.com/docs/user-guide/skills/bundled/research/research-grounded-citations"
+  ],
+  "version": "0.3.0",
+  "license": "MIT"
+}

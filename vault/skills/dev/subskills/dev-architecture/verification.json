@@ -1,0 +1,31 @@
+{
+  "skill": "dev-architecture",
+  "status": "verified",
+  "model": "deepseek-chat",
+  "runs": 3,
+  "runner": "benchflow_runner.py / skilljack_runner.py (DeepSeek, skill-dir = skill directory)",
+  "evals": [
+    {
+      "id": "dev-arch-eval",
+      "task_dir": "evals/dev-arch-eval",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 12.667,
+      "efficiency_with": 4.333
+    },
+    {
+      "id": "dev-arch-anti",
+      "task_dir": "evals/dev-arch-anti",
+      "success_without": 1.0,
+      "success_with": 0.667,
+      "coverage_without": 0.0,
+      "coverage_with": 0.0,
+      "efficiency_without": 7.0,
+      "efficiency_with": 12.333
+    }
+  ],
+  "checks_observed_red": true,
+  "verdict": "verified"
+}

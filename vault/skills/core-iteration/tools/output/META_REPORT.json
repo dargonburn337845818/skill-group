@@ -1,0 +1,71 @@
+{
+  "human_score": 77.0,
+  "scorecard_percent": 81.1,
+  "cross_component": 69.6,
+  "round": 18,
+  "yield_curve": [
+    {
+      "round": 18,
+      "raw_count": 15,
+      "verified_high": 2,
+      "verified_single": 15,
+      "nodes": 17,
+      "effective_new": 17,
+      "decision": "CONTINUE"
+    }
+  ],
+  "convergence": {
+    "status": "CONTINUING",
+    "converged": false,
+    "stop_reason": null,
+    "expected": "需继续多源交叉验证/扩大主题覆盖"
+  },
+  "benefit_filter": {
+    "raw_count": 15,
+    "density_pass": 17,
+    "verified_high_count": 2,
+    "verified_single_count": 15,
+    "pending_count": 0,
+    "discarded_count": 0,
+    "avg_density_score": 91.5,
+    "remaining_verified_high": 2,
+    "remaining_gap_count": 0,
+    "verified_high_remaining_ratio": 0.11764705882352941
+  },
+  "distillation": {
+    "total_nodes": 17,
+    "verified_single": 15,
+    "verified_high": 2,
+    "with_trigger": 17,
+    "with_action": 17,
+    "with_boundary": 17,
+    "avg_quality": 72.1
+  },
+  "iterator": {
+    "accepted": true,
+    "effective_new_count": 17
+  },
+  "validator": {
+    "decision": "CONTINUE",
+    "benefit_summary": {
+      "hit_high_quality_count": 2,
+      "discarded_low_quality_count": 0,
+      "effective_new_nodes": 17,
+      "new_nodes_from_doubt": 0,
+      "verified_high_remaining_ratio": 0.0,
+      "cumulative_nodes": 17
+    }
+  },
+  "forensics": {
+    "root_cause": "cross_verification_progress",
+    "confidence": "medium",
+    "evidence": [
+      "verified_high=2",
+      "verified_single=15",
+      "source_types={'github': 3, 'github_issue': 3, 'github_release': 3, 'github_commit': 3, 'github_pr': 3}",
+      "verified_high_remaining_ratio=0.11764705882352941"
+    ],
+    "one_action": "把已形成的 verified-high 聚合主题扩展成独立知识节点；继续增加不同主题的多源证据"
+  },
+  "recommendation": "已有交叉验证产生 verified-high；下一步是扩大主题覆盖，而不是只增加单源数量"
+}

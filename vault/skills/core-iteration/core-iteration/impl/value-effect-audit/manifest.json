@@ -1,0 +1,24 @@
+{
+  "id": "value-effect-audit",
+  "name": "value-effect-audit",
+  "title": "实际效果审计器",
+  "description": "把 Skill/知识节点投入真实任务后测量实际收益，用多方交叉证据计算信息价值，并反馈给迭代器与过滤器。",
+  "whenToUse": "需要验证 Skill 在真实任务中的实际效果，或需要把静态密度评分升级为实际效果打分时。",
+  "scenario": "core-iteration",
+  "tags": [
+    "实际效果",
+    "价值计算",
+    "交叉证据",
+    "效果归因"
+  ],
+  "experts": [
+    "OpenAI Agent Skills Evals",
+    "Convergence Protocol"
+  ],
+  "sourceRefs": [
+    "本地 benefit-filter/value-iterator/value-validator",
+    "https://developers.openai.com/blog/eval-skills"
+  ],
+  "version": "0.2.0",
+  "license": "MIT"
+}

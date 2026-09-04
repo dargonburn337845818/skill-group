@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "id": "exp-design-eval",
+      "expected_skill": "experiment-design",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 2.667,
+      "efficiency_with": 3.0
+    },
+    {
+      "id": "exp-design-anti",
+      "expected_skill": "",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 0.333,
+      "efficiency_without": 3.0,
+      "efficiency_with": 2.0
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "matrix": {
+    "name": "skill-ab",
+    "model": "deepseek-chat",
+    "judged": true,
+    "runs": 3,
+    "tasks": [
+      {
+        "id": "dev-security-enforce",
+        "expected_skill": "dev-security",
+        "success_without": 0.0,
+        "success_with": 1.0,
+        "coverage_without": 0.0,
+        "coverage_with": 1.0,
+        "efficiency_without": 2.0,
+        "efficiency_with": 3.0,
+        "quality_without": 66.667,
+        "quality_with": 48.333,
+        "calibration_without": 0.0,
+        "calibration_with": 1.0
+      },
+      {
+        "id": "dev-security-anti",
+        "expected_skill": "",
+        "success_without": 1.0,
+        "success_with": 1.0,
+        "coverage_without": 0.0,
+        "coverage_with": 0.0,
+        "efficiency_without": 2.0,
+        "efficiency_with": 2.0,
+        "quality_without": 85.0,
+        "quality_with": 85.0,
+        "calibration_without": 0.0,
+        "calibration_with": 0.0
+      }
+    ],
+    "cells": [
+      {
+        "task": {
+          "dir": "evals/dev-security-enforce"
+        },
+        "rows": [
+          {
+            "id": "dev-security-enforce",
+            "expected_skill": "dev-security",
+            "success_without": 0.0,
+            "success_with": 1.0,
+            "coverage_without": 0.0,
+            "coverage_with": 1.0,
+            "efficiency_without": 2.0,
+            "efficiency_with": 3.0,
+            "quality_without": 66.667,
+            "quality_with": 48.333,
+            "calibration_without": 0.0,
+            "calibration_with": 1.0
+          }
+        ]
+      },
+      {
+        "task": {
+          "dir": "evals/dev-security-anti"
+        },
+        "rows": [
+          {
+            "id": "dev-security-anti",
+            "expected_skill": "",
+            "success_without": 1.0,
+            "success_with": 1.0,
+            "coverage_without": 0.0,
+            "coverage_with": 0.0,
+            "efficiency_without": 2.0,
+            "efficiency_with": 2.0,
+            "quality_without": 85.0,
+            "quality_with": 85.0,
+            "calibration_without": 0.0,
+            "calibration_with": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  "bench": {
+    "tasks": 2,
+    "metrics": [
+      {
+        "metric": "success",
+        "label": "任务成功率",
+        "weight": 0.3,
+        "without": 0.5,
+        "with": 1.0,
+        "without_norm": 50.0,
+        "with_norm": 100.0,
+        "gain": 0.5,
+        "gain_percent": 50.0
+      },
+      {
+        "metric": "quality",
+        "label": "输出质量",
+        "weight": 0.25,
+        "without": 75.834,
+        "with": 66.666,
+        "without_norm": 75.8,
+        "with_norm": 66.7,
+        "gain": -0.121,
+        "gain_percent": -12.1
+      },
+      {
+        "metric": "efficiency",
+        "label": "效率(越少越好)",
+        "weight": 0.15,
+        "without": 2.0,
+        "with": 2.5,
+        "without_norm": null,
+        "with_norm": null,
+        "gain": -0.25,
+        "gain_percent": -25.0
+      },
+      {
+        "metric": "coverage",
+        "label": "能力覆盖",
+        "weight": 0.15,
+        "without": 0.0,
+        "with": 0.5,
+        "without_norm": 0.0,
+        "with_norm": 50.0,
+        "gain": 0.5,
+        "gain_percent": 50.0
+      },
+      {
+        "metric": "calibration",
+        "label": "置信校准",
+        "weight": 0.15,
+        "without": 0.0,
+        "with": 0.5,
+        "without_norm": 0.0,
+        "with_norm": 50.0,
+        "gain": 0.5,
+        "gain_percent": 50.0
+      }
+    ],
+    "base_model_score": 34.0,
+    "skill_model_score": 61.7,
+    "enhancement_index": 23.2,
+    "enhancement_grade": "明显增强",
+    "interpretation": "使用 skill 后综合能力提升 23.2%：明显增强。"
+  },
+  "gates": {
+    "passed": true,
+    "reasons": []
+  }
+}

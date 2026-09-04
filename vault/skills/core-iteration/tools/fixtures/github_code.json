@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "repository": {"full_name": "example/repo"},
+      "path": "src/main.rs",
+      "html_url": "https://github.com/example/repo/blob/main/src/main.rs",
+      "sha": "abc123",
+      "language": "Rust",
+      "text_match": "fn main() { println!(\"hello\"); }"
+    }
+  ]
+}

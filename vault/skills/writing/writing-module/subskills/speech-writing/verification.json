@@ -1,0 +1,31 @@
+{
+  "skill": "speech-writing",
+  "status": "verified",
+  "model": "deepseek-chat",
+  "runs": 3,
+  "runner": "benchflow_runner.py / skilljack_runner.py (DeepSeek, skill-dir = skill directory)",
+  "evals": [
+    {
+      "id": "speech-eval",
+      "task_dir": "evals/speech-eval",
+      "success_without": 1.0,
+      "success_with": 0.667,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 2.0,
+      "efficiency_with": 3.0
+    },
+    {
+      "id": "speech-anti",
+      "task_dir": "evals/speech-anti",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 0.0,
+      "efficiency_without": 4.0,
+      "efficiency_with": 2.333
+    }
+  ],
+  "checks_observed_red": true,
+  "verdict": "verified"
+}

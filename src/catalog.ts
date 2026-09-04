@@ -15,8 +15,13 @@ import type { SkillEntry, SkillManifest } from './types.js'
 const SCENARIO_TITLES: Record<string, string> = {
   teaching: '教学引导 / 拆题',
   distillation: '内容蒸馏 / 知识化',
+  distill: '蒸馏 / 元能力迭代',
   research: '科研 / 组会 / 论文',
+  teacher: '教师 / 专家讨论',
+  writing: '文稿 / 提示词 / 文案 / 报告',
   'dsh-ops': 'DSH 运维 / 工具',
+  base: '常驻底座 / 搜索与共识',
+  'core-iteration': '核心迭代元能力 / 价值递归提升',
   github: 'GitHub 开源仓库 / 发布',
 }
 
@@ -43,6 +48,7 @@ export function readCatalog(vaultRoot: string): SkillEntry[] {
       if (!existsSync(skillPath)) continue
 
       const manifest = readManifest(manifestPath, id, scenario)
+      if (manifest.hidden || manifest.activation === 'internal') continue
       const content = readFileSync(skillPath, 'utf8').replace(/^---[\s\S]*?---\s*/, '').trim()
       entries.push({
         id,
@@ -50,12 +56,17 @@ export function readCatalog(vaultRoot: string): SkillEntry[] {
         title: manifest.title || manifest.name || id,
         description: manifest.description || `蒸馏 skill：${id}`,
         whenToUse: manifest.whenToUse,
+        boundary: manifest.boundary,
+        notWhenToUse: manifest.notWhenToUse,
         scenario,
         scenarioTitle: SCENARIO_TITLES[scenario] || scenario,
+        routing: manifest.routing || 'domain',
+        qualityCriteria: manifest.qualityCriteria,
         tags: manifest.tags || [],
         experts: manifest.experts || [],
         sourceRefs: manifest.sourceRefs || [],
         activation: manifest.activation || 'catalog',
+        hidden: false,
         version: manifest.version || '0.0.0',
         license: manifest.license,
         dir: resolve(dir),
@@ -78,18 +89,24 @@ function readManifest(path: string, fallbackId: string, fallbackScenario: string
   try {
     const raw = JSON.parse(readFileSync(path, 'utf8')) as Partial<SkillManifest>
     const description = typeof raw.description === 'string' ? raw.description : ''
+    const routing = raw.routing === 'base' || raw.routing === 'core' ? raw.routing : raw.routing === 'domain' ? 'domain' : undefined
     return {
       id: typeof raw.id === 'string' ? raw.id : fallbackId,
       name: typeof raw.name === 'string' ? raw.name : undefined,
       title: typeof raw.title === 'string' ? raw.title : undefined,
       description,
       whenToUse: typeof raw.whenToUse === 'string' ? raw.whenToUse : undefined,
+      boundary: typeof raw.boundary === 'string' ? raw.boundary : undefined,
+      notWhenToUse: typeof raw.notWhenToUse === 'string' ? raw.notWhenToUse : undefined,
       scenario: typeof raw.scenario === 'string' ? raw.scenario : fallbackScenario,
       scenarios: Array.isArray(raw.scenarios) ? raw.scenarios.map(String) : undefined,
+      routing,
+      qualityCriteria: parseQualityCriteria(raw.qualityCriteria),
       tags: Array.isArray(raw.tags) ? raw.tags.map(String) : undefined,
       experts: Array.isArray(raw.experts) ? raw.experts.map(String) : undefined,
       sourceRefs: Array.isArray(raw.sourceRefs) ? raw.sourceRefs.map(String) : undefined,
-      activation: raw.activation === 'always-on' ? 'always-on' : raw.activation === 'catalog' ? 'catalog' : undefined,
+      activation: raw.activation === 'always-on' ? 'always-on' : raw.activation === 'internal' ? 'internal' : raw.activation === 'catalog' ? 'catalog' : undefined,
+      hidden: raw.hidden === true,
       version: typeof raw.version === 'string' ? raw.version : undefined,
       license: typeof raw.license === 'string' ? raw.license : undefined,
     }
@@ -99,6 +116,20 @@ function readManifest(path: string, fallbackId: string, fallbackScenario: string
       description: '',
       scenario: fallbackScenario,
     }
+  }
+}
+
+
+function parseQualityCriteria(v: unknown): SkillManifest['qualityCriteria'] {
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return undefined
+  const raw = v as Record<string, unknown>
+  const strArray = (x: unknown): string[] | undefined => Array.isArray(x) ? x.map(String) : undefined
+  const min = typeof raw.minIndependentSources === 'number' ? raw.minIndependentSources : undefined
+  return {
+    high: strArray(raw.high),
+    reject: strArray(raw.reject),
+    minIndependentSources: min,
+    notes: typeof raw.notes === 'string' ? raw.notes : undefined,
   }
 }
 

@@ -1,0 +1,47 @@
+{
+  "id": "dev-security",
+  "name": "dev-security",
+  "title": "信息安全（已蒸馏）",
+  "description": "信息安全子技能：威胁建模、输入校验/输出编码、认证授权、依赖与供应链、密钥/配置/日志的降险检查清单。",
+  "whenToUse": "做认证/授权、输入处理、密钥管理、依赖审计或安全审查时；需要把安全经验变成可检查动作时。",
+  "boundary": "不承诺绝对安全；不复制完整标准全文；必须给威胁模型与边界；无 ≥2 来源必须降权。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例或失效边界"
+    ],
+    "reject": [
+      "无来源断言",
+      "把‘用了某库就安全’当结论",
+      "把完整安全标准当 Skill 而不提炼可检查动作"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "安全",
+    "信息安全",
+    "OWASP",
+    "威胁建模"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://owasp.org/Top10/",
+    "https://cheatsheetseries.owasp.org/",
+    "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+    "https://cwe.mitre.org/",
+    "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository",
+    "https://osv.dev/",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.2.0",
+  "license": "MIT"
+}

@@ -53,8 +53,9 @@ skill_vault_disable distillation
 Web 侧：
 
 - 打开 DSH Web 界面
-- 找到“技能库”面板
+- 进入“设置” → 找到“技能库”页
 - 按场景勾选或一键全开/全关
+- 会话页也保留“技能库”快捷面板
 
 ## 4. 使用效果
 
@@ -65,7 +66,7 @@ Web 侧：
 ## 5. 发布新版本（维护者）
 
 ```bash
-cd $HOME/work/dsh-skill-vault
+cd $PROJECT_ROOT
 # 改源码后本地构建
 bash scripts/build.sh
 npm run build:client

@@ -1,0 +1,106 @@
+{
+  "id": "william-zinsser",
+  "name": "William Zinsser",
+  "displayName": "William Zinsser（写作 / 非虚构 / 写作教师）",
+  "role": "非虚构写作教育家 / 清晰写作风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "writing"
+  ],
+  "style": "以读者理解为核心：先定一个点，再用简单直陈句与主动动词写作；清除一切不做工作的词（clutter），初稿通常可砍掉约一半；多用第一人称和人的声音，把重写当作真正的写作现场。",
+  "boundary": "风格/方法论推断，非本人原话；适用于非虚构与说明性 prose 的清晰表达，不能替代专业准确性、体裁规范与学术/技术细节；引用时保留 sourceRefs。",
+  "sourceRefs": [
+    "https://search.library.wisc.edu/catalog/9910403746502121",
+    "https://www.npr.org/transcripts/5340618",
+    "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english",
+    "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english?page=2",
+    "https://www.edutopia.org/blog/teaching-journalism-william-zinsser-david-cutler/"
+  ],
+  "status": "ready",
+  "note": "已从 On Writing Well（书目/摘要）、NPR 访谈、Yale 写作课回忆（Zinsser 亲述）、Edutopia 访谈蒸馏；sourceRefs 均可回溯，核心主张见 style.md 与 sources.md。",
+  "evidence": "verified-high (5 sources; NPR/Yale/Edutopia 正文已 curl 拉取并核对；UW-Madison 书目确认图书摘要)",
+  "style_items": [
+    {
+      "id": "writing-one-point-unity",
+      "trigger": "开始写说明文/报告/长文前，或在审稿时发现文章散、没有主点。",
+      "action": "先回答“我要让读者记住哪一句话？”；定下人称、时态、语气、态度；把选题切成一小块，cover it well and stop；每篇非虚构应留给读者一个之前没有的、有冲击力的想法。",
+      "boundary": "探索性写作可以先漫游；但公开成文前必须收敛；把“一个点”误解为“只写一个事实”会丢失必要复杂度。",
+      "source_refs": [
+        "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english",
+        "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english?page=2",
+        "https://dansilvestre.com/on-writing-well/"
+      ]
+    },
+    {
+      "id": "writing-simple-declarative-active-verbs",
+      "trigger": "起草新文本，或发现句子绕、术语堆叠、被动句多。",
+      "action": "写一个接一个的简单直陈句；优先主动 Anglo-Saxon 动词；不鼓励被动和“implementation”式 Latinate 名词；短词优先于长词。",
+      "boundary": "句子短不是目的；任何长度都可接受，只要清楚；专业术语在需要时保留。",
+      "source_refs": [
+        "https://www.edutopia.org/blog/teaching-journalism-william-zinsser-david-cutler/",
+        "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english?page=2"
+      ]
+    },
+    {
+      "id": "writing-clutter-removal",
+      "trigger": "初稿完成后的第一轮编辑，或评审一段冗余/官僚腔文本。",
+      "action": "用括号标出每个没有在做必要工作的词/短语/段落；删掉限定词（a bit / sort of / very / quite / in a sense）；删“I might add / it should be pointed out / it is interesting to note”式元话语；把长词换短词（assistance→help, numerous→many, facilitate→ease, implement→do）；第一稿通常可砍约 50% 而不损失信息或声音。",
+      "boundary": "砍的是不做工作的词，不是必要事实、数字、论证或专业术语；50% 是启发式，不是字数公式；不能为了短而牺牲准确。",
+      "source_refs": [
+        "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english?page=2",
+        "https://search.library.wisc.edu/catalog/9910403746502121",
+        "https://dansilvestre.com/on-writing-well/"
+      ]
+    },
+    {
+      "id": "writing-reader-first",
+      "trigger": "判断一段文字是否合格，或在“写给专家还是写给普通人”之间摇摆。",
+      "action": "假设读者注意力约 30 秒、被很多信息争夺；每句问“读者下一条想知道什么”；不要 over-explain，不告诉读者已知或能推出的事；assume reader knows nothing 不等于 assume reader 是 idiot。",
+      "boundary": "专家读者可以接受更高密度；技术/学术文本不能为了通俗牺牲精确性；过度简化也是一种 patronizing。",
+      "source_refs": [
+        "https://search.library.wisc.edu/catalog/9910403746502121",
+        "https://dansilvestre.com/on-writing-well/"
+      ]
+    },
+    {
+      "id": "writing-first-person-voice",
+      "trigger": "文章冷、没有辨识度，或作者在“正式文体能不能用 I”上挣扎。",
+      "action": "用 I / me / we / us；能用缩写就用缩写；写你会舒服地在对话中说出来的话；不要写“indeed / moreover / fine individual”；若机构文体禁 I，至少 think I 或先写第一人称再删 I。",
+      "boundary": "正式合同/机构文体可能不允许第一人称；这是体裁约束，不是方法失效；“写给自己”不等于不顾读者。",
+      "source_refs": [
+        "https://www.npr.org/transcripts/5340618",
+        "https://dansilvestre.com/on-writing-well/"
+      ]
+    },
+    {
+      "id": "writing-rewrite-aloud",
+      "trigger": "对成品不满意、修改他人稿子、或找不到文章卡在哪。",
+      "action": "把重写当真正的胜负手；大声朗读，听节奏、听 cliché、听卡住的地方；删掉“听起来很好但不像你”“不真实”的部分；修改时保住作者声音。",
+      "boundary": "好草稿可能存在；把“一次成型”当常态会误导；朗读不是唯一手段，但能暴露眼读发现不了的问题。",
+      "source_refs": [
+        "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english?page=2",
+        "https://dansilvestre.com/on-writing-well/"
+      ]
+    },
+    {
+      "id": "writing-lead-structure-ending",
+      "trigger": "组织长文、写开头/结尾、段落推进乏力。",
+      "action": "第一句要让读者想去读第二句；lead 给硬细节而非空话；每段承接上段、再推进一点；收集比实际用得多的材料再挑最好的；事实讲完、观点说清就找最近出口，结尾应略微惊喜又显得恰好。",
+      "boundary": "不是所有文本都是故事；技术资料可按结构/问题组织；结尾“留白”不等于把该说的不说。",
+      "source_refs": [
+        "https://dansilvestre.com/on-writing-well/"
+      ]
+    },
+    {
+      "id": "writing-teaching-hands-on",
+      "trigger": "教别人写作、批改学生作业、给团队做写作 review。",
+      "action": "用具体句子/段落的实例讲解；每课堂读上周作品的好/坏例子，坏例子不点名、好例子点名表扬；批改、评论、鼓励落在纸上；指出“为什么这句不做必要工作”。",
+      "boundary": "对不自信的写作者要具体且保护尊严；只讲大道理不落纸等于没教；不要用匿名批评吓退写作者。",
+      "source_refs": [
+        "https://www.yalealumnimagazine.com/articles/2352-first-use-plain-english?page=2"
+      ]
+    }
+  ],
+  "displayNameZh": "威廉·津瑟（William Zinsser，《On Writing Well》作者）",
+  "fame": "top"
+}

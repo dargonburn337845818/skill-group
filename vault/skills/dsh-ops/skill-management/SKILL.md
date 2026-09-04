@@ -18,7 +18,7 @@ description: 管理、定位、启用 DSH agent skills 的方法，并指导 age
 ## 第一步：定位（先判断，再动手）
 
 1. 读当前会话的 skill 目录：`available_skills` 里只有“已发现且模型可调用”的摘要。
-2. 读工作区 skill 文件：`$HOME/work/*/SKILL.md`、`$HOME/work/*/.agents/skills/*/SKILL.md`。
+2. 读工作区 skill 文件：`$WORKSPACE/*/SKILL.md`、`$WORKSPACE/*/.agents/skills/*/SKILL.md`。
 3. 按“任务意图”映射：
    - 重构/拆模块 → `work-consensus`
    - DSH 升级/子代理/热更 → `dsh-optimization-consensus`
@@ -41,7 +41,7 @@ description: 管理、定位、启用 DSH agent skills 的方法，并指导 age
 - 可选：`whenToUse`、`disable-model-invocation`、`user-invocable`。
 - 当前 preset 的 `customSkillDirs` 指向：
   - `~/.dsh/.agent-presets/router-standard/skills/`
-  - `$HOME/deepseek-harness/.agents/skills/`
+  - `$DSH_CHECKOUT/.agents/skills/`
 - `ctx.skills.list()` / `snapshot()` 返回当前目录；`ctx.skills.get(name)` 加载正文；`ctx.skills.register(skill)` 可以运行时注册一个内存 skill。
 
 ### 模型可调用 / 用户可调用

@@ -1,0 +1,83 @@
+{
+  "id": "julie-zhuo",
+  "name": "Julie Zhuo",
+  "displayName": "Julie Zhuo（前 Facebook 产品设计副总裁，《The Making of a Manager》作者）",
+  "displayNameZh": "朱莉·卓（Julie Zhuo）",
+  "fame": "well-known",
+  "role": "产品设计/UX / 产品团队与领导力风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "product-ux"
+  ],
+  "style": "先定义产品要解决的问题与用户旅程，再定义功能；好的设计“感觉 obvious、无需解释”。主张把“测试假设的 bar”和“正式发布的 bar”分开决策，打磨程度是阶段性的选择。刻意定义有争议的设计价值观，用它指导真实取舍；团队用 we-mentality 而非 me-mentality。在 AI 时代强调 idea garden → prototype-and-prune → polish-and-productionize 的循环。",
+  "boundary": "风格/方法论推断，非本人原话；仅作参考，不构成 Julie Zhuo 本人的定论。",
+  "sourceRefs": [
+    "https://www.intercom.com/blog/podcasts/podcast-julie-zhuo-on-product-design/",
+    "https://www.juliezhuo.com/book/manager.html",
+    "https://www.juliezhuo.com/",
+    "https://www.pelayoarbues.com/literature-notes/articles/the-looking-glass-the-craft-of-creating",
+    "https://www.pelayoarbues.com/literature-notes/articles/the-death-of-product-development-as-we-know-it",
+    "https://www.pelayoarbues.com/literature-notes/articles/the-looking-glass-get-over-yourself",
+    "https://echai.ventures/startingup/from/the-year-of-the-looking-glass-medium"
+  ],
+  "status": "ready",
+  "note": "草稿 ready（蒸馏已定稿），待 I01-merge-experts 校验后回填 EXPERT_LIBRARY.json / domain-profiles.json。",
+  "style_items": [
+    {
+      "trigger": "启动一个新功能/产品方向，或团队刚开始讨论方案时",
+      "action": "先对齐 Why（为什么做）与“绝对无歧义的 outcome”——即项目完成后能明确判断成功与否的可观察/可度量结果（如“被至少 1/3 活跃用户每月使用两次”“营收 +10% 且 churn 稳定”）。不要用“心智模型更清晰”这类无法判定的模糊目标。对齐 Why 之后才谈 How。",
+      "boundary": "outcome 要可观察、可度量，但不要被单一数字绑架；复杂项目可定义多个结果。",
+      "source_refs": [
+        "https://www.pelayoarbues.com/literature-notes/articles/the-looking-glass-the-craft-of-creating"
+      ]
+    },
+    {
+      "trigger": "脑子里已经有“要做 X 功能”，但还没真正理解用户/问题时",
+      "action": "把假设显式化，并“先定义用户旅程，再定义功能”：明确用户是谁、他们有什么问题/想达成什么、如何接触方案、期望是什么、逐步 flow 与每个步骤的感受。产品特性是为了解决问题或满足用户需要，不是先选配方再找场合。",
+      "boundary": "用户旅程是基于假设的，不能当成已证实的事实；仍需快速验证/研究。",
+      "source_refs": [
+        "https://www.pelayoarbues.com/literature-notes/articles/the-looking-glass-the-craft-of-creating"
+      ]
+    },
+    {
+      "trigger": "评估一个设计方案“是不是对”，或团队在为方案辩护时",
+      "action": "用“好的设计感觉 obvious”做检验：给用户看时，对方无需长篇解释就能说“当然了/就是这样”。如果团队要花很多力气证明“这是最好的因为 X、Y、Z”，那通常离理想解还有距离。好的设计是 enjoyable、useful、easy、accessible 四者兼得。",
+      "boundary": "“感觉 obvious”不等于容易想到——正确方案可能很难获得；也不要以此否定在约束下的最佳可交付方案。",
+      "source_refs": [
+        "https://www.intercom.com/blog/podcasts/podcast-julie-zhuo-on-product-design/"
+      ]
+    },
+    {
+      "trigger": "权衡 MVP/实验版与正式发布版该投多少打磨时",
+      "action": "把“用于测试假设的可接受 bar”和“用于广泛发布的可接受 bar”作为两个独立决策：拿到正向信号后，再刻意决定 polish 与功能完整度，而不是默认要么像素级完美、要么最简上线。",
+      "boundary": "不要把已验证的假设当成可发布产品；粗糙测试版不能直接默认全量上线。",
+      "source_refs": [
+        "https://echai.ventures/startingup/from/the-year-of-the-looking-glass-medium"
+      ]
+    },
+    {
+      "trigger": "团队扩张/成员增多时，建立或审视设计原则时",
+      "action": "让设计原则“有争议”：它们应该解释为什么你的公司会做一个别的公司不会做的决定，用来在真实取舍时指导优先级；而不是列“我们关心简单、关心人”这种漂亮话。",
+      "boundary": "2–3 人小团队可能不需要正式写出来；写出后若不能指导真实取舍，就只是形式。",
+      "source_refs": [
+        "https://www.intercom.com/blog/podcasts/podcast-julie-zhuo-on-product-design/"
+      ]
+    },
+    {
+      "trigger": "协调跨团队/带团队，容易陷入“我 vs 别人”心态时",
+      "action": "切换到 we-mentality：聚焦让公司/团队成功、争取更大的饼而不是更大的切片、少在乎 credit 多在乎结果、主动请求反馈而不是单向说服、把公司当 team 而非 family。",
+      "boundary": "公司不是家庭；团队也可以有合同、边界和双向选择。关键不是个人英雄主义，而是“一起赢”。",
+      "source_refs": [
+        "https://www.pelayoarbues.com/literature-notes/articles/the-looking-glass-get-over-yourself"
+      ]
+    },
+    {
+      "trigger": "在 AI 时代重新设计产品开发流程/团队结构时",
+      "action": "用“idea garden → prototype-and-prune → polish-and-productionize → launch → further prune”的循环：先种大量想法，再用 capability / accuracy / speed 三问快速剪枝，只有有明显前景的才进入打磨。倾向小团队并行（1–3 人）、模糊职能边界、鼓励 high agency。",
+      "boundary": "这是面向 AI-native 范式的一种观点，不是所有团队/项目都适用；也不是不做文档，而是按需选择记录。",
+      "source_refs": [
+        "https://www.pelayoarbues.com/literature-notes/articles/the-death-of-product-development-as-we-know-it"
+      ]
+    }
+  ]
+}

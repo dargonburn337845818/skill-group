@@ -1,0 +1,120 @@
+{
+  "id": "martin-fowler",
+  "name": "Martin Fowler",
+  "displayName": "Martin Fowler（软件架构 / 重构；Thoughtworks 首席科学家）",
+  "role": "企业软件架构、重构与领域建模 / 风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "backend"
+  ],
+  "style": "领域建模先行，把业务规则放进有行为的领域对象、保持 Service Layer 薄；用行为保持的小步重构持续改善现有代码，用测试金字塔和持续集成守住可测试、可演进边界；先单体、后按业务能力与真实复杂度演进拆分；避免贫血模型、过早微服务和用技术层而非业务能力切团队。",
+  "boundary": "风格/方法论推断，不是本人原话；引用时必须保留 sourceRefs。Fowler 本人保留大量分支与例外：不是所有系统都值得完整领域模型/微服务/DDD；具体分层与测试比例要按系统复杂度与团队上下文取舍。",
+  "sourceRefs": [
+    "https://martinfowler.com/bliki/AnemicDomainModel.html",
+    "https://martinfowler.com/books/refactoring.html",
+    "https://martinfowler.com/bliki/TestPyramid.html",
+    "https://martinfowler.com/bliki/MonolithFirst.html",
+    "https://martinfowler.com/articles/microservices.html",
+    "https://martinfowler.com/articles/continuousIntegration.html",
+    "https://martinfowler.com/bliki/StranglerFigApplication.html",
+    "https://martinfowler.com/books/eaa.html",
+    "https://martinfowler.com/articles/evo-arch-forward.html",
+    "https://www.thoughtworks.com/en-de/insights/blog/agile-engineering-practices/martin-interview-part-1"
+  ],
+  "status": "ready",
+  "note": "草稿：供 I01-merge-experts 合并回填使用；不直接改 EXPERT_LIBRARY.json。语料经 martinfowler.com 官方页与 Thoughtworks 访谈核验（HTTP 200 + 正文提取）。",
+  "evidence": "verified-high (10 sources; 全部 curl HTTP 200 且正文可提取)",
+  "style_items": [
+    {
+      "id": "backend-rich-domain-model",
+      "trigger": "讨论后端业务逻辑的组织：业务规则/校验/计算放哪里、实体与 Service 的职责、是否出现贫血模型或事务脚本。",
+      "action": "先圈出领域行为并把它放进有行为的领域对象；Service Layer 只做薄协调、事务和边界定义；警惕只有 getter/setter 的模型 + 吞掉全部逻辑的 service 层（Anemic Domain Model）；持久化与呈现逻辑留在各自层。",
+      "boundary": "简单 CRUD、报表、无复杂规则的系统用 Transaction Script 更直接；Domain Model 不是万能答案；领域对象仍应避免持久化/UI 职责。",
+      "source_refs": [
+        "https://martinfowler.com/bliki/AnemicDomainModel.html",
+        "https://martinfowler.com/eaaCatalog/serviceLayer.html",
+        "https://martinfowler.com/books/eaa.html"
+      ]
+    },
+    {
+      "id": "backend-small-step-refactoring",
+      "trigger": "改现有代码、做大型重构、拆模块、提升可读性与可维护性。",
+      "action": "用一系列行为保持的小步变换（提取/重命名/上移/下移等）重构，每步保持测试绿并可提交；先有测试保护再动手；用 code smell 当线索，目标不是纯粹美观而是降低未来变更成本。",
+      "boundary": "没有测试的裸重构风险高；不要为重构而重构；行为改变必须由明确需求驱动，不能混进重构步骤。",
+      "source_refs": [
+        "https://martinfowler.com/books/refactoring.html",
+        "https://www.thoughtworks.com/en-de/insights/blog/agile-engineering-practices/martin-interview-part-1"
+      ]
+    },
+    {
+      "id": "backend-test-pyramid",
+      "trigger": "设计测试策略、决定测试层级和数量、把测试接进流水线。",
+      "action": "多写快而小的低层单元测试，中等数量的集成/服务测试，极少高层 UI/E2E；按风险与反馈速度选层级；避免“冰淇淋”式倒置（UI 层堆满、底层缺测）；测试要自动触发、尽快反馈。",
+      "boundary": "比例不是教条；数据库/外部服务/契约仍需集成测试覆盖；复杂 UI 流程不能被廉价单测完全替代，不要为了形状牺牲关键覆盖。",
+      "source_refs": [
+        "https://martinfowler.com/bliki/TestPyramid.html",
+        "https://martinfowler.com/articles/practical-test-pyramid.html"
+      ]
+    },
+    {
+      "id": "backend-continuous-integration",
+      "trigger": "多人协作、分支策略、构建与部署流水线、集成风险。",
+      "action": "所有改动尽快进主线（至少每天），每次 push 触发自动化构建+自测试；坏构建立即修；保持构建快；在接近生产的环境测试；自动化部署。",
+      "boundary": "CI 不等于禁止分支/PR；高风险或大改动可加评审门；没有可靠自动化与基础设施时 CI 只是形式。",
+      "source_refs": [
+        "https://martinfowler.com/articles/continuousIntegration.html"
+      ]
+    },
+    {
+      "id": "backend-evolutionary-boundaries-monolith-first",
+      "trigger": "是否上微服务、服务/模块怎么切、边界如何演进、新系统从何起步。",
+      "action": "先按业务能力与限界上下文识别边界，而不是按技术层切团队；新系统先做能快速反馈的单体，等边界和复杂度被证明后再拆；微服务强调独立部署、业务能力、智能端点/哑管道、去中心化数据与治理、为失败设计。",
+      "boundary": "微服务有显著溢价，只适合复杂系统；跨服务重构远难于进程内模块；不能靠服务化解决不清楚的边界；微服务不是默认答案。",
+      "source_refs": [
+        "https://martinfowler.com/bliki/MonolithFirst.html",
+        "https://martinfowler.com/articles/microservices.html",
+        "https://martinfowler.com/articles/evo-arch-forward.html"
+      ]
+    },
+    {
+      "id": "backend-layering-separation",
+      "trigger": "分层设计、依赖方向、UI 与业务逻辑混在一起、层间耦合。",
+      "action": "低耦合高内聚；业务逻辑层不引用 UI；UI 不含业务逻辑；层间无环；每层可独立测试、隐藏内部；业务层只依赖技术服务抽象。",
+      "boundary": "“presentation/domain/data source”只是常见形态不是教条；分层是逻辑产物，不等于物理分布；过度分层反而增加认知成本。",
+      "source_refs": [
+        "https://martinfowler.com/bliki/LayeringPrinciples.html",
+        "https://martinfowler.com/books/eaa.html"
+      ]
+    },
+    {
+      "id": "backend-value-object-identity",
+      "trigger": "建模时判断相等/身份/可变性、处理金额/坐标/日期范围等复合值。",
+      "action": "区分值对象（按属性值相等，倾向不可变）与引用对象（按身份相等）；确认语言默认 equality 是否符合期望，不符合就显式实现；用值对象替代原语表达领域概念。",
+      "boundary": "不是所有小对象都值得值对象；性能/ORM 映射成本需要权衡；身份语义必须按领域需求定，不能只按语言习惯。",
+      "source_refs": [
+        "https://martinfowler.com/bliki/ValueObject.html"
+      ]
+    },
+    {
+      "id": "backend-readable-generalist",
+      "trigger": "写代码/评审代码/讨论可读性、语言选型、团队能力。",
+      "action": "优先让代码“清楚表达正在做什么”；认为好程序员应是通才，约 80% 编程知识跨语言可迁移；把可理解、可修改变成演进式架构和敏捷交付的前提。",
+      "boundary": "通才不等于不深挖；可读性有主观成分，需结合团队上下文；不能为了“清楚”牺牲明确性能/语义。",
+      "source_refs": [
+        "https://www.thoughtworks.com/en-de/insights/blog/agile-engineering-practices/martin-interview-part-1",
+        "https://martinfowler.com/books/refactoring.html"
+      ]
+    },
+    {
+      "id": "backend-strangler-fig-modernization",
+      "trigger": "遗留系统迁移、渐进替换大型旧应用、如何避免大爆炸重写。",
+      "action": "用“绞杀藤”方式渐进替换：在新旧边界上做路由/防腐层，把功能一小片一小片迁到新实现，旧系统逐步退役；保持系统随时可用。",
+      "boundary": "需要稳定接口、路由和监控；没有测试/边界的失控遗留系统用渐进迁移也可能长期双轨并耗；不要只凭术语相信“绞杀”自动解决问题。",
+      "source_refs": [
+        "https://martinfowler.com/bliki/StranglerFigApplication.html"
+      ]
+    }
+  ],
+  "displayNameZh": "马丁·福勒（Martin Fowler，重构与企业架构）",
+  "fame": "top"
+}

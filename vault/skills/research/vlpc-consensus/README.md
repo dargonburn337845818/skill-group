@@ -31,8 +31,8 @@
 
 ## 关于 ai-ppt-skill
 
-- 已克隆到：`$HOME/work/ai-ppt-skill`
-- 已新增主题：`$HOME/work/ai-ppt-skill/themes/editorial.md`
+- 已克隆到：`$WORKSPACE/ai-ppt-skill`
+- 已新增主题：`$WORKSPACE/ai-ppt-skill/themes/editorial.md`
 - 已更新 `SKILL.md` 风格表，加入 `editorial`。
 - 当前 DSH 技能目录只读，无法自动安装到全局；如需全局载入，可把该目录复制到你的 Agent Skill 目录（如 `~/.agents/skills/ai-ppt`、`~/.claude/skills/ai-ppt`）。
 
@@ -42,11 +42,11 @@
 - 当前 Linux 环境没有 Chrome，因此本目录额外生成了**可编辑的原生 PPTX**（python-pptx），风格与 `slides.html` 一致。
 - 若你之后在 Mac 上运行官方脚本：
   ```bash
-  AI_PPT_SKILL_DIR=$HOME/work/ai-ppt-skill
+  AI_PPT_SKILL_DIR=$WORKSPACE/ai-ppt-skill
   python3 "$AI_PPT_SKILL_DIR/scripts/html_to_ppt.py" slides.html 输出.pptx --notes 口述稿.md
   ```
 - 改版建议：只改 `slides.html` / `口述稿.md`，再重跑脚本；不要直接编辑 PPT 里的图片版。
 
 ## 原始文件位置
 
-论文与学长 PPT 在 `/mnt/d/本科生进组看论文`，当前挂载为只读；本目录产物在 `$HOME/work/vlpc-editorial-output`，请自行复制回 Windows 目标目录。
+论文与学长 PPT 在 `$MOUNT_D/本科生进组看论文`，当前挂载为只读；本目录产物在 `$WORKSPACE/vlpc-editorial-output`，请自行复制回 Windows 目标目录。

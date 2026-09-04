@@ -1,0 +1,355 @@
+{
+  "category": "plugin",
+  "total_found": 18,
+  "queries": [
+    "topic:dsh-plugin",
+    "topic:deepseek-harness",
+    "topic:dsh",
+    "topic:agent-plugin",
+    "topic:harness"
+  ],
+  "failures": [],
+  "ideas": [
+    {
+      "repo": "deepseek-ai/deepseek-harness",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "score": 13,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "harness",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "通用 agent/plugin 参考：deepseek-ai/deepseek-harness — DeepSeek Harness: Everything is a Plugin. [repo: https://github.com/deepseek-ai/deepseek-harness]",
+      "topics": [
+        "ai-agents",
+        "cordis",
+        "dsh",
+        "dsh-plugin"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "url": "https://github.com/nexu-io/open-design",
+      "score": 13,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "harness",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "DSH 生态直接参考：nexu-io/open-design — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "agent-skills",
+        "ai-design",
+        "byok",
+        "claude-code-for-design",
+        "claude-design",
+        "codex-design",
+        "coding-agents",
+        "cursor-design",
+        "deepseek",
+        "deepseek-harness",
+        "design-systems",
+        "desktop-app",
+        "dsh",
+        "dsh-plugin",
+        "figma-alternative",
+        "hermes-agent",
+        "local-first",
+        "prototyping",
+        "ui-generator",
+        "vibe-coding"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "tt-a1i/archify",
+      "url": "https://github.com/tt-a1i/archify",
+      "score": 13,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "harness",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "DSH 生态直接参考：tt-a1i/archify — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "agent-skills",
+        "architecture-as-code",
+        "architecture-diagram",
+        "claude-skill",
+        "code-visualization",
+        "codex",
+        "coding-agents",
+        "data-flow-diagram",
+        "deepseek-harness",
+        "developer-tools",
+        "diagram-as-code",
+        "diagrams",
+        "diagrams-as-code",
+        "dsh-plugin",
+        "mermaid-alternative",
+        "opencode",
+        "sequence-diagram",
+        "software-architecture",
+        "system-design",
+        "text-to-diagram"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "titanwings/distilly",
+      "url": "https://github.com/titanwings/distilly",
+      "score": 13,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "harness",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "DSH 生态直接参考：titanwings/distilly — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "agent-skills",
+        "agentic-ai",
+        "ai-agent",
+        "ai-agents",
+        "ai-assistants",
+        "ai-persona",
+        "claude-code",
+        "claude-skills",
+        "codex",
+        "codex-skills",
+        "deepseek-harness",
+        "digital-human",
+        "dsh-plugin",
+        "hermes-agent",
+        "knowledge-distillation",
+        "llm-agent",
+        "meta-skill",
+        "openclaw",
+        "opencode"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "Nagi-ovo/voyager",
+      "url": "https://github.com/Nagi-ovo/voyager",
+      "score": 12,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "harness",
+        "plugin",
+        "extension"
+      ],
+      "suggestion": "通用 agent/plugin 参考：Nagi-ovo/voyager — Enhancement suite for Gemini, AI Studio, Claude & ChatGPT — plus a prompt manager for any web UI, DeepSeek Harness included. / 面向 Gemini、AI Studio、Claude 与 Chat",
+      "topics": [
+        "ai-studio",
+        "browser-extension",
+        "bun",
+        "chat-management",
+        "chatgpt",
+        "chrome-extension",
+        "claude-ai",
+        "dsh",
+        "dsh-plugin",
+        "edge-addon",
+        "firefox-addons",
+        "gemini",
+        "safari-extension"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "ruvnet/ruflo",
+      "url": "https://github.com/ruvnet/ruflo",
+      "score": 11,
+      "keywords": [
+        "dsh",
+        "harness",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：ruvnet/ruflo — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agentic-ai",
+        "agentic-framework",
+        "agentic-workflow",
+        "agents",
+        "ai-agents",
+        "ai-assistant",
+        "ai-skills",
+        "autonomous-agents",
+        "claude-code",
+        "codex",
+        "dsh-plugin",
+        "harness",
+        "mcp-server",
+        "multi-agent",
+        "multi-agent-systems",
+        "npm",
+        "skills",
+        "swarm",
+        "swarm-intelligence",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "anywhere-labs/dsh-desktop",
+      "url": "https://github.com/anywhere-labs/dsh-desktop",
+      "score": 11,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "harness",
+        "plugin"
+      ],
+      "suggestion": "DSH 生态直接参考：anywhere-labs/dsh-desktop — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "cordis",
+        "cordis-plugin",
+        "deepseek",
+        "deepseek-harness",
+        "desktop",
+        "dsh",
+        "dsh-plugin",
+        "dsh-plugin-desktop"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "awesome-dsh-plugin/awesome-dsh-plugin",
+      "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin",
+      "score": 11,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "harness",
+        "plugin"
+      ],
+      "suggestion": "DSH 生态直接参考：awesome-dsh-plugin/awesome-dsh-plugin — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "deepseek-harness",
+        "dsh",
+        "dsh-plugin"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "walkinglabs/learn-harness-engineering",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering",
+      "score": 11,
+      "keywords": [
+        "dsh",
+        "harness",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "通用 agent/plugin 参考：walkinglabs/learn-harness-engineering — Harness engineering beginner tutorial, from 0 to 1 [repo: https://github.com/walkinglabs/learn-harness-engineering]",
+      "topics": [
+        "agent",
+        "agentic",
+        "agentic-ai",
+        "ai",
+        "ai-agent",
+        "ai-agents",
+        "dsh",
+        "dsh-plugin",
+        "harness",
+        "harness-engineering",
+        "harness-framework",
+        "llm"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "esengine/DeepSeek-Reasonix",
+      "url": "https://github.com/esengine/DeepSeek-Reasonix",
+      "score": 10,
+      "keywords": [
+        "dsh",
+        "deepseek",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "通用 agent/plugin 参考：esengine/DeepSeek-Reasonix — DeepSeek-native AI coding agent for your terminal. Engineered around prefix-cache stability — leave it running. [repo: https://github.com/esengine/DeepSeek-Reas",
+      "topics": [
+        "agent",
+        "agent-framework",
+        "ai-agent",
+        "ai-coding",
+        "cli",
+        "coding-agent",
+        "deepseek",
+        "developer-tools",
+        "dsh",
+        "dsh-plugin",
+        "ink",
+        "llm",
+        "prompt-caching",
+        "r1",
+        "terminal",
+        "tool-use",
+        "tui",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "amruthpillai/reactive-resume",
+      "url": "https://github.com/amruthpillai/reactive-resume",
+      "score": 8,
+      "keywords": [
+        "dsh",
+        "plugin",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：amruthpillai/reactive-resume — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "ai",
+        "dsh-plugin",
+        "hacktoberfest",
+        "javascript",
+        "mcp-server",
+        "react",
+        "resume-builder",
+        "self-hosted",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "url": "https://github.com/CherryHQ/cherry-studio",
+      "score": 7,
+      "keywords": [
+        "deepseek",
+        "harness",
+        "agent"
+      ],
+      "suggestion": "DSH 生态直接参考：CherryHQ/cherry-studio — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "agent-skills",
+        "ai-agent",
+        "claude-code",
+        "codex",
+        "deepseek",
+        "deepseek-harness",
+        "hermes-agent",
+        "skills",
+        "vibe-coding"
+      ],
+      "source_type": "github"
+    }
+  ]
+}

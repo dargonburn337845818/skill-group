@@ -1,0 +1,9 @@
+{
+  "crate": {
+    "name": "example-crate",
+    "max_version": "0.9.0",
+    "description": "Example crate for offline adapter test.",
+    "repository": "https://github.com/example/crate",
+    "updated_at": "2026-08-01T00:00:00Z"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "speech-writing",
+  "name": "speech-writing",
+  "title": "演讲 / 口播 / 视频脚本（已蒸馏）",
+  "description": "演讲/口播/视频脚本写作子技能：演讲结构、口播节奏、视频脚本、PPT 讲稿与时长控制的可执行检查清单。",
+  "whenToUse": "需要写或审演讲稿、口播稿、视频脚本、PPT 演讲者备注/口述稿，或需要控制口语文本时长与节奏时。",
+  "boundary": "不负责事实核验、数据真实性、观点正确性与现场表演；不把书面文档原样当口播稿；不夸大承诺；时长控制不能牺牲必要事实。",
+  "notWhenToUse": "用户只需要书面文档/报告、需要事实检索核验、或已有成熟演讲稿仅需表演指导时。",
+  "scenario": "writing",
+  "scenarios": [
+    "writing"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "触发/动作/边界/来源四件套齐全",
+      "覆盖演讲结构、口播节奏、视频脚本、PPT 讲稿与时长控制",
+      "核心规则 ≥2 独立来源或官方一手",
+      "有反例与失效边界，并明确不代替事实核验"
+    ],
+    "reject": [
+      "无来源断言",
+      "把书面报告直接当口播稿",
+      "没有时长/受众控制却宣称可用",
+      "编造数据、引用或观众反应"
+    ],
+    "minIndependentSources": 2
+  },
+  "tags": [
+    "演讲",
+    "口播",
+    "视频脚本",
+    "PPT讲稿",
+    "节奏",
+    "时长"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://www.comm.pitt.edu/structuring-speech",
+    "https://courses.lumenlearning.com/suny-realworldcomm/chapter/9-3-organizing/",
+    "https://blog.ted.com/why-oprahs-talk-works-insight-from-a-ted-speaker-coach/",
+    "https://wordcount.com/guides/how-many-words-is-a-5-minute-speech",
+    "https://www.lemonlight.com/blog/marketing-video-script/",
+    "$WORKSPACE/ai-ppt-skill/SKILL.md",
+    "$PROJECT_ROOT/vault/skills/dev/subskills/dev-art-ppt/SKILL.md",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

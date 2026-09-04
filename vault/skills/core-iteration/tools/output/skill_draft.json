@@ -1,0 +1,526 @@
+{
+  "skill_draft": {
+    "id": "live-github-intel-draft",
+    "version": "0.1.0",
+    "knowledge_nodes": [
+      {
+        "id": "live_github_1",
+        "claim": "example/oss-tool: A real OSS tool for testing adapter normalization. [repo: https://github.com/example/oss-tool]",
+        "trigger": "当需要评估/选择开源仓库时",
+        "action": "检查 license、recent push、语言、topics、是否 archived，把 stars/forks 当流行度信号而非证据",
+        "boundary": "单仓库单源信息；README 可能过时；需要独立旁证才能升级 verified-high",
+        "source_refs": [
+          "https://github.com/example/oss-tool"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "github_repo_1 -> verified-single -> live_github_1"
+        ],
+        "metadata": {
+          "stars": 1234,
+          "forks": 0,
+          "language": null,
+          "topics": [],
+          "license": null,
+          "created_at": null,
+          "pushed_at": null,
+          "open_issues": null,
+          "archived": false,
+          "default_branch": null
+        }
+      },
+      {
+        "id": "live_github_2",
+        "claim": "example/another-tool: Second repo to prove independent entry. [repo: https://github.com/example/another-tool]",
+        "trigger": "当需要评估/选择开源仓库时",
+        "action": "检查 license、recent push、语言、topics、是否 archived，把 stars/forks 当流行度信号而非证据",
+        "boundary": "单仓库单源信息；README 可能过时；需要独立旁证才能升级 verified-high",
+        "source_refs": [
+          "https://github.com/example/another-tool"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "github_repo_2 -> verified-single -> live_github_2"
+        ],
+        "metadata": {
+          "stars": 88,
+          "forks": 0,
+          "language": null,
+          "topics": [],
+          "license": null,
+          "created_at": null,
+          "pushed_at": null,
+          "open_issues": null,
+          "archived": false,
+          "default_branch": null
+        }
+      },
+      {
+        "id": "live_osv_3",
+        "claim": "CVE-2026-1: Example package has a cross-site scripting issue before version 2.0.0. [source: https://osv.dev/vulnerability/CVE-2026-1, package: example-package]",
+        "trigger": "当发现相关外部信息时",
+        "action": "回到原始来源阅读完整上下文",
+        "boundary": "单源信息；需独立验证",
+        "source_refs": [
+          "https://osv.dev/vulnerability/CVE-2026-1"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "osv_CVE-2026-1 -> verified-single -> live_osv_3"
+        ],
+        "metadata": {}
+      },
+      {
+        "id": "live_package_registry_4",
+        "claim": "example-package: Example PyPI package for offline adapter test. [package: example-package@1.2.3, source: https://pypi.org/project/example-package/]",
+        "trigger": "当发现相关外部信息时",
+        "action": "回到原始来源阅读完整上下文",
+        "boundary": "单源信息；需独立验证",
+        "source_refs": [
+          "https://pypi.org/project/example-package/"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "pypi_example-package_1.2.3 -> verified-single -> live_package_registry_4"
+        ],
+        "metadata": {}
+      },
+      {
+        "id": "live_package_registry_5",
+        "claim": "example-npm-pkg: Example npm package for offline adapter test. [package: example-npm-pkg@3.4.5, source: https://www.npmjs.com/package/example-npm-pkg]",
+        "trigger": "当发现相关外部信息时",
+        "action": "回到原始来源阅读完整上下文",
+        "boundary": "单源信息；需独立验证",
+        "source_refs": [
+          "https://www.npmjs.com/package/example-npm-pkg"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "npm_example-npm-pkg_3.4.5 -> verified-single -> live_package_registry_5"
+        ],
+        "metadata": {}
+      },
+      {
+        "id": "live_package_registry_6",
+        "claim": "example-crate: Example crate for offline adapter test. [crate: example-crate, source: https://github.com/example/crate]",
+        "trigger": "当发现相关外部信息时",
+        "action": "回到原始来源阅读完整上下文",
+        "boundary": "单源信息；需独立验证",
+        "source_refs": [
+          "https://github.com/example/crate"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "crates_example-crate_0.9.0 -> verified-single -> live_package_registry_6"
+        ],
+        "metadata": {}
+      },
+      {
+        "id": "live_github_issue_7",
+        "claim": "Example issue for offline test: Example issue for offline test\nThis is a real-looking issue body.",
+        "trigger": "当需要理解已知问题/讨论/决策时",
+        "action": "读 issue 正文、labels、评论数与关联 PR，避免只看标题",
+        "boundary": "issue 可能已过期、观点化或未被合并；单源需要交叉验证",
+        "source_refs": [
+          "https://github.com/example/repo/issues/1"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "github_issue_1 -> verified-single -> live_github_issue_7"
+        ],
+        "metadata": {
+          "state": "open",
+          "comments": 3,
+          "labels": [
+            "bug",
+            "discussion"
+          ],
+          "created_at": "2026-01-01T00:00:00Z",
+          "updated_at": "2026-02-01T00:00:00Z",
+          "closed_at": null
+        }
+      },
+      {
+        "id": "live_github_release_8",
+        "claim": "Example Release v1.0.0: Example Release v1.0.0\nBreaking change and migration guide.",
+        "trigger": "当需要确认版本、变更、迁移或安全修复时",
+        "action": "读 release body、tag、publish date 与 assets，对照 CHANGELOG",
+        "boundary": "release notes 可能省略破坏性变更；以实际代码/commit 为准",
+        "source_refs": [
+          "https://github.com/example/repo/releases/tag/v1.0.0"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "github_release_10 -> verified-single -> live_github_release_8"
+        ],
+        "metadata": {
+          "tag_name": "v1.0.0",
+          "prerelease": false,
+          "draft": false,
+          "published_at": "2026-03-01T00:00:00Z",
+          "created_at": "2026-03-01T00:00:00Z",
+          "assets_count": 0
+        }
+      },
+      {
+        "id": "live_github_commit_9",
+        "claim": "abc123def456: fix: example commit message\n\nBody line.",
+        "trigger": "当需要定位具体代码改动时",
+        "action": "读 commit message，回到 diff/sha 验证；commit 是最接近一手代码的证据",
+        "boundary": "commit message 可能简洁或误导；单个 commit 不代表完整上下文",
+        "source_refs": [
+          "https://github.com/example/repo/commit/abc123def456"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "github_commit_abc123def456 -> verified-single -> live_github_commit_9"
+        ],
+        "metadata": {
+          "sha": "abc123def456",
+          "author_name": "Jane Doe",
+          "author_login": "janedoe",
+          "date": "2026-01-01T00:00:00Z",
+          "message": "fix: example commit message\n\nBody line."
+        }
+      },
+      {
+        "id": "live_github_pr_10",
+        "claim": "Example PR for offline test: Example PR for offline test\nThis PR changes something.",
+        "trigger": "当需要评估一个提议中的改动时",
+        "action": "读 PR 标题/正文/diff/评论与 merged 状态",
+        "boundary": "PR 可能未合并或后来被否决；不能当作已落地事实",
+        "source_refs": [
+          "https://github.com/example/repo/pull/1"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "github_pr_1 -> verified-single -> live_github_pr_10"
+        ],
+        "metadata": {
+          "state": "open",
+          "comments": 5,
+          "labels": [
+            "enhancement"
+          ],
+          "created_at": "2026-01-01T00:00:00Z",
+          "updated_at": "2026-02-01T00:00:00Z",
+          "pr_url": "https://github.com/example/repo/pull/1",
+          "pr_merged_at": null
+        }
+      },
+      {
+        "id": "live_github_code_11",
+        "claim": "example/repo:src/main.rs: File: src/main.rs in example/repo\nfn main() { println!(\"hello\"); }",
+        "trigger": "当发现相关外部信息时",
+        "action": "回到原始来源阅读完整上下文",
+        "boundary": "单源信息；需独立验证",
+        "source_refs": [
+          "https://github.com/example/repo/blob/main/src/main.rs"
+        ],
+        "evidence": "verified-single",
+        "weight": 0.5,
+        "provenance": "new",
+        "quality_score": 70,
+        "trace_chain": [
+          "github_code_example/repo_src/main.rs -> verified-single -> live_github_code_11"
+        ],
+        "metadata": {
+          "repo": "example/repo",
+          "path": "src/main.rs",
+          "sha": "abc123",
+          "language": "Rust"
+        }
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "live_github_1",
+      "claim": "example/oss-tool: A real OSS tool for testing adapter normalization. [repo: https://github.com/example/oss-tool]",
+      "trigger": "当需要评估/选择开源仓库时",
+      "action": "检查 license、recent push、语言、topics、是否 archived，把 stars/forks 当流行度信号而非证据",
+      "boundary": "单仓库单源信息；README 可能过时；需要独立旁证才能升级 verified-high",
+      "source_refs": [
+        "https://github.com/example/oss-tool"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "github_repo_1 -> verified-single -> live_github_1"
+      ],
+      "metadata": {
+        "stars": 1234,
+        "forks": 0,
+        "language": null,
+        "topics": [],
+        "license": null,
+        "created_at": null,
+        "pushed_at": null,
+        "open_issues": null,
+        "archived": false,
+        "default_branch": null
+      }
+    },
+    {
+      "id": "live_github_2",
+      "claim": "example/another-tool: Second repo to prove independent entry. [repo: https://github.com/example/another-tool]",
+      "trigger": "当需要评估/选择开源仓库时",
+      "action": "检查 license、recent push、语言、topics、是否 archived，把 stars/forks 当流行度信号而非证据",
+      "boundary": "单仓库单源信息；README 可能过时；需要独立旁证才能升级 verified-high",
+      "source_refs": [
+        "https://github.com/example/another-tool"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "github_repo_2 -> verified-single -> live_github_2"
+      ],
+      "metadata": {
+        "stars": 88,
+        "forks": 0,
+        "language": null,
+        "topics": [],
+        "license": null,
+        "created_at": null,
+        "pushed_at": null,
+        "open_issues": null,
+        "archived": false,
+        "default_branch": null
+      }
+    },
+    {
+      "id": "live_osv_3",
+      "claim": "CVE-2026-1: Example package has a cross-site scripting issue before version 2.0.0. [source: https://osv.dev/vulnerability/CVE-2026-1, package: example-package]",
+      "trigger": "当发现相关外部信息时",
+      "action": "回到原始来源阅读完整上下文",
+      "boundary": "单源信息；需独立验证",
+      "source_refs": [
+        "https://osv.dev/vulnerability/CVE-2026-1"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "osv_CVE-2026-1 -> verified-single -> live_osv_3"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "live_package_registry_4",
+      "claim": "example-package: Example PyPI package for offline adapter test. [package: example-package@1.2.3, source: https://pypi.org/project/example-package/]",
+      "trigger": "当发现相关外部信息时",
+      "action": "回到原始来源阅读完整上下文",
+      "boundary": "单源信息；需独立验证",
+      "source_refs": [
+        "https://pypi.org/project/example-package/"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "pypi_example-package_1.2.3 -> verified-single -> live_package_registry_4"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "live_package_registry_5",
+      "claim": "example-npm-pkg: Example npm package for offline adapter test. [package: example-npm-pkg@3.4.5, source: https://www.npmjs.com/package/example-npm-pkg]",
+      "trigger": "当发现相关外部信息时",
+      "action": "回到原始来源阅读完整上下文",
+      "boundary": "单源信息；需独立验证",
+      "source_refs": [
+        "https://www.npmjs.com/package/example-npm-pkg"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "npm_example-npm-pkg_3.4.5 -> verified-single -> live_package_registry_5"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "live_package_registry_6",
+      "claim": "example-crate: Example crate for offline adapter test. [crate: example-crate, source: https://github.com/example/crate]",
+      "trigger": "当发现相关外部信息时",
+      "action": "回到原始来源阅读完整上下文",
+      "boundary": "单源信息；需独立验证",
+      "source_refs": [
+        "https://github.com/example/crate"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "crates_example-crate_0.9.0 -> verified-single -> live_package_registry_6"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "live_github_issue_7",
+      "claim": "Example issue for offline test: Example issue for offline test\nThis is a real-looking issue body.",
+      "trigger": "当需要理解已知问题/讨论/决策时",
+      "action": "读 issue 正文、labels、评论数与关联 PR，避免只看标题",
+      "boundary": "issue 可能已过期、观点化或未被合并；单源需要交叉验证",
+      "source_refs": [
+        "https://github.com/example/repo/issues/1"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "github_issue_1 -> verified-single -> live_github_issue_7"
+      ],
+      "metadata": {
+        "state": "open",
+        "comments": 3,
+        "labels": [
+          "bug",
+          "discussion"
+        ],
+        "created_at": "2026-01-01T00:00:00Z",
+        "updated_at": "2026-02-01T00:00:00Z",
+        "closed_at": null
+      }
+    },
+    {
+      "id": "live_github_release_8",
+      "claim": "Example Release v1.0.0: Example Release v1.0.0\nBreaking change and migration guide.",
+      "trigger": "当需要确认版本、变更、迁移或安全修复时",
+      "action": "读 release body、tag、publish date 与 assets，对照 CHANGELOG",
+      "boundary": "release notes 可能省略破坏性变更；以实际代码/commit 为准",
+      "source_refs": [
+        "https://github.com/example/repo/releases/tag/v1.0.0"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "github_release_10 -> verified-single -> live_github_release_8"
+      ],
+      "metadata": {
+        "tag_name": "v1.0.0",
+        "prerelease": false,
+        "draft": false,
+        "published_at": "2026-03-01T00:00:00Z",
+        "created_at": "2026-03-01T00:00:00Z",
+        "assets_count": 0
+      }
+    },
+    {
+      "id": "live_github_commit_9",
+      "claim": "abc123def456: fix: example commit message\n\nBody line.",
+      "trigger": "当需要定位具体代码改动时",
+      "action": "读 commit message，回到 diff/sha 验证；commit 是最接近一手代码的证据",
+      "boundary": "commit message 可能简洁或误导；单个 commit 不代表完整上下文",
+      "source_refs": [
+        "https://github.com/example/repo/commit/abc123def456"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "github_commit_abc123def456 -> verified-single -> live_github_commit_9"
+      ],
+      "metadata": {
+        "sha": "abc123def456",
+        "author_name": "Jane Doe",
+        "author_login": "janedoe",
+        "date": "2026-01-01T00:00:00Z",
+        "message": "fix: example commit message\n\nBody line."
+      }
+    },
+    {
+      "id": "live_github_pr_10",
+      "claim": "Example PR for offline test: Example PR for offline test\nThis PR changes something.",
+      "trigger": "当需要评估一个提议中的改动时",
+      "action": "读 PR 标题/正文/diff/评论与 merged 状态",
+      "boundary": "PR 可能未合并或后来被否决；不能当作已落地事实",
+      "source_refs": [
+        "https://github.com/example/repo/pull/1"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "github_pr_1 -> verified-single -> live_github_pr_10"
+      ],
+      "metadata": {
+        "state": "open",
+        "comments": 5,
+        "labels": [
+          "enhancement"
+        ],
+        "created_at": "2026-01-01T00:00:00Z",
+        "updated_at": "2026-02-01T00:00:00Z",
+        "pr_url": "https://github.com/example/repo/pull/1",
+        "pr_merged_at": null
+      }
+    },
+    {
+      "id": "live_github_code_11",
+      "claim": "example/repo:src/main.rs: File: src/main.rs in example/repo\nfn main() { println!(\"hello\"); }",
+      "trigger": "当发现相关外部信息时",
+      "action": "回到原始来源阅读完整上下文",
+      "boundary": "单源信息；需独立验证",
+      "source_refs": [
+        "https://github.com/example/repo/blob/main/src/main.rs"
+      ],
+      "evidence": "verified-single",
+      "weight": 0.5,
+      "provenance": "new",
+      "quality_score": 70,
+      "trace_chain": [
+        "github_code_example/repo_src/main.rs -> verified-single -> live_github_code_11"
+      ],
+      "metadata": {
+        "repo": "example/repo",
+        "path": "src/main.rs",
+        "sha": "abc123",
+        "language": "Rust"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "a-k-sah",
+  "name": "A. K. Sah",
+  "displayName": "A. K. Sah（NOMA-VLCP）",
+  "role": "NOMA 可见光定位通信 / 风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "research",
+    "physics"
+  ],
+  "style": "关注免 SIC 或简化 SIC 的室内两用户方案，比较复杂度和性能折中",
+  "boundary": "风格/方法论推断，不伪造本人原话",
+  "sourceRefs": [
+    "SIC-free based indoor two-user NOMA-VLCP system, Photonics 2024",
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/vlpc_teacher_consensus.json"
+  ],
+  "status": "ready",
+  "note": "来自现有 VLPC 材料中的 NOMA-VLCP 免 SIC 工作",
+  "displayNameZh": "萨赫（A. K. Sah，NOMA-VLCP）",
+  "fame": "domain"
+}

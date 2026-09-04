@@ -1,0 +1,11 @@
+{
+  "name": "example-npm-pkg",
+  "dist-tags": {"latest": "3.4.5"},
+  "versions": {
+    "3.4.5": {
+      "description": "Example npm package for offline adapter test.",
+      "author": {"name": "Jane Doe"},
+      "time": "2026-07-01T00:00:00Z"
+    }
+  }
+}

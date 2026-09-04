@@ -1,0 +1,29 @@
+{
+  "id": "distillation-consensus",
+  "name": "distillation-consensus",
+  "title": "内容蒸馏共识",
+  "description": "把书/视频/博客/访谈/题解蒸馏成 agent 可调用的启发式技能；来源可追溯、触发/动作/反例三件套。",
+  "whenToUse": "把材料做成 Skill/共识，或从材料提炼可执行规则。",
+  "scenario": "core-iteration",
+  "scenarios": [
+    "distillation"
+  ],
+  "tags": [
+    "蒸馏",
+    "知识化",
+    "启发式",
+    "来源审计"
+  ],
+  "experts": [
+    "cangjie-skill",
+    "WorkBuddyGuide",
+    "knowledge-distillation-survey"
+  ],
+  "sourceRefs": [
+    "$WORKSPACE/skills/distillation-consensus-skill/CONSENSUS.md",
+    "$WORKSPACE/skills/distillation-consensus-skill/SOURCES.md"
+  ],
+  "activation": "catalog",
+  "version": "0.7.0",
+  "license": "MIT"
+}

@@ -8,7 +8,7 @@
   "scenarios": ["dsh-ops", "distillation"],
   "tags": ["skill", "vault", "发布", "入库", "git"],
   "experts": ["dsh-skill-vault 作者"],
-  "sourceRefs": ["$HOME/work/dsh-skill-vault/README.md", "scripts/push.sh"],
+  "sourceRefs": ["$PROJECT_ROOT/README.md", "scripts/push.sh"],
   "activation": "catalog",
   "version": "0.1.0",
   "license": "MIT"

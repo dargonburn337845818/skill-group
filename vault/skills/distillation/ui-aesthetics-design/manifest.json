@@ -1,0 +1,89 @@
+{
+  "id": "ui-aesthetics-design",
+  "name": "ui-aesthetics-design",
+  "title": "UI 美学设计",
+  "description": "通用网页/组件 UI 美学设计审查与生成的可执行指南：配色对比、排版、间距、层级、控件、无障碍、反例与风格边界，来源可追溯。",
+  "whenToUse": "需要生成或审查网页/组件/仪表盘/表单的视觉美感与可用性时；需要在配色、字体、间距、层级、控件、焦点态、动效上做可复核检查时。",
+  "boundary": "不负责品牌/VI/Logo 设计；不绑定特定技术栈；数据密集界面与品牌强风格需叠加专项边界。",
+  "notWhenToUse": "只做后端/纯逻辑/架构重构时；需要完整品牌视觉身份或完整设计系统定制时。",
+  "scenario": "distillation",
+  "scenarios": [
+    "distillation",
+    "research"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "每条规则有 source_refs",
+      "触发/动作/边界三件套齐全",
+      "核心规则 ≥2 个独立来源或官方一手；单源明确降权",
+      "至少 1 个反例或失效边界",
+      "样例可复现：问题→命中规则→具体改进"
+    ],
+    "reject": [
+      "无来源断言",
+      "把单一风格偏好写成普适规则",
+      "只给正向例子无边界",
+      "内部蒸馏字段/产物名泄露到用户文档"
+    ],
+    "minIndependentSources": 2,
+    "notes": "风格分支（圆角/无阴影/单色等）必须标注为风格分支并降权。"
+  },
+  "tags": [
+    "UI",
+    "设计",
+    "视觉",
+    "无障碍",
+    "风格边界"
+  ],
+  "experts": [
+    "W3C WCAG",
+    "GitHub Primer",
+    "Material Design",
+    "Apple HIG",
+    "GOV.UK Design System",
+    "Nielsen Norman Group",
+    "Refactoring UI",
+    "Practical Typography"
+  ],
+  "sourceRefs": [
+    "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum",
+    "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast",
+    "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible",
+    "https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance-minimum",
+    "https://primer.github.io/design/foundations/color/accessibility/",
+    "https://primer.github.io/design/foundations/typography/",
+    "https://tailwindcss.com/docs/font-size",
+    "https://design-system.service.gov.uk/styles/type-scale/",
+    "https://m1.material.io/layout/metrics-keylines.html",
+    "https://m3.material.io/styles/typography/type-scale-tokens",
+    "https://developer.apple.com/help/app-store-connect/manage-app-accessibility/sufficient-contrast-evaluation-criteria",
+    "https://www.nngroup.com/articles/visual-hierarchy-ux-definition/",
+    "https://www.nngroup.com/articles/principles-visual-design/",
+    "https://www.nngroup.com/articles/clickable-elements/",
+    "https://www.nngroup.com/articles/form-design-white-space/",
+    "https://www.nngroup.com/articles/characteristics-minimalism/",
+    "https://www.nngroup.com/articles/visual-treatments-accessibility/",
+    "https://www.nngroup.com/articles/consistency-and-standards/",
+    "https://www.nngroup.com/articles/flat-design/",
+    "https://refactoringui.com/",
+    "https://practicaltypography.com/",
+    "https://practicaltypography.com/line-length.html",
+    "https://www.stylekit.top/zh/styles/editorial",
+    "https://pub.dev/documentation/material_design/latest/material_design/M3TypeScale-class.html"
+  ],
+  "provenanceRefs": [
+    "audit/PROVENANCE.md",
+    "audit/research/local_material_inventory.md",
+    "audit/research/raw_corpus_design_specs.md",
+    "audit/research/classic_principles_corpus.md",
+    "audit/research/yield_filter.md",
+    "audit/research/knowledge_nodes.json",
+    "audit/research/counterexamples.md",
+    "audit/research/dry_run_report.md"
+  ],
+  "provenanceNote": "本机绝对路径与审计材料仅用于创作溯源，不作为可移植公开来源；发布时应以公开 URL 与 SOURCES.md 为准。",
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

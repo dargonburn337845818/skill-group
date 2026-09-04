@@ -1,0 +1,21 @@
+{
+  "id": "inspiration-miner",
+  "name": "inspiration-miner",
+  "title": "GitHub 灵感工厂",
+  "description": "从 GitHub 真实开源仓库中挖掘插件/skill/元能力灵感，评分排序并反哺递归升级。",
+  "whenToUse": "需要插件思路、元能力升级灵感或外部开源设计参考时。",
+  "scenario": "core-iteration",
+  "tags": [
+    "GitHub",
+    "灵感挖掘",
+    "元能力升级",
+    "开源情报"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "tools/mine_ideas.py",
+    "tools/output/ideas.json"
+  ],
+  "version": "0.1.0",
+  "license": "MIT"
+}

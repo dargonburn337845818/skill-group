@@ -1,0 +1,438 @@
+{
+  "version": "0.1.0",
+  "description": "正式版技能路由模块注册表；运行时由实现会话读取，UI 骨架先按此渲染 mock。",
+  "base": {
+    "hidden": true,
+    "skills": [
+      "search-source",
+      "work-consensus",
+      "dsh-optimization-consensus",
+      "skill-verification-consensus",
+      "dev-workflow-consensus"
+    ]
+  },
+  "alpha_hidden": true,
+  "modes": [
+    {
+      "id": "dev",
+      "title": "开发",
+      "description": "前后端、美术/PPT、编码规范、信息安全、并发/性能、测试调试、设计美学、去 AI 味、部署/CI-CD/可观测性、系统设计/分布式、LLM/Agent 工程",
+      "skills": [
+        "dev-module",
+        "github-repo-consensus",
+        "ui-aesthetics-design"
+      ],
+      "experts": [],
+      "assignments": [
+        "dev"
+      ],
+      "gaps": [
+        "前后端开发规范",
+        "美术与 PPT 制作",
+        "信息安全",
+        "并发调优",
+        "性能优化",
+        "测试调试机制",
+        "设计美学/风格库",
+        "AI 风格审查与去 AI 味",
+        "部署/CI-CD/可观测性",
+        "LLM/Agent 工程",
+        "系统设计/分布式"
+      ],
+      "gapProgress": {
+        "前后端开发规范": {
+          "status": "filled",
+          "skills": [
+            "dev-frontend",
+            "dev-backend"
+          ],
+          "source": "vault/skills/dev/subskills/dev-frontend/SKILL.md"
+        },
+        "美术与 PPT 制作": {
+          "status": "filled",
+          "skills": [
+            "dev-art-ppt"
+          ],
+          "source": "vault/skills/dev/subskills/dev-art-ppt/SKILL.md"
+        },
+        "信息安全": {
+          "status": "filled",
+          "skills": [
+            "dev-security"
+          ],
+          "source": "vault/skills/dev/subskills/dev-security/SKILL.md"
+        },
+        "并发调优": {
+          "status": "filled",
+          "skills": [
+            "dev-concurrency"
+          ],
+          "source": "vault/skills/dev/subskills/dev-concurrency/SKILL.md"
+        },
+        "性能优化": {
+          "status": "filled",
+          "skills": [
+            "dev-performance"
+          ],
+          "source": "vault/skills/dev/subskills/dev-performance/SKILL.md"
+        },
+        "测试调试机制": {
+          "status": "filled",
+          "skills": [
+            "dev-testing"
+          ],
+          "source": "vault/skills/dev/subskills/dev-testing/SKILL.md"
+        },
+        "设计美学/风格库": {
+          "status": "filled",
+          "skills": [
+            "dev-design-aesthetics"
+          ],
+          "source": "vault/skills/distillation/ui-aesthetics-design/"
+        },
+        "AI 风格审查与去 AI 味": {
+          "status": "filled",
+          "skills": [
+            "dev-remove-ai-flavor"
+          ],
+          "source": "vault/skills/dev/subskills/dev-remove-ai-flavor/SKILL.md"
+        },
+        "部署/CI-CD/可观测性": {
+          "status": "filled",
+          "skills": [
+            "dev-ops-sre"
+          ],
+          "source": "vault/skills/dev/subskills/dev-ops-sre/SKILL.md"
+        },
+        "LLM/Agent 工程": {
+          "status": "filled",
+          "skills": [
+            "dev-ai-engineering"
+          ],
+          "source": "vault/skills/dev/subskills/dev-ai-engineering/SKILL.md"
+        },
+        "系统设计/分布式": {
+          "status": "filled",
+          "skills": [
+            "dev-architecture"
+          ],
+          "source": "vault/skills/dev/subskills/dev-architecture/SKILL.md"
+        }
+      },
+      "module": {
+        "skill": "dev-module",
+        "baseSkills": [
+          "search-source",
+          "skill-verification-consensus",
+          "dev-workflow-consensus"
+        ]
+      }
+    },
+    {
+      "id": "distill",
+      "title": "蒸馏",
+      "description": "继承核心迭代：元能力迭代 + 为各模块补充/调优内容",
+      "skills": [
+        "core-iteration",
+        "distillation-consensus",
+        "web-research-consensus",
+        "value-meta-scheduler",
+        "distill-module",
+        "distill-eval-task"
+      ],
+      "experts": [],
+      "assignments": [
+        "distill"
+      ],
+      "gaps": [
+        "为 dev/teacher/research/writing 补充内容的编排流程",
+        "复用 core-iteration 的元能力迭代，不另起炉灶",
+        "真实 Skill A/B 评测接入：scaffold_eval_task → skilljack-evals/BenchFlow → Skill Lift",
+        "专家蒸馏：domain-profiles.json 的 pending_distill → ready 专家团",
+        "评测任务包制作（scaffold_eval_task → skilljack/benchflow 操作手册）"
+      ],
+      "gapProgress": {
+        "为 dev/teacher/research/writing 补充内容的编排流程": {
+          "status": "filled",
+          "skills": [
+            "distill-module"
+          ],
+          "source": "vault/skills/distill/distill-module/feed-other-modules.md"
+        },
+        "复用 core-iteration 的元能力迭代，不另起炉灶": {
+          "status": "filled",
+          "skills": [
+            "distill-module"
+          ],
+          "source": "vault/skills/distill/distill-module/meta-iteration.md"
+        },
+        "真实 Skill A/B 评测接入：scaffold_eval_task → skilljack-evals/BenchFlow → Skill Lift": {
+          "status": "filled",
+          "skills": [
+            "distill-module"
+          ],
+          "source": "vault/skills/distill/distill-module/real-ab-bench.md; vault/skills/core-iteration/evals/README.md"
+        },
+        "专家蒸馏：domain-profiles.json 的 pending_distill → ready 专家团": {
+          "status": "filled",
+          "skills": [
+            "distill-module"
+          ],
+          "source": "vault/skills/distill/distill-module/meta-iteration.md"
+        },
+        "评测任务包制作（scaffold_eval_task → skilljack/benchflow 操作手册）": {
+          "status": "filled",
+          "skills": [
+            "distill-eval-task"
+          ],
+          "source": "vault/skills/distill/distill-module/subskills/eval-task/SKILL.md"
+        }
+      },
+      "module": {
+        "skill": "distill-module",
+        "baseSkills": [
+          "search-source",
+          "skill-verification-consensus",
+          "dev-workflow-consensus"
+        ]
+      }
+    },
+    {
+      "id": "teacher",
+      "title": "教师",
+      "description": "多领域专家视角：答疑、纠偏、规划方向、多 agent 讨论团队",
+      "skills": [
+        "teacher-consensus",
+        "teacher-math-consensus",
+        "teacher-module"
+      ],
+      "experts": [
+        "tourist",
+        "jiangly",
+        "benq",
+        "um-nik",
+        "errichto",
+        "ecnerwala",
+        "radewoosh",
+        "neal",
+        "rng-58",
+        "petr"
+      ],
+      "assignments": [
+        "teacher"
+      ],
+      "gaps": [
+        "专家库与专家选择",
+        "回合式讨论协议",
+        "领域多专家（算法/数学/工程/人文等）",
+        "数学教师共识（证明/建模/分析）"
+      ],
+      "gapProgress": {
+        "专家库与专家选择": {
+          "status": "filled",
+          "skills": [
+            "teacher-module"
+          ],
+          "source": "vault/skills/teacher/teacher-module/expert-selection.md"
+        },
+        "回合式讨论协议": {
+          "status": "filled",
+          "skills": [
+            "teacher-module"
+          ],
+          "source": "vault/skills/teacher/teacher-module/discussion-protocol.md"
+        },
+        "领域多专家（算法/数学/工程/人文等）": {
+          "status": "partially_filled",
+          "skills": [
+            "teacher-module"
+          ],
+          "source": "vault/meta/domain-profiles.json"
+        },
+        "数学教师共识（证明/建模/分析）": {
+          "status": "filled",
+          "skills": [
+            "teacher-math-consensus"
+          ],
+          "source": "vault/skills/teaching/teacher-math-consensus/SKILL.md"
+        }
+      },
+      "module": {
+        "skill": "teacher-module",
+        "baseSkills": [
+          "search-source",
+          "skill-verification-consensus",
+          "dev-workflow-consensus"
+        ]
+      }
+    },
+    {
+      "id": "research",
+      "title": "科研",
+      "description": "多 agent 科研团队：读论文、理脉络、写论文、组会、PPT、模拟导师审查",
+      "skills": [
+        "vlpc-consensus",
+        "research-module"
+      ],
+      "experts": [
+        "ting-yang",
+        "ping-wang",
+        "s-ma",
+        "y-chen",
+        "o-k-h-shanker",
+        "a-k-sah",
+        "richard-feynman"
+      ],
+      "assignments": [
+        "research"
+      ],
+      "gaps": [
+        "论文阅读与脉络梳理",
+        "组会研讨",
+        "PPT 设计",
+        "模拟导师团队审查",
+        "科研道路规划",
+        "实验设计与统计可复现",
+        "科研投稿（选刊/cover letter/rebuttal）"
+      ],
+      "gapProgress": {
+        "论文阅读与脉络梳理": {
+          "status": "filled",
+          "skills": [
+            "research-module"
+          ],
+          "source": "vault/skills/research/research-module/subskills/paper-reading/SKILL.md"
+        },
+        "组会研讨": {
+          "status": "filled",
+          "skills": [
+            "research-module"
+          ],
+          "source": "vault/skills/research/research-module/subskills/group-meeting/SKILL.md"
+        },
+        "PPT 设计": {
+          "status": "filled",
+          "skills": [
+            "research-module"
+          ],
+          "source": "vault/skills/research/research-module/subskills/research-ppt/SKILL.md"
+        },
+        "模拟导师团队审查": {
+          "status": "filled",
+          "skills": [
+            "research-module"
+          ],
+          "source": "vault/skills/research/research-module/subskills/mentor-review/SKILL.md"
+        },
+        "科研道路规划": {
+          "status": "filled",
+          "skills": [
+            "research-module"
+          ],
+          "source": "vault/skills/research/research-module/subskills/career-path/SKILL.md"
+        },
+        "实验设计与统计可复现": {
+          "status": "filled",
+          "skills": [
+            "research-experiment-design"
+          ],
+          "source": "vault/skills/research/research-module/subskills/experiment-design/SKILL.md"
+        },
+        "科研投稿（选刊/cover letter/rebuttal）": {
+          "status": "filled",
+          "skills": [
+            "research-submission"
+          ],
+          "source": "vault/skills/research/research-module/subskills/submission/SKILL.md"
+        }
+      },
+      "module": {
+        "skill": "research-module",
+        "baseSkills": [
+          "search-source",
+          "skill-verification-consensus",
+          "dev-workflow-consensus"
+        ]
+      }
+    },
+    {
+      "id": "writing",
+      "title": "文稿",
+      "description": "提示词、文案、各类文本生产；可被其他四模块复用",
+      "skills": [
+        "writing-module"
+      ],
+      "experts": [],
+      "assignments": [
+        "writing"
+      ],
+      "gaps": [
+        "提示词模板",
+        "文案写作",
+        "文档/报告生成",
+        "与其他模块的文本接口",
+        "学术写作/论文/LaTeX",
+        "演讲/口播/视频脚本"
+      ],
+      "module": {
+        "skill": "writing-module",
+        "baseSkills": [
+          "search-source",
+          "skill-verification-consensus",
+          "dev-workflow-consensus"
+        ]
+      },
+      "gapProgress": {
+        "提示词模板": {
+          "status": "filled",
+          "skills": [
+            "writing-module"
+          ],
+          "source": "vault/skills/writing/writing-module/subskills/prompt-writing/SKILL.md"
+        },
+        "文案写作": {
+          "status": "filled",
+          "skills": [
+            "writing-module"
+          ],
+          "source": "vault/skills/writing/writing-module/subskills/copywriting/SKILL.md"
+        },
+        "文档/报告生成": {
+          "status": "filled",
+          "skills": [
+            "writing-module"
+          ],
+          "source": "vault/skills/writing/writing-module/subskills/document-report/SKILL.md"
+        },
+        "与其他模块的文本接口": {
+          "status": "filled",
+          "skills": [
+            "writing-module"
+          ],
+          "source": "vault/skills/writing/writing-module/SKILL.md"
+        },
+        "学术写作/论文/LaTeX": {
+          "status": "filled",
+          "skills": [
+            "academic-writing"
+          ],
+          "source": "vault/skills/writing/writing-module/subskills/academic-writing/SKILL.md"
+        },
+        "演讲/口播/视频脚本": {
+          "status": "filled",
+          "skills": [
+            "speech-writing"
+          ],
+          "source": "vault/skills/writing/writing-module/subskills/speech-writing/SKILL.md"
+        }
+      }
+    }
+  ],
+  "shared": {
+    "description": "跨模块共享能力：领域识别 + 人名专家库 + 专家缺口处理",
+    "assignments": [
+      "domain",
+      "ui"
+    ]
+  }
+}

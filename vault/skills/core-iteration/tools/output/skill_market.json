@@ -1,0 +1,448 @@
+{
+  "category": "skill",
+  "total_found": 15,
+  "queries": [
+    "topic:agent-skills",
+    "topic:claude-skills",
+    "topic:skills",
+    "topic:skill-management",
+    "topic:ai-assistant"
+  ],
+  "failures": [],
+  "ideas": [
+    {
+      "repo": "nexu-io/open-design",
+      "url": "https://github.com/nexu-io/open-design",
+      "score": 10,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "cli",
+        "plugin"
+      ],
+      "suggestion": "DSH 生态直接参考：nexu-io/open-design — 可借鉴其插件/harness 设计，反哺 dsh 元能力。",
+      "topics": [
+        "agent-skills",
+        "ai-design",
+        "byok",
+        "claude-code-for-design",
+        "claude-design",
+        "codex-design",
+        "coding-agents",
+        "cursor-design",
+        "deepseek",
+        "deepseek-harness",
+        "design-systems",
+        "desktop-app",
+        "dsh",
+        "dsh-plugin",
+        "figma-alternative",
+        "hermes-agent",
+        "local-first",
+        "prototyping",
+        "ui-generator",
+        "vibe-coding"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "ruvnet/ruflo",
+      "url": "https://github.com/ruvnet/ruflo",
+      "score": 10,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "workflow",
+        "plugin"
+      ],
+      "suggestion": "Skill 生态参考：ruvnet/ruflo — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agentic-ai",
+        "agentic-framework",
+        "agentic-workflow",
+        "agents",
+        "ai-agents",
+        "ai-assistant",
+        "ai-skills",
+        "autonomous-agents",
+        "claude-code",
+        "codex",
+        "dsh-plugin",
+        "harness",
+        "mcp-server",
+        "multi-agent",
+        "multi-agent-systems",
+        "npm",
+        "skills",
+        "swarm",
+        "swarm-intelligence",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "url": "https://github.com/DietrichGebert/ponytail",
+      "score": 9,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "plugin"
+      ],
+      "suggestion": "Skill 生态参考：DietrichGebert/ponytail — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "ai-agents",
+        "claude",
+        "claude-code",
+        "claude-code-plugin",
+        "cursor-rules",
+        "developer-tools",
+        "llm",
+        "prompt-engineering",
+        "yagni"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "thedotmack/claude-mem",
+      "url": "https://github.com/thedotmack/claude-mem",
+      "score": 9,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "plugin"
+      ],
+      "suggestion": "Skill 生态参考：thedotmack/claude-mem — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "ai",
+        "ai-agents",
+        "ai-memory",
+        "anthropic",
+        "artificial-intelligence",
+        "chromadb",
+        "claude",
+        "claude-agent-sdk",
+        "claude-agents",
+        "claude-code",
+        "claude-code-plugin",
+        "claude-skills",
+        "embeddings",
+        "long-term-memory",
+        "mem0",
+        "memory-engine",
+        "openmemory",
+        "rag",
+        "sqlite",
+        "supermemory"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "Egonex-AI/Understand-Anything",
+      "url": "https://github.com/Egonex-AI/Understand-Anything",
+      "score": 9,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "Skill 生态参考：Egonex-AI/Understand-Anything — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "antigravity-skills",
+        "business-knowledge",
+        "claude-code",
+        "claude-skills",
+        "codebase-analysis",
+        "codex",
+        "codex-skills",
+        "developer-tools-ai-agent",
+        "gemini-cli-skills",
+        "karpathy-llm-wiki",
+        "knowledge-base",
+        "knowledge-graph",
+        "memory",
+        "opencode-skills",
+        "pi-agent",
+        "understandcode",
+        "vibe-coding"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "Snailclimb/JavaGuide",
+      "url": "https://github.com/Snailclimb/JavaGuide",
+      "score": 9,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "cli"
+      ],
+      "suggestion": "Skill 生态参考：Snailclimb/JavaGuide — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent",
+        "ai",
+        "context-engineering",
+        "deepseek",
+        "interview",
+        "java",
+        "mcp",
+        "mysql",
+        "redis",
+        "redisson",
+        "skills",
+        "springai",
+        "system-design"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "langgenius/dify",
+      "url": "https://github.com/langgenius/dify",
+      "score": 9,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent",
+        "workflow"
+      ],
+      "suggestion": "Skill 生态参考：langgenius/dify — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent",
+        "agentic-ai",
+        "agentic-framework",
+        "agentic-workflow",
+        "ai",
+        "automation",
+        "claude",
+        "deepseek",
+        "genai",
+        "gpt",
+        "llm",
+        "low-code",
+        "mcp",
+        "nextjs",
+        "no-code",
+        "openai",
+        "python",
+        "skills",
+        "workflow"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：anthropics/skills — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "code-yeongyu/oh-my-openagent",
+      "url": "https://github.com/code-yeongyu/oh-my-openagent",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：code-yeongyu/oh-my-openagent — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "ai",
+        "ai-agents",
+        "anthropic",
+        "chatgpt",
+        "claude",
+        "claude-skills",
+        "codex",
+        "cursor",
+        "gemini",
+        "ide",
+        "openai",
+        "opencode",
+        "orchestration",
+        "tui",
+        "typescript"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：obra/superpowers — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "ai",
+        "brainstorming",
+        "coding",
+        "obra",
+        "sdlc",
+        "skills",
+        "subagent-driven-development",
+        "superpowers"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "iflytek/skillhub",
+      "url": "https://github.com/iflytek/skillhub",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：iflytek/skillhub — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-framework",
+        "ai-agent",
+        "ai-governance",
+        "ai-infrastructure",
+        "ai-orchestration",
+        "audit-log",
+        "enterprise-ai",
+        "iflytek-astron",
+        "openclaw",
+        "openclaw-skills",
+        "rbac",
+        "skill",
+        "skill-hub",
+        "skill-management",
+        "skill-manager",
+        "skill-registry",
+        "skills",
+        "version-control"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "rebelytics/one-skill-to-rule-them-all",
+      "url": "https://github.com/rebelytics/one-skill-to-rule-them-all",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：rebelytics/one-skill-to-rule-them-all — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "agentic-skills",
+        "ai-skills",
+        "augmented-expertise",
+        "awesome-skills",
+        "claude",
+        "claude-code",
+        "claude-cowork",
+        "improve-skills",
+        "meta-skill",
+        "meta-skills",
+        "rebelytics",
+        "skill",
+        "skill-automation",
+        "skill-builder",
+        "skill-creation",
+        "skill-generation",
+        "skill-improvement",
+        "skill-management",
+        "skills"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "qufei1993/skills-hub",
+      "url": "https://github.com/qufei1993/skills-hub",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：qufei1993/skills-hub — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "agent-skills",
+        "ai-agent",
+        "claude-code",
+        "codex",
+        "cursor",
+        "desktop-app",
+        "react",
+        "rust",
+        "skill-management",
+        "skills-manager",
+        "tauri"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "nanocoai/nanoclaw",
+      "url": "https://github.com/nanocoai/nanoclaw",
+      "score": 8,
+      "keywords": [
+        "skill",
+        "skills",
+        "agent"
+      ],
+      "suggestion": "Skill 生态参考：nanocoai/nanoclaw — 可借鉴其 skill 组织/发现/评估方式。",
+      "topics": [
+        "ai-agents",
+        "ai-assistant",
+        "claude-code",
+        "claude-skills",
+        "openclaw"
+      ],
+      "source_type": "github"
+    },
+    {
+      "repo": "CopilotKit/CopilotKit",
+      "url": "https://github.com/CopilotKit/CopilotKit",
+      "score": 2,
+      "keywords": [
+        "agent"
+      ],
+      "suggestion": "通用 agent/plugin 参考：CopilotKit/CopilotKit — The Frontend Stack for Agents & Generative UI. React, Angular, Mobile, Slack, and more.  Makers of the AG-UI Protocol [repo: https://github.com/CopilotKit/Copil",
+      "topics": [
+        "agent",
+        "agent-native",
+        "agentic-ai",
+        "agents",
+        "ai",
+        "ai-agent",
+        "ai-assistant",
+        "assistant",
+        "assistant-chat-bots",
+        "copilot",
+        "copilot-chat",
+        "generative-ui",
+        "js",
+        "llm",
+        "nextjs",
+        "open-source",
+        "react",
+        "reactjs",
+        "ts",
+        "typescript"
+      ],
+      "source_type": "github"
+    }
+  ]
+}

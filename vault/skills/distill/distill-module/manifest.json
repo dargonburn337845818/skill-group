@@ -1,0 +1,67 @@
+{
+  "id": "distill-module",
+  "name": "distill-module",
+  "title": "蒸馏模块（模块缺口 → 新 Skill / 人名专家 → 回填）",
+  "description": "蒸馏模块编排层：接收 dev/teacher/research/writing 的模块缺口与 domain-profiles 的 pending_distill 专家缺口，调度 core-iteration 六阶段蒸馏，并把产物回填 modules.json / EXPERT_LIBRARY.json。",
+  "whenToUse": "需要给其他模块补内容、把 Gap 蒸馏成 Skill、把候选专家蒸馏成 ready 专家团、或需要模块缺口到回填的完整协调流程时。",
+  "boundary": "只做编排与回填；不重新实现 core-iteration 的搜索/过滤/蒸馏/迭代/校验工具；无 verified 证据不回填；语料不足不硬编。",
+  "notWhenToUse": "只是普通搜索/开发/写代码；或用户已有现成 Skill、不需要走模块缺口蒸馏流程时。",
+  "scenario": "distill",
+  "scenarios": [
+    "distill",
+    "core-iteration",
+    "domain",
+    "dev",
+    "teacher",
+    "research",
+    "writing"
+  ],
+  "routing": "core",
+  "qualityCriteria": {
+    "high": [
+      "GapRequest 归一化：module_id/gap/gap_id/target_type 齐全",
+      "六阶段全部调用 core-iteration 现有实现，未另起炉灶",
+      "产物回填 modules.json 或 EXPERT_LIBRARY/domain-profiles，有审计 diff",
+      "真实 A/B 有任务包与 Skill Lift 证据（skilljack_runner/benchflow_runner 已实现）；外部 runner 未配置 key 时如实说明"
+    ],
+    "reject": [
+      "跳过 benefit-filter 直接蒸馏",
+      "无来源/无三件套的摘要冒充 Skill",
+      "pending_distill 无足够语料就改成 ready",
+      "用模板分数冒充真实 A/B",
+      "在 distill-module 下重复实现 core-iteration 工具"
+    ],
+    "minIndependentSources": 2,
+    "notes": "专家蒸馏严格执行 public-figure-style-reference：style 是风格/方法论推断，不是本人原话。"
+  },
+  "tags": [
+    "蒸馏",
+    "编排",
+    "Gap",
+    "专家蒸馏",
+    "回填",
+    "元能力"
+  ],
+  "experts": [
+    "core-iteration",
+    "distillation-consensus",
+    "skill-verification-consensus",
+    "skilljack-evals",
+    "BenchFlow"
+  ],
+  "sourceRefs": [
+    "$PROJECT_ROOT/FORMAL_SPEC.md",
+    "$PROJECT_ROOT/vault/meta/modules.json",
+    "$PROJECT_ROOT/vault/meta/domain-profiles.json",
+    "$PROJECT_ROOT/vault/meta/EXPERT_LIBRARY.json",
+    "$WORKSPACE/skills/core-iteration/README.md",
+    "$WORKSPACE/skills/core-iteration/tools/scaffold_eval_task.py",
+    "$WORKSPACE/skills/core-iteration/tools/skilljack_runner.py",
+    "$WORKSPACE/skills/core-iteration/tools/benchflow_runner.py",
+    "$WORKSPACE/skills/core-iteration/tools/skill_effect_bench.py",
+    "$WORKSPACE/skills/distillation-consensus-skill/SKILL.md"
+  ],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # 手动推送脚本（必须人工执行，因为需要输入 git HTTPS 凭据）。
 # 用途：把 vault 中新蒸馏的 skill、语料、产物提交并推送到远程仓库。
+# 安全：只允许公开目录；禁止把内部开发产物（assignments/、evals/）一并推上去。
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -22,6 +23,16 @@ if [[ "$CONFIRM" != "yes" ]]; then
 fi
 
 git add -A
+
+# 安全护栏：内部开发产物不应进入公开仓库。
+STAGED_INTERNAL="$(git diff --cached --name-only | grep -E '^(assignments|evals)/' || true)"
+if [ -n "$STAGED_INTERNAL" ]; then
+  echo "! 检测到内部开发产物被暂存，已中止。请检查 .gitignore 或手动移除：" >&2
+  echo "$STAGED_INTERNAL" >&2
+  git reset >/dev/null 2>&1 || true
+  exit 1
+fi
+
 git diff --cached --stat || true
 read -r -p "查看暂存后，输入 commit message（直接回车用默认）: " MSG
 COMMIT_MSG="${MSG:-vault: update distilled skills}"

@@ -25,7 +25,7 @@ type AppContext = Context & {
 }
 
 export const name = '@dsh-external/dsh-skill-vault'
-export const inject = ['skills', 'tools']
+export const inject = ['skills', 'tools', 'webServer']
 
 export interface Config {
   /** Vault repo root. Default: <plugin package root>/vault */

@@ -1,0 +1,454 @@
+{
+  "version": "0.2.0",
+  "description": "正式版领域识别字典：路由先识别用户“在说哪个领域”，再按 expert_ids 从 EXPERT_LIBRARY.json 加载该领域已备好的人名专家团。识别到领域但无 ready 专家时，走“蒸馏专家 / 放弃专家团”分支；未识别或低置信度时先向用户询问，不静默降级。",
+  "recognizer": {
+    "strategy": "keyword-dictionary + low-confidence-ask",
+    "low_confidence_threshold": 1,
+    "unknown_fallback": "ask_domain",
+    "expert_gap_fallback": "ask_user_distill_or_llm"
+  },
+  "domains": [
+    {
+      "id": "algorithm",
+      "name": "算法竞赛",
+      "keywords": [
+        "算法",
+        "算法竞赛",
+        "竞赛",
+        "codeforces",
+        "atcoder",
+        "competitive programming",
+        "tourist",
+        "jiangly",
+        "benq",
+        "um_nik",
+        "errichto",
+        "ecnerwala",
+        "radewoosh",
+        "neal",
+        "rng_58",
+        "petr",
+        "cf",
+        "topcoder",
+        "div1",
+        "div2",
+        "算法题",
+        "数据结构",
+        "dp",
+        "图论",
+        "数论"
+      ],
+      "modules": [
+        "teacher",
+        "dev",
+        "research"
+      ],
+      "expert_ids": [
+        "tourist",
+        "jiangly",
+        "benq",
+        "um-nik",
+        "errichto",
+        "ecnerwala",
+        "radewoosh",
+        "neal",
+        "rng-58",
+        "petr"
+      ],
+      "status": "ready",
+      "note": "算法竞赛域名专家团已 ready；风格均为公开人物风格/方法论参考，非原话。",
+      "adjacent": [
+        "math"
+      ]
+    },
+    {
+      "id": "frontend",
+      "name": "前端开发",
+      "keywords": [
+        "前端",
+        "web 前端",
+        "react",
+        "vue",
+        "css",
+        "html",
+        "typescript",
+        "组件",
+        "浏览器",
+        "页面"
+      ],
+      "modules": [
+        "dev"
+      ],
+      "expert_ids": [
+        "evan-you",
+        "rich-harris",
+        "dan-abramov"
+      ],
+      "status": "ready",
+      "note": "前端专家团已蒸馏为 ready（Evan You / Rich Harris / Dan Abramov）；均为公开人物风格/方法论参考，非本人原话。",
+      "adjacent": [
+        "backend",
+        "performance",
+        "writing"
+      ]
+    },
+    {
+      "id": "backend",
+      "name": "后端开发",
+      "keywords": [
+        "后端",
+        "服务端",
+        "api",
+        "数据库",
+        "微服务",
+        "go",
+        "java",
+        "node",
+        "架构"
+      ],
+      "modules": [
+        "dev"
+      ],
+      "expert_ids": [
+        "martin-fowler"
+      ],
+      "status": "ready",
+      "note": "Martin Fowler 已蒸馏为 ready；来源为 martinfowler.com 官方页与 Thoughtworks 访谈，均保留 sourceRefs。",
+      "adjacent": [
+        "security",
+        "performance",
+        "frontend"
+      ]
+    },
+    {
+      "id": "security",
+      "name": "信息安全",
+      "keywords": [
+        "安全",
+        "漏洞",
+        "渗透",
+        "cve",
+        "osv",
+        "攻防",
+        "加密",
+        "web安全"
+      ],
+      "modules": [
+        "dev",
+        "research"
+      ],
+      "expert_ids": [
+        "bruce-schneier"
+      ],
+      "status": "ready",
+      "note": "Bruce Schneier 已蒸馏为 ready；来源为官网/Crypto-Gram/CSO 访谈，均可回溯。",
+      "adjacent": [
+        "backend",
+        "performance"
+      ]
+    },
+    {
+      "id": "performance",
+      "name": "性能优化",
+      "keywords": [
+        "性能",
+        "优化",
+        "并发",
+        "延迟",
+        "吞吐",
+        "profiling",
+        "内存",
+        "调优"
+      ],
+      "modules": [
+        "dev",
+        "research"
+      ],
+      "expert_ids": [
+        "john-carmack",
+        "brendan-gregg"
+      ],
+      "status": "ready",
+      "note": "性能专家团已蒸馏为 ready（John Carmack / Brendan Gregg）；来源见 expert-drafts，非本人原话。",
+      "adjacent": [
+        "backend",
+        "security",
+        "frontend"
+      ]
+    },
+    {
+      "id": "math",
+      "name": "数学",
+      "keywords": [
+        "数学",
+        "证明",
+        "代数",
+        "几何",
+        "分析",
+        "概率",
+        "统计"
+      ],
+      "modules": [
+        "teacher",
+        "research"
+      ],
+      "expert_ids": [
+        "terence-tao"
+      ],
+      "status": "ready",
+      "note": "Terence Tao 已蒸馏为 ready；来源为其本人博客一手页面（7 条 verified-high）。",
+      "adjacent": [
+        "algorithm",
+        "physics"
+      ]
+    },
+    {
+      "id": "physics",
+      "name": "物理",
+      "keywords": [
+        "物理",
+        "量子",
+        "力学",
+        "电磁",
+        "凝聚态",
+        "实验",
+        "论文"
+      ],
+      "modules": [
+        "research",
+        "teacher"
+      ],
+      "expert_ids": [
+        "richard-feynman"
+      ],
+      "status": "ready",
+      "note": "Richard Feynman 已蒸馏为 ready；来源为 Nobel / Feynman Lectures / 公开演讲与自传。",
+      "adjacent": [
+        "research",
+        "math"
+      ]
+    },
+    {
+      "id": "writing",
+      "name": "写作/文案",
+      "keywords": [
+        "写作",
+        "文案",
+        "提示词",
+        "prompt",
+        "报告",
+        "演讲稿",
+        "公文"
+      ],
+      "modules": [
+        "writing",
+        "teacher",
+        "research"
+      ],
+      "expert_ids": [
+        "william-zinsser"
+      ],
+      "status": "ready",
+      "note": "William Zinsser 已蒸馏为 ready；来源为 On Writing Well / NPR / Yale / Edutopia。",
+      "adjacent": [
+        "research",
+        "frontend"
+      ]
+    },
+    {
+      "id": "research",
+      "name": "科研 / 论文 / 组会",
+      "keywords": [
+        "科研",
+        "论文",
+        "组会",
+        "导师",
+        "文献",
+        "综述",
+        "paper",
+        "reading",
+        "投稿",
+        "期刊",
+        "实验设计",
+        "答辩",
+        "物理",
+        "vlpc",
+        "可见光",
+        "noma",
+        "sic",
+        "定位",
+        "通信",
+        "图表",
+        "创新点",
+        "方向选择",
+        "读研"
+      ],
+      "modules": [
+        "research",
+        "teacher"
+      ],
+      "expert_ids": [
+        "ting-yang",
+        "ping-wang",
+        "s-ma",
+        "y-chen",
+        "o-k-h-shanker",
+        "a-k-sah",
+        "richard-feynman"
+      ],
+      "status": "ready",
+      "note": "科研论文/组会场景：聚合 VLPC/物理材料中已备好的具体人名导师；Richard Feynman 已作为 ready 物理风格参考并入。",
+      "adjacent": [
+        "physics",
+        "math",
+        "writing"
+      ]
+    },
+    {
+      "id": "ai-llm-agent",
+      "name": "AI/LLM/Agent 工程",
+      "keywords": [
+        "AI",
+        "LLM",
+        "大模型",
+        "agent",
+        "rag",
+        "提示词",
+        "模型",
+        "karpathy",
+        "lilian weng",
+        "机器学习",
+        "深度学习"
+      ],
+      "modules": [
+        "dev",
+        "teacher",
+        "research"
+      ],
+      "expert_ids": [
+        "andrej-karpathy",
+        "lilian-weng",
+        "chip-huyen"
+      ],
+      "status": "ready",
+      "adjacent": [
+        "frontend",
+        "backend",
+        "research",
+        "performance"
+      ],
+      "note": "AI/LLM/Agent 专家团已蒸馏为 ready（Andrej Karpathy / Lilian Weng / Chip Huyen）；均为公开人物风格/方法论参考，非本人原话。"
+    },
+    {
+      "id": "devops",
+      "name": "DevOps / SRE / 云原生",
+      "keywords": [
+        "devops",
+        "sre",
+        "云原生",
+        "kubernetes",
+        "部署",
+        "可观测性",
+        "监控",
+        "ci",
+        "cd",
+        "kelsey",
+        "charity"
+      ],
+      "modules": [
+        "dev",
+        "teacher"
+      ],
+      "expert_ids": [
+        "charity-majors",
+        "kelsey-hightower",
+        "cindy-sridharan"
+      ],
+      "status": "ready",
+      "adjacent": [
+        "backend",
+        "security",
+        "performance"
+      ],
+      "note": "DevOps/SRE 专家团已蒸馏为 ready（Charity Majors / Kelsey Hightower / Cindy Sridharan）；均为公开人物风格/方法论参考，非本人原话。"
+    },
+    {
+      "id": "data-science",
+      "name": "数据科学 / 统计",
+      "keywords": [
+        "数据科学",
+        "统计",
+        "数据分析",
+        "机器学习",
+        "hadley",
+        "gelman",
+        "贝叶斯",
+        "实验"
+      ],
+      "modules": [
+        "research",
+        "teacher",
+        "dev"
+      ],
+      "expert_ids": [
+        "hadley-wickham",
+        "andrew-gelman",
+        "andrej-karpathy"
+      ],
+      "status": "ready",
+      "adjacent": [
+        "research",
+        "math",
+        "backend"
+      ],
+      "note": "数据科学/统计专家团已蒸馏为 ready（Hadley Wickham / Andrew Gelman / Andrej Karpathy）；均为公开人物风格/方法论参考，非本人原话。"
+    },
+    {
+      "id": "product-ux",
+      "name": "产品 / UX / 用户研究",
+      "keywords": [
+        "产品",
+        "ux",
+        "用户体验",
+        "可用性",
+        "设计心理学",
+        "nielsen",
+        "norman",
+        "用户研究"
+      ],
+      "modules": [
+        "dev",
+        "teacher",
+        "writing"
+      ],
+      "expert_ids": [
+        "don-norman",
+        "jakob-nielsen",
+        "julie-zhuo"
+      ],
+      "status": "ready",
+      "adjacent": [
+        "frontend",
+        "writing",
+        "research"
+      ],
+      "note": "产品/UX 专家团已蒸馏为 ready（Don Norman / Jakob Nielsen / Julie Zhuo）；均为公开人物风格/方法论参考，非本人原话。"
+    }
+  ],
+  "fallback_action": {
+    "type": "ask_user",
+    "question": "该领域暂无已备好的人名专家：要我蒸馏该领域专家团，还是放弃专家团、直接用大模型解答？",
+    "options": [
+      "distill_expert",
+      "use_llm_directly"
+    ]
+  },
+  "unknown_domain_action": {
+    "type": "ask_user",
+    "question": "没有识别出你正在说的领域。请告诉我具体领域（算法/前端/后端/安全/性能/数学/物理/写作等），或直接说明处理方式。",
+    "options": [
+      "specify_domain",
+      "use_llm_directly"
+    ]
+  }
+}

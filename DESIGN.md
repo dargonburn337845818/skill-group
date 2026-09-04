@@ -17,7 +17,7 @@
 - 单一远程仓库：`skill-group`（插件代码 + vault 数据放一起）。
 - 插件包名：`@dsh-external/dsh-skill-vault`。
 - 形态：hybrid（agent 工具 + Web UI 面板）。
-- 本地仓库路径：`$HOME/work/dsh-skill-vault`。
+- 本地仓库路径：`$PROJECT_ROOT`。
 
 ## 3. 关键决策
 
@@ -42,6 +42,7 @@
 | id | 标题 | 说明 |
 |---|---|---|
 | `teaching` | 教学引导 / 拆题 | 教师共识、熵减盘问 |
+| `core-iteration` | 核心迭代元能力 / 价值递归提升 | 信息搜集、收益计算、蒸馏、迭代、调度、决策六合一 |
 | `distillation` | 内容蒸馏 / 知识化 | 把材料变成 skill |
 | `research` | 科研 / 组会 / 论文 | VLPC、物理信息、组会技巧 |
 | `dsh-ops` | DSH 运维 / 工具 | 运维共识、skill 管理、vault 发布 |
@@ -100,3 +101,11 @@
 - 插件回滚：恢复 `node_modules` 中的实际文件 + `package.json` pin，真实启动验证。
 - Vault 内容回滚：git history。
 - 首次推送前：`git remote add origin https://github.com/dargonburn337845818/skill-group.git`。
+
+## 2026-09-04 与 dsh-skill-router 联动
+
+- 新增 `base` 场景：search-source / work-consensus / dsh-optimization-consensus。
+- 核心元能力改为唯一入口 `core-iteration/core-iteration`，原子 skill 移入 `impl/`。
+- manifest 新增 routing / qualityCriteria / boundary / notWhenToUse / hidden。
+- API 新增 `/route` 与 `/reset-base`。
+- 会话页主面板由 dsh-skill-router 接管；本插件只保留设置页高级管理。
