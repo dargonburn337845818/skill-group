@@ -1,6 +1,6 @@
 {
   "name": "@dsh-external/dsh-skill-vault",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "DSH 技能保险库：统筹蒸馏 skill、按场景开关、agent 工具 + Web 可视化面板",
   "private": true,
   "type": "module",

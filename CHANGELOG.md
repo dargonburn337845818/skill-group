@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0 (2026-09-04)
+
+- 正式版五模块：dev / distill / teacher / research / writing。
+- 教师运行时：领域识别、人名专家团（ready/gap 分支）、回合式讨论。
+- 扩展 manifest 字段：routing / qualityCriteria / boundary / notWhenToUse / activation。
+- 新增 `/skill-vault/api/route`、`/reset-base`、`/teacher/*` 端点。
+- 补充社区文件、CI 与 GitHub Release 自动打包。
+
 ## 0.0.1 (2026-09-04)
 
 - Hybrid 插件：agent 工具 + Web 可视化开关面板。

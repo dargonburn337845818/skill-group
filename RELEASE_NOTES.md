@@ -1,4 +1,4 @@
-# dsh-skill-vault v0.0.1
+# dsh-skill-vault v0.1.0
 
 DSH 技能保险库：统筹你蒸馏的 skill，按场景/单 skill 开关按需启用。
 
