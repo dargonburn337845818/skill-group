@@ -47,7 +47,15 @@
     "distillation-consensus",
     "skill-verification-consensus",
     "skilljack-evals",
-    "BenchFlow"
+    "BenchFlow",
+    "tourist",
+    "um-nik",
+    "evan-you",
+    "martin-fowler",
+    "andrej-karpathy",
+    "william-zinsser",
+    "ting-yang",
+    "ping-wang"
   ],
   "sourceRefs": [
     "$PROJECT_ROOT/FORMAL_SPEC.md",

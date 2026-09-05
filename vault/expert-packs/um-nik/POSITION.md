@@ -1,14 +1,91 @@
-# 读题先审问限制与不寻常处，不按标签刷题；倾向于把题面重述成标准模型/纯数学问题
+# 阿列克谢·丹尼柳克（Um_nik，俄罗斯顶尖选手） · 风格/方法论蒸馏
 
-> 风格/方法论推断，非本人原话。
+> 风格/方法论推断，非本人原话；来源见下方 SourceRefs。
 
 ## 立场概要
 
 读题先审问限制与不寻常处，不按标签刷题；倾向于把题面重述成标准模型/纯数学问题
 
-## 待补
+## 结构化条目（style_items）
 
-- [ ] trigger/action/boundary 结构化条目（后续蒸馏补全）
-- [ ] 反例与失败模式
+### 1. um-nik-combo-to-genfunc
 
-**SourceRefs**: https://codeforces.com/profile/Um_nik; https://codeforces.com/blog/entry/113785; https://codeforces.com/blog/entry/62730; https://www.topcoder.com/blog/interview-alex-danilyuk-um-nik; https://www.cnblogs.com/Zeardoe/p/17222768.html; $WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json
+**Trigger**: 求和式含二项式系数/组合卷积（如 Σ C(k,i)C(n-k,k-i)a^i），且需要对所有 k 求值
+
+**Action**: 把式子重写成某个生成函数/多项式的系数提取，再用多项式乘法/FFT 批量求系数
+
+**Boundary**: 若指数随 k 变化且无法统一成少量多项式，仅靠系数提取不会自动变简单；FFT 模数/精度不友好时也需额外处理
+
+**SourceRefs**: https://codeforces.com/blog/entry/103635
+
+### 2. um-nik-simple-first-before-tool
+
+**Trigger**: 读完题想直接套数据结构/高级算法，但还没有解决小规模单查询
+
+**Action**: 先写 n<1000 时如何算一次查询的朴素方法，确认正确后再考虑预处理/数据结构优化
+
+**Boundary**: 当构造/数学题根本没有可枚举的小规模结构，或朴素方法无法揭示优化方向时，不必强求先暴力
+
+**SourceRefs**: https://codeforces.com/blog/entry/113785
+
+### 3. um-nik-reformulation-questions
+
+**Trigger**: 读完题面没有思路，或条件看起来很别扭/多余
+
+**Action**: 依次问：为什么有这个限制？去掉会怎样？哪里不寻常？能否重述成标准问题？再据此寻找等价结构
+
+**Boundary**: 若限制是题目的灵魂而非伪装（去掉后变成完全不同的问题），过度‘去掉限制’会误导；对纯模拟题也可能问而不答
+
+**SourceRefs**: https://codeforces.com/blog/entry/113785
+
+### 4. um-nik-dc-coefficient-window
+
+**Trigger**: 分治处理每个下标 k 的答案，中间多项式很大，但最终只取一段系数
+
+**Action**: 递归时只保留能影响目标系数段 O(d(r-l)) 个系数，窗口外系数直接丢弃，减少乘法规模
+
+**Boundary**: 若后续操作会把远处系数重新搬回目标窗口（非局部依赖），提前剪枝会丢信息；d 很大时 O(d(r-l)) 窗口仍可能过大
+
+**SourceRefs**: https://codeforces.com/blog/entry/103635
+
+### 5. um-nik-statement-to-math-model
+
+**Trigger**: 读完一道带大量故事包装的题目后，脑中还是具体场景、人物和事件，而不是可计算的输入/输出/约束。
+
+**Action**: 强制用自己的话把题面重述为纯数学对象：输入、输出、操作、限制和询问分别是什么；删掉对求解没有影响的背景细节，保留能翻译成算法输入的抽象结构。
+
+**Boundary**: 有些题目的故事本身就是关键转化线索（如按时间/物理运动建模），过早剥离故事会丢失提示；应先保留所有细节直到确认哪些无用。
+
+**SourceRefs**: https://codeforces.com/blog/entry/62730
+
+### 6. um-nik-small-limitation-enumeration
+
+**Trigger**: 题面/限制里出现很小的 n、范围和参数，且问题的状态空间可以枚举子集、排列或所有可能组合。
+
+**Action**: 把“小限制”作为可用资源：优先枚举所有可能（全排列、子集、所有参数），用它作为暴力解法或作为状态压缩 DP 的层数，而不是直接跳过小数据去设计通用算法。
+
+**Boundary**: 如果小限制只是题面局部或样例用，主体规模仍很大，全枚举会超时；枚举空间虽小但每次计算不便宜时也需谨慎。
+
+**SourceRefs**: https://codeforces.com/blog/entry/62730
+
+### 7. um-nik-sample-check-model
+
+**Trigger**: 读完题后建了一个自己觉得合理的数学模型，但还没有验证；题目给了可以手算的小样例。
+
+**Action**: 把模型套到每个小样例上逐步手算，核对是否复现样例输出；一旦不符，先回到模型找漏掉的特判/定义偏差，而不是直接开始写代码。
+
+**Boundary**: 样例太少或过于特殊，不能证明模型正确；完全依赖样例而忽略边界和大数情况仍会漏错。样例只能证伪，不能充分验证。
+
+**SourceRefs**: https://codeforces.com/blog/entry/62730
+
+### 8. um-nik-complexity-scale-selection
+
+**Trigger**: 题目限制中有小 n、小 m、小值域，或 O(n²) 需要优化到 O(n log n)。
+
+**Action**: 先提取 n/m/值域/参数上界；按规模选暴力、状压、O(n log n)、矩阵幂或指数参数 DP；用数据结构把正确但慢的 O(n²) 降至可接受复杂度。
+
+**Boundary**: 需要结合具体问题验证；此为风格推断，不代表该专家在所有场景的唯一做法。
+
+**SourceRefs**: https://codeforces.com/blog/entry/62730; https://codeforces.com/blog/entry/81916; https://codeforces.com/blog/entry/9099; https://codeforces.com/blog/entry/451
+
+**SourceRefs（专家总来源）**: https://codeforces.com/profile/Um_nik; https://codeforces.com/blog/entry/113785; https://codeforces.com/blog/entry/62730; https://www.topcoder.com/blog/interview-alex-danilyuk-um-nik; https://www.cnblogs.com/Zeardoe/p/17222768.html; $WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json; https://codeforces.com/blog/entry/103635; https://codeforces.com/blog/entry/81916; https://codeforces.com/blog/entry/9099; https://codeforces.com/blog/entry/451

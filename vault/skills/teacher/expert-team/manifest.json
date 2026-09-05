@@ -1,0 +1,87 @@
+{
+  "id": "expert-team",
+  "name": "expert-team",
+  "title": "专家团标准化流程（任意模块通用）",
+  "description": "统一的人名专家团调用协议：领域识别 → 加载 ready 专家 → 回合式独立表态 → 冲突点表 → 主持人/用户裁决 → 带 expert_id/expert_name 的结论；dev/writing/teacher/research/distill 均可复用。",
+  "whenToUse": "任何模块需要“多位真实公开人物风格参考”来评审方案、拆解问题、生成署名意见、保留分歧时。",
+  "boundary": "只做公开人物风格/方法论推断，不伪造原话；不替用户做最终裁决；无 ready 专家时走缺口分支，不静默降级。",
+  "notWhenToUse": "单一回答即可、不需要专家署名，或用户已明确放弃专家团时。",
+  "scenario": "teacher",
+  "scenarios": [
+    "teacher",
+    "dev",
+    "writing",
+    "research",
+    "distill"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "从 EXPERT_LIBRARY 加载 ready 且 persona_type=public-figure-style-reference 的专家",
+      "每轮独立表态 → 冲突点表 → 裁决 → 结论带 expert_id/expert_name",
+      "每个模块都能给出默认专家团与调用路径"
+    ],
+    "reject": [
+      "把抽象角色冒充人名专家",
+      "伪造专家原话",
+      "无 sourceRefs 的 ready 专家",
+      "有分歧却静默合并"
+    ],
+    "minIndependentSources": 1,
+    "notes": "风格推断不是原话；ready 专家必须保留 sourceRefs。"
+  },
+  "tags": [
+    "专家团",
+    "标准化流程",
+    "回合式讨论",
+    "跨模块"
+  ],
+  "experts": [
+    "tourist",
+    "jiangly",
+    "benq",
+    "um-nik",
+    "errichto",
+    "ecnerwala",
+    "radewoosh",
+    "neal",
+    "rng-58",
+    "petr",
+    "evan-you",
+    "rich-harris",
+    "dan-abramov",
+    "martin-fowler",
+    "bruce-schneier",
+    "john-carmack",
+    "brendan-gregg",
+    "charity-majors",
+    "kelsey-hightower",
+    "cindy-sridharan",
+    "andrej-karpathy",
+    "lilian-weng",
+    "chip-huyen",
+    "hadley-wickham",
+    "andrew-gelman",
+    "don-norman",
+    "jakob-nielsen",
+    "julie-zhuo",
+    "william-zinsser",
+    "terence-tao",
+    "richard-feynman",
+    "ting-yang",
+    "ping-wang",
+    "s-ma",
+    "y-chen",
+    "o-k-h-shanker",
+    "a-k-sah"
+  ],
+  "sourceRefs": [
+    "vault/meta/EXPERT_LIBRARY.json",
+    "vault/meta/domain-profiles.json",
+    "vault/skills/teacher/teacher-module/discussion-protocol.md",
+    "vault/skills/teacher/teacher-module/expert-selection.md"
+  ],
+  "activation": "catalog",
+  "version": "0.1.0",
+  "license": "MIT"
+}

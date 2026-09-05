@@ -65,6 +65,16 @@ boundary: 只做编排与回填；不重新实现 core-iteration 工具；无 ve
 
 > 第 2、3 步是硬闸门：**跳过 benefit-filter 的“蒸馏”不得回填；没有 verified 证据的“专家说”不得进入 Skill**。
 
+## 专家团调用（标准化流程）
+
+蒸馏过程中需要“多专家判断这条知识是否值得保留/是否有分歧”时，按被蒸馏语料的领域加载专家团：
+
+1. 算法竞赛语料 → `expert_ids=["tourist","um-nik","jiangly","benq"]` 等。
+2. 前端/后端/性能/安全/AI 工程语料 → 对应 dev 领域 ready 专家。
+3. 写作/科研语料 → `william-zinsser` 或 `research` 导师团。
+4. 元流程/技能库设计审查 → `dsh-ops` + `ai-llm-agent` 专家。
+5. 走统一 `expert-team` 协议：定域 → 加载 → 独立表态 → 冲突表 → 裁决 → 署名结论；不静默降级。
+
 ## 为四个模块补内容（详见 `feed-other-modules.md`）
 
 | 模块 | 缺的是 | 蒸馏产物落到哪 | 回填动作 |

@@ -12,9 +12,112 @@
   "sourceRefs": [
     "https://codeforces.com/profile/tourist",
     "$WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json",
-    "$WORKSPACE/skills/teacher-consensus-skill/CP_KNOWLEDGE_CRYSTAL.md"
+    "$WORKSPACE/skills/teacher-consensus-skill/CP_KNOWLEDGE_CRYSTAL.md",
+    "https://codeforces.com/blog/entry/51883",
+    "https://codeforces.com/blog/entry/93568",
+    "https://codeforces.com/blog/entry/61710",
+    "https://codeforces.com/blog/entry/43467",
+    "https://codeforces.com/blog/entry/64543",
+    "https://codeforces.com/blog/entry/56992",
+    "https://codeforces.com/blog/entry/70620",
+    "https://codeforces.com/blog/entry/61331",
+    "https://codeforces.com/blog/entry/451",
+    "https://codeforces.com/blog/entry/82643",
+    "https://codeforces.com/blog/entry/23522"
   ],
   "status": "ready",
   "displayNameZh": "根纳季·科罗特克维奇（tourist，算法竞赛天花板）",
-  "fame": "top"
+  "fame": "top",
+  "style_items": [
+    {
+      "id": "tourist-ratio-check-binary-search",
+      "trigger": "有当前 (x,y) 和目标比例 (p,q)，求最少操作次数 t，使 x'、y' 与总次数满足两个比例不等式",
+      "action": "把问题写成关于 t 的可行性判定 check(t)；先检查足够大的 r 是否可行（不可行输出 -1），再二分最小可行 t",
+      "boundary": "p=0 或 p=q 时比例约束退化，需要特判；若 check(t) 不单调或不可快速判定，二分失效",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/51883"
+      ],
+      "layer": "consensus"
+    },
+    {
+      "id": "tourist-monotone-bitonic-binary-ternary-search",
+      "trigger": "问题中有一个可排序/可计数的搜索空间（候选集、答案 t、阈值 k、中位数规模 j），且可行性或目标值随参数单调，或函数本身凸/凹因此单峰；需要找最优/最左可行解而不是枚举全部。",
+      "action": "把搜索空间压到二分/三分：先写出 check(x) 或目标 f(x)。若判定随 x 单调，则二分最小/最大可行 x；若 f 单峰则三分（或二分边际量）找极值。交互类可把候选排全序后查中间位；具体 check 按问题构造，如贪心排序取前 k、树形 DP 维护最长合格前缀、拓扑定向验证无环、比例不等式等。",
+      "boundary": "若 check 不单调、函数多峰/平台/离散噪声、候选无法快速计数排序，或单次检查代价极高，二分/三分剪枝会失效或收益有限。三分对浮点精度、非严格单峰也需要谨慎。",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/93568",
+        "https://codeforces.com/blog/entry/61710",
+        "https://codeforces.com/blog/entry/43467",
+        "https://codeforces.com/blog/entry/64543"
+      ],
+      "layer": "consensus"
+    },
+    {
+      "id": "tourist-capacity-price-relax",
+      "trigger": "商品容量按 2 的幂递增，买够目标量 L 的最少花费；大容量可等价替换两个小容量",
+      "action": "先沿容量方向做价格松弛 c[i+1]=min(c[i+1],2*c[i]) 得到每个容量的最优单价；再从大到小贪心购买，并在每一步考虑多买一个当前大容量作为备选更新答案",
+      "boundary": "容量不是 2 的幂、不能任意组合，或价格松弛改变合法选择时，直接 min(2*c[i]) 会丢掉正确性；需要精确匹配时需换 DP",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/56992"
+      ],
+      "layer": "style"
+    },
+    {
+      "id": "tourist-binary-search-answer-by-time",
+      "trigger": "从 n 题中选恰好 k 题，每道题有难度要求 a_i（只有 a_i>=k 可用）和耗时 t_i，要求总时间不超过 T；k 与可行性单调",
+      "action": "对 k 二分答案；每次只收集 a_i>=k 的题，按 t_i 排序取前 k 个，检查其耗时和是否 <=T，并记录可行方案",
+      "boundary": "可行性不随 k 单调（例如少选时反而更难）时二分会错；需要输出具体方案时，二分过程中记录下的集合可能不是最终方案",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/56992"
+      ],
+      "layer": "consensus"
+    },
+    {
+      "id": "tourist-permutation-order-map",
+      "trigger": "给出两个排列（进入/离开等），需要统计相对顺序被推翻/超车/越序的次数",
+      "action": "用第二个排列建立位置数组 pos，把第一个排列转为 c[i]=pos[a[i]]；扫描 c 维护当前最大值，遇到非新最大值就计数",
+      "boundary": "输入不是排列/有重复，或需要动态改变顺序时，位置映射不适用；统计也可能只适用于特定逆序定义",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/70620"
+      ],
+      "layer": "consensus"
+    },
+    {
+      "id": "tourist-monotonic-binary-ternary",
+      "trigger": "答案/可行性随参数单调，或目标函数凸/凹单峰；候选空间可排序计数、可二分阈值。",
+      "action": "先写 check(x) 或目标 f(x)；单调则二分最小/最大可行 x，单峰则三分；对“最大单个代价”类目标显式转成阈值可行性判定；值域大时先压缩/乘积界。",
+      "boundary": "需要结合具体问题验证；此为风格推断，不代表该专家在所有场景的唯一做法。",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/93568",
+        "https://codeforces.com/blog/entry/61710",
+        "https://codeforces.com/blog/entry/64543",
+        "https://codeforces.com/blog/entry/61331"
+      ],
+      "layer": "consensus"
+    },
+    {
+      "id": "tourist-crt-euler-long-exponent",
+      "trigger": "需要计算 A^B mod C，其中 A、B 是长整数而 C 较小或可分解",
+      "action": "先把 A 取模 C；再把 C 分解为两两互质的素因子幂，对每个分量用欧拉定理（并特判 A 被该素因子整除的情形）降低指数，最后用中国剩余定理合并",
+      "boundary": "若 A 与某素因子幂不互质且未特判 B≥k_i，直接套欧拉定理会错；当指数本身很小时，拆模反而多此一举",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/451"
+      ],
+      "layer": "style"
+    },
+    {
+      "id": "tourist-greedy-exchange-reverse-incremental",
+      "trigger": "要证明“按某个关键字排序/取某个局部最优”成立；或收益边际递减、需要支持少量调整。",
+      "action": "用相邻交换论证推出排序关键字；边际收益递减时用堆维护当前最优增量；反悔时只做局部移除/扩展；树/路径上按“最小可用/子树剪枝”贪心。",
+      "boundary": "需要结合具体问题验证；此为风格推断，不代表该专家在所有场景的唯一做法。",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/82643",
+        "https://codeforces.com/blog/entry/23522",
+        "https://codeforces.com/blog/entry/43467",
+        "https://codeforces.com/blog/entry/61331"
+      ],
+      "layer": "consensus"
+    }
+  ],
+  "note": "已由 teacher-consensus 已有语料补全 style_items；仍为公开人物风格/方法论推断，非本人原话。"
 }

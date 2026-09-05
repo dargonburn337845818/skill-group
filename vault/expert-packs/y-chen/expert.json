@@ -13,10 +13,44 @@
   "sourceRefs": [
     "Indoor real-time 3-D visible light positioning system using fingerprinting and extreme learning machine, IEEE Access 2020",
     "paper:10.1109/LWC.2026.3660446 (Experimental Results)",
-    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/vlpc_teacher_consensus.json"
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/vlpc_teacher_consensus.json",
+    "paper:10.1109/LWC.2026.3660446 (System Model/Fig.3-5)",
+    "Indoor real-time 3-D VLP, IEEE Access 2020"
   ],
   "status": "ready",
-  "note": "来自现有 VLPC 材料中的实验/指纹定位参考文献",
+  "note": "已由 vlpc_teacher_consensus.json 研究语料补全 style_items；仍为论文作者风格/方法推断，非本人原话。",
   "displayNameZh": "陈 Y.（Y. Chen，实验/指纹定位论文作者）",
-  "fame": "domain"
+  "fame": "domain",
+  "style_items": [
+    {
+      "id": "y-chen-channel-gain-inversion-positioning",
+      "trigger": "理解VLPC/VLP定位精度规律",
+      "action": "建立信道增益与位置函数→由DC信号估计信道增益→在指纹库中最小化误差函数；精度随LED数、位置、高度变化",
+      "boundary": "定位误差随高度非单调（倒U）；角落误差大；指纹库网格限制精度",
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (System Model/Fig.3-5)",
+        "Indoor real-time 3-D visible light positioning system using fingerprinting and extreme learning machine, IEEE Access 2020"
+      ],
+      "layer": "consensus"
+    },
+    {
+      "id": "y-chen-experiment-repro",
+      "trigger": "读/写/评审实验设置、误差来源、可复现性时。",
+      "action": "列出实验平台、条件、网格、光照/同步误差；把误差分解与限制写清，给出重复实验方式。",
+      "boundary": "实验结论只能在对应条件下成立；未做的实验不能写成已验证。",
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (Experimental Results)",
+        "Indoor real-time 3-D VLP, IEEE Access 2020"
+      ]
+    },
+    {
+      "id": "y-chen-submission-venue",
+      "trigger": "判断目标 venue 是否接受实验条件、数据粒度与可复现性。",
+      "action": "按 venue 对实验可复现性的要求评估：是否有足够条件/数据/误差说明；不足则列为待补。",
+      "boundary": "这不是替用户决定投哪；最终看评审与作者实际资源。",
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (Experimental Results)"
+      ]
+    }
+  ]
 }

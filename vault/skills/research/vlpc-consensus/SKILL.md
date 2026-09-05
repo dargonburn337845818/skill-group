@@ -30,6 +30,14 @@ description: VLPC 领域教师共识与组会报告技巧——把论文/领域�
 3. 准备 2–3 个模拟问答，优先覆盖“评审最可能质疑”的点。
 4. 若需要 PPT，再调用统一的 PPT 生成流程（非本 skill 范围）。
 
+## 来源与核验
+
+- 主论文：NOMA-VLPC 系统设计与分析，DOI 参见 `paper:10.1109/LWC.2026.3660446`。
+- 波形设计：S. Ma et al., Waveform Design and Optimization for Integrated VLPC, IEEE TCOM 2023。
+- 定位/指纹：Indoor real-time 3-D visible light positioning system using fingerprinting and extreme learning machine, IEEE Access 2020。
+- NOMA-VLC：Multi-user grouping for NOMA enabled VLC system, IEEE Commun. Lett. 2024。
+- NOMA-VLCP：SIC-free based indoor two-user NOMA-VLCP system, Photonics 2024。
+
 ## 边界
 
 - 本 skill 不替代论文原文；涉及具体公式/实验细节时回到原文核对。

@@ -28,7 +28,26 @@
     "子技能",
     "入口"
   ],
-  "experts": [],
+  "experts": [
+    "evan-you",
+    "rich-harris",
+    "dan-abramov",
+    "martin-fowler",
+    "bruce-schneier",
+    "john-carmack",
+    "brendan-gregg",
+    "charity-majors",
+    "kelsey-hightower",
+    "cindy-sridharan",
+    "andrej-karpathy",
+    "lilian-weng",
+    "chip-huyen",
+    "hadley-wickham",
+    "andrew-gelman",
+    "don-norman",
+    "jakob-nielsen",
+    "julie-zhuo"
+  ],
   "sourceRefs": [
     "$PROJECT_ROOT/FORMAL_SPEC.md",
     "$PROJECT_ROOT/vault/skills/base/search-source/",

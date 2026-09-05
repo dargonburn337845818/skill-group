@@ -7,6 +7,20 @@ description: 开工/重构前预载的工作共识：深模块、Deletion Test�
 
 本技能是全局共识的可调用版本。开工前调用本技能，然后按以下流程执行。
 
+## 触发条件
+
+- 任何会话开始、需要预载工作共识时。
+- 任务涉及架构重构、模块划分、代码库整理、接口设计、深模块判断时。
+- 需要检查“某个抽象/中转层是否该删”时。
+
+## 核心动作
+
+1. 读 `~/.dsh/AGENTS.md` 与当前项目 `AGENTS.md` / `CONTEXT.md`。
+2. 画模块地图：列出外层入口、稳定接口、易变实现。
+3. 对可疑模块跑 Deletion Test，标记深模块候选。
+4. 一次只深化一个模块：先有测试保护，做完跑测试再进入下一个。
+5. 让目录/命名直接反映功能边界，AI 可导航。
+
 ## 核心原则
 
 1. **深模块优先**：每个模块 = 简单接口 + 丰富实现。宁可少而深，不要多而浅。
@@ -34,5 +48,8 @@ description: 开工/重构前预载的工作共识：深模块、Deletion Test�
 - [ ] 修改后跑完了测试/类型检查/构建，并提交了可回滚的一步。
 
 ## 来源
+
+- https://www.pocoo.org/ 无关；源码参考：https://github.com/mattpocock/why-your-codebase-matters-more-than-your-prompt（公开演讲/文章）
+- https://web.stanford.edu/~ouster/cgi-bin/book.php（A Philosophy of Software Design 作者页）
 
 基于 Matt Pocock《Why Your Codebase Matters More Than Your Prompt》与 John Ousterhout《A Philosophy of Software Design》的深模块思想整理。

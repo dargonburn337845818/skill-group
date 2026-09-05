@@ -86,21 +86,21 @@ DSH 不是单一“子代理数量”开关，而是分层限流：
    # 复制 profile 与 preset（或按模板重建）
    cp -a ~/.dsh/profiles "$DSH_HOME/"
    cp -a ~/.dsh/.agent-presets "$DSH_HOME/"
-   cp $WORKSPACE/skills/dsh-optimization-consensus/apply_limits.py "$DSH_HOME/"
+   cp $HOME/work/skills/dsh-optimization-consensus/apply_limits.py "$DSH_HOME/"
    python3 "$DSH_HOME/apply_limits.py"
    dsh --profile web --dump-config       # 必须成功且无 duplicate loader entry id
    # 真实启动一次 headless 或 web smoke，观察无启动错误
    ```
 3. **正式 profile 应用**：
    ```bash
-   python3 $WORKSPACE/skills/dsh-optimization-consensus/apply_limits.py
+   python3 $HOME/work/skills/dsh-optimization-consensus/apply_limits.py
    dsh --profile web --dump-config
    ```
 4. **重启 DSH**（外部终端，不要在 running agent 会话里做）：等没有 running agent 后重启 `dsh web`。
 5. **观察**：跑一个包含 workflow / 多个 subagent 的任务，确认 `maxConcurrentAgents`、`maxTotalAgents`、`maxDepth` 生效且没有 OOM。
 6. **回滚**：
    ```bash
-   python3 $WORKSPACE/skills/dsh-optimization-consensus/rollback_limits.py
+   python3 $HOME/work/skills/dsh-optimization-consensus/rollback_limits.py
    ```
    然后重启 DSH 并再次 `--dump-config`。
 
@@ -128,6 +128,35 @@ DSH 不是单一“子代理数量”开关，而是分层限流：
     ```
 
 注意：`tool-subagent` 等行位于 agent preset 的 scoped `delegation` group，普通 profile `cordis.patch.yml` 不一定覆盖得到；因此脚本同时改所有当前存在的 preset（`router-standard`、`router-spec`、`liangshen`）。如果你的实际使用 preset 不在这个列表，请手工把同样键加入对应 `agent.cordis.yml`。
+
+### 3.2 双端交叉更新（WSL / Windows 双安装）
+
+当同一台机器同时存在 WSL 与 Windows 两套独立 npm 全局 DSH 时，升级/恢复不要只靠被更新端自己操作，而要用另一端作为操作手：
+
+1. **保留健康侧**：更新前确认另一侧可独立运行，记录两端版本、npm prefix、`DSH_HOME`；失败时至少一侧保持旧版作为救援通道。
+2. **先更新被更新端，稳定后再同步操作手端**（以 WSL 先升级为例）：
+   - Windows 侧确认/停止 WSL web：`wsl -d Ubuntu -- bash -lc 'pkill -f "dsh web"'`；
+   - WSL 侧执行 `safe-update-dsh.sh`（备份 → plugin compat report → `--dump-config` → 真实 boot smoke → 切符号链接）；
+   - 启动 WSL web 并做真实任务 smoke；稳定后 Windows 侧才同步：备份旧包 → `npm install -g @deepseek-ai/dsh@<版本>` 或从备份副本恢复 → 验证版本与 shim。
+3. **绝对路径调用**：WSL 用 `$HOME/.npm-global/bin/dsh`，Windows 用 `/mnt/c/Users/<用户名>/AppData/Roaming/npm/dsh`，不要依赖 PATH 中的 shim（Windows shim 可能排在前）。
+4. **Windows `cmd.exe` 的 UNC 坑**：从 WSL 调用 `cd /d %USERPROFILE%` 可能出现 UNC 不可用告警；此时改用 Windows 终端或显式 `C:\Users\<用户名>` 路径。
+5. **失败回滚顺序**：先回滚被更新端；没有确认被更新端稳定前，不要同步另一侧。
+6. **`DSH_HOME` 管理**：两侧独立则分别备份；共享则只备份一次，但 npm 全局包仍分端管理。
+
+#### 3.2.1 实战新增：双端同步 = 完整状态同步（2026-09-05）
+
+本次实际踩坑后确认：**双端更新不是“更新两个 dsh 二进制”，而是同步一套完整状态**。只同步核心会漏：
+
+- 同步对象包括：核心版本、`profiles/web/package.json`（bundle）、插件源码、插件依赖、`.agent-presets`、Skills、`skill-vault/enabled.json`、`skill-router/reset.done`、`profiles/node_modules` 依赖链。
+- **不要用源码目录直链当正式安装**：`dsh` 符号链必须指向完整 npm 包（`~/.dsh-versions/<v>/node_modules/@deepseek-ai/dsh/lib/bin.js`），不能用 `src-0.1.3-alpha.1/apps/cli` 这类开发目录。入口存在 + `--version` 正确 ≠ 包完整。
+- **插件依赖必须重建**：WSL 的 `node_modules` 符号链接不能直接复制到 Windows；Windows 要用 `pnpm install` / `npm install` 或 `mklink /J` 建真正的 Windows junction，并用 `fsutil reparsepoint query` 确认目标以 `C:\` 开头而非 `\\wsl.localhost\...`。
+- **漏装 `@deepseek-ai/dsh-client-ui-slots`**：该包存在于 npm，但不随 DSH 核心自动安装；skill-vault/router 的 UI 注入依赖它。需安装到插件 `node_modules` + `profiles/web/node_modules` + `profiles/node_modules`，并用 `require.resolve` 验证。
+- **Windows npm `allow-scripts` 告警**：`npm install -g` 输出 `approve-scripts` 说明部分生命周期脚本可能未执行，不能把安装完成当脚本完成。
+- **验证层级**：`--dump-config` 通过 ≠ 真实启动通过；Windows 曾多次 dump 通过但 boot exit 1/255。必须真实 boot（HTTP 401 也算服务起来）+ API smoke。
+- **隔离 DSH_HOME 位置**：profile 内相对链接在 `/tmp` 下会失效；隔离复制要放在原根目录（如 `$HOME/`）下，或先解析绝对路径。
+- **磁盘版本 ≠ 运行中版本**：切换符号链后当前 agent 进程仍是旧版；确认无 running agent 后再重启。
+
+详细版（含 15 条坑、标准顺序、验证清单、回滚要点）见本目录 `DUAL_END_UPDATE.md`。
 
 ---
 

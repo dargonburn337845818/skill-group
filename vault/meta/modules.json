@@ -20,9 +20,29 @@
       "skills": [
         "dev-module",
         "github-repo-consensus",
-        "ui-aesthetics-design"
+        "ui-aesthetics-design",
+        "expert-team"
       ],
-      "experts": [],
+      "experts": [
+        "evan-you",
+        "rich-harris",
+        "dan-abramov",
+        "martin-fowler",
+        "bruce-schneier",
+        "john-carmack",
+        "brendan-gregg",
+        "charity-majors",
+        "kelsey-hightower",
+        "cindy-sridharan",
+        "andrej-karpathy",
+        "lilian-weng",
+        "chip-huyen",
+        "hadley-wickham",
+        "andrew-gelman",
+        "don-norman",
+        "jakob-nielsen",
+        "julie-zhuo"
+      ],
       "assignments": [
         "dev"
       ],
@@ -138,9 +158,24 @@
         "web-research-consensus",
         "value-meta-scheduler",
         "distill-module",
-        "distill-eval-task"
+        "distill-eval-task",
+        "expert-team"
       ],
-      "experts": [],
+      "experts": [
+        "core-iteration",
+        "distillation-consensus",
+        "skill-verification-consensus",
+        "skilljack-evals",
+        "BenchFlow",
+        "tourist",
+        "um-nik",
+        "evan-you",
+        "martin-fowler",
+        "andrej-karpathy",
+        "william-zinsser",
+        "ting-yang",
+        "ping-wang"
+      ],
       "assignments": [
         "distill"
       ],
@@ -204,7 +239,8 @@
       "skills": [
         "teacher-consensus",
         "teacher-math-consensus",
-        "teacher-module"
+        "teacher-module",
+        "expert-team"
       ],
       "experts": [
         "tourist",
@@ -272,7 +308,8 @@
       "description": "多 agent 科研团队：读论文、理脉络、写论文、组会、PPT、模拟导师审查",
       "skills": [
         "vlpc-consensus",
-        "research-module"
+        "research-module",
+        "expert-team"
       ],
       "experts": [
         "ting-yang",
@@ -360,9 +397,17 @@
       "title": "文稿",
       "description": "提示词、文案、各类文本生产；可被其他四模块复用",
       "skills": [
-        "writing-module"
+        "writing-module",
+        "expert-team"
       ],
-      "experts": [],
+      "experts": [
+        "william-zinsser",
+        "don-norman",
+        "jakob-nielsen",
+        "julie-zhuo",
+        "ting-yang",
+        "ping-wang"
+      ],
       "assignments": [
         "writing"
       ],

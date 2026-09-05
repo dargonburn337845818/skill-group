@@ -1,14 +1,91 @@
-# 非官方题解写作清晰，常从读题细节/边界条件入手，增量式补全证明
+# 尼尔·吴（Neal Wu，美国顶尖选手） · 风格/方法论蒸馏
 
-> 风格/方法论推断，非本人原话。
+> 风格/方法论推断，非本人原话；来源见下方 SourceRefs。
 
 ## 立场概要
 
 非官方题解写作清晰，常从读题细节/边界条件入手，增量式补全证明
 
-## 待补
+## 结构化条目（style_items）
 
-- [ ] trigger/action/boundary 结构化条目（后续蒸馏补全）
-- [ ] 反例与失败模式
+### 1. neal-monotone-bitonic-binary-ternary-search
 
-**SourceRefs**: https://codeforces.com/profile/neal; https://codeforces.com/blog/entry/64543; https://codeforces.com/blog/entry/82643; $WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json
+**Trigger**: 问题中有一个可排序/可计数的搜索空间（候选集、答案 t、阈值 k、中位数规模 j），且可行性或目标值随参数单调，或函数本身凸/凹因此单峰；需要找最优/最左可行解而不是枚举全部。
+
+**Action**: 把搜索空间压到二分/三分：先写出 check(x) 或目标 f(x)。若判定随 x 单调，则二分最小/最大可行 x；若 f 单峰则三分（或二分边际量）找极值。交互类可把候选排全序后查中间位；具体 check 按问题构造，如贪心排序取前 k、树形 DP 维护最长合格前缀、拓扑定向验证无环、比例不等式等。
+
+**Boundary**: 若 check 不单调、函数多峰/平台/离散噪声、候选无法快速计数排序，或单次检查代价极高，二分/三分剪枝会失效或收益有限。三分对浮点精度、非严格单峰也需要谨慎。
+
+**SourceRefs**: https://codeforces.com/blog/entry/93568; https://codeforces.com/blog/entry/61710; https://codeforces.com/blog/entry/43467; https://codeforces.com/blog/entry/64543
+
+### 2. neal-small-into-large-state-eaten
+
+**Trigger**: 在树上/集合上做 DP 合并时，存在对称的 attach 操作，且合并后状态大小等于较大一方
+
+**Action**: 先让两个状态按大小排序，总是把小子树/小状态合并进大树；限制循环只到小状态大小，并预存后缀最值避免重算；用“每个小状态值只被吃掉一次”做势能分析
+
+**Boundary**: 如果合并后不是保留大的规模而是产生 sum(size) 的新状态，或每个值会反复被修改，势能分析不成立
+
+**SourceRefs**: https://codeforces.com/blog/entry/70822
+
+### 3. neal-minmax-binary-search-cycle-orient
+
+**Trigger**: 要求“被修改边权最大的一个”最小，且允许把边权 ≤ C 的边任意翻转；需要判断某个阈值 C 是否可行
+
+**Action**: 先写 check(C)：只保留 c > C 的边，若它们有环则 C 不可行；否则对这些边拓扑排序，再把 c ≤ C 的边全部顺着该拓扑序定向，从而整图无环；然后二分最小可行 C
+
+**Boundary**: 如果 c>C 的边含有向环，C 直接不可行；若 check 不单调、或存在必须考虑反向/双向约束才能去环，则二分和单一拓扑定向不成立
+
+**SourceRefs**: https://codeforces.com/blog/entry/64543
+
+### 4. neal-suffix-extreme-condense-inner-loops
+
+**Trigger**: DP 合并/转移中出现形如 i+j>=K 或 min/max 阈值约束的双循环，内外层各枚举一个维度
+
+**Action**: 把两个维度的约束按 min 的来源拆成两种情况；对每种情况预计算后缀最值/后缀和，把内层循环等价成 O(1) 查询
+
+**Boundary**: 约束不是简单的 min/max 阈值形式，或两种 min 情况无法分别用后缀最值表示时，不能直接压缩
+
+**SourceRefs**: https://codeforces.com/blog/entry/70822
+
+### 5. neal-division-antichain-chain-cover
+
+**Trigger**: 要从 1..K 中挑尽可能多的数，且不能出现一个数整除另一个数；或需证明这种最大集合的上界
+
+**Action**: 按 x → 2x → 4x → … 把每个数归入唯一链；每条链最多取一个，因此上界=奇数个数=ceil(K/2)；再给构造（取 K/2+1..K）说明可达
+
+**Boundary**: 若允许互相不整除以外的额外限制（如同时要求两个倍数关系），链覆盖上界不再充分；K 很大时需更精细计数
+
+**SourceRefs**: https://codeforces.com/blog/entry/73244
+
+### 6. neal-monotonic-binary-ternary
+
+**Trigger**: 答案/可行性随参数单调，或目标函数凸/凹单峰；候选空间可排序计数、可二分阈值。
+
+**Action**: 先写 check(x) 或目标 f(x)；单调则二分最小/最大可行 x，单峰则三分；对“最大单个代价”类目标显式转成阈值可行性判定；值域大时先压缩/乘积界。
+
+**Boundary**: 需要结合具体问题验证；此为风格推断，不代表该专家在所有场景的唯一做法。
+
+**SourceRefs**: https://codeforces.com/blog/entry/93568; https://codeforces.com/blog/entry/61710; https://codeforces.com/blog/entry/64543; https://codeforces.com/blog/entry/61331
+
+### 7. neal-random-hash-collision-safety
+
+**Trigger**: 用字符串哈希/随机签名做批量匹配/区间频数比较，或在对抗环境中用随机化算法。
+
+**Action**: 按比较次数放大碰撞概率（约 n²/2^B）；批量场景用宽哈希/双哈希/碰撞验证；随机化/随机哈希不要用固定种子，使用自定义 RNG。
+
+**Boundary**: 需要结合具体问题验证；此为风格推断，不代表该专家在所有场景的唯一做法。
+
+**SourceRefs**: https://codeforces.com/blog/entry/71097; https://codeforces.com/blog/entry/82643
+
+### 8. neal-linear-basis-xor-segtree
+
+**Trigger**: 多次查询数组子区间的最大异或和；数值位宽不大（如 20 bit），需要把每个区间的数字集合压缩成少数线性无关向量
+
+**Action**: 把数字看成 GF(2)^B 向量，用线性基去冗余；每个线段树节点存该区间的基，查询时把 O(log n) 个节点的基依次合并，最后从基里求最大异或值
+
+**Boundary**: 位宽很大时基/合并代价不可接受；若查询不是静态区间或要求原数组元素不可重复合并，需另加处理；注意元素可以为 0
+
+**SourceRefs**: https://codeforces.com/blog/entry/64543
+
+**SourceRefs（专家总来源）**: https://codeforces.com/profile/neal; https://codeforces.com/blog/entry/64543; https://codeforces.com/blog/entry/82643; $WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json; https://codeforces.com/blog/entry/93568; https://codeforces.com/blog/entry/61710; https://codeforces.com/blog/entry/43467; https://codeforces.com/blog/entry/70822; https://codeforces.com/blog/entry/73244; https://codeforces.com/blog/entry/61331; https://codeforces.com/blog/entry/71097

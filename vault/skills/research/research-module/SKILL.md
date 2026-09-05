@@ -19,7 +19,7 @@ description: 科研多 agent 导师团队与论文/组会流程骨架——读�
 
 ## 设计与教师模块共用的讨论协议
 
-科研模块不另造一套协议，直接复用 `FORMAL_SPEC.md` 第 4 节的回合式讨论 + 裁决：
+科研模块不另造一套协议，直接复用 `vault/skills/teacher/expert-team/SKILL.md` 的标准化专家团协议（其规范来源为 `FORMAL_SPEC.md` 第 4 节）：
 
 ```text
 1. 选定专家团（科研导师团）

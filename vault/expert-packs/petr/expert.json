@@ -17,5 +17,28 @@
   ],
   "status": "ready",
   "displayNameZh": "彼得·米特里切夫（Petr，俄罗斯传奇选手）",
-  "fame": "top"
+  "fame": "top",
+  "style_items": [
+    {
+      "id": "petr-heuristic-scoring-function-search",
+      "trigger": "在 heuristic/marathon/optimization 题中，人能写出“每一步按某个打分选下一步”的贪心框架，但最优打分函数未知",
+      "action": "先实现一个参数化的贪心基线（决策 = argmax 打分函数），再用 LLM/进化算法等在打分函数参数空间搜索；不必一上来就做复杂局部搜索/模拟退火",
+      "boundary": "若没有可靠的贪心框架、或打分函数空间太大且单次评估极贵，参数搜索可能不如成熟的局部搜索；对需要精确最优解的普通竞赛题也不适用",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/137005"
+      ],
+      "layer": "style"
+    },
+    {
+      "id": "petr-heuristic-scoring-search",
+      "trigger": "heuristic/marathon 题中能写出“按某个打分选择下一步”的贪心框架，但最优打分函数未知。",
+      "action": "先实现参数化贪心基线，再在打分函数参数空间用搜索/进化/LLM 自动优化，而不是一上来就做复杂局部搜索。",
+      "boundary": "需要结合具体问题验证；此为风格推断，不代表该专家在所有场景的唯一做法。",
+      "source_refs": [
+        "https://codeforces.com/blog/entry/137005"
+      ],
+      "layer": "style"
+    }
+  ],
+  "note": "已由 teacher-consensus 已有语料补全 style_items；仍为公开人物风格/方法论推断，非本人原话。"
 }

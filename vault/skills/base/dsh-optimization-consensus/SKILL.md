@@ -5,6 +5,12 @@ description: DSH 运维与优化共识——子代理数量有界、升级插件
 
 # DSH 运维与优化共识
 
+## 触发条件
+
+- 任何 DSH/插件升级、子代理数量/并发调度、热更新、重启、回滚决策前。
+- 需要判断“是否可以安全地安装/更新/卸载插件”时。
+- 需要处理 WSL + Windows 双端同步或隔离冒烟时。
+
 先读完整版：`~/.dsh/dsh-optimization-consensus.md`。本技能只在上下文中放摘要；执行前必须打开完整文档核对可操作细节。
 
 ## 三条不可妥协底线
@@ -48,6 +54,15 @@ description: DSH 运维与优化共识——子代理数量有界、升级插件
 
 - 真实重启 + 跑原有测试/冒烟；用诊断页检查 load order、重复条目、多版本核心、peer 不匹配。
 - 涉及测试、依赖增减、跨 major、安装生命周期脚本时，即使开启自动交付也回到人工 PR。
+- 双端升级（WSL + Windows）：用另一端当操作手；先更新一侧并真实冒烟稳定后，再同步另一侧；绝对路径调用、分别备份、失败先回滚被更新侧。
+- 双端升级不是“更新两个二进制”，而是同步完整状态（核心 + profile bundle + 插件源码/依赖 + presets + Skills + 开关状态）。只同步 dsh 会漏。
+- 本次实战新增坑（详见本目录 `DUAL_END_UPDATE.md`）：
+  - 不要用源码目录直链当正式安装；确认 `dsh` 指向完整 npm 包。
+  - 插件/专家团必须连依赖一起同步；Windows 上重建 `node_modules`（junction/pnpm），不能直接复制 WSL symlink。
+  - 插件 UI 依赖 `@deepseek-ai/dsh-client-ui-slots` 不会随 DSH 核心自动装，需额外安装并 `require.resolve` 验证。
+  - Windows 从 WSL 调 `cmd.exe` 要显式 `cd /d C:\Users\<用户名>`，避免 UNC 路径坑；npm 的 `allow-scripts` 告警要检查。
+  - `--dump-config` 通过 ≠ 真实启动通过；隔离 DSH_HOME 要放在原根目录下（相对链接会因 `/tmp` 失效）。
+  - 磁盘版本 ≠ 运行中进程版本；确认无 running agent 后再重启。
 
 ## 提醒用户模板
 
@@ -63,6 +78,13 @@ description: DSH 运维与优化共识——子代理数量有界、升级插件
 
 > 隔离冒烟未通过 / 存在不可逆风险，我不自动执行。请你在外部终端运行我写好的 `apply` 脚本，并把输出贴回来；失败时运行 `rollback` 脚本。
 
+## 边界与反例
+
+- 本共识是安全底线，不是具体领域知识；纯教学/论文/GitHub 发布不需要提前展开。
+- 不把“隔离冒烟通过”当成“可以热更运行中 agent”的许可。
+- 回滚必须恢复实际文件，不能只改 package.json pin。
+- 无法保证安全时，不自动执行；请用户在外部终端运行脚本并回贴输出。
+
 ## 来源
 
-DeepSeek Harness 官方文档/源码、dsh-market（PR #199 / #19 / #98 / #186）、LCYLYM/dsh-plugin-compat-guardian、Luck9Star/dsh-plugin-subagents、leonardoxr/dsh-routed-subagent、y08lin4/dsh-multiagent-modes、weijiafu14/pi2dsh 与 tintinweb/pi-subagents。
+DeepSeek Harness 官方文档/源码（https://github.com/dargonburn337845818/dsh-harness）、dsh-market（PR #199 / #19 / #98 / #186）、LCYLYM/dsh-plugin-compat-guardian、Luck9Star/dsh-plugin-subagents、leonardoxr/dsh-routed-subagent、y08lin4/dsh-multiagent-modes、weijiafu14/pi2dsh 与 tintinweb/pi-subagents。

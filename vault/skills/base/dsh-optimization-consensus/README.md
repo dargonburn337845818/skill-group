@@ -7,6 +7,7 @@
 | 文件 | 用途 |
 |---|---|
 | `CONSENSUS.md` | 完整共识：官方机制、默认值、本机推荐值、安全应用步骤、来源 |
+| `DUAL_END_UPDATE.md` | 双端（WSL + Windows）交叉更新实战规范：15 条踩坑、标准顺序、验证清单、回滚要点 |
 | `apply_limits.py` | 外部终端执行的有界配置补丁（自动备份、行级修改、保留注释、YAML 校验） |
 | `rollback_limits.py` | 恢复最近一次 `apply_limits.py` 的备份 |
 

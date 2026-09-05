@@ -38,6 +38,14 @@ whenToUse: 用户任务进入“开发”模块（编码、重构、前端/后�
 | dev-ai-engineering | 已蒸馏 | `vault/skills/dev/subskills/dev-ai-engineering/` |
 | dev-architecture | 已蒸馏 | `vault/skills/dev/subskills/dev-architecture/` |
 
+## 专家团调用（标准化流程）
+
+开发模块需要多人名专家视角评审架构/安全/性能/前端/后端/运维/AI 工程时，直接复用 `teacher` 场景的 `expert-team` 标准协议，不另造流程：
+
+1. 按任务域通过 `teacher_discussion_start(text=...)` 或 `domain_id` 加载默认专家团（frontend/backend/security/performance/devops/ai-llm-agent/data-science/product-ux/dsh-ops 均已 ready）。
+2. 例：后端架构评审 → `teacher_discussion_start(text="后端架构评审", expert_ids=["martin-fowler"])`；前端框架取舍 → `expert_ids=["evan-you","rich-harris","dan-abramov"]`。
+3. 输出必须带 `expert_id` / `expert_name`，保留分歧与 sourceRefs；无 ready 专家走 `expert_gap`，不静默用大模型顶替。
+
 ## 隐藏底座调用路径
 
 - 搜索：`vault/skills/base/search-source/`

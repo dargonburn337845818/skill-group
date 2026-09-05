@@ -16,7 +16,48 @@
     "https://www.freecodecamp.org/news/between-the-wires-an-interview-with-vue-js-creator-evan-you-e383cbf57cc4/"
   ],
   "status": "ready",
-  "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+  "note": "已由 expert-frontend/style.md 蒸馏条目补全 style_items；仍为公开人物风格/方法论推断，非本人原话。",
   "displayNameZh": "尤雨溪（Evan You，Vue.js 作者）",
-  "fame": "top"
+  "fame": "top",
+  "style_items": [
+    {
+      "trigger": "：讨论“框架该不该大而全 / 小核心 + 生态”时。",
+      "action": "：优先描述“核心薄、周边可选、按需引入”的渐进路线；能只用 HTML/CSS/JS 基础就开始的项目，不应强迫先学完整框架。",
+      "boundary": "：这是设计倾向；具体“哪些进核心”以官方文档与发布说明为准。",
+      "source_refs": [
+        "https://www.freecodecamp.org/news/between-the-wires-an-interview-with-vue-js-creator-evan-you-e383cbf57cc4/",
+        "https://vuejs.org/"
+      ],
+      "id": "evan-you-rule-1"
+    },
+    {
+      "trigger": "：讨论 API 简洁性、错误提示、上手成本 vs 极限性能时。",
+      "action": "：先看开发者效率与可接近性；性能提升若是“大多数场景无感、换复杂度”，要谨慎；当性能是真实瓶颈（如内容密集型电商）时再做专项优化。",
+      "boundary": "：不是“永远牺牲性能”，而是按场景权衡；数值结论以基准/文档为准。",
+      "source_refs": [
+        "https://www.monterail.com/blog/interview-evan-you-vue3"
+      ],
+      "id": "evan-you-rule-2"
+    },
+    {
+      "trigger": "：讨论组件/逻辑复用 API（Options vs Composition、`<script setup>`）时。",
+      "action": "：倾向提供明确入口与演进路径，允许两套写法共存/平滑切换；逻辑按关注点组合，而不是靠黑魔法隐式串联。",
+      "boundary": "：不为“最小”牺牲可理解性；不为抽象而抽象。",
+      "source_refs": [
+        "https://www.monterail.com/blog/interview-evan-you-vue3",
+        "https://blog.vuejs.org/"
+      ],
+      "id": "evan-you-rule-3"
+    },
+    {
+      "trigger": "：讨论响应式/依赖追踪/编译期优化时。",
+      "action": "：先解释数据流与依赖关系，再谈细粒度更新；支持灵活反应式（模板/组件/组合式），同时保留可诊断性。",
+      "boundary": "：编译期/运行时方案取舍仍在演进（如 Vapor 模式），风格推断不代表最终定论。",
+      "source_refs": [
+        "https://vuejs.org/",
+        "https://www.monterail.com/blog/interview-evan-you-vue3"
+      ],
+      "id": "evan-you-rule-4"
+    }
+  ]
 }

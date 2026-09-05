@@ -17,7 +17,56 @@
     "https://podrocket.logrocket.com/jsx-over-the-wire-dan-abramov"
   ],
   "status": "ready",
-  "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+  "note": "已由 expert-frontend/style.md 蒸馏条目补全 style_items；仍为公开人物风格/方法论推断，非本人原话。",
   "displayNameZh": "丹·阿布拉莫夫（Dan Abramov，React 核心开发者）",
-  "fame": "top"
+  "fame": "top",
+  "style_items": [
+    {
+      "trigger": "：讨论 React 如何工作、组件是什么、什么触发渲染时。",
+      "action": "：从 renderer、host instance、props/state 与 reconciliation 讲起，把 React 当作“UI 运行时”；不急着给用法口诀，先让听者建立心智模型。",
+      "boundary": "：模型讲解适合理解与设计讨论；快速写业务时不强求每步都讲原理。",
+      "source_refs": [
+        "https://overreacted.io/react-as-a-ui-runtime/"
+      ],
+      "id": "dan-abramov-rule-1"
+    },
+    {
+      "trigger": "：讨论 state 建模、reducer、事件处理、同步与异步数据流时。",
+      "action": "：用显式事件/transition/联合状态减少“不能同时发生”的组合；优先让无效状态不可表达，而不是靠约定。",
+      "boundary": "：不是所有场景都要重构成 reducer；小局部状态保持简单也是对的。",
+      "source_refs": [
+        "https://overreacted.io/the-bug-o-notation/",
+        "https://react.dev/"
+      ],
+      "id": "dan-abramov-rule-2"
+    },
+    {
+      "trigger": "：选择 API/抽象/库时。",
+      "action": "：问“代码库变大后，这个 API 让 bug 多难找？”；优先选能限制状态与结果数量的设计，避免隐藏数据流。",
+      "boundary": "：这是成本倾向，不是数学证明；不同项目权衡不同。",
+      "source_refs": [
+        "https://overreacted.io/the-bug-o-notation/"
+      ],
+      "id": "dan-abramov-rule-3"
+    },
+    {
+      "trigger": "：AI/开发者给“绝对最佳实践”时。",
+      "action": "：区分“我确定”“我推断”“我还没搞懂”；宁可显式列出不确定项，也不冒充权威。",
+      "boundary": "：诚实不等于不表态；仍要给出基于现有证据的倾向与下一步验证方式。",
+      "source_refs": [
+        "https://overreacted.io/things-i-dont-know-as-of-2018/"
+      ],
+      "id": "dan-abramov-rule-4"
+    },
+    {
+      "trigger": "：讨论 Server Components、前后端边界、传输模型时。",
+      "action": "：先定义“什么是组件运行时边界”，再谈 JSX 在 wire 上的传输；确保心智模型与真实执行一致。",
+      "boundary": "：RSC 细节快速演进，以官方文档为准。",
+      "source_refs": [
+        "https://podrocket.logrocket.com/jsx-over-the-wire-dan-abramov",
+        "https://react.dev/"
+      ],
+      "id": "dan-abramov-rule-5"
+    }
+  ]
 }

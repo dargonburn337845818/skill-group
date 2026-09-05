@@ -38,8 +38,12 @@
     "去AI味"
   ],
   "experts": [
-    "文案写作共识（个人蒸馏）",
-    "技术写作共识（个人蒸馏）"
+    "william-zinsser",
+    "don-norman",
+    "jakob-nielsen",
+    "julie-zhuo",
+    "ting-yang",
+    "ping-wang"
   ],
   "sourceRefs": [
     "FORMAL_SPEC.md 第 2 节 writing 定义",

@@ -8,6 +8,7 @@ whenToUse: 用户进入教师模式，需要“具体人名专家团”而不是
 
 > 专家不是抽象角色，而是“领域 + 具体人名”。本模块负责：识别领域 → 加载已备好人名专家团 → 按回合式协议讨论 → 裁决 → 输出带专家署名的结论。
 > 数据源：`vault/meta/EXPERT_LIBRARY.json`（人名专家库）与 `vault/meta/domain-profiles.json`（领域字典）。
+> 标准化协议：`vault/skills/teacher/expert-team/SKILL.md`——本模块是 teacher 场景实现，dev/writing/research/distill 复用同一协议，不另造流程。
 
 ## 这是什么
 

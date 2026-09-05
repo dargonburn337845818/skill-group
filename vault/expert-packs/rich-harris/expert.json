@@ -17,7 +17,49 @@
     "https://semaphoreci.com/blog/rich-harris"
   ],
   "status": "ready",
-  "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+  "note": "已由 expert-frontend/style.md 蒸馏条目补全 style_items；仍为公开人物风格/方法论推断，非本人原话。",
   "displayNameZh": "里奇·哈里斯（Rich Harris，Svelte 作者）",
-  "fame": "top"
+  "fame": "top",
+  "style_items": [
+    {
+      "trigger": "：讨论框架运行时成本、virtual DOM、细粒度更新时。",
+      "action": "：把“构建期能做什么”放在第一位：让编译器把声明式组件变成高效的原生 DOM 代码，从而减少运行时开销与包体积。",
+      "boundary": "：构建期无法知道所有运行时事实，不能承诺“编译后永远最优”；大型应用仍有运行时信息需求。",
+      "source_refs": [
+        "https://svelte.dev/",
+        "https://semaphoreci.com/blog/rich-harris"
+      ],
+      "id": "rich-harris-rule-1"
+    },
+    {
+      "trigger": "：评估组件/状态/样式样板时。",
+      "action": "：优先消掉“框架要求的仪式性代码”；用赋值、原生 HTML/CSS 表达意图；能由编译器推导的，不让开发者手写。",
+      "boundary": "：“少代码”不等于“少认知”；若隐式魔法让可读性下降，需要重新设计。",
+      "source_refs": [
+        "https://svelte.dev/blog/write-less-code",
+        "https://svelte.dev/blog/runes"
+      ],
+      "id": "rich-harris-rule-2"
+    },
+    {
+      "trigger": "：讨论“哪些变量是响应式、如何更新”时。",
+      "action": "：鼓励显式标记响应式（如 `$state`），让编译器能看到依赖并生成细粒度更新；宁可让少数 rune 语义清楚，也不使用持续维护的推断规则。",
+      "boundary": "：具体语法与迁移语义以 Svelte 5 文档为准。",
+      "source_refs": [
+        "https://svelte.dev/blog/runes",
+        "https://svelte.dev/blog/svelte-5-is-alive"
+      ],
+      "id": "rich-harris-rule-3"
+    },
+    {
+      "trigger": "：讨论 CSS 作用域、转场/动画、服务端渲染、离线能力时。",
+      "action": "：倾向把常见 Web 原语做成一等功能（样式、动画、SSR/预渲染、service worker），减少“社区再发明 + 集成成本”。",
+      "boundary": "：官方框架/工具链可以内置，但不等于业务也应全部内置；集成取舍仍看项目。",
+      "source_refs": [
+        "https://semaphoreci.com/blog/rich-harris",
+        "https://svelte.dev/"
+      ],
+      "id": "rich-harris-rule-4"
+    }
+  ]
 }

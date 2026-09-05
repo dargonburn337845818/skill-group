@@ -1,14 +1,91 @@
-# 教学式拆解，按主题组织训练与题单；用交互/DP 等系列题目把高难度概念讲清
+# Errichto（波兰顶尖选手/教学博主） · 风格/方法论蒸馏
 
-> 风格/方法论推断，非本人原话。
+> 风格/方法论推断，非本人原话；来源见下方 SourceRefs。
 
 ## 立场概要
 
 教学式拆解，按主题组织训练与题单；用交互/DP 等系列题目把高难度概念讲清
 
-## 待补
+## 结构化条目（style_items）
 
-- [ ] trigger/action/boundary 结构化条目（后续蒸馏补全）
-- [ ] 反例与失败模式
+### 1. errichto-no-fixed-random-seed
 
-**SourceRefs**: https://codeforces.com/profile/Errichto; https://codeforces.com/blog/entry/93568; https://codeforces.com/blog/entry/144520; https://codeforces.com/blog/entry/80195; $WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json
+**Trigger**: 在对抗性环境（CF/Topcoder/线上赛）写随机化算法，或使用 random_shuffle/随机哈希。
+
+**Action**: 不要用固定种子；使用自定义高质量 RNG，避免 RAND_MAX 过小，防止对手根据确定性种子构造 hack。
+
+**Boundary**: 本地调试/非对抗环境固定种子便于复现；固定种子本身不影响随机算法的正确概率，只影响被 hack 风险。
+
+**SourceRefs**: https://codeforces.com/blog/entry/71097
+
+### 2. errichto-dp-o1-to-matrix-expo
+
+**Trigger**: 状态数少（可 O(1) 空间滚动），每一步对状态向量施加同一个线性变换，步数 n 高达 1e18
+
+**Action**: 把状态变量写成列向量，把转移系数写成常数矩阵；用矩阵快速幂一次得到第 n 步，复杂度 O(s^3 log n)
+
+**Boundary**: 转移矩阵随步数变化、状态间非线性或状态数太大（矩阵乘法 O(s^3) 不可接受）时不能直接矩阵幂
+
+**SourceRefs**: https://codeforces.com/blog/entry/80195
+
+### 3. errichto-candidate-space-halving-by-rank
+
+**Trigger**: 交互题有庞大但可枚举/可计数的候选集合，每轮查询能把候选按答案分成两类
+
+**Action**: 把候选按某种可排序对象（字典序/当前位置）排好，维护区间 [L,R]，问第 (L+R)/2 个候选，淘汰一半候选
+
+**Boundary**: 候选无法高效排序/计数，或查询反馈不是简单二分（多分支且不均衡）时，强制减半不现实；单次查询代价高会使 O(log X) 仍过大
+
+**SourceRefs**: https://codeforces.com/blog/entry/93568
+
+### 4. errichto-dp-to-matrix-exponentiation
+
+**Trigger**: 状态少且每步施加同一个线性变换/邻接矩阵，需要算第 n 步、走 k 步的计数/最值
+
+**Action**: 把状态写成列向量、转移写成常数矩阵；或把每个状态看作图节点、M[i][j] 存一步路径方案数/最短路。矩阵乘法按需求用普通乘法或 min-plus，再矩阵快速幂求 M^k
+
+**Boundary**: 转移矩阵随步数变化、状态/图太大导致矩阵爆炸、状态间非线性，或边权/转移不满足结合律时不能直接幂
+
+**SourceRefs**: https://codeforces.com/blog/entry/80195
+
+### 5. errichto-monotone-bitonic-binary-ternary-search
+
+**Trigger**: 问题中有一个可排序/可计数的搜索空间（候选集、答案 t、阈值 k、中位数规模 j），且可行性或目标值随参数单调，或函数本身凸/凹因此单峰；需要找最优/最左可行解而不是枚举全部。
+
+**Action**: 把搜索空间压到二分/三分：先写出 check(x) 或目标 f(x)。若判定随 x 单调，则二分最小/最大可行 x；若 f 单峰则三分（或二分边际量）找极值。交互类可把候选排全序后查中间位；具体 check 按问题构造，如贪心排序取前 k、树形 DP 维护最长合格前缀、拓扑定向验证无环、比例不等式等。
+
+**Boundary**: 若 check 不单调、函数多峰/平台/离散噪声、候选无法快速计数排序，或单次检查代价极高，二分/三分剪枝会失效或收益有限。三分对浮点精度、非严格单峰也需要谨慎。
+
+**SourceRefs**: https://codeforces.com/blog/entry/93568; https://codeforces.com/blog/entry/61710; https://codeforces.com/blog/entry/43467; https://codeforces.com/blog/entry/64543
+
+### 6. errichto-matrix-power-binary-lifting
+
+**Trigger**: 多次询问不同步数 k 的路径计数/转移，每次从零做矩阵快速幂太慢
+
+**Action**: 预处理 M^(2^t)，回答 k 时二进制分解 k，用向量从低到高乘上对应幂，避免每次 O(s^3 log k)
+
+**Boundary**: 矩阵状态 s 很大时预处理本身 O(s^3 log K) 不可接受；查询之间转移矩阵不同，无法共享幂
+
+**SourceRefs**: https://codeforces.com/blog/entry/80195
+
+### 7. errichto-many-pair-hash-collision
+
+**Trigger**: 字符串哈希/随机哈希用于比较多个对象：一个查询只比一对 vs 在 n 个串里找任意一对相同
+
+**Action**: 计算碰撞概率时按比较次数放大（约 n²/2^B），批量找对子时用双哈希/更宽哈希/碰撞验证，不要用单次哈希的碰撞率安慰自己
+
+**Boundary**: 比较对数很小或哈希位数足够大时，单哈希碰撞风险可忽略；确定性算法不需要引入随机哈希
+
+**SourceRefs**: https://codeforces.com/blog/entry/71097
+
+### 8. errichto-matrix-cell-path-meaning
+
+**Trigger**: 有向图上走 k 步的计数/最值/路径问题，或状态转移图可以用邻接矩阵表示
+
+**Action**: 定义矩阵 M[i][j]=从 i 到 j 一步的方案数/最短路；矩阵乘法规则按需求改为普通乘法或 min-plus，然后求 M^k
+
+**Boundary**: 图很大（矩阵爆炸）、边权/转移不满足结合律，或需要同时维护多种不变量时，单一矩阵幂不够用
+
+**SourceRefs**: https://codeforces.com/blog/entry/80195
+
+**SourceRefs（专家总来源）**: https://codeforces.com/profile/Errichto; https://codeforces.com/blog/entry/93568; https://codeforces.com/blog/entry/144520; https://codeforces.com/blog/entry/80195; $WORKSPACE/skills/teacher-consensus-skill/output/teacher_consensus_final.json; https://codeforces.com/blog/entry/71097; https://codeforces.com/blog/entry/61710; https://codeforces.com/blog/entry/43467; https://codeforces.com/blog/entry/64543

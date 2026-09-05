@@ -12,10 +12,44 @@
   "boundary": "风格/方法论推断，不伪造本人原话",
   "sourceRefs": [
     "S. Ma et al., Waveform Design and Optimization for Integrated VLPC, IEEE TCOM 2023",
-    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/vlpc_teacher_consensus.json"
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/vlpc_teacher_consensus.json",
+    "paper:10.1109/LWC.2026.3660446 (System Model)",
+    "S. Ma et al. Waveform Design and Optimization for Integrated VLPC, IEEE TCOM 2023",
+    "S. Ma et al., IEEE TCOM 2023"
   ],
   "status": "ready",
-  "note": "来自现有 VLPC 材料引用的 IEEE TCOM 2023 工作",
+  "note": "已由 vlpc_teacher_consensus.json 研究语料补全 style_items；仍为论文作者风格/方法推断，非本人原话。",
   "displayNameZh": "马 S.（S. Ma，波形设计论文作者）",
-  "fame": "domain"
+  "fame": "domain",
+  "style_items": [
+    {
+      "id": "s-ma-dc-ac-signal-split",
+      "trigger": "面对一个同时做定位和通信的可见光系统",
+      "action": "先确认接收端如何分离DC与AC；DC用于信道增益/位置指纹估计，AC用于数据通信",
+      "boundary": "若AC分量同时承担定位与通信，通常计算复杂或精度受限；本文采用DC定位/AC通信路线",
+      "source_refs": [
+        "paper:10.1109/LWC.2026.3660446 (System Model)",
+        "S. Ma et al. Waveform Design and Optimization for Integrated VLPC, IEEE TCOM 2023"
+      ],
+      "layer": "consensus"
+    },
+    {
+      "id": "s-ma-waveform-power",
+      "trigger": "讨论波形设计、功率分配、通信性能、能效或 DC/AC 最优功率时。",
+      "action": "先看波形/功率如何影响通信与能效，关注解析最优功率的假设与参数选择；写作时保证公式、指标与符号一致。",
+      "boundary": "解析最优基于理想线性 LED；非线性、背景光、同步误差会使拐点偏移。",
+      "source_refs": [
+        "S. Ma et al., Waveform Design and Optimization for Integrated VLPC, IEEE TCOM 2023"
+      ]
+    },
+    {
+      "id": "s-ma-metric-tradeoff",
+      "trigger": "写指标/tradeoff 或回应性能质疑时。",
+      "action": "把指标口径、假设、复杂度代价讲清，不夸大性能；用定义清楚的能效/速率/复杂度对比。",
+      "boundary": "不能只挑有利指标；需要给出公平对比与限制。",
+      "source_refs": [
+        "S. Ma et al., IEEE TCOM 2023"
+      ]
+    }
+  ]
 }
