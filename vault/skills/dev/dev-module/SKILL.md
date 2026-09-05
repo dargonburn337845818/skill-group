@@ -1,17 +1,17 @@
 ---
 name: dev-module
-description: 开发模块壳——dev 模式入口，挂载隐藏底座与十二个已蒸馏/已挂载子技能；提供子技能清单与调用路径，不重复底座内容。
+description: 开发模块壳——dev 模式入口，挂载隐藏底座与十三个已蒸馏/已挂载子技能；提供子技能清单与调用路径，不重复底座内容。
 whenToUse: 用户任务进入“开发”模块（编码、重构、前端/后端、安全、并发/性能、测试、设计美学、去 AI 味、部署/CI/CD/可观测性、系统设计/分布式、LLM/Agent 工程）时，先加载本模块壳，再按需进入子技能。
 ---
 
 # 开发模块壳（Dev Module Shell）
 
 > 定位：正式版五模块之一“开发”的入口。本文件是模块壳，不重复隐藏底座内容，不实现业务功能。
-> 状态：模块壳已就绪；十二个子技能已完成首版蒸馏（其中 dev-design-aesthetics 挂载 ui-aesthetics-design）。
+> 状态：模块壳已就绪；十三个子技能已完成首版蒸馏（其中 dev-design-aesthetics 挂载 ui-aesthetics-design；dev-network 为网络排障子技能）。
 
 ## 触发条件
 
-- 用户任务属于开发域：写代码、重构、模块化、插件开发、前端/后端、美术/PPT、安全、并发、性能、测试、设计美学、去 AI 味、部署/CI/CD/可观测性、系统设计/分布式、LLM/Agent 工程。
+- 用户任务属于开发域：写代码、重构、模块化、插件开发、前端/后端、美术/PPT、安全、并发、性能、测试、设计美学、去 AI 味、部署/CI/CD/可观测性、系统设计/分布式、LLM/Agent 工程、网络排障/网络访问。
 - 需要从 dev 模式进入具体子技能，或需要判断该调用哪个开发子技能。
 - 需要给开发任务挂上隐藏底座：先检索、再按强流程开发、最后做可证伪校验。
 
@@ -37,6 +37,7 @@ whenToUse: 用户任务进入“开发”模块（编码、重构、前端/后�
 | dev-ops-sre | 已蒸馏 | `vault/skills/dev/subskills/dev-ops-sre/` |
 | dev-ai-engineering | 已蒸馏 | `vault/skills/dev/subskills/dev-ai-engineering/` |
 | dev-architecture | 已蒸馏 | `vault/skills/dev/subskills/dev-architecture/` |
+| dev-network | 已蒸馏 | `vault/skills/dev/subskills/dev-network/` |
 
 ## 专家团调用（标准化流程）
 
@@ -69,4 +70,4 @@ whenToUse: 用户任务进入“开发”模块（编码、重构、前端/后�
 - 本模块任务分派：`assignments/dev/assignment.md`（内部开发记录，未随公开仓库发布）。
 - `vault/skills/base/search-source/`、`vault/skills/core-iteration/skill-verification-consensus/`、`vault/skills/core-iteration/dev-workflow-consensus/`：隐藏底座。
 - `vault/skills/distillation/ui-aesthetics-design/`：UI 美学已填充来源。
-- `vault/skills/dev/subskills/*/SKILL.md`：十二个子技能正文（dev-frontend / dev-backend / dev-art-ppt / dev-security / dev-concurrency / dev-performance / dev-testing / dev-design-aesthetics / dev-remove-ai-flavor / dev-ops-sre / dev-ai-engineering / dev-architecture）。
+- `vault/skills/dev/subskills/*/SKILL.md`：十三个子技能正文（dev-frontend / dev-backend / dev-art-ppt / dev-security / dev-concurrency / dev-performance / dev-testing / dev-design-aesthetics / dev-remove-ai-flavor / dev-ops-sre / dev-ai-engineering / dev-architecture / dev-network）。

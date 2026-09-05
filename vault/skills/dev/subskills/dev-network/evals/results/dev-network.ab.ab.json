@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "id": "dev-network-enforce",
+      "expected_skill": "dev-network",
+      "success_without": 0.667,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 1.0,
+      "efficiency_without": 10.333,
+      "efficiency_with": 12.333
+    },
+    {
+      "id": "dev-network-anti",
+      "expected_skill": "",
+      "success_without": 1.0,
+      "success_with": 1.0,
+      "coverage_without": 0.0,
+      "coverage_with": 0.0,
+      "efficiency_without": 2.0,
+      "efficiency_with": 2.0
+    }
+  ]
+}

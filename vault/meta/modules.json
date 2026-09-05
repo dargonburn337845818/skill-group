@@ -21,7 +21,8 @@
         "dev-module",
         "github-repo-consensus",
         "ui-aesthetics-design",
-        "expert-team"
+        "expert-team",
+        "dev-network"
       ],
       "experts": [
         "evan-you",
@@ -57,7 +58,8 @@
         "AI 风格审查与去 AI 味",
         "部署/CI-CD/可观测性",
         "LLM/Agent 工程",
-        "系统设计/分布式"
+        "系统设计/分布式",
+        "网络调试/网络访问排障"
       ],
       "gapProgress": {
         "前后端开发规范": {
@@ -137,6 +139,13 @@
             "dev-architecture"
           ],
           "source": "vault/skills/dev/subskills/dev-architecture/SKILL.md"
+        },
+        "网络调试/网络访问排障": {
+          "status": "filled",
+          "skills": [
+            "dev-network"
+          ],
+          "source": "vault/skills/dev/subskills/dev-network/SKILL.md"
         }
       },
       "module": {

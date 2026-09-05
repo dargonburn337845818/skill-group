@@ -1,0 +1,42 @@
+{
+  "skill": "dev-network",
+  "status": "verified",
+  "static_checks": {
+    "skill_package_check": "ok=true score=100",
+    "domain_recognize_validate_data": "OK: 15 domain(s), 54 expert(s) validated",
+    "validate_vault": "OK: 19 skill(s) validated in vault/skills"
+  },
+  "checks_observed_red": [
+    "dev-network-package-boundary"
+  ],
+  "evals": {
+    "tasks": ["dev-network-enforce", "dev-network-anti"],
+    "task_dirs": [
+      "vault/skills/core-iteration/evals/dev-network-enforce",
+      "vault/skills/core-iteration/evals/dev-network-anti"
+    ],
+    "ab": {
+      "runner": "benchflow_runner.py / skilljack_runner.py (DeepSeek, runs=3)",
+      "model": "deepseek-chat",
+      "enforce": {
+        "success_without": 0.667,
+        "success_with": 1.0,
+        "coverage_without": 0.0,
+        "coverage_with": 1.0,
+        "efficiency_without": 10.333,
+        "efficiency_with": 12.333
+      },
+      "anti": {
+        "success_without": 1.0,
+        "success_with": 1.0,
+        "coverage_without": 0.0,
+        "coverage_with": 0.0,
+        "false_positive": 0
+      },
+      "enhancement_index": 16.8,
+      "enhancement_grade": "明显增强",
+      "gates": "PASS"
+    }
+  },
+  "verdict": "verified"
+}

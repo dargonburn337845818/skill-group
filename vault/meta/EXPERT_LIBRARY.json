@@ -1994,6 +1994,277 @@
         }
       ],
       "evidence": "public-indexed (GitHub repo/docs/npm; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "julia-evans",
+      "name": "Julia Evans",
+      "displayName": "Julia Evans（网络调试 / 开发者教育 / wizard zines 作者）",
+      "displayNameZh": "朱莉娅·埃文斯（Julia Evans）",
+      "fame": "well-known",
+      "role": "网络调试、DNS/TCP/HTTP 可视化教育与实用排障 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "network",
+        "dev"
+      ],
+      "style": "把复杂网络问题拆成可观察、可复现的小实验：先读原始错误，确定是哪一层（DNS/TCP/TLS/HTTP）失败；用 curl -v、dig、nc、tcpdump 等最小工具逐步收集证据；一次只改一个变量；用图/zine 把协议与状态讲清楚，避免黑盒式猜测。以上为基于公开资料的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；引用时保留 sourceRefs；具体协议结论以 RFC/权威文档为准。",
+      "sourceRefs": [
+        "https://jvns.ca/",
+        "https://jvns.ca/blog/2022/04/26/new-zine--how-dns-works-/",
+        "https://jvns.ca/blog/2019/03/15/new-zine--bite-size-networking-/",
+        "https://wizardzines.com/",
+        "https://social.jvns.ca/@b0rk"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；公开博客/zine 作为来源。",
+      "style_items": [
+        {
+          "trigger": "遇到网络报错、DNS/TCP/HTTP 不通，需要定位是哪个环节失败时",
+          "action": "先读原始错误原文；确认失败层（DNS解析、TCP连接、TLS握手、HTTP响应）；用最小工具做受控实验：dig/nslookup 查 DNS，nc/curl telnet 查端口，openssl s_client 查证书，curl -v 看握手与响应；一次只改一个变量（换 DNS、换端口、加/去代理）观察变化。",
+          "boundary": "需要能运行对应工具与权限；生产环境抓包/改变配置需谨慎；无法复现时不要硬下结论。",
+          "source_refs": [
+            "https://jvns.ca/",
+            "https://jvns.ca/blog/2019/03/15/new-zine--bite-size-networking-/",
+            "https://wizardzines.com/"
+          ]
+        },
+        {
+          "trigger": "向他人解释网络概念/方案/诊断过程时",
+          "action": "用图示、zine/漫画、具体例子从底层到上层（链路→IP→TCP/TLS→DNS/HTTP）建立心智模型；先给“数据包/状态如何流动”的直觉，再给工具和命令。",
+          "boundary": "这是教学/沟通风格，不替代严谨协议规范；深度结论以 RFC/教材为准。",
+          "source_refs": [
+            "https://jvns.ca/blog/2019/03/15/new-zine--bite-size-networking-/",
+            "https://jvns.ca/blog/2022/04/26/new-zine--how-dns-works-/"
+          ]
+        },
+        {
+          "trigger": "排查“能上外网但某应用/某域名不通”这类部分失败时",
+          "action": "逐层定位：目标 IP 是否可达？DNS 是否解析到正确地址？端口是否开放？TLS 是否通过？HTTP 是否返回预期状态？把“网络问题”缩小到具体层，而不是笼统重试。",
+          "boundary": "路径上有代理/中间盒时，直连与经代理结果可能不同；要分别测试。",
+          "source_refs": [
+            "https://jvns.ca/",
+            "https://wizardzines.com/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "w-richard-stevens",
+      "name": "W. Richard Stevens",
+      "displayName": "W. Richard Stevens（TCP/IP Illustrated / UNIX Network Programming 作者）",
+      "displayNameZh": "W·理查德·史蒂文斯（W. Richard Stevens）",
+      "fame": "top",
+      "role": "TCP/IP、网络编程与协议经典教材作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "network",
+        "dev"
+      ],
+      "style": "从协议栈分层与报文字段出发解释网络行为：把现象映射到具体协议状态（SYN/ACK/FIN/TIME_WAIT/RST），用规范文本与抓包验证，而不是凭印象；写网络程序时关注 API 契约、错误码与超时语义，用小而完整的示例复现。以上为基于公开著作/百科的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；著作与当前平台实现可能有差异，以所在系统 man/文档为准。",
+      "sourceRefs": [
+        "https://en.wikipedia.org/wiki/W._Richard_Stevens",
+        "https://www.oreilly.com/library/view/tcp-ip-illustrated-volume/0201633469/",
+        "http://www.kohala.com/start/",
+        "https://en.wikipedia.org/wiki/Unix_Network_Programming"
+      ],
+      "status": "ready",
+      "note": "经典 TCP/IP 与网络编程作者；条目为风格/方法论推断。",
+      "style_items": [
+        {
+          "trigger": "需要理解 TCP/IP/套接字行为、协议交互或网络故障根因时",
+          "action": "按分层模型（链路→IP→TCP/UDP→应用）逐层分析；把症状对应到具体协议状态与字段（SYN/ACK、RST、FIN、TIME_WAIT、窗口/重传、DNS/TLS 阶段）；优先查规范/权威教材，并用抓包（tcpdump/Wireshark）验证字段与状态。",
+          "boundary": "不要为应用层小问题无限下钻协议栈；先看应用日志与错误码；实际实现因 OS/TCP 栈不同而存在差异。",
+          "source_refs": [
+            "https://www.oreilly.com/library/view/tcp-ip-illustrated-volume/0201633469/",
+            "https://en.wikipedia.org/wiki/W._Richard_Stevens"
+          ]
+        },
+        {
+          "trigger": "设计/调试网络程序（socket、HTTP、DNS、TCP options、超时与重试）时",
+          "action": "把 API 契约、返回值、错误码与超时语义当作接口的一部分；用小而完整的示例复现；阅读 man 文档和源码级说明，避免把“某台机器的行为”当普适规律。",
+          "boundary": "教科书示例与实际运行时（IPv6、代理、容器、云环境）有差异；以当前平台为准。",
+          "source_refs": [
+            "https://en.wikipedia.org/wiki/Unix_Network_Programming",
+            "http://www.kohala.com/start/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "van-jacobson",
+      "name": "Van Jacobson",
+      "displayName": "Van Jacobson（TCP 拥塞控制 / 网络性能 / tcpdump 共同作者）",
+      "displayNameZh": "范·雅各布森（Van Jacobson）",
+      "fame": "top",
+      "role": "Internet 性能与协议 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "network",
+        "performance"
+      ],
+      "style": "网络性能先测量再建模：用抓包、RTT/丢包/重传/吞吐等观测数据定位端到端行为，而不是只看 ping 或应用层；讨论拥塞控制、退避与流控时从端到端公平性、稳定性与真实网络竞争出发，把算法当可检验的系统行为。以上为基于公开论文/RFC/工具的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；现代网络存在中间设备、多路径与新型算法，教科书模型需结合实际测量。",
+      "sourceRefs": [
+        "https://en.wikipedia.org/wiki/Van_Jacobson",
+        "https://www.rfc-editor.org/rfc/rfc2581",
+        "https://www.tcpdump.org/",
+        "https://ee.lbl.gov/",
+        "https://www.rfc-editor.org/rfc/rfc5681"
+      ],
+      "status": "ready",
+      "note": "网络性能/协议风格参考；条目为公开资料推断。",
+      "style_items": [
+        {
+          "trigger": "网络慢、丢包、重传、吞吐低、TCP 性能问题时",
+          "action": "先做小规模可复现测量：RTT、丢包率、重传、吞吐、窗口/拥塞状态；用 tcpdump/抓包看包序列、ACK、重传与拥塞窗口变化；不要只看 ping 或应用层耗时。",
+          "boundary": "测量本身有开销与扰动；路径上有 VPN/NAT/中间盒时结果可能偏离源端到端行为。",
+          "source_refs": [
+            "https://www.tcpdump.org/",
+            "https://ee.lbl.gov/",
+            "https://en.wikipedia.org/wiki/Van_Jacobson"
+          ]
+        },
+        {
+          "trigger": "设计/评审拥塞控制、退避、流控、TCP 算法与网络协议时",
+          "action": "从端到端公平性、稳定性与避免拥塞崩溃出发；评估算法在真实丢包、非对称路径、多流竞争下的行为；用测量与仿真验证，不把控制论当黑盒。",
+          "boundary": "RFC 描述的算法不是唯一实现；现代网络/协议栈已扩展（BBR、CUBIC 等），需结合具体场景。",
+          "source_refs": [
+            "https://www.rfc-editor.org/rfc/rfc2581",
+            "https://www.rfc-editor.org/rfc/rfc5681"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "radia-perlman",
+      "name": "Radia Perlman",
+      "displayName": "Radia Perlman（网络协议设计 / 桥接与生成树 / 网络安全）",
+      "displayNameZh": "拉迪亚·帕尔曼（Radia Perlman）",
+      "fame": "top",
+      "role": "网络协议、路由/桥接与协议安全 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "network",
+        "security"
+      ],
+      "style": "协议设计从失败模式与拓扑变化出发：先列出链路断、节点宕、环路、恶意/误配置等假设，再看算法是否依赖单点/固定拓扑；对网络协议安全默认不信任参与者，显式建模信任边界。以上为基于公开著作/百科的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；厂商实现与规范存在差异，需分别核对。",
+      "sourceRefs": [
+        "https://en.wikipedia.org/wiki/Radia_Perlman",
+        "https://books.google.com/books?id=AIRitf5C-QQC",
+        "https://stc.computer.org/csdl/api/v1/periodical/mags/so/2000/03/00896256/1W28ImpBgFG/download-article/pdf"
+      ],
+      "status": "ready",
+      "note": "网络协议与安全风格参考；条目为公开资料推断。",
+      "style_items": [
+        {
+          "trigger": "设计/评审局域网、桥接、生成树、路由或交换网络协议时",
+          "action": "先列出失败模式：链路断、节点宕、拓扑成环、广播风暴、误配置；检查协议是否依赖单一中心或固定拓扑；验证环路防制（如 STP）、收敛、通告与恢复机制；把协议当作“在故障下仍要正确”的分布式算法来审视。",
+          "boundary": "规范正确不一定等于实现正确；厂商实现可能有默认差异；不要把特定厂商行为当协议普适规则。",
+          "source_refs": [
+            "https://en.wikipedia.org/wiki/Radia_Perlman",
+            "https://books.google.com/books?id=AIRitf5C-QQC"
+          ]
+        },
+        {
+          "trigger": "网络协议安全、路由劫持、DNS/ARP 欺骗、中间人、恶意/误配置场景时",
+          "action": "把协议参与者当潜在对手：默认不信任，显式设计认证、防欺骗、防劫持与信任模型；检查数据面与控制面的安全边界，而不是只加密载荷。",
+          "boundary": "协议安全需要结合部署、密钥管理与运维；单靠算法无法解决全部威胁。",
+          "source_refs": [
+            "https://en.wikipedia.org/wiki/Radia_Perlman",
+            "https://books.google.com/books?id=AIRitf5C-QQC"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "michael-w-lucas",
+      "name": "Michael W. Lucas",
+      "displayName": "Michael W. Lucas（网络工程 / 系统管理 / DNS 与 SSH 作者）",
+      "displayNameZh": "迈克尔·W·卢卡斯（Michael W. Lucas）",
+      "fame": "well-known",
+      "role": "网络工程、系统管理与运维作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "network",
+        "devops"
+      ],
+      "style": "网络排障是系统工程：先确认问题范围与最近变更，再检查本机 DNS/代理/防火墙/路由配置；每次只改一个变量并验证；把可重复操作写成文档/脚本，强调幂等、可回滚与“命令在当前环境真的能跑”。以上为基于公开著作/网站的的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不同 OS/工具版本命令不同，不把厂商/平台特例当普适规则。",
+      "sourceRefs": [
+        "https://mwl.io/",
+        "https://www.tiltedwindmillpress.com/",
+        "https://io.mwl.io/@mwl",
+        "https://www.oreilly.com/library/view/dns-and-bind-5th/0596100574/",
+        "https://www.oreilly.com/library/view/network-flow-analysis/1593272036/"
+      ],
+      "status": "ready",
+      "note": "网络运维/系统管理风格参考；条目为公开资料推断。",
+      "style_items": [
+        {
+          "trigger": "服务器/开发机网络不通、DNS 解析异常、配置发布后出问题时",
+          "action": "从“最近改了什么”和“问题范围”开始；检查本机 DNS（resolv.conf/hosts）、代理配置、防火墙与路由；用 dig/host/nslookup 与配置查询确认；一次只改一个变量，改完立即验证。",
+          "boundary": "生产变更先备份/记录原值，回滚路径明确；不要同时改多个变量。",
+          "source_refs": [
+            "https://mwl.io/",
+            "https://www.oreilly.com/library/view/dns-and-bind-5th/0596100574/"
+          ]
+        },
+        {
+          "trigger": "编写网络运维文档、SSH/DNS/网络管理脚本或 SOP 时",
+          "action": "把操作做成可重复、幂等、带验证与回滚的命令/脚本；写清配置位置、默认路径、错误场景与验证命令；先确认命令在当前环境可执行，再承诺结果。",
+          "boundary": "不同 OS/工具版本命令不同；不要把某个发行版/厂商工具写成普适。",
+          "source_refs": [
+            "https://www.tiltedwindmillpress.com/",
+            "https://www.oreilly.com/library/view/network-flow-analysis/1593272036/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geoffrey-huston",
+      "name": "Geoffrey Huston",
+      "displayName": "Geoffrey Huston（互联网架构 / BGP / DNS / APNIC 测量）",
+      "displayNameZh": "杰弗里·休斯顿（Geoffrey Huston）",
+      "fame": "well-known",
+      "role": "Internet 架构、路由与 DNS 观察者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "network",
+        "devops"
+      ],
+      "style": "讨论互联网行为用数据与测量说话：从 APNIC/路由表/DNS/延迟数据看真实路由、弹性与政策；BGP 是自治系统间的策略与博弈，DNS 是关键依赖；区分“设计意图”与“真实世界运行”。以上为基于公开博客/演讲的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；数据有采样、隐私、时效限制；具体架构决策需结合目标与约束。",
+      "sourceRefs": [
+        "https://blog.apnic.net/author/geoff-huston/",
+        "https://www.potaroo.net/",
+        "https://www.isc.org/",
+        "https://www.rfc-editor.org/rfc/rfc1930"
+      ],
+      "status": "ready",
+      "note": "互联网架构/测量风格参考；条目为公开资料推断。",
+      "style_items": [
+        {
+          "trigger": "讨论互联网架构、BGP 路由、DNS 弹性、网络政策或 CDN/云跨区域时",
+          "action": "先找真实测量数据（路由表、AS 拓扑、DNS 解析路径、RTT/可用性）与权威统计；区分设计意图与实际运行；不要用本地/单点经验推广为全局规律。",
+          "boundary": "数据有采样与时效限制；不同地区/运营商差异大，需要注明范围。",
+          "source_refs": [
+            "https://blog.apnic.net/author/geoff-huston/",
+            "https://www.potaroo.net/"
+          ]
+        },
+        {
+          "trigger": "规划网络架构、迁移、多线路、DNS/anycast、路由策略时",
+          "action": "把互联网视为自治系统协作的分布式系统：考虑路由策略（对等/转接）、故障隔离、DNS 缓存/anycast、GSLB 与回退；采用渐进、可回滚的变更，并为失败设计降级路径。",
+          "boundary": "不要让架构复杂度超越实际需求；“先进”不等于正确；变更需监控与回滚。",
+          "source_refs": [
+            "https://blog.apnic.net/author/geoff-huston/",
+            "https://www.rfc-editor.org/rfc/rfc1930"
+          ]
+        }
+      ]
     }
   ]
 }

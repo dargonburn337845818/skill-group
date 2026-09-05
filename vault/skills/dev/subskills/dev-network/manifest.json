@@ -1,0 +1,65 @@
+{
+  "id": "dev-network",
+  "name": "dev-network",
+  "title": "网络排障与网络访问（已蒸馏）",
+  "description": "面向 AI/开发者的网络排障子技能：DNS、代理/VPN、TLS/证书、连通性/防火墙、HTTP、包管理器、Git、Docker、镜像源与 GFW 场景的六步可逆修复流程。",
+  "whenToUse": "开发机/CI/容器/agent 出现 ECONNREFUSED、ETIMEDOUT、ENOTFOUND、SSL 证书、代理失败、npm/pip/git/docker 网络错误、连不上/无法访问/超时等网络故障时。",
+  "boundary": "只解决网络可达与访问路径，不替代 dev-security（证书/供应链安全）、dev-ops-sre（发布/可观测性）、dev-performance（协议栈性能）。",
+  "notWhenToUse": "纯后端业务逻辑、与网络无关的代码评审、日常科普时不要加载。",
+  "scenario": "dev",
+  "scenarios": [
+    "dev",
+    "distillation"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "症状分类→诊断→根因→修复→验证六步完整",
+      "每条修复有撤销方式与验证命令",
+      "覆盖 DNS/代理/TLS/HTTP/包管理器/Git/Docker/GFW 场景",
+      "有反例和失效边界"
+    ],
+    "reject": [
+      "无来源的诊断命令",
+      "把关闭 TLS 校验写成永久方案",
+      "同时修改多个变量",
+      "无验证步骤的修复"
+    ],
+    "minIndependentSources": 2,
+    "notes": "主要一手来源为 CacinieP/network-troubleshoot-skill 仓库与工具官方文档；已注明未做真实 A/B 前状态为待验证。"
+  },
+  "tags": [
+    "网络",
+    "排障",
+    "DNS",
+    "代理",
+    "TLS",
+    "镜像",
+    "GFW"
+  ],
+  "experts": [
+    "julia-evans",
+    "w-richard-stevens",
+    "van-jacobson",
+    "radia-perlman",
+    "michael-w-lucas",
+    "geoffrey-huston"
+  ],
+  "sourceRefs": [
+    "https://github.com/CacinieP/network-troubleshoot-skill",
+    "https://curl.se/docs/manpage.html",
+    "https://bind9.readthedocs.io/en/latest/reference.html",
+    "https://docs.npmjs.com/cli/v10/using-npm/config",
+    "https://pip.pypa.io/en/stable/topics/configuration/",
+    "https://git-scm.com/docs/git-config",
+    "https://docs.docker.com/engine/daemon/proxy/",
+    "https://www.openssl.org/docs/manmaster/man1/openssl-s_client.html",
+    "https://nodejs.org/api/errors.html",
+    "$PROJECT_ROOT/vault/skills/base/search-source/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/skill-verification-consensus/",
+    "$PROJECT_ROOT/vault/skills/core-iteration/dev-workflow-consensus/"
+  ],
+  "activation": "internal",
+  "version": "0.1.0",
+  "license": "MIT"
+}

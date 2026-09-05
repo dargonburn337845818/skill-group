@@ -2,8 +2,8 @@
   "id": "dev-module",
   "name": "dev-module",
   "title": "开发模块壳",
-  "description": "开发模块壳：dev 模式入口，挂载隐藏底座与九个已蒸馏/已挂载子技能；提供子技能清单与调用路径，不重复底座内容。",
-  "whenToUse": "用户任务进入开发模块（编码/重构/前后端/安全/并发/性能/测试/设计美学/去AI味）时先加载本模块壳。",
+  "description": "开发模块壳：dev 模式入口，挂载隐藏底座与十三个已蒸馏/已挂载子技能；提供子技能清单与调用路径，不重复底座内容。",
+  "whenToUse": "用户任务进入开发模块（编码/重构/前后端/安全/并发/性能/测试/设计美学/去AI味/网络排障/部署运维/LLM工程）时先加载本模块壳。",
   "boundary": "不重复隐藏底座；不代替真实 A/B 评测；本地 runner 已接入，未实跑的子技能证据应标注待验证；DSH 热更/重启走 dsh-optimization-consensus。",
   "scenario": "dev",
   "scenarios": [
@@ -46,7 +46,13 @@
     "andrew-gelman",
     "don-norman",
     "jakob-nielsen",
-    "julie-zhuo"
+    "julie-zhuo",
+    "julia-evans",
+    "w-richard-stevens",
+    "van-jacobson",
+    "radia-perlman",
+    "michael-w-lucas",
+    "geoffrey-huston"
   ],
   "sourceRefs": [
     "$PROJECT_ROOT/FORMAL_SPEC.md",

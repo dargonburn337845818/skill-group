@@ -1,0 +1,113 @@
+{
+  "matrix": {
+    "name": "skill-ab",
+    "model": "deepseek-chat",
+    "judged": false,
+    "runs": 3,
+    "tasks": [
+      {
+        "id": "dev-network-enforce",
+        "expected_skill": "dev-network",
+        "success_without": 0.667,
+        "success_with": 1.0,
+        "coverage_without": 0.0,
+        "coverage_with": 1.0,
+        "efficiency_without": 10.333,
+        "efficiency_with": 12.333
+      },
+      {
+        "id": "dev-network-anti",
+        "expected_skill": "",
+        "success_without": 1.0,
+        "success_with": 1.0,
+        "coverage_without": 0.0,
+        "coverage_with": 0.0,
+        "efficiency_without": 2.0,
+        "efficiency_with": 2.0
+      }
+    ],
+    "cells": [
+      {
+        "task": {
+          "dir": "evals/dev-network-enforce"
+        },
+        "rows": [
+          {
+            "id": "dev-network-enforce",
+            "expected_skill": "dev-network",
+            "success_without": 0.667,
+            "success_with": 1.0,
+            "coverage_without": 0.0,
+            "coverage_with": 1.0,
+            "efficiency_without": 10.333,
+            "efficiency_with": 12.333
+          }
+        ]
+      },
+      {
+        "task": {
+          "dir": "evals/dev-network-anti"
+        },
+        "rows": [
+          {
+            "id": "dev-network-anti",
+            "expected_skill": "",
+            "success_without": 1.0,
+            "success_with": 1.0,
+            "coverage_without": 0.0,
+            "coverage_with": 0.0,
+            "efficiency_without": 2.0,
+            "efficiency_with": 2.0
+          }
+        ]
+      }
+    ]
+  },
+  "bench": {
+    "tasks": 2,
+    "metrics": [
+      {
+        "metric": "success",
+        "label": "任务成功率",
+        "weight": 0.3,
+        "without": 0.834,
+        "with": 1.0,
+        "without_norm": 83.4,
+        "with_norm": 100.0,
+        "gain": 0.166,
+        "gain_percent": 16.6
+      },
+      {
+        "metric": "efficiency",
+        "label": "效率(越少越好)",
+        "weight": 0.15,
+        "without": 6.167,
+        "with": 7.167,
+        "without_norm": null,
+        "with_norm": null,
+        "gain": -0.162,
+        "gain_percent": -16.2
+      },
+      {
+        "metric": "coverage",
+        "label": "能力覆盖",
+        "weight": 0.15,
+        "without": 0.0,
+        "with": 0.5,
+        "without_norm": 0.0,
+        "with_norm": 50.0,
+        "gain": 0.5,
+        "gain_percent": 50.0
+      }
+    ],
+    "base_model_score": 25.0,
+    "skill_model_score": 37.5,
+    "enhancement_index": 16.8,
+    "enhancement_grade": "明显增强",
+    "interpretation": "使用 skill 后综合能力提升 16.8%：明显增强。"
+  },
+  "gates": {
+    "passed": true,
+    "reasons": []
+  }
+}

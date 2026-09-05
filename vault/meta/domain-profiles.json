@@ -485,6 +485,67 @@
         "performance"
       ],
       "note": "DSH/DeepSeek Harness 开发与运维专家团：官方作者+社区插件/运维作者共 11 位，并入通用 DevOps 运维视角 3 位（Kelsey Hightower / Charity Majors / Cindy Sridharan），共 14 位 ready；均为公开人物风格/方法论参考，非本人原话。"
+    },
+    {
+      "id": "network",
+      "name": "网络 / 网络排障",
+      "status": "ready",
+      "note": "网络专家团已蒸馏为 ready（Julia Evans / W. Richard Stevens / Van Jacobson / Radia Perlman / Michael W. Lucas / Geoffrey Huston）；均为公开人物风格/方法论参考，非本人原话。",
+      "keywords": [
+        "网络",
+        "网络问题",
+        "网络排障",
+        "连不上",
+        "无法访问",
+        "代理",
+        "梯子",
+        "vpn",
+        "dns",
+        "tcp",
+        "tls",
+        "ssl",
+        "证书",
+        "防火墙",
+        "端口",
+        "镜像",
+        "gfw",
+        "超时",
+        "网络调试",
+        "network",
+        "networking",
+        "proxy",
+        "connectivity",
+        "timeout",
+        "ECONNREFUSED",
+        "ENOTFOUND",
+        "ETIMEDOUT",
+        "curl",
+        "wget",
+        "dig",
+        "tcpdump",
+        "wireshark",
+        "github 访问",
+        "registry",
+        "mirror"
+      ],
+      "modules": [
+        "dev",
+        "teacher"
+      ],
+      "expert_ids": [
+        "julia-evans",
+        "w-richard-stevens",
+        "van-jacobson",
+        "radia-perlman",
+        "michael-w-lucas",
+        "geoffrey-huston"
+      ],
+      "adjacent": [
+        "devops",
+        "performance",
+        "security",
+        "backend"
+      ]
     }
   ],
   "fallback_action": {
