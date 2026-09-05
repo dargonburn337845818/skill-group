@@ -546,6 +546,51 @@
         "security",
         "backend"
       ]
+    },
+    {
+      "id": "learning",
+      "name": "AI 学习 / 自我提升",
+      "keywords": [
+        "学习",
+        "自学",
+        "怎么学",
+        "学习方法",
+        "十倍速",
+        "10x",
+        "ai学习",
+        "AI学习",
+        "第二大脑",
+        "知识管理",
+        "笔记",
+        "费曼",
+        "主动回忆",
+        "项目驱动",
+        "学习计划",
+        "learn",
+        "learning",
+        "how to learn",
+        "study",
+        "记忆",
+        "打卡"
+      ],
+      "modules": [
+        "teacher",
+        "distill",
+        "dev",
+        "writing"
+      ],
+      "expert_ids": [
+        "dan-koe",
+        "richard-feynman",
+        "andrej-karpathy"
+      ],
+      "status": "ready",
+      "note": "AI 十倍速学习领域：Dan Koe（项目驱动/输出优先）、Richard Feynman（费曼循环/简单讲清）、Andrej Karpathy（AI 工具边界/第一性原理）；均为公开人物风格/方法论参考，非本人原话。",
+      "adjacent": [
+        "writing",
+        "ai-llm-agent",
+        "dev"
+      ]
     }
   ],
   "fallback_action": {

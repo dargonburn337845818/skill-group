@@ -14,6 +14,7 @@ import type { SkillEntry, SkillManifest } from './types.js'
 
 const SCENARIO_TITLES: Record<string, string> = {
   teaching: '教学引导 / 拆题',
+  learning: 'AI 学习 / 自我提升',
   distillation: '内容蒸馏 / 知识化',
   distill: '蒸馏 / 元能力迭代',
   research: '科研 / 组会 / 论文',

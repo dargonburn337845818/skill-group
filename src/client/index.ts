@@ -1,7 +1,7 @@
 /**
  * @dsh-external/dsh-skill-vault — 设置页。
  *
- * 只展示五个正式模块（开发/蒸馏/教师/科研/文稿）；
+ * 展示正式模块（开发/蒸馏/教师/AI 学习/科研/文稿）；
  * 底座与 alpha 旧场景不在这里出现。数据目前是静态占位。
  */
 import { createElement, useEffect, useRef } from 'react'
@@ -97,6 +97,19 @@ const FORMAL_MODULES: FormalModule[] = [
       experts: [
         'tourist', 'jiangly', 'benq', 'Um_nik', 'Errichto', 'ecnerwala',
         'Radewoosh', 'neal', 'rng_58', 'Petr', 'Terence Tao'
+      ],
+    },
+    {
+      id: 'learning',
+      title: 'AI 学习',
+      description: '用 AI 十倍速学习：项目驱动、反馈闭环、第二潜意识、AI 只去摩擦',
+      skills: [
+        { id: 'ai-10x-learning', title: 'AI 十倍速学习', status: 'filled' },
+        { id: 'teacher-module', title: '人名专家团 + 回合式讨论', status: 'filled' },
+        { id: 'expert-team', title: '专家团标准流程（跨模块）', status: 'filled' },
+      ],
+      experts: [
+        'Dan Koe', 'Richard Feynman', 'Andrej Karpathy'
       ],
     },
     {

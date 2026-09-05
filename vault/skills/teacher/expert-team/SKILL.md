@@ -43,6 +43,7 @@ whenToUse: 开发、文稿、教师、科研、蒸馏等模块需要多位真实
 | writing | writing（William Zinsser）+ 必要时 product-ux / research | `teacher_discussion_start(text="写作/文案", expert_ids=["william-zinsser"])` |
 | teacher | algorithm / math / physics 等教学领域 | `teacher_discussion_start(text="算法竞赛教学")` |
 | research | research（Ting Yang / Ping Wang / S. Ma / Y. Chen / O. K. H. Shanker / A. K. Sah / Richard Feynman） | `teacher_discussion_start(text="VLPC 论文评审", domain_id="research")` |
+| learning | learning（Dan Koe / Richard Feynman / Andrej Karpathy） | `teacher_discussion_start(text="AI 十倍速学习评审", domain_id="learning")` |
 | distill | 按被蒸馏材料所属领域选专家团；元流程本身可请 dsh-ops / ai-llm-agent 专家审查 | `teacher_discussion_start(text="蒸馏算法竞赛语料", domain_id="algorithm")` |
 
 ## 三、输出纪律

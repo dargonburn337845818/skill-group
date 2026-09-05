@@ -43,6 +43,7 @@ dsh-skill-vault/
 │   ├── skills/dev/          # 开发模块：模块壳 + 九个子技能
 │   ├── skills/distill/      # 蒸馏模块：模块缺口 → 新 Skill/专家 → 回填
 │   ├── skills/teacher/      # 教师模块：人名专家团 + 回合式讨论
+│   ├── skills/learning/     # AI 学习：十倍速学习/项目驱动/第二潜意识
 │   ├── skills/research/     # 科研模块：论文/组会/PPT/导师审查
 │   ├── skills/writing/      # 文稿模块：提示词/文案/文档/报告
 │   ├── skills/distillation/   # 内容蒸馏（已并入 core-iteration 唯一入口）

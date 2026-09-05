@@ -2265,6 +2265,30 @@
           ]
         }
       ]
+    },
+    {
+      "id": "dan-koe",
+      "name": "Dan Koe",
+      "displayName": "Dan Koe（创作者 / The Koe Cast 主持人 / 学习与创作方法论风格参考）",
+      "displayNameZh": "丹·科（Dan Koe）",
+      "fame": "well-known",
+      "role": "内容创作者 / 学习与创作方法论风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "learning",
+        "writing"
+      ],
+      "style": "项目驱动、输出优先、控制论反馈：先定想做出的项目/作品，让项目过滤无关信息，再用目标→现状→误差→行动的闭环持续暴露缺口；反对为记忆而记忆，反对囤积笔记，主张把第二大脑当“第二潜意识”并在创作时重新浮现；AI 只用来去摩擦（扫描、结构、研究、事实摘要），不能替作者表达观点与信念。",
+      "boundary": "风格/方法论推断，非本人原话；适用于学习与内容创作规划，不替代具体领域硬知识；批评“收藏即学习”不意味着任何笔记都无用，有项目/输出的收藏才有价值。",
+      "sourceRefs": [
+        "https://thedankoe.com/letters/learn-ai-to-10x-any-other-skill-full-beginner-guide/",
+        "https://pod.wave.co/podcast/the-koe-cast/how-to-learn-anything-10x-faster-than-anyone",
+        "https://www.youtube.com/watch?v=FzaHX5rxU34",
+        "https://www.bilibili.com/video/BV1W4REYzEdx/"
+      ],
+      "status": "ready",
+      "note": "本条目由 ai-10x-learning 蒸馏同步加入；公开材料包含作者一手文章与播客逐字稿，均为风格推断，非本人原话。",
+      "evidence": "verified-high (primary transcript + author article)"
     }
   ]
 }

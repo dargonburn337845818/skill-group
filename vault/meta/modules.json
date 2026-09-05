@@ -481,6 +481,60 @@
           "source": "vault/skills/writing/writing-module/subskills/speech-writing/SKILL.md"
         }
       }
+    },
+    {
+      "id": "learning",
+      "title": "AI 学习 / 自我提升",
+      "description": "用 AI 十倍速学习：项目驱动、反馈闭环、第二潜意识、AI 只去摩擦；可复用教师/蒸馏/文稿模块的专家团。",
+      "skills": [
+        "ai-10x-learning",
+        "teacher-module",
+        "expert-team"
+      ],
+      "experts": [
+        "dan-koe",
+        "richard-feynman",
+        "andrej-karpathy"
+      ],
+      "assignments": [
+        "learning"
+      ],
+      "gaps": [
+        "AI 学习法蒸馏",
+        "学习专家团（Dan Koe / 费曼 / Karpathy）",
+        "可复制学习提示词工具包"
+      ],
+      "gapProgress": {
+        "AI 学习法蒸馏": {
+          "status": "filled",
+          "skills": [
+            "ai-10x-learning"
+          ],
+          "source": "vault/skills/learning/ai-10x-learning/SKILL.md"
+        },
+        "学习专家团（Dan Koe / 费曼 / Karpathy）": {
+          "status": "filled",
+          "skills": [
+            "expert-team"
+          ],
+          "source": "vault/meta/domain-profiles.json -> learning"
+        },
+        "可复制学习提示词工具包": {
+          "status": "filled",
+          "skills": [
+            "ai-10x-learning"
+          ],
+          "source": "vault/skills/learning/ai-10x-learning/examples/prompts.md"
+        }
+      },
+      "module": {
+        "skill": "ai-10x-learning",
+        "baseSkills": [
+          "search-source",
+          "skill-verification-consensus",
+          "dev-workflow-consensus"
+        ]
+      }
     }
   ],
   "shared": {
