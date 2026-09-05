@@ -7,11 +7,11 @@
  *   POST /disable  { target, scope }    — disable skill/scenario
  *   GET  /domain?text=...               — domain recognition + expert team / gap branch
  *   GET  /domain/status                 — sidebar domain/expert status payload
- *   GET  /teacher/status                — current teacher discussion session payload
- *   POST /teacher/start                 — create teacher session from text/domain_id
- *   POST /teacher/round                 — append one discussion round
- *   POST /teacher/select                — select expert subset
- *   POST /teacher/finish                — finish a teacher session
+ *   GET  /teacher/status|/expert-team/status — current discussion session payload
+ *   POST /teacher/start|/expert-team/start   — create session from text/domain_id
+ *   POST /teacher/round|/expert-team/round   — append one discussion round
+ *   POST /teacher/select|/expert-team/select — select expert subset
+ *   POST /teacher/finish|/expert-team/finish — finish a session
  */
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Context } from 'cordis'
@@ -85,13 +85,13 @@ export function registerApi(ctx: Context, manager: SkillVaultManager): void {
         if (req.method === 'GET' && path === '/domain/status') {
           return send(res, 200, { ok: true, ...domainStatusPayload() })
         }
-        if (req.method === 'GET' && path === '/teacher/status') {
+        if (req.method === 'GET' && (path === '/teacher/status' || path === '/expert-team/status')) {
           const url = new URL(req.url ?? '/', 'http://localhost')
           const sessionId = url.searchParams.get('session_id') || undefined
           const payload = teacherStore.payload(sessionId)
           return send(res, 200, { ok: true, ...payload })
         }
-        if (req.method === 'POST' && path === '/teacher/start') {
+        if (req.method === 'POST' && (path === '/teacher/start' || path === '/expert-team/start')) {
           const body = JSON.parse(await readBody(req)) as {
             text?: string
             domain_id?: string
@@ -111,18 +111,18 @@ export function registerApi(ctx: Context, manager: SkillVaultManager): void {
           }
           return send(res, 200, { ok: true, session })
         }
-        if (req.method === 'POST' && path === '/teacher/round') {
+        if (req.method === 'POST' && (path === '/teacher/round' || path === '/expert-team/round')) {
           const body = JSON.parse(await readBody(req)) as TeacherRoundInput & { session_id: string }
           const session = teacherStore.addRound(String(body.session_id), body)
           return send(res, 200, { ok: true, session })
         }
-        if (req.method === 'POST' && path === '/teacher/select') {
+        if (req.method === 'POST' && (path === '/teacher/select' || path === '/expert-team/select')) {
           const body = JSON.parse(await readBody(req)) as { session_id: string; expert_ids?: string[] }
           if (!body.session_id) return send(res, 400, { ok: false, error: 'session_id 必填' })
           const session = teacherStore.selectExperts(String(body.session_id), Array.isArray(body.expert_ids) ? body.expert_ids.map(String) : [])
           return send(res, 200, { ok: true, session })
         }
-        if (req.method === 'POST' && path === '/teacher/finish') {
+        if (req.method === 'POST' && (path === '/teacher/finish' || path === '/expert-team/finish')) {
           const body = JSON.parse(await readBody(req)) as { session_id?: string }
           if (!body.session_id) return send(res, 400, { ok: false, error: 'session_id 必填' })
           const session = teacherStore.finish(String(body.session_id))

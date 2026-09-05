@@ -14,7 +14,7 @@ whenToUse: 开发、文稿、教师、科研、蒸馏等模块需要多位真实
 - 需要对方案/产物做多视角评审、拆解、纠偏、分歧裁决时。
 - 需要把“某专家怎么看”写成带署名的结论并保留来源时。
 
-> 运行时：直接复用 `teacher_discussion_start / teacher_discussion_round / teacher_expert_select / teacher_discussion_status` 等工具与 `/skill-vault/api/teacher/*` HTTP 接口。
+> 运行时：任意模块统一使用 `expert_team_start / expert_team_round / expert_team_status / expert_team_select / expert_team_finish` 工具；同时兼容 `teacher_discussion_*` 别名与 `/skill-vault/api/expert-team/*`、`/skill-vault/api/teacher/*` HTTP 接口。
 
 ## 一、标准化协议（六步）
 

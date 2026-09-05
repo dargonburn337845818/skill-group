@@ -78,7 +78,7 @@ description: 文稿模块——提示词、文案、文档/报告、学术写作
 - 默认写作专家：`william-zinsser`（On Writing Well 风格/方法论）。
 - 需要产品/体验视角时叠加 `product-ux`：`don-norman`、`jakob-nielsen`、`julie-zhuo`。
 - 需要科研/技术受众时叠加 `research` 或对应 dev 领域专家。
-- 调用方式与 teacher 模块一致：`teacher_discussion_start(text="文案评审", expert_ids=["william-zinsser"])` → 回合式表态 → 冲突裁决 → 带署名的文本建议。
+- 调用方式与 teacher 模块一致：`expert_team_start(text="文案评审", expert_ids=["william-zinsser"])` → 回合式表态 → 冲突裁决 → 带署名的文本建议。
 - 文稿模块只负责把专家署名意见组织成文本，不改变结论归属。
 
 ## 如何被其他模块调用

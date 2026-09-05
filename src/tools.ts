@@ -443,4 +443,117 @@ export function registerTools(ctx: Context, manager: SkillVaultManager): void {
       }
     },
   }))
+
+  // ── 专家团标准化别名（任意模块统一入口，实现在 teacherStore 上完全复用） ──
+  const aliasRender = (_args: unknown, value: any): Array<{ type: 'text'; text: string }> => {
+    const v = value as { ok: boolean; error?: string; session?: any; sessions?: any[]; current?: any }
+    if (!v.ok) return [{ type: 'text', text: `专家团操作失败：${v.error || '未知错误'}` }]
+    if (v.session) return [{ type: 'text', text: renderTeacherSession(v.session) }]
+    const lines = [`会话数：${(v.sessions || []).length}`]
+    if (v.current) lines.push(renderTeacherSession(v.current))
+    else lines.push('暂无当前专家团会话。')
+    return [{ type: 'text', text: lines.join('\n') }]
+  }
+
+  ctx.tools.register(defineTool({
+    name: 'expert_team_start',
+    description: '标准化专家团启动（任意模块通用）：从自然语言识别领域，或直接指定 domain_id，加载该领域 ready 人名专家团；无 ready 专家时返回 expert_gap。',
+    parameters: {
+      text: { type: 'string', description: '用户自然语言，如“后端架构评审”“文案评审”“蒸馏算法语料”' },
+      domain_id: { type: 'string', description: '直接指定领域 id，如 algorithm / frontend / backend / research / writing' },
+      expert_ids: STRING_ARRAY,
+      adjacent: { type: 'boolean', description: '是否只引入邻近领域专家' },
+    },
+    output: { schema: { type: 'json' }, render: aliasRender },
+    async execute(args) {
+      try {
+        if (!args.text && !args.domain_id) return { ok: false, error: 'text 或 domain_id 必填' } as any
+        const expertIds = Array.isArray(args.expert_ids) ? args.expert_ids.map(String) : undefined
+        const opts = { adjacent: Boolean(args.adjacent) }
+        const session = args.text
+          ? teacherStore.startFromText(String(args.text), expertIds, opts)
+          : teacherStore.startFromDomain(String(args.domain_id), expertIds, opts)
+        return { ok: true, session } as any
+      } catch (e) {
+        return { ok: false, error: String(e) } as any
+      }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'expert_team_round',
+    description: '标准化专家团追加一轮：独立表态 speaks、冲突点表 conflicts、裁决 adjudications、署名结论 conclusions。',
+    parameters: {
+      session_id: { type: 'string', required: true },
+      topic: { type: 'string', required: true, description: '本轮主题' },
+      speaks: { type: 'array', items: SPEAK_SCHEMA },
+      conflicts: { type: 'array', items: CONFLICT_SCHEMA },
+      adjudications: { type: 'array', items: ADJUDICATION_SCHEMA },
+      conclusions: { type: 'array', items: CONCLUSION_SCHEMA },
+    },
+    output: { schema: { type: 'json' }, render: aliasRender },
+    async execute(args) {
+      try {
+        const input: TeacherRoundInput = {
+          topic: String(args.topic),
+          speaks: (args.speaks || []) as unknown as TeacherSpeak[],
+          conflicts: (args.conflicts || []) as unknown as TeacherConflict[],
+          adjudications: (args.adjudications || []) as unknown as TeacherAdjudication[],
+          conclusions: (args.conclusions || []) as unknown as TeacherConclusion[],
+        }
+        const session = teacherStore.addRound(String(args.session_id), input)
+        return { ok: true, session } as any
+      } catch (e) {
+        return { ok: false, error: String(e) } as any
+      }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'expert_team_status',
+    description: '标准化专家团会话状态：当前领域、专家团、每轮讨论记录；供任意模块继续/查看。',
+    parameters: {
+      session_id: { type: 'string', description: '缺省返回最近一次会话' },
+    },
+    output: { schema: { type: 'json' }, render: aliasRender },
+    async execute(args) {
+      const payload = teacherStore.payload(args.session_id ? String(args.session_id) : undefined)
+      return { ok: true, ...payload } as any
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'expert_team_select',
+    description: '标准化专家团选人：在已开始的会话中，从该领域 ready 专家里选择/替换专家子集。',
+    parameters: {
+      session_id: { type: 'string', required: true },
+      expert_ids: { type: 'array', items: { type: 'string' }, required: true },
+    },
+    output: { schema: { type: 'json' }, render: aliasRender },
+    async execute(args) {
+      try {
+        const session = teacherStore.selectExperts(String(args.session_id), (args.expert_ids || []).map(String))
+        return { ok: true, session } as any
+      } catch (e) {
+        return { ok: false, error: String(e) } as any
+      }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'expert_team_finish',
+    description: '结束一个标准化专家团会话，标记为 finished。',
+    parameters: {
+      session_id: { type: 'string', required: true },
+    },
+    output: { schema: { type: 'json' }, render: aliasRender },
+    async execute(args) {
+      try {
+        const session = teacherStore.finish(String(args.session_id))
+        return { ok: true, session } as any
+      } catch (e) {
+        return { ok: false, error: String(e) } as any
+      }
+    },
+  }))
 }
