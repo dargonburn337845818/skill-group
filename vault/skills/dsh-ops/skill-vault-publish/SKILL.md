@@ -1,6 +1,6 @@
 ---
 name: skill-vault-publish
-description: 把新蒸馏的 skill 入库到 dsh-skill-vault 的方法；告诉 agent 仓库位置、目录规范、校验步骤，以及只能手动 git 推送。
+description: 把新蒸馏的 skill 入库到 dsh-skill-vault 的方法；告诉 agent 仓库位置、目录规范、校验步骤，以及默认交互/可自动化的 git 推送流程。
 whenToUse: 刚蒸馏完新技能；需要把产物放进技能仓库并提交开源。
 ---
 # 入库 dsh-skill-vault
@@ -32,19 +32,23 @@ whenToUse: 刚蒸馏完新技能；需要把产物放进技能仓库并提交开
 3. **生成 manifest**：在 skill 目录下写 `manifest.json`（可参考 `vault/manifest.schema.json`）；`tags` 从 `TAG_TAXONOMY.md` 受控词表中选，≤8 个，禁止状态词。
 4. **插件入库**（可选，自动拷贝+生成 manifest）：
    - 调用 `skill_vault_add`，传 `sourcePath`、`scenario`、`id` 等。
-   - 工具只准备文件，**不会 git commit/push**。
-5. **人工审核**：检查 `SKILL.md` 是否过长、来源是否可追溯、有无示例、`tags` 是否符合分类法。
-6. **手动推送**（必须人工，因为要输入 HTTPS 凭据）：
+   - 工具只准备文件，不主动执行 git commit/push；提交/推送统一走 `scripts/push.sh`。
+5. **审核**：检查 `SKILL.md` 是否过长、来源是否可追溯、有无示例、`tags` 是否符合分类法。
+6. **推送**（默认交互确认，也支持全自动）：
    ```bash
    cd $PROJECT_ROOT
    bash scripts/push.sh
+   # 全自动（凭据已由 credential helper / CI secret 配置时）
+   bash scripts/push.sh --yes --message "vault: update distilled skills"
+   # 或
+   PUSH_CONFIRM=yes PUSH_MESSAGE="vault: update distilled skills" bash scripts/push.sh
    ```
-   脚本会提示确认并执行 `git add -A && git commit && git push`。
+   脚本会提示确认并执行 `git add -A && git commit && git push`；自动模式仍会拒绝内部开发产物。
 
 ## 边界
 
 - 不把个人开关状态提交进仓库（`enabled.json` 在 `~/.dsh/skill-vault/`）。
-- 不自动推送；不要在 agent 会话里让模型持有密码或直接执行 `git push`。
+- 默认不自动推送；自动化必须显式开启（`--yes`/`PUSH_CONFIRM=yes`）且凭据可用。不要在 agent 提示词里粘贴密码；凭据只走 credential helper / CI secret 等安全通道。
 - 外部开源项目（如 ai-ppt 等别人的 skill）不迁入本仓库，除非是你自己的蒸馏产物。
 
 ## 2026 深度补强（Round 38）
@@ -78,7 +82,7 @@ whenToUse: 刚蒸馏完新技能；需要把产物放进技能仓库并提交开
 
 - 用 SemVer 决定 `manifest.version`：不兼容变更（改 `id`/`scenario`/可注册语义）→ major；新增触发场景或能力且向后兼容 → minor；只改文案/来源/小修复 → patch。
 - 每轮内容修改同步更新 `manifest.version` 与 `CHANGELOG.md`，禁止“内容变了版本不变”。
-- 发布顺序：本地 `node scripts/validate-vault.mjs` && `node scripts/validate-tags.mjs` && `npm test` 全绿 → `git diff` 人工审 → `bash scripts/push.sh`（脚本只接受公开目录）。
+- 发布顺序：本地 `node scripts/validate-vault.mjs` && `node scripts/validate-tags.mjs` && `npm test` 全绿 → `git diff` 审查 → `bash scripts/push.sh`（默认交互；自动化需 `--yes`/`PUSH_CONFIRM=yes`，脚本只接受公开目录）。
 - 插件级 Release 打 `v*` 注释 tag（`git tag -a v0.1.0 -m ...`）后 push；tag 一旦推送不要 force-push 改写，修复走新 patch release（fix-forward）。
 - 反例：先 `git push origin main` 再补 tag，Actions 没触发或 tag 指向旧 commit；或删除已发布 tag 重建，破坏依赖该 tag 的安装者与缓存。
 
@@ -106,5 +110,5 @@ whenToUse: 刚蒸馏完新技能；需要把产物放进技能仓库并提交开
 - [ ] `tags` ≤8、无状态词，`sourceRefs` 可落地。
 - [ ] 无密钥/令牌；`allowed-tools` 最小化。
 - [ ] `validate-vault`、`validate-tags`、`npm test` 全绿。
-- [ ] 只走 `scripts/push.sh` 手动推送，不把内部产物/个人开关状态带进公开仓库。
+- [ ] 只走 `scripts/push.sh`（默认交互；自动化显式 `--yes`/`PUSH_CONFIRM=yes`），不把内部产物/个人开关状态带进公开仓库。
 - [ ] 插件级发布有 `v*` tag 与已记录的 HEAD 回滚锚点。

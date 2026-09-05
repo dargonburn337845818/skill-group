@@ -16,7 +16,7 @@ dsh-skill-vault 是 DSH（DeepSeek Harness）生态中的技能库插件。它�
 - **按需启用**：场景级开关 + 单 skill 开关，默认关闭，不抢上下文。
 - **Agent 工具**：查询、启用、禁用、入库。
 - **Web 面板**：可视化开关面板，可与过程监视器联动。
-- **人工推送**：新增 skill 通过 `skill_vault_add` 准备入库，实际 git 推送必须人工执行。
+- **可自动推送**：新增 skill 通过 `skill_vault_add` 准备入库；默认交互确认，配置凭据后可用 `scripts/push.sh --yes` 全自动提交推送。
 
 ## Agent 工具
 
@@ -42,7 +42,7 @@ vault/               # 开源 skill 仓库
 ├── skills/          # 按场景组织的技能包
 ├── corpus/          # 开源语料/产物
 └── manifest.schema.json
-scripts/             # 构建、校验、手动推送
+scripts/             # 构建、校验、推送（默认交互，可自动）
 tests/               # 插件与 vault 校验测试
 lib/                 # 预构建产物（提交到仓库）
 ```
@@ -60,7 +60,7 @@ npm test
 - 不自动热装到运行中的 agent；
 - 先在隔离 `DSH_HOME` 做配置导出与冒烟；
 - 回滚恢复实际文件，不只改 package.json pin；
-- 插件不自动 push，推送前先人工 review。
+- 插件默认不主动 push；自动化需显式启用（`--yes`/`PUSH_CONFIRM=yes`），推送前完成校验与 review。
 
 ## 快速启动与发布
 
@@ -68,13 +68,25 @@ npm test
 - [DESIGN.md](DESIGN.md)：模块设计说明。
 - 推送 `v*` tag 后，`.github/workflows/release-plugin.yml` 会校验 vault、打包并创建 GitHub Release。
 
-## 手动推送
+## 推送
+
+默认交互模式：
 
 ```bash
 bash scripts/push.sh
 ```
 
-脚本会提示并执行 `git add -A && git commit && git push`；需要在外部终端人工运行。
+脚本会提示确认并执行 `git add -A && git commit && git push`；凭据由 git credential helper 或已配置的认证提供，脚本不会让模型持有或粘贴密码。
+
+全自动模式（CI / agent 已配好凭据时）：
+
+```bash
+bash scripts/push.sh --yes --message "vault: update distilled skills"
+# 或
+PUSH_CONFIRM=yes PUSH_MESSAGE="vault: update distilled skills" bash scripts/push.sh
+```
+
+自动模式仍保留安全护栏：内部产物（`assignments/`、`evals/`）会被拦截，`enabled.json` 等个人状态不会进入公开仓库。
 
 ## 贡献与安全
 

@@ -1,6 +1,6 @@
 # Quick Use：skill-vault-publish
 
-> 一句话：把新蒸馏 skill 入库 dsh-skill-vault 的方法、目录规范、校验步骤与手动推送流程。
+> 一句话：把新蒸馏 skill 入库 dsh-skill-vault 的方法、目录规范、校验步骤与推送流程（默认交互，可全自动）。
 
 ## 何时用
 

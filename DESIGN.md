@@ -29,11 +29,11 @@
 | 仓库内容 | 开源训练语料 + 蒸馏产物都进仓库 |
 | 领域分类 | 按用途/场景：教学引导、内容蒸馏、科研/组会/论文、DSH 运维、GitHub 开源仓库 |
 | 插件形态 | hybrid（toolkit + UI） |
-| Git 同步 | 本地仓库路径 + 手动/脚本推送，不在 agent 会话自动 git |
+| Git 同步 | 本地仓库路径 + 脚本推送（默认交互确认；凭据可用时显式 `--yes` 全自动），不在 agent 会话直接持有密码 |
 | 启用语义 | 进入可选目录，按需加载（不自动注入上下文） |
 | 大师模式 | 技能内自带大师身份，按需激活 |
 | 发现方式 | 插件运行时 `ctx.skills.register()` 为主 |
-| 新增入库 | 插件准备 + 手动 git 提交/推送 |
+| 新增入库 | 插件准备 + 脚本提交/推送（默认交互确认；可显式全自动） |
 | 配置存放 | 插件数据目录 `~/.dsh/skill-vault/enabled.json`，不进 Git |
 | 首批入库 | 只入自己蒸馏的：teacher-consensus、distillation-consensus、dsh-optimization-consensus、skill-management、vlpc-consensus；不迁别人的开源项目 |
 
@@ -93,7 +93,7 @@
 ## 7. 数据与安全
 
 - 个人启用状态在 `~/.dsh/skill-vault/enabled.json`，不属于公开仓库。
-- 插件不自动 push；`scripts/push.sh` 提示确认后手动执行。
+- 插件默认不主动 push；`scripts/push.sh` 默认交互确认，凭据可用时可用 `--yes`/`PUSH_CONFIRM=yes` 全自动执行。
 - 涉及 DSH 插件升级/热更，遵循 `dsh-optimization-consensus`：先备份、隔离冒烟、无 running agent、回滚实际文件。
 
 ## 8. 回滚/运维

@@ -9,7 +9,7 @@ DSH 技能保险库：统筹你蒸馏的 skill，按场景/单 skill 开关按�
 - 场景级 + 单 skill 级开关
 - 全局持久 + 会话临时覆盖
 - 运行时注册：只把已启用的 skill 注入 `ctx.skills`
-- 手动 git 推送脚本，不把密码/凭据交给 agent
+- git 推送脚本：默认交互确认，凭据经 credential helper / CI secret 提供时可全自动，不把密码/凭据交给 agent 提示词
 
 ## 快速启动
 
@@ -20,7 +20,7 @@ DSH 技能保险库：统筹你蒸馏的 skill，按场景/单 skill 开关按�
    - `skill_vault_enable teaching` 开启教学场景
    - `skill_vault_enable teacher-consensus` 开启教师共识
    - Web 端打开“技能库”面板进行可视化勾选
-4. 以后新蒸馏的 skill 可用 `skill_vault_add` 准备入库，再手动 `scripts/push.sh` 提交开源。
+4. 以后新蒸馏的 skill 可用 `skill_vault_add` 准备入库，再 `scripts/push.sh` 提交开源（默认交互；配好凭据后可用 `--yes` 全自动）。
 
 ## 仓库
 

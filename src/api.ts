@@ -7,6 +7,10 @@
  *   POST /disable  { target, scope }    — disable skill/scenario
  *   GET  /domain?text=...               — domain recognition + expert team / gap branch
  *   GET  /domain/status                 — sidebar domain/expert status payload
+ *   GET  /effect                       — effect log entries + stats
+ *   POST /effect/record                — append one effect entry
+ *   GET  /doctor                       — static health check
+ *   GET  /governance                   — effect-driven governance controller report
  *   GET  /teacher/status|/expert-team/status — current discussion session payload
  *   POST /teacher/start|/expert-team/start   — create session from text/domain_id
  *   POST /teacher/round|/expert-team/round   — append one discussion round
@@ -15,8 +19,12 @@
  */
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Context } from 'cordis'
+import { join } from 'node:path'
 import { domainStatusPayload, recognizeDomain } from './domain.js'
 import { teacherStore } from './teacher.js'
+import { effectLogPath, effectStats, loadEffects, recordEffect } from './effects.js'
+import { runDoctor } from './doctor.js'
+import { buildGovernanceReport, loadOpenChanges } from './governance.js'
 import type { TeacherRoundInput } from './teacher.js'
 import type { SkillVaultManager } from './manager.js'
 import type { SwitchScope } from './types.js'
@@ -84,6 +92,42 @@ export function registerApi(ctx: Context, manager: SkillVaultManager): void {
         }
         if (req.method === 'GET' && path === '/domain/status') {
           return send(res, 200, { ok: true, ...domainStatusPayload() })
+        }
+        if (req.method === 'GET' && path === '/effect') {
+          const url = new URL(req.url ?? '/', 'http://localhost')
+          const skill = url.searchParams.get('skill') || undefined
+          const entries = loadEffects().filter((e) => !skill || e.skill === skill)
+          return send(res, 200, { ok: true, path: effectLogPath(), entries, stats: effectStats(entries) })
+        }
+        if (req.method === 'POST' && path === '/effect/record') {
+          const body = JSON.parse(await readBody(req)) as { skill?: string; task?: string; triggered?: boolean; used?: boolean; outcome?: string; note?: string }
+          const skill = String(body.skill ?? '').trim()
+          if (!skill) return send(res, 400, { ok: false, error: 'skill 必填' })
+          const outcome = body.outcome === 'pos' || body.outcome === 'neg' ? body.outcome : 'neu'
+          const entry = recordEffect({
+            skill,
+            task: String(body.task ?? ''),
+            triggered: Boolean(body.triggered),
+            used: Boolean(body.used),
+            outcome,
+            note: String(body.note ?? ''),
+          })
+          return send(res, 200, { ok: true, entry, path: effectLogPath() })
+        }
+        if (req.method === 'GET' && path === '/doctor') {
+          const results = runDoctor(manager.vaultRoot)
+          const pass = results.filter((r) => r.ok).length
+          return send(res, 200, { ok: pass === results.length, pass, total: results.length, results })
+        }
+        if (req.method === 'GET' && path === '/governance') {
+          const openChangesFile = join(manager.vaultRoot, '..', 'agent-memory', 'open-changes.json')
+          const report = buildGovernanceReport({
+            catalog: manager.list(),
+            doctorResults: runDoctor(manager.vaultRoot),
+            openChanges: loadOpenChanges(openChangesFile),
+            openChangesFile,
+          })
+          return send(res, 200, { ok: true, ...report })
         }
         if (req.method === 'GET' && (path === '/teacher/status' || path === '/expert-team/status')) {
           const url = new URL(req.url ?? '/', 'http://localhost')

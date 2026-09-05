@@ -1,6 +1,14 @@
 # Changelog
 
 ## Unreleased
+- **弱化“必须人工推送”限制，打通全自动发布**：
+  - `scripts/push.sh` 新增 `--yes` / `--message` 与 `PUSH_CONFIRM` / `PUSH_MESSAGE` 自动模式；默认仍交互确认，安全护栏（内部产物拦截）不变。
+  - README / CONTRIBUTING / DESIGN / vault 说明与 `skill-vault-publish` 手册同步：凭据经 git credential helper / CI secret 提供时，agent/CI 可全自动提交推送。
+- **技能库控制回路传感器与控制器（控制论落地）**：
+  - 新增 `skill_effect_log` 工具：record / report / stats，效果数据落盘 `~/.dsh/skill-vault/effect-log.json`。
+  - 新增 `skill_doctor` 工具与 `/skill-vault/api/doctor`：公开 skill 静态健康检查。
+  - 新增 `skill_governance` 工具与 `/skill-vault/api/governance`：按效果率/误触发率/质检输出 enable/disable/demote/fix/merge 建议，并检查开放变更（流量控制）。
+  - 新增 `design-skill-control-loop` 技能（dsh-ops，`activation: catalog`）：控制论治理方法 + 可执行传感器/控制器。
 - **v0.2.7 内容蒸馏补强完成（Round 39–40，收敛）**：
   - 最后 10 个注册技能完成搜索/蒸馏补强：benefit-filter、inspiration-miner、return-forensics、value-effect-audit、value-iterator、value-validator、web-research-consensus、dev-network、eval-task、nvidia-laptop-tuning。
   - vault 正式注册技能 **50/50 全部包含内容补强章节**；包检 50/50、本地 20/20、validate-vault/tags OK。

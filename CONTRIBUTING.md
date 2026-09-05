@@ -14,7 +14,7 @@
 1. 在 `vault/skills/<scenario>/<skill-id>/` 下创建 `SKILL.md` 与 `manifest.json`。
 2. 运行 `node scripts/validate-vault.mjs` 与 `node scripts/validate-tags.mjs`，确保通过。
 3. 运行 `npm run typecheck` 与 `npm test`，确保插件没有回归。
-4. 手动执行 `bash scripts/push.sh` 提交（脚本会拒绝把内部产物推上去）。
+4. 执行 `bash scripts/push.sh` 提交（脚本会拒绝把内部产物推上去；默认交互确认，自动化时可用 `--yes --message "..."`）。
 
 ## 代码风格
 

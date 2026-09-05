@@ -32,7 +32,7 @@ vault/
 3. `manifest.json` 的 `scenario` 决定主场景；`scenarios` 支持交叉检索。
 4. `tags` 只做横向检索，使用受控词表，**禁止状态词/重复大类词**；规范见 `TAG_TAXONOMY.md`。
 5. 个人开关状态**不提交到本仓库**，本地存在 `~/.dsh/skill-vault/enabled.json`。
-6. Git 提交/推送一律手动（见仓库根 `scripts/push.sh`），避免密码进入 agent 会话。
+6. Git 提交/推送默认交互确认（见仓库根 `scripts/push.sh`）；凭据通过 git credential helper / CI secret 提供时，可用 `--yes`/`PUSH_CONFIRM=yes` 全自动推送。不要把密码写进 agent 提示词或仓库文件。
 
 ### 易混目录说明
 

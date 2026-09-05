@@ -27,5 +27,6 @@
 
 ## 发布
 
-- 推送由人工执行：进入 `dsh-skill-vault` 仓库目录后运行 `bash scripts/push.sh`（脚本会确认并完成 git add/commit/push）。
-- 本包不自动 git push/commit。
+- 默认交互：进入 `dsh-skill-vault` 仓库目录后运行 `bash scripts/push.sh`（脚本会确认并完成 git add/commit/push）。
+- 全自动：配置 git credential helper / CI secret 后，可用 `bash scripts/push.sh --yes --message "..."` 或 `PUSH_CONFIRM=yes PUSH_MESSAGE="..." bash scripts/push.sh`，护栏仍会拦截内部产物。
+- 本包不默认自动 git push/commit；自动化必须显式开启。

@@ -1,0 +1,29 @@
+{
+  "id": "design-skill-control-loop",
+  "name": "design-skill-control-loop",
+  "title": "设计技能库控制循环",
+  "description": "把 DSH 技能库当成动态系统，用控制论四件套（设定点/传感器/控制器/执行器）设计一个可观测、可收敛、可审查的治理循环；用于优化 skill 调度、技能库质量、减少上下文膨胀。",
+  "whenToUse": "用户问“怎么优化我的技能调度/技能库”“技能太多/太杂”“该不该启用某个 skill”“如何判断 skill 还有没有用”“给技能库加反馈/效果度量”时。",
+  "boundary": "不是内容蒸馏（competing with distillation-consensus）；不替代用户确认；不指导任意代码库的 CI agent loop 细节。",
+  "scenario": "dsh-ops",
+  "routing": "domain",
+  "activation": "catalog",
+  "hidden": false,
+  "tags": [
+    "skill",
+    "管理",
+    "调度",
+    "反馈",
+    "迭代",
+    "审计",
+    "DSH运维"
+  ],
+  "sourceRefs": [
+    "https://github.com/humanlayer/skills",
+    "https://github.com/humanlayer/12-factor-agents",
+    "https://www.bilibili.com/video/BV1Sw3H66Eav/",
+    "$HOME/work/control-loop-skill-audit-2026-09-06.md"
+  ],
+  "version": "0.2.0",
+  "license": "MIT"
+}
