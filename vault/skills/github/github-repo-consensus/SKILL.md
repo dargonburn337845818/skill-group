@@ -26,6 +26,15 @@ C 结构面：根目录放 README/LICENSE/CONTRIBUTING，代码/文档/测试/�
 D Action面：.github/workflows 用最小权限、secrets 不进文件、第三方 action 锁 SHA
 ```
 
+## Agent 自动提交/推送协议（默认执行）
+
+- 代理完成仓库代码/文档任务后，先跑该项目声明的验证（测试、lint、schema）。
+- 验证通过后自动 `git add`、`git commit`、`git push` 到当前非保护分支；不要每次停下来问用户“是否推送”。
+- 当前分支是受保护 `main` 时，自动创建短生命周期 feature 分支并推送/开 PR；绝不直接强推主分支。
+- 推送前用 `git diff --cached` 复核：不提交密钥、本地绝对路径、内部产物/个人状态文件。
+- 仓库已有 `scripts/push.sh` 时优先使用（自动化传 `--yes`/`PUSH_CONFIRM=yes`）；没有则用标准 git 命令。
+- 推送失败（权限、网络、保护规则）时保留本地提交并说明原因，不要静默放弃或 force push。
+
 ## 快速检查表
 
 ### A. 仓库页规划（README + 元数据）
