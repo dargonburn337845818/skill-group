@@ -473,7 +473,10 @@
         "y08lin4",
         "elmaxid",
         "wowyuarm",
-        "huiliyi37"
+        "huiliyi37",
+        "kelsey-hightower",
+        "charity-majors",
+        "cindy-sridharan"
       ],
       "status": "ready",
       "adjacent": [
@@ -481,7 +484,7 @@
         "backend",
         "performance"
       ],
-      "note": "DSH/DeepSeek Harness 开发与运维专家团已蒸馏为 ready（官方作者 + 社区插件/运维作者，共 11 位）；均为公开人物风格/方法论参考，非本人原话。"
+      "note": "DSH/DeepSeek Harness 开发与运维专家团：官方作者+社区插件/运维作者共 11 位，并入通用 DevOps 运维视角 3 位（Kelsey Hightower / Charity Majors / Cindy Sridharan），共 14 位 ready；均为公开人物风格/方法论参考，非本人原话。"
     }
   ],
   "fallback_action": {
