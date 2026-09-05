@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- 新增 DSH / DeepSeek Harness 开发与运维专家团：`tianyi-cui`、`huba-king`、`noob-stupid`、`cloga`、`sirius-wj`、`ninipa`，并在 `domain-profiles.json` 注册 `dsh-ops` 领域（status=ready）。
+- 继续扩充 DSH 专家团：`leonardoxr`、`y08lin4`、`elmaxid`，`dsh-ops` 目前共 9 位 ready 专家。
+- 追加 DSH Agent 团队/完整 coding agent 作者：`wowyuarm`、`huiliyi37`，`dsh-ops` 目前共 11 位 ready 专家。
+
 ## 0.1.0 (2026-09-04)
 
 - 正式版五模块：dev / distill / teacher / research / writing。

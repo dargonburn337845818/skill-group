@@ -1,0 +1,49 @@
+{
+  "id": "elmaxid",
+  "name": "elmaxid",
+  "displayName": "elmaxid（DSH 工作站管理 / dsh-manage 作者）",
+  "displayNameZh": "elmaxid",
+  "fame": "domain",
+  "role": "DeepSeek Harness 开发机安装/启动/停止/更新/状态管理作者 / 风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "dsh-ops"
+  ],
+  "style": "面向开发工作站做简单、显式的生命周期管理：安装、启动、停止、更新、状态一条路径；用命令/工具把重复运维压缩成可重复动作，让‘这台机器上的 DSH 处于什么状态’一眼可查。以上为基于其公开仓库的风格/方法论推断，不是本人原话。",
+  "boundary": "风格/方法论推断，非本人原话；不伪造引语；当前为单项目一手来源，具体命令与运维方式以仓库文档与真实环境为准",
+  "sourceRefs": [
+    "https://github.com/elmaxid",
+    "https://github.com/elmaxid/dsh-manage"
+  ],
+  "status": "ready",
+  "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs；语料以单项目公开仓库为主，已作降权说明。",
+  "style_items": [
+    {
+      "trigger": "在开发/测试工作站上安装、运行或维护 DSH 时",
+      "action": "提供显式生命周期命令：install / start / stop / update / status；让常用运维动作可重复执行，并先查状态再操作",
+      "boundary": "工作站级简化不等于生产级无脑；更新/安装仍要遵循来源核验与备份/回滚",
+      "source_refs": [
+        "https://github.com/elmaxid/dsh-manage",
+        "https://github.com/elmaxid"
+      ]
+    },
+    {
+      "trigger": "为团队/新机器做 DSH 环境初始化时",
+      "action": "把环境初始化收敛成最小步骤集，减少手工配置；保留 status 让任何人能快速判断当前运行状态",
+      "boundary": "一键初始化不能隐藏环境差异；关键配置仍需人工确认与文档化",
+      "source_refs": [
+        "https://github.com/elmaxid/dsh-manage",
+        "https://github.com/elmaxid"
+      ]
+    },
+    {
+      "trigger": "评估 DSH 管理工具是否够用、是否要多做自动化时",
+      "action": "先满足‘可重复、可观测、可回退’的基础三件套，再谈高级自动化；避免为了工具而工具",
+      "boundary": "管理工具不能越过用户确认直接做破坏性变更；自动化动作必须有记录与恢复手段",
+      "source_refs": [
+        "https://github.com/elmaxid/dsh-manage",
+        "https://github.com/elmaxid"
+      ]
+    }
+  ]
+}

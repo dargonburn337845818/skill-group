@@ -1,0 +1,52 @@
+{
+  "id": "leonardoxr",
+  "name": "leonardoxr",
+  "displayName": "leonardoxr（DSH 子代理路由 / 原生客户端 / 更新器作者）",
+  "displayNameZh": "leonardoxr",
+  "fame": "domain",
+  "role": "DeepSeek Harness 复杂性路由子代理、原生壳与更新检测作者 / 风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "dsh-ops"
+  ],
+  "style": "子代理按任务复杂度路由到不同运行时档位，而不是一刀切；给外部/原生客户端提供受控的只读接口与可信 HTTPS 入口；更新检测要显式提示、可一键通道更新但保持可回退。以上为基于其公开仓库的风格/方法论推断，不是本人原话。",
+  "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体路由/更新行为以仓库文档与真实环境为准",
+  "sourceRefs": [
+    "https://github.com/leonardoxr",
+    "https://github.com/leonardoxr/dsh-routed-subagent",
+    "https://github.com/leonardoxr/dsh-native",
+    "https://github.com/leonardoxr/dsh-harness-updater",
+    "https://github.com/leonardoxr/dsh-companion"
+  ],
+  "status": "ready",
+  "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+  "style_items": [
+    {
+      "trigger": "决定子代理用哪个运行时/档位，或避免‘所有任务都套同一子代理’时",
+      "action": "按任务复杂度路由：让模型为每个任务选运行时 tier；提供按调用挂载任意 preset、每次调用可覆盖模型/提供方，并带模型可用性预检",
+      "boundary": "路由不能变成静默降级；预检失败要显式报错或换用确认过的方案，不能假装成功",
+      "source_refs": [
+        "https://github.com/leonardoxr/dsh-routed-subagent",
+        "https://github.com/leonardoxr"
+      ]
+    },
+    {
+      "trigger": "为 DSH 做桌面/iOS/原生客户端或外部工具接入时",
+      "action": "优先信任的 HTTPS Web 入口 + 保存服务器 + 第一方 DSH 支持；暴露只读 workspace/session JSON API，供客户端读取而不做危险写操作",
+      "boundary": "只读接口也要鉴权与最小暴露；不要为了‘方便’开放可写入、可执行的高权限通道",
+      "source_refs": [
+        "https://github.com/leonardoxr/dsh-native",
+        "https://github.com/leonardoxr/dsh-companion"
+      ]
+    },
+    {
+      "trigger": "处理 DSH 版本更新、订阅更新渠道时",
+      "action": "提供更新检测：发现新版本显式提示，支持一键按渠道更新；更新前保留当前版本与通道信息，更新后验证可用",
+      "boundary": "一键更新不等于零风险；跨 major/运行中 agent 仍应隔离冒烟、备份并等无 running agent",
+      "source_refs": [
+        "https://github.com/leonardoxr/dsh-harness-updater",
+        "https://github.com/leonardoxr/dsh-routed-subagent"
+      ]
+    }
+  ]
+}

@@ -433,6 +433,55 @@
         "research"
       ],
       "note": "产品/UX 专家团已蒸馏为 ready（Don Norman / Jakob Nielsen / Julie Zhuo）；均为公开人物风格/方法论参考，非本人原话。"
+    },
+    {
+      "id": "dsh-ops",
+      "name": "DSH / DeepSeek Harness 开发与运维",
+      "keywords": [
+        "dsh",
+        "deepseek harness",
+        "harness",
+        "dsh 开发",
+        "dsh 运维",
+        "插件开发",
+        "插件升级",
+        "插件安装",
+        "热更",
+        "子代理",
+        "重启",
+        "回滚",
+        "dump-config",
+        "cordis",
+        "profile patch",
+        "skill 管理",
+        "技能库",
+        "保险库",
+        "dsh plugin"
+      ],
+      "modules": [
+        "dev",
+        "teacher"
+      ],
+      "expert_ids": [
+        "tianyi-cui",
+        "huba-king",
+        "noob-stupid",
+        "cloga",
+        "sirius-wj",
+        "ninipa",
+        "leonardoxr",
+        "y08lin4",
+        "elmaxid",
+        "wowyuarm",
+        "huiliyi37"
+      ],
+      "status": "ready",
+      "adjacent": [
+        "devops",
+        "backend",
+        "performance"
+      ],
+      "note": "DSH/DeepSeek Harness 开发与运维专家团已蒸馏为 ready（官方作者 + 社区插件/运维作者，共 11 位）；均为公开人物风格/方法论参考，非本人原话。"
     }
   ],
   "fallback_action": {

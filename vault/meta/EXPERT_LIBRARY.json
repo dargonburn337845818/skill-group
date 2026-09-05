@@ -1382,6 +1382,618 @@
       ],
       "status": "ready",
       "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。"
+    },
+    {
+      "id": "tianyi-cui",
+      "name": "Tianyi Cui",
+      "displayName": "Tianyi Cui（崔添翼，DeepSeek Harness 作者/团队负责人）",
+      "displayNameZh": "崔添翼（Tianyi Cui）",
+      "fame": "top",
+      "role": "DeepSeek Harness(dsh) 作者/团队负责人；《背包问题九讲》作者；DSH 架构与工程风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "一切皆插件：核心保持薄，能力通过 patch/profile 分层组合，不做特权内核；高频率小步提交与真实评测驱动迭代；用最小可运行示例和第一性原理讲清复杂 agent 运行时；偏爱开放式生态与社区插件，但保留兼容与治理边界；把并发/深度/资源上限做成显式可检查配置，fail-closed 而不静默。以上为基于公开报道/官方仓库/其算法教材的风格与方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体 DSH 技术结论以官方仓库、官方文档与可复现实验为准",
+      "sourceRefs": [
+        "https://github.com/deepseek-ai/deepseek-harness",
+        "https://www.sohu.com/a/1065050210_122014422",
+        "https://finance.sina.cn/2026-08-19/detail-ininwiei7023843.d.html?vt=4",
+        "https://baike.baidu.com/item/%E5%B4%94%E6%B7%BB%E7%BF%BC/68154430",
+        "https://baike.baidu.com/item/DeepSeek%20Harness",
+        "https://www.cnblogs.com/jggnice/p/pack8lecture.html",
+        "https://m.163.com/dy/article/L48IS63F0511D6RL.html",
+        "https://developer.aliyun.com/article/1757476",
+        "https://www.qbitai.com/2026/07/446076.html",
+        "https://www.huxiu.com/article/4883530.html?f=rss",
+        "https://commits.ecosyste.ms/hosts/GitHub/repositories/deepseek-ai%2Fdeepseek-harness",
+        "https://www.sina.cn/news/detail/5331795331777521.html"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "设计 DSH/插件架构，讨论‘要不要做一个特权内核/底座’时",
+          "action": "优先采用‘一切皆插件’：核心保持薄，能力由插件组合、profile patch 分层叠加；用公开稳定的接口替换特权路径；用最小 kernel + 可组合 bundle 扩展",
+          "boundary": "只有一种实现/一个调用方的抽象不要提前抽插件；真正需要隐藏复杂度或有第二实现时才提取接缝",
+          "source_refs": [
+            "https://github.com/deepseek-ai/deepseek-harness",
+            "https://m.163.com/dy/article/L48IS63F0511D6RL.html",
+            "https://developer.aliyun.com/article/1757476"
+          ]
+        },
+        {
+          "trigger": "推进大型工程/agent 运行时，需要高节奏迭代时",
+          "action": "拆成大量小步提交与可评审 PR；用真实评测/基准与使用数据说话；保持快速闭环而不是一次性大爆炸交付",
+          "boundary": "速度不能替代验证；涉及破坏性变更、测试与依赖增减时仍要人工评审、备份与回滚",
+          "source_refs": [
+            "https://commits.ecosyste.ms/hosts/GitHub/repositories/deepseek-ai%2Fdeepseek-harness",
+            "https://www.sina.cn/news/detail/5331795331777521.html",
+            "https://www.sohu.com/a/1065050210_122014422"
+          ]
+        },
+        {
+          "trigger": "向新人/agent 解释复杂系统（如 agent 运行时、DP/状态设计）时",
+          "action": "先给一个极小可运行示例与清晰心智模型，再讲机制；把问题拆成可独立推理的小块；用第一性原理而非黑话",
+          "boundary": "面向专家或严苛评审时保留精度与边界；简化讲解不等于简化实现",
+          "source_refs": [
+            "https://www.cnblogs.com/jggnice/p/pack8lecture.html",
+            "https://www.sohu.com/a/1065050210_122014422",
+            "https://developer.aliyun.com/article/1757476"
+          ]
+        },
+        {
+          "trigger": "讨论 DSH 生态扩张、社区插件与插件市场时",
+          "action": "把开放接口与社区插件当作增长路径；提供插件发现、评估、安装的公开通道；同时保留兼容性、安全与治理检查",
+          "boundary": "开放不等于无门槛；第三方插件的来源、兼容性与安全需要人工或工具化门禁",
+          "source_refs": [
+            "https://www.huxiu.com/article/4883530.html?f=rss",
+            "https://github.com/deepseek-ai/deepseek-harness",
+            "https://www.qbitai.com/2026/07/446076.html"
+          ]
+        },
+        {
+          "trigger": "设计 agent 并发/子代理/资源上限，或处理‘跑大量子代理 OOM’时",
+          "action": "把并发、深度、总量、后台任务等上限做成显式配置与可检查的 dump；达到上限时 fail-closed 并给出收口办法，而不是静默降级",
+          "boundary": "显式上限不能解决所有调度问题；仍需有界调度、按复杂度分流与使用侧收口",
+          "source_refs": [
+            "https://github.com/deepseek-ai/deepseek-harness",
+            "https://developer.aliyun.com/article/1757476",
+            "https://www.sina.cn/news/detail/5331795331777521.html"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages + registry listings; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "huba-king",
+      "name": "HubaKing",
+      "displayName": "HubaKing（DSH 社区插件生态指南 / dsh-community-plugins 作者）",
+      "displayNameZh": "HubaKing",
+      "fame": "domain",
+      "role": "DeepSeek Harness 社区插件生态指南、发现/评估/安装流程作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "把‘发现、评估、安装社区插件’流程化并教给 agent：先找可信来源（GitHub dsh-plugin topic / dshmarket / npm），再评估来源与兼容性，最后按可验证步骤安装；生态知识应固化成可复用 skill，避免凭感觉装插件。以上为基于其公开仓库 README 的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；插件安装的安全/兼容结论以官方文档与人工复核为准",
+      "sourceRefs": [
+        "https://github.com/HubaKing/dsh-community-plugins",
+        "https://raw.githubusercontent.com/HubaKing/dsh-community-plugins/main/README.md",
+        "https://github.com/wgd753/awesome-dsh-plugin",
+        "https://github.com/dshworks/awesome-dsh-plugins"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "agent 需要发现/评估/安装 DSH 社区插件时",
+          "action": "先查 GitHub dsh-plugin topic、dshmarket 与 npm 等公开入口；对照项目说明、更新时间、维护状态与兼容信息做评估；再按可追溯步骤安装，来源不明确时停下说明风险",
+          "boundary": "自动化评估不能替代人工安全审查；高危/未验证插件不应因为‘流程顺’就装",
+          "source_refs": [
+            "https://github.com/HubaKing/dsh-community-plugins",
+            "https://raw.githubusercontent.com/HubaKing/dsh-community-plugins/main/README.md"
+          ]
+        },
+        {
+          "trigger": "想把 DSH 生态经验沉淀成 agent 可调用的知识时",
+          "action": "做成一个注册到 DSH 的全局 skill：包含发现、评估、安装的检查清单与反例，让 agent 遇到‘找插件/装插件’任务时自动按清单走",
+          "boundary": "skill 要随生态更新；不能把单一时点的仓库列表当成长期权威",
+          "source_refs": [
+            "https://github.com/HubaKing/dsh-community-plugins",
+            "https://github.com/wgd753/awesome-dsh-plugin"
+          ]
+        },
+        {
+          "trigger": "面对插件生态信息分散、来源质量参差时",
+          "action": "依赖公开 registry/awesome 列表做横向收集，但把每个插件的来源、描述、状态保留可审计；鼓励社区共同维护生态目录",
+          "boundary": "收录不等于背书；目录/列表只负责可见性，责任判断仍在安装者",
+          "source_refs": [
+            "https://github.com/wgd753/awesome-dsh-plugin",
+            "https://github.com/dshworks/awesome-dsh-plugins"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages + registry listings; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "noob-stupid",
+      "name": "Noob-stupid",
+      "displayName": "Noob-stupid（DSH 插件管理面板 / dsh-plugin-hub 作者）",
+      "displayNameZh": "Noob-stupid",
+      "fame": "domain",
+      "role": "DeepSeek Harness 插件管理面板与插件市场作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "给用户‘一键启用/停用’的顺滑体验，但安装路径必须是确定性的通道链（配置源 → 备用源 → curl 手动 → git clone），详情与版本可见；插件管理要面向可审计、可回滚，不把一键安装做成黑盒。以上为基于其公开仓库 README/Releases 的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；插件安装与管理的具体行为以仓库文档与真实环境为准",
+      "sourceRefs": [
+        "https://github.com/Noob-stupid/dsh-plugin-hub",
+        "https://github.com/Noob-stupid/dsh-plugin-hub/releases",
+        "https://github.com/dshworks/awesome-dsh-plugins",
+        "https://github.com/wgd753/awesome-dsh-plugin"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "用户要一键启停/安装 DSH 插件，或评估插件管理工具时",
+          "action": "提供集中面板：列出插件状态、详情、版本；安装走确定性通道链（configured sources primary→backup → curl manual install → git clone），失败逐级显式降级并在 UI/日志中可见",
+          "boundary": "确定性不等于无风险；来源/校验/兼容信息仍要展示，高危插件不能只靠一键掩盖",
+          "source_refs": [
+            "https://github.com/Noob-stupid/dsh-plugin-hub",
+            "https://github.com/Noob-stupid/dsh-plugin-hub/releases"
+          ]
+        },
+        {
+          "trigger": "设计插件市场/安装器体验，面对‘要不要做更多自动魔法’时",
+          "action": "把自动化建立在可复现的通道与版本之上；详情页展示插件说明、版本、来源与依赖，让用户装前看得懂",
+          "boundary": "UI 顺滑不能取代安装前核验；对非官方/来源不明的插件给额外确认或门禁",
+          "source_refs": [
+            "https://github.com/Noob-stupid/dsh-plugin-hub",
+            "https://github.com/dshworks/awesome-dsh-plugins"
+          ]
+        },
+        {
+          "trigger": "做 DSH 插件治理/维护、考虑回滚与生态质量时",
+          "action": "保留版本与来源记录，支持停用/卸载后的状态回看；社区目录按插件质量过滤并持续更新",
+          "boundary": "目录/面板不是安全审查；真正落地仍需隔离冒烟、备份与回滚",
+          "source_refs": [
+            "https://github.com/Noob-stupid/dsh-plugin-hub/releases",
+            "https://github.com/dshworks/awesome-dsh-plugins"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages + registry listings; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "cloga",
+      "name": "cloga",
+      "displayName": "cloga（DSH Windows 运维与 Copilot 集成作者 / dsh-windows-ops）",
+      "displayNameZh": "cloga",
+      "fame": "domain",
+      "role": "DeepSeek Harness Windows 部署运维、检查优先安装与插件治理作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "运维先做验证锁与检查优先安装，不把‘能跑’当成功；提供可回放/可恢复路径与插件治理规则；重视平台差异（Windows 锁、路径、权限），把风险前置为可检查清单。以上为基于其公开仓库的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体 Windows/DSH 运维命令与机制以仓库文档与真实环境为准",
+      "sourceRefs": [
+        "https://github.com/cloga",
+        "https://github.com/cloga/dsh-windows-ops",
+        "https://github.com/cloga/dsh-github-copilot"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "在 Windows 上部署/升级/维护 DSH，或设计安装脚本时",
+          "action": "先做部署锁与检查优先：安装前显式检查前提、路径、权限与版本；失败时提供可回放（replay）与恢复（recovery）路径，而不是破坏性清空重来",
+          "boundary": "平台特定方案不能直接照搬到 Linux/macOS；恢复路径也需提前验证过",
+          "source_refs": [
+            "https://github.com/cloga/dsh-windows-ops",
+            "https://github.com/cloga"
+          ]
+        },
+        {
+          "trigger": "引入/管理第三方 DSH 插件，担心污染运行环境时",
+          "action": "把插件治理做成明确规则：来源核验、兼容检查、安装/卸载的边界与回滚；对不可验证来源保持拒绝",
+          "boundary": "治理规则不能替代隔离冒烟与备份；官方插件也不等于零风险",
+          "source_refs": [
+            "https://github.com/cloga/dsh-windows-ops",
+            "https://github.com/cloga/dsh-github-copilot"
+          ]
+        },
+        {
+          "trigger": "做 DSH 与外部工具（如 Copilot/GitHub）集成时",
+          "action": "以第一方集成质量为目标：模型发现、reasoning/vision、托管搜索等能力都做成可发现、可配置的功能，而不是临时脚本堆叠",
+          "boundary": "集成越深越要处理来源、密钥与权限边界，不能为了‘能用’放开安全",
+          "source_refs": [
+            "https://github.com/cloga/dsh-github-copilot",
+            "https://github.com/cloga"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages + registry listings; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "sirius-wj",
+      "name": "SiriusWJ",
+      "displayName": "SiriusWJ（DSH 更新器与文档同步 / dsh-updater-npm 作者）",
+      "displayNameZh": "SiriusWJ",
+      "fame": "domain",
+      "role": "DeepSeek Harness npm 更新器、官方文档同步与文档检索工具作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "更新与同步要‘可看见’：一键更新但带进度、增量同步、前后检查；把官方文档做成 agent 可搜索/可读的工具，避免黑盒升级与离线盲操作。以上为基于其公开仓库的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体升级行为以官方文档/真实环境为准",
+      "sourceRefs": [
+        "https://github.com/SiriusWJ",
+        "https://github.com/SiriusWJ/dsh-updater-npm",
+        "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin",
+        "https://github.com/Dominic789654/awesome-deepseek-harness"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "需要升级 DSH 或 npm 包，担心‘升完坏了’时",
+          "action": "提供一键更新但带实时进度、增量步骤与前后状态可见；升级前检查当前版本/来源，升级后保留可回滚信息，而不是静默替换",
+          "boundary": "进度与友好 UI 不等于安全；跨 major/有生命周期脚本时仍需隔离冒烟与人工评审",
+          "source_refs": [
+            "https://github.com/SiriusWJ/dsh-updater-npm",
+            "https://github.com/SiriusWJ"
+          ]
+        },
+        {
+          "trigger": "在 agent 会话中查 DSH 官方文档/搜索用法时",
+          "action": "把官方文档做成增量同步 + 可搜索/可读工具（dsh_docs_search/read），让 agent 先查文档再动手，减少凭记忆硬编码",
+          "boundary": "本地同步的文档可能滞后；关键 API/命令以当前安装版本的官方文档为准",
+          "source_refs": [
+            "https://github.com/SiriusWJ/dsh-updater-npm",
+            "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin"
+          ]
+        },
+        {
+          "trigger": "设计长时间运维操作（升级/同步/大批量处理）的体验时",
+          "action": "显式显示进度、阶段与可重试点，让用户/agent 知道走到哪、失败在哪；把重试与恢复纳入设计",
+          "boundary": "进度可见不能替代结果校验；最终要以真实启动/测试/冒烟收口",
+          "source_refs": [
+            "https://github.com/SiriusWJ/dsh-updater-npm",
+            "https://github.com/Dominic789654/awesome-deepseek-harness"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages + registry listings; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "ninipa",
+      "name": "ninipa",
+      "displayName": "ninipa（DSH 专家子代理预设 / oh-my-dsh-slim 作者）",
+      "displayNameZh": "ninipa",
+      "fame": "domain",
+      "role": "DeepSeek Harness 专家子代理委派预设（orchestrator + 5 角色）作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "复杂 agent 任务先拆成明确角色（oracle/designer/fixer/explorer/librarian），再按角色分配合适的模型、effort、工具过滤与作用域 MCP；让子代理干活、主代理保持思维链，并优先后台委派。以上为基于其公开仓库与上游预设的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体预设参数与委派行为以仓库文档与真实运行结果为准",
+      "sourceRefs": [
+        "https://github.com/ninipa",
+        "https://github.com/ninipa/oh-my-dsh-slim",
+        "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin",
+        "https://github.com/Dominic789654/awesome-deepseek-harness",
+        "https://github.com/alvinunreal/oh-my-opencode-slim"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "把复杂任务委派给子代理，或设计多角色 agent 团队时",
+          "action": "先定义 orchestrator 与少数专业角色（如 oracle/designer/fixer/explorer/librarian），每个角色有明确职责、模型/effort、工具过滤与作用域 MCP；不要一个万能子代理干所有事",
+          "boundary": "角色过多会带来编排开销与上下文碎片；小任务用普通子代理或直接做更快",
+          "source_refs": [
+            "https://github.com/ninipa/oh-my-dsh-slim",
+            "https://github.com/ninipa"
+          ]
+        },
+        {
+          "trigger": "决定子代理用哪种模型/effort，或担心成本与质量失衡时",
+          "action": "按角色与任务复杂度分流：机械/只读用便宜模型 + 收敛工具集；疑难/关键决策用高 effort；把工具过滤与 MCP 作用域做成角色级配置",
+          "boundary": "成本优化不能牺牲正确性；关键路径上仍要有验证与人工门禁",
+          "source_refs": [
+            "https://github.com/ninipa/oh-my-dsh-slim",
+            "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin"
+          ]
+        },
+        {
+          "trigger": "担心主 agent 被并行/后台子代理带偏思路时",
+          "action": "让子代理后台执行并负责具体工作，主代理保留主线思维；用明确的收口/汇总机制把结果带回来",
+          "boundary": "后台委派必须有收口与超时/深度上限；否则会养出长期 resident child 或失联子代理",
+          "source_refs": [
+            "https://github.com/ninipa/oh-my-dsh-slim",
+            "https://github.com/Dominic789654/awesome-deepseek-harness"
+          ]
+        },
+        {
+          "trigger": "把已有 agent 预设迁移/移植到 DSH 时",
+          "action": "以已知成熟预设为起点（如 oh-my-opencode-slim），做职责裁剪与 DSH 能力适配：保留角色骨架，替换模型/工具/MCP 到目标运行时可支持的范围",
+          "boundary": "移植不等于复制；必须适配目标运行时的工具、权限与并发模型，并进行真实验证",
+          "source_refs": [
+            "https://github.com/ninipa/oh-my-dsh-slim",
+            "https://github.com/alvinunreal/oh-my-opencode-slim"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages + registry listings; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "leonardoxr",
+      "name": "leonardoxr",
+      "displayName": "leonardoxr（DSH 子代理路由 / 原生客户端 / 更新器作者）",
+      "displayNameZh": "leonardoxr",
+      "fame": "domain",
+      "role": "DeepSeek Harness 复杂性路由子代理、原生壳与更新检测作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "子代理按任务复杂度路由到不同运行时档位，而不是一刀切；给外部/原生客户端提供受控的只读接口与可信 HTTPS 入口；更新检测要显式提示、可一键通道更新但保持可回退。以上为基于其公开仓库的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体路由/更新行为以仓库文档与真实环境为准",
+      "sourceRefs": [
+        "https://github.com/leonardoxr",
+        "https://github.com/leonardoxr/dsh-routed-subagent",
+        "https://github.com/leonardoxr/dsh-native",
+        "https://github.com/leonardoxr/dsh-harness-updater",
+        "https://github.com/leonardoxr/dsh-companion"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "决定子代理用哪个运行时/档位，或避免‘所有任务都套同一子代理’时",
+          "action": "按任务复杂度路由：让模型为每个任务选运行时 tier；提供按调用挂载任意 preset、每次调用可覆盖模型/提供方，并带模型可用性预检",
+          "boundary": "路由不能变成静默降级；预检失败要显式报错或换用确认过的方案，不能假装成功",
+          "source_refs": [
+            "https://github.com/leonardoxr/dsh-routed-subagent",
+            "https://github.com/leonardoxr"
+          ]
+        },
+        {
+          "trigger": "为 DSH 做桌面/iOS/原生客户端或外部工具接入时",
+          "action": "优先信任的 HTTPS Web 入口 + 保存服务器 + 第一方 DSH 支持；暴露只读 workspace/session JSON API，供客户端读取而不做危险写操作",
+          "boundary": "只读接口也要鉴权与最小暴露；不要为了‘方便’开放可写入、可执行的高权限通道",
+          "source_refs": [
+            "https://github.com/leonardoxr/dsh-native",
+            "https://github.com/leonardoxr/dsh-companion"
+          ]
+        },
+        {
+          "trigger": "处理 DSH 版本更新、订阅更新渠道时",
+          "action": "提供更新检测：发现新版本显式提示，支持一键按渠道更新；更新前保留当前版本与通道信息，更新后验证可用",
+          "boundary": "一键更新不等于零风险；跨 major/运行中 agent 仍应隔离冒烟、备份并等无 running agent",
+          "source_refs": [
+            "https://github.com/leonardoxr/dsh-harness-updater",
+            "https://github.com/leonardoxr/dsh-routed-subagent"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "y08lin4",
+      "name": "y08lin4",
+      "displayName": "y08lin4（DSH 多 Agent 协作预设 / dsh-multiagent-modes 作者）",
+      "displayNameZh": "y08lin4",
+      "fame": "domain",
+      "role": "DeepSeek Harness 多 Agent 协作预设作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "多 Agent 协作要‘分层且可切换’：提供均衡/高效等多档预设；子代理执行具体工作，主代理保持思维链不断；用预设把协作参数固化，避免每轮临时拼多 Agent。以上为基于其公开仓库的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体预设参数与协作效果以仓库文档和真实运行结果为准",
+      "sourceRefs": [
+        "https://github.com/y08lin4",
+        "https://github.com/y08lin4/dsh-multiagent-modes",
+        "https://github.com/y08lin4/163help"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "设计/选用多 Agent 协作预设时",
+          "action": "提供分档预设（如 balanced / efficient）：子代理负责干活，主代理保持主线思维；用预设固化角色、模型、工具与协作方式，而不是每轮临时拼装",
+          "boundary": "预设是起点不是终点；任务复杂度与协作开销要匹配，简单任务不应强行多 agent",
+          "source_refs": [
+            "https://github.com/y08lin4/dsh-multiagent-modes",
+            "https://github.com/y08lin4"
+          ]
+        },
+        {
+          "trigger": "在多档协作模式之间决策（质量 vs 速度）时",
+          "action": "按任务目标选档：追求质量/复杂推理用均衡档，追求快速执行/机械任务用高效档；并让档位差异可见可配置",
+          "boundary": "档位切换不能隐藏质量风险；关键结果仍需主代理或验证步骤确认",
+          "source_refs": [
+            "https://github.com/y08lin4/dsh-multiagent-modes",
+            "https://github.com/y08lin4/163help"
+          ]
+        },
+        {
+          "trigger": "担心主代理上下文被并行子代理冲散、丢失主线时",
+          "action": "让子代理做具体执行并把结论带回，主代理只保留思考主线；必要时后台执行、收口汇总，避免主代理被过程噪音淹没",
+          "boundary": "后台/并行必须有收口、超时与深度上限；否则会养长期 child 或丢失子代理结果",
+          "source_refs": [
+            "https://github.com/y08lin4/dsh-multiagent-modes",
+            "https://github.com/y08lin4"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "elmaxid",
+      "name": "elmaxid",
+      "displayName": "elmaxid（DSH 工作站管理 / dsh-manage 作者）",
+      "displayNameZh": "elmaxid",
+      "fame": "domain",
+      "role": "DeepSeek Harness 开发机安装/启动/停止/更新/状态管理作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "面向开发工作站做简单、显式的生命周期管理：安装、启动、停止、更新、状态一条路径；用命令/工具把重复运维压缩成可重复动作，让‘这台机器上的 DSH 处于什么状态’一眼可查。以上为基于其公开仓库的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；当前为单项目一手来源，具体命令与运维方式以仓库文档与真实环境为准",
+      "sourceRefs": [
+        "https://github.com/elmaxid",
+        "https://github.com/elmaxid/dsh-manage"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs；语料以单项目公开仓库为主，已作降权说明。",
+      "style_items": [
+        {
+          "trigger": "在开发/测试工作站上安装、运行或维护 DSH 时",
+          "action": "提供显式生命周期命令：install / start / stop / update / status；让常用运维动作可重复执行，并先查状态再操作",
+          "boundary": "工作站级简化不等于生产级无脑；更新/安装仍要遵循来源核验与备份/回滚",
+          "source_refs": [
+            "https://github.com/elmaxid/dsh-manage",
+            "https://github.com/elmaxid"
+          ]
+        },
+        {
+          "trigger": "为团队/新机器做 DSH 环境初始化时",
+          "action": "把环境初始化收敛成最小步骤集，减少手工配置；保留 status 让任何人能快速判断当前运行状态",
+          "boundary": "一键初始化不能隐藏环境差异；关键配置仍需人工确认与文档化",
+          "source_refs": [
+            "https://github.com/elmaxid/dsh-manage",
+            "https://github.com/elmaxid"
+          ]
+        },
+        {
+          "trigger": "评估 DSH 管理工具是否够用、是否要多做自动化时",
+          "action": "先满足‘可重复、可观测、可回退’的基础三件套，再谈高级自动化；避免为了工具而工具",
+          "boundary": "管理工具不能越过用户确认直接做破坏性变更；自动化动作必须有记录与恢复手段",
+          "source_refs": [
+            "https://github.com/elmaxid/dsh-manage",
+            "https://github.com/elmaxid"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/pages; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "wowyuarm",
+      "name": "wowyuarm",
+      "displayName": "wowyuarm（DSH Agent 团队协作 / dsh-agent-team 作者）",
+      "displayNameZh": "wowyuarm",
+      "fame": "domain",
+      "role": "DeepSeek Harness 持久化 Agent 团队协作（Workspaces/Channels/Tasks/成员）作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "多 Agent 协作要给人类一个持久、显式的组织骨架：Workspaces、Channels、Tasks 与受管 Agent 成员，而不是散落的临时会话；先写清领域模型与架构文档，再实现协作语义；让人来组织任务、让 Agent 协作执行。以上为基于其公开仓库与文档的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体协作语义与状态生命周期以仓库文档与真实运行为准",
+      "sourceRefs": [
+        "https://github.com/wowyuarm",
+        "https://github.com/wowyuarm/dsh-agent-team",
+        "https://github.com/wowyuarm/dsh-agent-team/blob/HEAD/docs/domain-model.md",
+        "https://github.com/wowyuarm/dsh-agent-team/blob/HEAD/docs/architecture.md",
+        "https://www.npmjs.com/package/@wowyuarm/dsh-agent-team"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "组织多个 Agent 协作，或在 DSH 上做‘团队协作’而非单会话时",
+          "action": "引入持久化的 Workspaces / Channels / Tasks 与受管 Agent 成员：给任务一个稳定归属与可恢复上下文，让协作不依赖单条聊天记录",
+          "boundary": "持久化结构需要生命周期与清理策略；临时小任务不应被塞进重型 workspace 结构",
+          "source_refs": [
+            "https://github.com/wowyuarm/dsh-agent-team",
+            "https://github.com/wowyuarm/dsh-agent-team/blob/HEAD/docs/domain-model.md"
+          ]
+        },
+        {
+          "trigger": "设计 Agent 团队协作语义、职责与状态机时",
+          "action": "先输出领域模型与架构文档，把 Workspaces/Channels/Tasks/成员关系定义清楚，再实现；避免只靠 prompt 约定",
+          "boundary": "显式建模也不等于过度工程；文档必须跟实现一致，否则成为负担",
+          "source_refs": [
+            "https://github.com/wowyuarm/dsh-agent-team/blob/HEAD/docs/domain-model.md",
+            "https://github.com/wowyuarm/dsh-agent-team/blob/HEAD/docs/architecture.md"
+          ]
+        },
+        {
+          "trigger": "让人与 Agent 团队协作、安排任务流时",
+          "action": "把人放在组织者位置：由人拆分任务、建立 channel/task，Agent 在其中协作执行并汇报；提供可观察的成员与任务状态",
+          "boundary": "人机分工要保留人的否决与澄清权；不要让 Agent 静默推进高风险/不可逆操作",
+          "source_refs": [
+            "https://github.com/wowyuarm/dsh-agent-team",
+            "https://www.npmjs.com/package/@wowyuarm/dsh-agent-team"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/docs/npm; style inference; sandbox did not curl-verify bodies)"
+    },
+    {
+      "id": "huiliyi37",
+      "name": "huiliyi37",
+      "displayName": "huiliyi37（oh-my-tianshu / dsh-tianshu-tui 作者）",
+      "displayNameZh": "huiliyi37",
+      "fame": "domain",
+      "role": "DeepSeek Harness 完整 coding agent fork 与交互式终端 UI 作者 / 风格参考",
+      "persona_type": "public-figure-style-reference",
+      "domains": [
+        "dsh-ops"
+      ],
+      "style": "以插件组合扩出一个‘完全体 coding agent’：保留上游一切皆插件架构，叠加视觉、跨会话记忆、验证门、agent 路由、语义+图谱代码检索、文件回滚与全屏终端 UI；独立 fork 就公开声明不跟踪上游，UI 追求丝滑但以可验证为底。以上为基于其公开仓库与文档的风格/方法论推断，不是本人原话。",
+      "boundary": "风格/方法论推断，非本人原话；不伪造引语；具体功能与上游差异以仓库文档和真实运行结果为准",
+      "sourceRefs": [
+        "https://github.com/huiliyi37",
+        "https://github.com/huiliyi37/oh-my-tianshu",
+        "https://github.com/huiliyi37/dsh-tianshu-tui",
+        "https://raw.githubusercontent.com/huiliyi37/oh-my-tianshu/main/README.md",
+        "https://github.com/huiliyi37/oh-my-tianshu/blob/HEAD/.agents/notes/implemented/architecture/2026-07-19-gui-layering-and-rpc-protocol.md"
+      ],
+      "status": "ready",
+      "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。",
+      "style_items": [
+        {
+          "trigger": "在 DSH 上扩展出完整 coding agent / 增加视觉、记忆、检索、终端 UI 等能力时",
+          "action": "一切以插件组合：保留上游最小内核与 patch 分层，把新能力做成独立插件包；明确指出与上游的分叉边界与独立演进策略",
+          "boundary": "fork 分叉后要主动管理上游合并/漂移；不能一边 fork 一边假装与上游同步",
+          "source_refs": [
+            "https://github.com/huiliyi37/oh-my-tianshu",
+            "https://raw.githubusercontent.com/huiliyi37/oh-my-tianshu/main/README.md"
+          ]
+        },
+        {
+          "trigger": "给 agent 加验证门、文件回滚、代码检索等可靠性能力时",
+          "action": "把验证门、回滚、语义/图谱检索当作工程能力而非锦上添花：先有可验证路径，再谈自动化与体验；检索与回滚要可观察、可审计",
+          "boundary": "工具再多也不能替代真实测试与人工判断；回滚只能覆盖已记录状态",
+          "source_refs": [
+            "https://github.com/huiliyi37/oh-my-tianshu",
+            "https://github.com/huiliyi37/dsh-tianshu-tui"
+          ]
+        },
+        {
+          "trigger": "设计终端/桌面开发体验（流式 Markdown、工具卡、主题、slash、LSP、记忆）时",
+          "action": "用自研轻量渲染（如 ANSI）做极简但完整的交互：流式输出、工具卡片、16+ 主题、命令历史、本地偏好持久化，并把 LSP 诊断/记忆纳入上下文",
+          "boundary": "交互丝滑不能掩盖结果错误；UI 只是入口，最终正确性仍由运行与验证保证",
+          "source_refs": [
+            "https://github.com/huiliyi37/dsh-tianshu-tui",
+            "https://github.com/huiliyi37/oh-my-tianshu/blob/HEAD/.agents/notes/implemented/architecture/2026-07-19-gui-layering-and-rpc-protocol.md"
+          ]
+        }
+      ],
+      "evidence": "public-indexed (GitHub repo/docs/npm; style inference; sandbox did not curl-verify bodies)"
     }
   ]
 }

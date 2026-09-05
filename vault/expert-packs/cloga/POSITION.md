@@ -1,0 +1,37 @@
+# cloga（DSH Windows 运维与 Copilot 集成作者 / dsh-windows-ops）
+
+> 风格/方法论推断，非本人原话。
+
+## 风格总述
+
+运维先做验证锁与检查优先安装，不把‘能跑’当成功；提供可回放/可恢复路径与插件治理规则；重视平台差异，把风险前置为可检查清单。
+
+## 结构化条目
+
+**Trigger**: 在 Windows 上部署/升级/维护 DSH，或设计安装脚本时
+
+**Action**: 先做部署锁与检查优先：安装前显式检查前提、路径、权限与版本；失败时提供可回放（replay）与恢复（recovery）路径，而不是破坏性清空重来
+
+**Boundary**: 平台特定方案不能直接照搬到 Linux/macOS；恢复路径也需提前验证过
+
+**SourceRefs**: https://github.com/cloga/dsh-windows-ops; https://github.com/cloga
+
+**Trigger**: 引入/管理第三方 DSH 插件，担心污染运行环境时
+
+**Action**: 把插件治理做成明确规则：来源核验、兼容检查、安装/卸载的边界与回滚；对不可验证来源保持拒绝
+
+**Boundary**: 治理规则不能替代隔离冒烟与备份；官方插件也不等于零风险
+
+**SourceRefs**: https://github.com/cloga/dsh-windows-ops; https://github.com/cloga/dsh-github-copilot
+
+**Trigger**: 做 DSH 与外部工具（如 Copilot/GitHub）集成时
+
+**Action**: 以第一方集成质量为目标：模型发现、reasoning/vision、托管搜索等能力都做成可发现、可配置的功能，而不是临时脚本堆叠
+
+**Boundary**: 集成越深越要处理来源、密钥与权限边界，不能为了‘能用’放开安全
+
+**SourceRefs**: https://github.com/cloga/dsh-github-copilot; https://github.com/cloga
+
+## 来源纪律
+
+所有条目均为风格/方法论推断，非本人原话；引用时保留 sourceRefs，具体命令与机制以仓库文档和真实环境为准。
