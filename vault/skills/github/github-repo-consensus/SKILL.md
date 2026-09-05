@@ -5,7 +5,7 @@ whenToUse: 新建或改造 GitHub 开源仓库、写 README、清理 secrets、�
 ---
 # GitHub 开源仓库共识 · 可调用摘要
 
-> 完整版见本目录 `CONSENSUS.md`；来源见 `SOURCES.md`。
+> 完整版见本目录 `CONSENSUS.md`；来源见 `SOURCES.md`；施工执行标准见 `REPO_STANDARD.md`。
 > 核心：**先让访客 3 秒看懂“这是什么”，再用结构/安全/Actions 降低维护成本，最后才谈自动化。**
 
 ## 触发条件

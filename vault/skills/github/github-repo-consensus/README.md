@@ -1,7 +1,7 @@
 # GitHub 开源仓库共识
 
 > 从 GitHub 官方文档与社区“仓库标准”实践蒸馏出的可执行共识。
-> 给 agent 用的缩写版：`SKILL.md`；完整版：`CONSENSUS.md`；来源：`SOURCES.md`。
+> 给 agent 用的缩写版：`SKILL.md`；完整版：`CONSENSUS.md`；来源：`SOURCES.md`；施工执行版：`REPO_STANDARD.md`。
 
 ## 解决什么
 
@@ -20,6 +20,7 @@ D Actions：workflow 存放与触发、secret 处理、GITHUB_TOKEN 最小权限
 |---|---|
 | `SKILL.md` | Agent 可调用摘要：触发、四张快速检查表、反模式、简单用户话术 |
 | `CONSENSUS.md` | 完整版：每条规则含触发/动作/边界/来源，含开源前 10 项清单与 3 个样例 |
+| `REPO_STANDARD.md` | 仓库施工执行标准：去 AI 味、README 模板、社区文件清单、施工流程 |
 | `SOURCES.md` | 官方与社区来源清单，可审计 |
 | `manifest.json` | dsh-skill-vault 元数据 |
 
