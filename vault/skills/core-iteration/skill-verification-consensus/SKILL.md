@@ -68,10 +68,10 @@ whenToUse: 发布/更新 Skill 前需要检验、用户要求“校验/质检/�
 
 ```bash
 # 1) 检查一个/一批 Skill 包的结构、manifest、三件套与来源纪律
-python3 tools/skill_package_check.py <skill-dir> [more-dirs...]
+python3 "\$CORE_ITERATION_ROOT/tools/skill_package_check.py" <skill-dir> [more-dirs...]
 
 # 2) 为 Skill 先建评测任务（prompt + deterministic checks + anti-trigger）
-python3 tools/scaffold_eval_task.py --task-id my-task --skill-name my-skill \
+python3 "\$CORE_ITERATION_ROOT/tools/scaffold_eval_task.py" --task-id my-task --skill-name my-skill \
   --prompt "真实任务描述" --checks "contains:SUCCESS_MARKER,files:out.txt"
 ```
 
@@ -82,10 +82,10 @@ python3 tools/scaffold_eval_task.py --task-id my-task --skill-name my-skill \
 
 ```bash
 # 单任务 A/B
-python3 tools/skilljack_runner.py --task-dir evals/<task> --mode both --runs 3 --output ab.json
+python3 "\$CORE_ITERATION_ROOT/tools/skilljack_runner.py" --task-dir evals/<task> --mode both --runs 3 --output ab.json
 
 # 多任务矩阵 + 门禁
-python3 tools/benchflow_runner.py --config benchflow.config.yaml
+python3 "\$CORE_ITERATION_ROOT/tools/benchflow_runner.py" --config benchflow.config.yaml
 ```
 
 ## 干跑验证（对接 core-iteration 收口）
@@ -119,6 +119,95 @@ python3 tools/benchflow_runner.py --config benchflow.config.yaml
 > 我不会只给你一句“验证过了”。我会把结论拆成具体主张，给每条配上它唯一可接受的证据，并且做一次“故意破坏看它会不会红”的检查；只有见过它失败又能恢复的检查，我才承认它被验证过。
 >
 > 如果哪条你觉得不对劲，请说“我感觉不对劲”，我会重新核验而不是硬套模板。
+
+## 2026 深度补强（Round 37）
+
+> 本轮的硬增量：把“验证过”再分级为可观测阶梯，给每个检查定义“怎么把它弄红”，并把 Skill TDD、agent 轨迹与红队都落成可审计证据。新增来源见 `SOURCES.md`「Round 37 新增来源」。
+
+### R37-1 验证阶梯：claim 必须带 level
+
+在输出契约里，每条 claim 除 `class` 外增加 `level`：
+
+| level | 含义 | 能否写 verified |
+|---|---|---|
+| L0 ran | 只运行过，无 oracle | 否 |
+| L1 asserted | 有确定性断言，但从未见过它失败 | 否 |
+| L2 mutation-observed | 做过“故意破坏→变红→恢复→变绿” | 是（默认门槛） |
+| L3 reproduced | 换环境/换执行者/换 seed 复现成功 | 是（runtime/data 硬门槛） |
+| L4 adversarial-pass | 独立红队按风险类目攻击未破 | 是（安全/越权/隐私/边界硬门槛） |
+
+- 报告里 `level` 缺省即 L0；只有 L2 及以上可写 `verified`。
+- `runtime`/`data` 类 claim 至少 L3；`安全、隐私、权限、注入、逃逸` 类至少 L4。
+- 来源：Inspect `match/exact/pattern` 确定性 scorer、Stryker mutation testing、SWE-bench 的 `FAIL_TO_PASS/PASS_TO_PASS` 型执行验证。
+
+### R37-2 oracle 优先级：可执行 > 人工 > 模型打分
+
+写断言前先问“这个结论能不能用脚本判”？三类 oracle 按优先级降序：
+
+1. **executable**：脚本/单元测试/容器内运行/JSON schema/regex/exit code（promptfoo deterministic、Inspect text-match、SWE-bench 容器内跑测试）。
+2. **human**：两名独立人工按同一判据盲判；判据要提前写死。
+3. **model**：LLM-as-judge / G-Eval 等概率分（DeepEval、promptfoo model-graded）。
+
+规则：凡能写成 executable oracle 的断言，禁止把 model grader 当门禁；model grader 只能做诊断、找遗漏、排序。报告里每个断言注明 oracle 层级，出现“用 LLM judge 当唯一门禁”即降级为诊断，不算已验证。
+
+### R37-3 Skill TDD：先留红起点，再写 skill
+
+- 写 Skill 前先 `scaffold_eval_task.py` 建好 eval；用“无 skill”跑一次，把原始输出、失败原因保存为 `baseline_failure`。
+- 若 baseline 已通过：任务太简单，或预期答案已泄漏在 prompt/skill 里；先修 eval 再进入实现。
+- 实现后重跑同一批任务，输出必须是同任务 `baseline → with_skill` 对比，不能只报最终通过率。
+- 红起点材料与 eval 同目录落盘，作为可审计证据；这对应 TDD 的 Red-Green-Refactor：红是起点，绿是终点，Refactor 后必须重跑绿。
+- 来源：Martin Fowler《Test Driven Development》（test-first、先列测试清单）、skilljack-evals（baseline + lift）。
+
+### R37-4 评测集三元组 + 调优/报告分离
+
+每套 eval 至少三类任务，缺一不可：
+
+- **target**：目标能力任务；gold/预期答案必须独立于 prompt 生成，不能从 prompt 里复制。
+- **distractor / anti-trigger**：无关任务，验证不误触发、不产生伪阳性。
+- **regression guard**：旧能力/旧行为不被破坏（对应 SWE-bench `PASS_TO_PASS`）。
+
+门禁写成可执行表达式，例如 `target_task_pass_rate >= 0.8 && regression_fail == 0 && anti_trigger == pass`，禁止只写“效果明显提升”。
+评测集分调优集和报告集：报告集必须来自未参与反复调参的 holdout 或新采样；同一批 20 题反复调 Skill 后报 lift 视为污染。
+来源：SWE-bench、OpenAI Evals（eval 需有测试/基准）、DeepEval（reference vs referenceless、component vs trajectory）。
+
+### R37-5 Agent/多步交付：轨迹证据 + 隔离执行
+
+- 多步/工具型交付不能只验最终答案；证据包要含完整 trace：每步 tool call、读写路径、exit code、耗时、成本。
+- 设中间断言：如“第 1 步必须读到原文件”“第 3 步不得修改 src 外文件”“最终必须产生 out.csv”。
+- 可执行代码/agent 在容器或沙箱里跑，不贴生产环境截图；记录镜像/版本/seed/并发。
+- 结果表达复用 `FAIL_TO_PASS + PASS_TO_PASS`：新能力通过的测试 + 旧能力不回归的测试，二者同时满足才算过。
+- 来源：promptfoo「Evaluate Coding Agents」与「Sandboxed Code Evals」、SWE-bench 的 patch+test 执行框架、DeepEval trajectory metrics。
+
+### R37-6 红队双层：审产物，也审 verifier
+
+1. **产物红队**：按威胁类目扫（prompt injection、PII 泄露、越权/权限、提示词窃取、误导输出、错误工具调用等）；每条 finding 必须带“输入样例 / 威胁类目 / 证据片段 / 建议”。
+2. **verifier 红队**：对评测器做变异——删一条断言、提高阈值、把 expected 改成永远匹配、让 verifier 变成“永远不会红”，确认评估系统会报警；否则“验证通过”只是 verifier 放行。
+3. 独立视角执行：换 persona、换上下文、只给规格不给实现；作者自扫不是独立红队，不能写在 `adversarial_review` 的通过结论里。
+- 来源：promptfoo LLM Red Teaming（20+ 漏洞类型）、Stryker（测试套件质量）、EvalPlus（测试覆盖不足会漏掉伪通过）。
+
+### R37-7 伪验证反例（见到即打回）
+
+| 现象 | 判定 |
+|---|---|
+| 只贴运行日志/截图，无断言 | L0，未验证 |
+| “全部通过”但从未做过破坏测试 | 未知，不能写 verified |
+| LLM judge 高分代替确定性 checker | 诊断，不是门禁 |
+| 期望答案出现在 prompt 或 SKILL.md 里 | oracle 泄漏，eval 无效 |
+| 只有新能力样例，无回归样例 | 不能断言“没破坏旧能力” |
+| baseline 与 treatment 环境/版本/seed 不同 | A/B 无效 |
+| 红队由作者本人、未换输入与视角 | 非独立红队 |
+| 同一小测试集反复调参后报 lift | 过拟合/污染，除非有 holdout |
+
+### R37-8 环境指纹与复现字段
+
+运行时/数据 claim 必须记录：
+
+- 命令与退出码；
+- 环境指纹：镜像 tag、包版本、seed、并发数、网络/沙箱策略；
+- 样本口径：数量、去重/过滤规则、统计方法与置信区间；
+- baseline 与 treatment 必须同指纹，换环境/版本后重验，不允许“上一个环境跑过”沿用。
+
+来源：SWE-bench（Docker 固定环境做执行验证）、promptfoo sandboxed code evals（隔离执行）。
 
 ## 来源
 

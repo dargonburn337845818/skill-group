@@ -1,0 +1,80 @@
+{
+  "id": "nvidia-laptop-tuning",
+  "name": "nvidia-laptop-tuning",
+  "title": "英伟达笔记本调优",
+  "description": "面向 NVIDIA GeForce 笔记本电脑（Hybrid/Optimus + 可选 WSL2 CUDA）的驱动选择、GPU/电源模式、NVIDIA App 与控制面板设置、细微调优、Windows 托盘调优面板与 A/B 验证方法的可执行指南。",
+  "whenToUse": "用户想调优 NVIDIA 显卡驱动/设置、优化笔记本 GPU 性能或续航、配置 WSL2 CUDA、或需要“先验证再采用”的硬件/软件微调路径时。",
+  "boundary": "只做通用调优与验证方法；不做具体型号的拆机/超频风险承诺；不覆盖桌面显卡/服务器 GPU 的差异化调优；不替代厂商保修与官方支持。",
+  "notWhenToUse": "只做纯软件业务开发、与 GPU 无关的服务器性能调优；或用户明确只要“游戏一键最高性能”而不想理解验证时。",
+  "scenario": "distillation",
+  "scenarios": [
+    "distillation",
+    "dsh-ops",
+    "dev"
+  ],
+  "routing": "domain",
+  "qualityCriteria": {
+    "high": [
+      "每条规则有 source_refs",
+      "触发/动作/边界三件套齐全",
+      "核心规则 ≥2 个独立来源或官方一手；单源明确降权",
+      "至少 1 个反例或失效边界",
+      "可执行验证：给出基线、变量隔离、回滚动作"
+    ],
+    "reject": [
+      "无来源断言",
+      "把硬件常识或单源推论写成绝对保证",
+      "把超频/自动调优包装成默认必做",
+      "用户可见文档泄露内部蒸馏字段/概率"
+    ],
+    "minIndependentSources": 2,
+    "notes": "0.6.0 新增 G-Helper 一键保守风扇预设与 disable_osd 弹窗关闭；Sketch UI/趋势图/A/B 基建已完成。驱动分支、超频、双通道收益等来源强度差异仍在 CONSENSUS.md 证据分级中标明。"
+  },
+  "tags": [
+    "NVIDIA",
+    "GeForce",
+    "驱动",
+    "笔记本",
+    "混合显卡",
+    "Optimus",
+    "WSL2",
+    "CUDA"
+  ],
+  "experts": [
+    "John Carmack",
+    "Brendan Gregg",
+    "NVIDIA 官方文档",
+    "Microsoft WSL 文档",
+    "ASUS 官方规格",
+    "G-Helper"
+  ],
+  "sourceRefs": [
+    "https://www.nvidia.com/en-au/software/nvidia-app/driver-comparisons/",
+    "https://www.nvidia.com/en-us/geforce/drivers/",
+    "https://www.nvidia.com/en-eu/drivers/details/278088/",
+    "https://www.nvidia.com/content/control-panel-help/vlatest/zh-cn/mergedprojects/nv3dchs/To_set_the_power_mode_on_supported_notebooks.htm",
+    "https://www.nvidia.com/en-us/geforce/laptops/max-q-technologies/",
+    "https://www.nvidia.com/en-au/geforce/news/rtx-laptops-advanced-optimus/",
+    "https://www.nvidia.com/uk-ua/geforce/release-notes/NVAPP/10_0_1/Web/nvapp-v10_0_1-web-release-highlights/",
+    "https://docs.nvidia.com/cuda/wsl-user-guide/index.html",
+    "https://learn.microsoft.com/en-us/windows/wsl/wsl-config",
+    "https://www.asus.com/us/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-f16-2025/techspec/",
+    "https://www.asus.com/us/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-f16-2025/helpdesk_download?model2Name=FX608LM",
+    "https://www.160.com/article/13589.html",
+    "https://news.17173.com/content/09052026/160253589.shtml",
+    "https://github.com/seerge/g-helper",
+    "https://deepwiki.com/seerge/g-helper/3.2-gpu-mode-management",
+    "https://profileinspector.org/tweak-gpu-settings/",
+    "https://profileinspector.org/shader-cache/",
+    "https://docs.pytorch.org/docs/stable/notes/cuda.html",
+    "https://docs.pytorch.ac.cn/docs/stable/backends.html"
+  ],
+  "provenanceRefs": [
+    "audit/expert_discussion_round1.md",
+    "SOURCES.md"
+  ],
+  "provenanceNote": "本机实测数据仅用于当前设备快照，不属于可移植通用结论；公开来源以 SOURCES.md 为准。",
+  "activation": "catalog",
+  "version": "0.6.0",
+  "license": "MIT"
+}

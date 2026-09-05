@@ -104,6 +104,52 @@ whenToUse: 用户设计/实现/审查 LLM API 集成、Agent、RAG、工具调�
 | “低风险任务也用最强模型” | 按风险/收益分流，设成本预算与降级路径 |
 | “prompt caching 只要写了 system 就有效” | 检查前缀稳定性与缓存命中日志，再决定是否启用 |
 
+## 2026 深度补强（Round 32）
+
+> 本轮补强来自 2025–2026 年一手工程文档（OpenAI / Anthropic / MCP / Ragas / LlamaIndex），只补原版未覆盖的增量；已有规则不重复。
+
+### 7. 评测分层与轨迹证据（补强“评测”）
+
+- **capability eval 与 regression eval 分家**（来源：[Anthropic: Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)）。能力型评测以“做不到/做不好”为目标，允许低通过率、作为爬坡方向；回归型评测以接近 100% 通过率为目标，防回退。任务在能力型上爬到高位后“毕业”进回归集，持续跑防漂移。不要用同一阈值同时要求两类。
+- **多轮任务按 `transcript + outcome` 打分，而不是只信最终回复**（来源：[Anthropic: Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)、[OpenAI: Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals)）。transcript 记录完整轨迹（每次工具调用、参数、中间结果）；outcome 是环境最终状态。Agent 说“已订票”但数据库没有订单 = 失败；评分器要能同时检查轨迹与结果。
+- **同一任务跑多个 trial，用代码/模型/人工三类 grader 组合降噪**（来源：[Anthropic: Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)）。代码 grader 快、客观、可复现但脆；模型 grader 灵活但有波动、需人工校准；人工 grader 是校准基准但慢且贵。优先用代码 grader 锁死可判定的 outcome/工具调用，模型 grader 只补开放性判断。
+- **警惕“通过 eval 却伤害用户”的 loophole**（来源：[Anthropic: Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)）。模型可能找出评测定义之外的更优解（如绕过机票政策），此时先修评测/需求边界，不要为了分数强行压制模型；每次异常高分或“作弊式通过”都要人工审。
+
+### 8. 工具输出契约与可见性（补强“工具调用契约”）
+
+- **请求层也要结构化契约：schema 交给 provider，但语义校验必须留在代码**（来源：[OpenAI: Structured model outputs](https://platform.openai.com/docs/guides/structured-outputs)、[OpenAI: Introduction to Structured Outputs](https://developers.openai.com/cookbook/examples/structured_outputs_intro)、[OpenAI: Function calling](https://platform.openai.com/docs/guides/function-calling)）。把输出 JSON Schema 交给结构化输出、把工具参数 schema 交给 function calling，能显著降低格式错误；但 provider 只保证“格式良好”，不保证“语义正确”。代码侧仍要校验字段、枚举、范围与业务不变量；不要用无约束的 JSON mode / `any` 类型当兜底。
+- **输出也要声明的 schema：`outputSchema` + `structuredContent`**（来源：[MCP Tools 规范](https://modelcontextprotocol.io/specification/2025-06-18/server/tools.md)）。工具不能只定义输入；输出同样定义 JSON Schema，服务端保证结构化结果符合 schema，客户端在把结果交给模型前必须校验。文本内容只作向后兼容，不作为唯一消费面。
+- **客户端在“结果进上下文”之前做验证/超时/审计**（来源：[MCP Tools 规范](https://modelcontextprotocol.io/specification/2025-06-18/server/tools.md)）。MCP 明确要求客户端：校验工具结果后再传给 LLM、实现工具调用超时、记录审计、对敏感操作确认。不要把未校验的原始工具输出直接塞进对话。
+- **工具调用必须“人可见、可拒绝、可审计”**（来源：[MCP Tools 规范](https://modelcontextprotocol.io/specification/2025-06-18/server/tools.md)）。规范层面要求显示暴露了哪些工具、调用前展示输入（防数据外泄）、敏感/破坏性操作给人类确认、并允许拒绝。只读内部工具可以低打扰；不可逆/写外部/提权操作不能只靠模型自我约束。
+
+### 9. 上下文压缩与确定性边界（补强“上下文/Agent”）
+
+- **缓存前缀要可观测：命中率进日志，易变内容放后缀**（来源：[OpenAI: Prompt Caching 201](https://developers.openai.com/cookbook/examples/prompt_caching_201)）。prompt caching 按前缀精确匹配；把版本/系统指令/工具 schema 固定在前缀，把时间、用户 id、无关上下文放后缀。记录 `cache_read_input_tokens` / `cache_creation_input_tokens`，用命中率判断是否真受益，而不是只看“开了缓存”。
+- **压缩是损失操作：要可观察、可回查，关键事实外置**（来源：[Claude Cookbook: Automatic context compaction](https://platform.claude.com/cookbook/tool-use-automatic-context-compaction)、[Anthropic: Effective context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)）。自动压缩触发时记录压缩前后 token、丢弃内容与摘要；未完成任务的目标/约束/用户偏好/安全边界不能只活在摘要里，必须落盘外部状态；保留 source refs 以便回查原始工具输出。
+- **能预先编码的路径用 workflow，模型只做需要语义决策的部分**（来源：[Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)）。Anthropic 区分 workflow（LLM 沿预定义代码路径被执行）与 agent（模型自主决策）。固定任务优先用确定性编排+模型子步骤；把校验、排序、权限、重试、去重、错误分类放到代码，不要指望模型每次都“自觉”执行。
+
+### 10. RAG 评估与智能检索（补强“RAG”）
+
+- **RAG 评测拆成 retriever 与 generator 两组指标**（来源：[Ragas: Evaluating using your test set](https://docs.ragas.io/en/v0.1.21/getstarted/evaluation.html)）。检索侧用 `context_precision` / `context_recall` 测“取到的对不对、全不全”；生成侧用 `faithfulness` / `answer_relevancy` 测“答得是否忠于上下文、是否切题”。只报端到端准确率无法定位是检索漏了还是生成幻觉。
+- **复杂检索要有“检索-判断-再检索”循环**（来源：[LlamaIndex: Agentic Retrieval Guide](https://www.llamaindex.ai/blog/rag-is-dead-long-live-agentic-retrieval)）。在生成前判断当前证据是否覆盖问题要点；不足则改写/拆分查询、换检索器、二次检索，仍不足就明确“证据不足”。简单事实问答不要过度循环；循环必须有最大轮数与预算，避免退化为无限检索。
+
+### 新增反例 / 边界
+
+| 反例 | 正确做法 |
+|---|---|
+| “工具输入校验了，输出不用管” | 同时声明并校验 `outputSchema`/`structuredContent`，客户端验证后再进上下文 |
+| “Agent 说完成了就算完成” | 检查环境 outcome（数据库/文件/服务状态），并保存 transcript |
+| “用同一套通过率要求能力评测和回归评测” | 能力评测低通过率起步，回归评测接近 100%，分开治理 |
+| “上下文压一压，丢了就丢了” | 记录压缩前后与丢弃项，关键约束/进度外置到持久化状态 |
+| “RAG 就搜一次，没搜到也让模型答” | 允许检索-判断-再检索，仍不足则明确“证据不足” |
+| “全流程都用模型做” | 可编码的校验/排序/重试/权限放代码，模型只做语义决策 |
+
+### 可证伪检查
+
+- **回归评测**：旧版本通过、新版本失败的用例必须让 CI 变红；若只能靠人工目测，降级为“未验证”。
+- **工具输出契约**：故意返回不符合 `outputSchema` 的结构，客户端必须拒绝并记日志，不得透传给模型。
+- **压缩审计**：压缩后仍能从外部状态/引用恢复关键事实；若只能靠摘要复述，记为失败。
+
 ## 来源
 
 - [Anthropic: Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)

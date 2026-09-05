@@ -1,0 +1,20 @@
+﻿{
+    "script":  "ab-measure.ps1",
+    "arm":  "baseline",
+    "armCode":  "B",
+    "started":  "2026-09-05 19:08:02",
+    "durationSec":  3,
+    "intervalSec":  1,
+    "outputDir":  "D:\\<工具目录>\\ab-data\\_audit_sample",
+    "csv":  "D:\\<工具目录>\\ab-data\\_audit_sample\\ab-B-20260905-190802.csv",
+    "statusReport":  "D:\\<工具目录>\\ab-data\\_audit_sample\\ab-B-20260905-190802.status.txt",
+    "schedulerState":  {
+                           "mode":  "Balanced",
+                           "updated":  "2026-09-05T17:10:37.9605536+08:00",
+                           "last_mem_clean":  null
+                       },
+    "note":  "只观测；不切换 G-Helper、不清理内存、不改注册表",
+    "finished":  "2026-09-05 19:08:07",
+    "samples":  2,
+    "statusReportEnd":  "D:\\<工具目录>\\ab-data\\_audit_sample\\ab-B-20260905-190802.status-end.txt"
+}

@@ -25,3 +25,22 @@
 - 全部为官方一手文档/标准，符合 `verified-high`（官方一手即使单篇也算）。
 - 未使用单一博客/教程作为普适规则；公司内部实践需按自身 SLO 调整。
 - 本地隐藏底座：`vault/skills/base/search-source/`、`vault/skills/core-iteration/skill-verification-consensus/`、`vault/skills/core-iteration/dev-workflow-consensus/`。
+
+## Round 32 新增来源
+
+> 采集验证：2026 深度补强（Round 32）。以下为新增一手/官方来源，支撑 SKILL.md 中“## 2026 深度补强（Round 32）”小节；均已通过 web_search 命中官方页面，多数 URL 本环境 HTTP 可达验证。
+
+| URL | 标题/权威性 | 支撑新增规则 |
+|---|---|---|
+| https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions | GitHub 官方 Actions 安全加固 | 第三方 Action 固定完整 SHA、GITHUB_TOKEN 最小权限 |
+| https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect | GitHub 官方 OIDC 部署安全 | 短时云凭据替代长密钥、claims 绑定 |
+| https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions | GitHub 官方 workflow syntax | concurrency/cancel-in-progress/timeout-minutes |
+| https://docs.docker.com/build/metadata/attestations/ | Docker 官方 build attestations | SBOM/provenance 生成、随镜像保存与校验 |
+| https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html | OWASP Docker Security Cheat Sheet | 非 root、drop capabilities、只读文件系统、资源限制 |
+| https://kubernetes.io/docs/concepts/security/pod-security-standards/ | Kubernetes 官方 Pod Security Standards | Restricted/runAsNonRoot/seccomp/privilege escalation 门禁 |
+| https://prometheus.io/docs/practices/the_zen/ | Prometheus 官方 The Zen of Prometheus | 标签基数、无界标签反例 |
+| https://opentelemetry.io/docs/concepts/sampling/ | OpenTelemetry 官方 Sampling 概念 | head/tail sampling 选择与成本 |
+| https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html | AWS CloudWatch SLO 官方文档 | 燃烧率公式、多窗口复合告警 |
+| https://sre.google/workbook/alerting-on-slos/ | Google SRE Workbook：Alerting on SLOs | 多窗口多燃烧率告警的原始权威（本环境不可直连，细节以 AWS 官方页交叉核验） |
+| https://argo-rollouts.readthedocs.io/en/stable/features/analysis/ | Argo Rollouts 官方 Analysis 文档 | canary 自动成功/失败/中止与回滚条件 |
+

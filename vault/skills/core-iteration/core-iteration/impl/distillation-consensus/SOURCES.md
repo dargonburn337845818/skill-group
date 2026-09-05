@@ -30,6 +30,8 @@
 | [WordPress agent-skills authoring-guide](https://github.com/WordPress/agent-skills/blob/trunk/docs/authoring-guide.md) | 确定性 Skill 创作门禁 | SKILL.md 简短、eval 场景、确定性脚本、Verification/Failure modes |
 | [Anthropic Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) | 官方 Skill 规范 | 元数据、渐进披露、一层引用、多模型测试 |
 | [skilljack-evals](https://github.com/olaservo/skilljack-evals) | Skill 评测 | 任务先行、无 skill 基线、Skill Lift、anti-trigger、oracle gate |
+| [mgechev/skills-best-practices](https://github.com/mgechev/skills-best-practices) | 专业级 Skill 编写/验证 | 元数据、可执行内容、验证实践、控制上下文 | consensus |
+| [Anthropic Engineering: Agent Skills 落地](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) | 官方工程实践 | 渐进披露、真实世界赋能、Skill 生态 | consensus |
 | [claude-workflow-kit](https://github.com/ncoevoet/claude-workflow-kit) | Evidence-first 工作流 | 验证标准、claim 证明、prove-it-can-fail、对抗审查 |
 | 本地 `skill-verification-consensus` | 检验底座 | 发布前校验报告与门槛 |
 
@@ -38,3 +40,20 @@
 - `$WORKSPACE/skills/teacher-consensus-skill/SKILL.md`：算法竞赛教师共识 + 信息论 + 提问协议。
 - `$WORKSPACE/skills/teacher-consensus-skill/METHOD.md`：七步蒸馏法（语料 → primitive → 矩阵 → 回测）。
 - `$WORKSPACE/skills/dsh-optimization-consensus/CONSENSUS.md`：官方文档/源码 → 可执行运维共识。
+
+## Round 37 新增来源
+
+> 本轮补充用于「2026 深度补强」：来源编号 R37-1 … R37-10 与 SKILL.md 新节中的标记一一对应。
+
+| 编号 | 来源 | 主题 | 对本共识的贡献 |
+|---|---|---|---|
+| R37-1 | [Anthropic Agent Skills: Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md) | 官方创作规范 | 可观察触发、动作可检查、引用一层深、多模型测试 |
+| R37-2 | [OpenAI ChatGPT Learn: Build skills](https://learn.chatgpt.com/docs/build-skills) | 平台侧技能创作 | 单元化、任务导向、避免模糊指令 |
+| R37-3 | [Microsoft GitHub Copilot for Azure skill-authoring SKILL.md](https://github.com/microsoft/github-copilot-for-azure/blob/915f8099093ad7dbfe8f388da6fbaf47b8216ab8/.github/skills/skill-authoring/SKILL.md) | 企业级 Skill 创作与 anti-trigger | 触发/反触发必须显式、验证门禁 |
+| R37-4 | [skillkit meta skill-authoring SKILL.md](https://github.com/rohitg00/skillkit/blob/5691b10c7e637cc7044da5df7891aa05ce732e1e/packages/core/src/methodology/packs/meta/skill-authoring/SKILL.md) | 元技能/自迭代创作 | 覆盖矩阵、迭代式补料 |
+| R37-5 | [samzhu/skills-hub: Skill Design Patterns](https://github.com/samzhu/skills-hub/blob/5b5f8d6d2ef87592d9ac0d02705237153fd7ca59/.claude/skills/skill-author/references/design-patterns.md) | Skill 设计模式 | 边界/反例/失败路径设计 |
+| R37-6 | [Jamie-BitFlight claude_skills: authoring-checklist.md](https://github.com/Jamie-BitFlight/claude_skills/blob/main/plugins/plugin-creator/skills/skill-creator/references/authoring-checklist.md) | Skill 创作检查清单 | 原子性检查、干跑检查 |
+| R37-7 | [SWE-Skills-Bench: Do Agent Skills Actually Help in Real-World Software Engineering?](https://ar5iv.labs.arxiv.org/html/2603.15401) | 技能实际增益与上下文干扰 | “skill 可能降性能”，反例/近失测试必要 |
+| R37-8 | [SkillConsist: Detecting Inconsistencies in Agent Skills via Bidirectional Graph Alignment](https://arxiv.org/abs/2608.07639) | 技能内部/交叉不一致检测 | 来源/claim 冲突审查、一致性校验 |
+| R37-9 | [AgentsMeetRL: data-curation.md](https://github.com/thinkwee/AgentsMeetRL/blob/main/skills/agents-meet-rl/problems/research-workflow/data-curation.md) | 语料筛选与数据质量 | 覆盖矩阵、低价值重复语料过滤 |
+| R37-10 | [NaturalThoughts: Selecting and Distilling Reasoning Traces for General Reasoning Tasks](https://arxiv.org/abs/2507.01921) | 推理迹筛选与蒸馏 | 高价值片段筛选、最小推理单元 |

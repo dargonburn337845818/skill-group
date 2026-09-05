@@ -48,3 +48,19 @@
 - `$WORKSPACE/GITHUB_DESCRIPTIONS.md`
 - `$PROJECT_ROOT/README.md` 与 `.github/workflows/release-plugin.yml`
 - `$WORKSPACE/skills/dsh-optimization-consensus/CONSENSUS.md`
+
+## Round 38 新增来源
+
+> 2026 深度补强轮新增官方 GitHub Docs 来源，用于支撑 `SKILL.md` 中 E1–E8 规则；本轮未新增社区/第三方来源。
+
+| 编号 | 主题 | 来源 | 支撑规则 |
+|---|---|---|---|
+| R38-1 | Repository Rulesets | https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets | E1 |
+| R38-2 | CODEOWNERS | https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners | E2 |
+| R38-3 | Dependabot version updates（配置） | https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuring-dependabot-version-updates | E3 |
+| R38-4 | Dependabot version updates（概览/Actions 更新） | https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/about-dependabot-version-updates | E3 |
+| R38-5 | Managing GitHub Actions settings（默认权限） | https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository | E4 |
+| R38-6 | OpenID Connect | https://docs.github.com/en/actions/concepts/security/openid-connect | E5 |
+| R38-7 | Reuse workflows | https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows | E6 |
+| R38-8 | Artifact attestations | https://docs.github.com/en/actions/concepts/security/artifact-attestations | E7 |
+| R38-9 | Creating a default community health file | https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file | E8 |

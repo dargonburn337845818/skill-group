@@ -26,7 +26,7 @@
       "无验证步骤的修复"
     ],
     "minIndependentSources": 2,
-    "notes": "主要一手来源为 CacinieP/network-troubleshoot-skill 仓库与工具官方文档；已注明未做真实 A/B 前状态为待验证。"
+    "notes": "主要一手来源为 CacinieP/network-troubleshoot-skill 仓库与工具官方文档；已通过 3 次真实 A/B（dev-network-enforce + anti，门禁 PASS）。"
   },
   "tags": [
     "网络",

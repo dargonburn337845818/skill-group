@@ -1,8 +1,8 @@
 ---
 name: benefit-filter
 description: 收益计算与交叉验证过滤器——对搜索增强捞回的原始语料做信息密度评分与多源交叉验证，只向蒸馏模块输送【已验证-高优】语料，并把【单源-存疑】打包成待验证清单。用于任何“搜索增强 → 蒸馏”管道的前置清洗。
+whenToUse: - 收到【搜索增强】模块输出的原始语料块 / 语义向量 / 知识缺口清单。
 ---
-
 # 收益过滤器（Yield Filter）
 
 > 定位：这是价值驱动递归提升模块的第一道闸门。它的职责不是“尽量多留语料”，而是“只放行预期收益超过阈值的可靠知识核”。宁缺毋滥。
@@ -189,6 +189,96 @@ verified_high_remaining_ratio = remaining_verified_high / max(1, remaining_gap_c
 
 - `verified_high_remaining_ratio` 是调度器“矿脉是否枯竭”的核心输入，必须可复算。
 - 若剩余缺口为 0，则 ratio 记为 0，不能除零。
+
+## 2026 深度补强（Round 40）
+
+> 定位：在原有“密度评分 → 交叉验证 → 输出”主流程上，补上四个容易漏判的维度：决策收益、证据强度分层、可证伪性、价值密度与时效。以下规则均作为前置闸或后置审计，不得绕过。
+
+### R40-1 决策收益闸（Decision Delta Gate）
+
+**动作**
+
+1. 每条核心主张进入密度评分前，必须写一句“决策差分”：
+   `if 为真 → 会改变哪个下游动作/提示词/优先级；if 为假 → 哪个动作会做错。`
+2. 写不出可观察的决策差分（包括“只是涨知识”），`反常识程度_raw` 封顶 65，且 `density_score` 封顶 59，进 `discarded_low_density`，reason 必须写 `no_decision_delta`。
+3. 写得出的差分写进输出 `decision_delta` 字段，供 value-validator / value-meta-scheduler 复算。
+
+**依据**：信息价值（VOI）取决于“能否改变决策结果”，而非信息本身的惊奇度；不改变任何下游动作的信息，决策收益为零。
+
+**反例**：某文说“某模型又涨 0.1 分”，但没有给复现配置，也没有说明会改变你的哪一条筛选规则 → 即使反常识与步骤数都很高，也必须被决策收益闸拦截。
+
+### R40-2 证据强度分层与共同祖先塌缩（Source Lineage）
+
+**动作**
+
+1. 每个 source 先打强度级：A=一手数据/可复现实验/源码+commit/原始发布；B=官方文档/同行评审二手/多机构报告；C=知名行业博客/社区权威/教材；D=聚合站/自媒体/无日期匿名/纯转述。
+2. 追踪每个 source 的 `root_source`（论文、仓库、数据集、官方公告等原始出处）。两个 URL 若 `root_source` 相同，即使页面不同，也合并为 1 条 `source_line`。
+3. `verified-high` 的新门槛为同时满足：
+   - ≥2 条不同的 `source_line`；
+   - ≥1 条 A/B 级来源；
+   - 加权支持度 `Σ(A=1.0, B=0.8, C=0.5, D=0.2) ≥ 2.0`。
+4. 两条 D 级来源只能算 `verified-single`（0.5），不得升级为 `verified-high`。
+5. 输出必须带 `source_lineage`，例如 `[S1,S4] -> root: paper#123`，供人工复算。
+
+**依据**：证据应按似然比/权重叠加，而不是按 URL 条数线性叠加；多个源自同一原始材料的页面会产生“假多源”。
+
+**反例**：A、B 两个站点都转载同一篇 arXiv 论文且都无复现 → `root_source` 相同，`source_line=1`，不能判 verified-high。
+
+### R40-3 群落独立性与负向复现
+
+**动作**
+
+1. 给每个 source 标 `community_id`（如 `academic`、`official-docs`、`security-bulletin`、`tech-industry`、`aggregator`）。
+2. 两条 `source_line` 即使 root 不同，若属于同一群落且证据链高度重叠（同行业、同评测体系、同批作者互引），有效支持按 1.5 条计，不能直接按 2 条。
+3. 有“负向复现”时升级：一个来源给结论，另一个独立来源用不同数据/工具/方法复现或反向验证，且结论一致 → 标记 `reproduced: true`，可作为 `verified-high` 的强佐证（权重 1.0）。
+4. 只有同一群落的重复转发、没有跨群落或跨方法证据，降回 `verified-single`。
+
+**依据**：三角验证（triangulation）要求方法/数据/视角真正独立；同群落高频转发只是信息流的重复曝光，不是独立证据。
+
+**反例**：同一行业号在公众号、知乎、微博各发一遍同一通稿 → URL 三个，但是同一 `community_id`、同一 `root_source`，有效来源只有 1 条。
+
+### R40-4 可证伪性闸（Falsifiability Gate）
+
+**动作**
+
+1. 在“可验证证据”打分前，为每条主张写可证伪谓词：`if <claim> is true, we should observe/reproduce <specific measurable outcome>; otherwise, claim is refuted.`
+2. 写不出具体可观察结果（只有“专家认为/业内共识/应该”），`可验证证据_raw` 封顶 40；不得仅因“有引用”就给 65/90。
+3. 规范性/审美/价值判断不按实证证据打分，输出时标 `verdict_kind: normative`，最多 `verified-single`，并注明“需要人工/用户决策”。
+4. “可复现操作”与“可验证证据”分开记录：前者是能照着做，后者是能检验真假；两者缺一时不能进 `verified-high`。
+
+**反例**：说“这个框架性能更好”但不给 benchmark、复现命令、误差范围 → 证据分必须降到 ≤40，并进 pending，等待人工补可证伪条件。
+
+### R40-5 价值密度与时效衰减（Value Density & Time Decay）
+
+**动作**
+
+1. 计算 `new_actionable_ratio = 新增可执行动作数 / 总句子数`；<0.2 时 `density_score` 封顶 59，reason 写 `dilute_background`。
+2. 计算 `density_per_token = density_score / token_count`；多候选得分相近时，优先 `density_per_token` 高的；同时输出 `token_cost`。
+3. 时效敏感类主张（API/安全/性能对比/最新法规与排名）必须带 `as_of` 日期：
+   - 最近一次独立验证日期距当前 > 12 个月 → 最高只评 `verified-single`（0.5），不能 `verified-high`；
+   - 无任何带日期来源 → 升为 `single-doubt`，reason 写 `unverifiable_as_of`。
+4. 稳定类主张（数学、经典机制、长期共识）允许旧来源进 `verified-high`，但输出标 `stable_claim: true`。
+
+**反例**：2023 年的某 API 性能基准被两篇 2026 年的二手文章互相引用 → 因领域时效衰减，最多 `verified-single`（0.5），不能作为当前核心规则。
+
+### R40 检查清单（放行前五问）
+
+- [ ] 决策差分：为真会改变哪个具体动作？
+- [ ] 证伪谓词：什么可观察结果会推翻它？
+- [ ] 血缘：所有 source 的 `root_source` 是否唯一且独立？
+- [ ] 群落：是否来自不同社区/生态/方法，而非同源转发？
+- [ ] 时效：以当前决策时点看，证据是否仍然有效？
+
+五问全过才允许 `verified-high`；任一不过按对应规则降级为 `verified-single`/`single-doubt`/`discarded_low_density`。
+
+### R40 新增反模式速查
+
+| 反模式 | R40 处理 |
+|---|---|
+| 多个 URL 同根同社群就当作多来源 | 用 `source_line`/`root_source` 塌缩，只计 1 条 |
+| “有引用”就当作可验证 | 必须先写证伪谓词；不可证伪则证据分封顶 40 |
+| 分数高但无决策影响 | 过决策收益闸；写不出决策差分就封顶 59 |
+| 旧来源在快变领域仍给 high | 按 12 个月时效规则降为 verified-single 或 single-doubt |
 
 ## 来源与可追溯
 

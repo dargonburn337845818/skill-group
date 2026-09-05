@@ -65,3 +65,72 @@ source_scope_report = {
 
 - 详细检索策略见同库 `distillation-consensus/impl` 与 `web-research-consensus` 内部文档。
 - 真实抓取入口：`info-source-adapter`（GitHub/OSV/npm/PyPI/crates/学术等适配器）。
+
+## 2026 深度补强（Round 37）
+
+> 补强目标：把“检索式构造、跨库适配、来源可信度、证据分级、搜索质量评估”落成可直接执行的清单。以下规则在原有“独立来源 / 台账 / 搜索预算”之上新增，不替代旧规则。
+
+### 1. 检索式：先写“概念×关键词”矩阵，再组装布尔式
+
+- 每个子问题先拆 2–5 个概念；每个概念写同义词、缩写、大小写、中英文变体（例：“包管理” = npm / PyPI / cargo / registry / 依赖版本、依赖锁定）。
+- 组装顺序：概念间用 `AND`/空格，概念内用 `OR` 或括号；精确短语加引号；收紧结果用 `site:`、`filetype:`、`inurl:`、`repo:`、`path:`、`language:`。
+- 每个 query 都要版本化记录；先窄后宽反向验证：窄式无结果时先换同义词，再删限定词，不要直接放弃。
+- 反例：把整段自然语言粘进搜索框；只用一个关键词；把同义词用 `AND` 连起来反而得到 0 结果。
+
+### 2. 跨库适配：每个入口用各自的语法，不做“一处搜索走天下”
+
+- 网页用 `site:`；GitHub 用 `repo:`/`path:`/`language:`；Crossref 用 `query.bibliographic`/`filter`；OpenAlex 用 `search`/`filter`/`concepts`；学术库用 MeSH/主题词；包生态用精确名称 + 版本/OSV ID。
+- 换库前先读该入口的查询文档；不要把网页站点语法硬套到学术/代码 API。
+- 同一子问题至少在“网页 / 学术 / 代码 / 包生态”中选两类不同生态，并各自记录 query 原文。
+- 反例：在 Crossref 用 `site:`；只在 Google 第一页找学术证据；把数据库 0 结果直接写成“不存在”。
+
+### 3. 来源可信度：五维快检 + 横向阅读
+
+- 对每个候选源用 5 个问题快检：作者/机构可识别？渠道/载体正规？日期/版本明确？目的是告知还是说服？是否引用一手或可复现材料？
+- 任一维度完全未知 → 该来源降为“线索”，不能作为独立证据。
+- 不要相信页面自述；横向阅读：另开标签查作者、机构、原始出处，而不是用域名或粉丝量代替可信度。
+- 反例：看到 `.edu`/`.gov`/大媒体即默认可信；拿第一条结果当定论；把二手摘要当原文。
+
+### 4. 证据强度五级 + 降级项
+
+- L0 无来源/纯线索 → `single-doubt`；L1 单一转载/聚合 → `verified-single`；L2 单一一手或官方文档；L3 两个以上独立一手/授权一致；L4 可复现（命令、代码、数据、原件可验证）。
+- 降级检查（GRADE 式）：风险偏倚（自述/软文）、不一致（自相矛盾）、间接性（结论 ≠ 证据对象）、不精确（版本/数字含糊）、发表偏倚（只报支持面）。
+- 出现任一降级项不得升到 L3；冲突证据保留“冲突分支”，不自动合并为“多源一致”。
+
+### 5. 搜索质量验收：覆盖检查 + 反证检索
+
+- 每个关键 claim 至少要有三类证据：一手证据、独立旁证、反例/限制。缺哪类，就补一次定向检索（`limitations`、`criticism`、`counterexample`、`does not`、`风险/争议`）。
+- 自评精度/召回：结果若全来自同一域名或同一通稿，只算 1 个“来源族”；连续两轮无新独立来源 → `search_exhausted`；只得到支持面 → 标 `coverage_bias`。
+- 用 IR 评估视角自查：不是看排名，而是看是否覆盖相关结果集；明确记录命中与漏检，不把“搜到”当“结论成立”。
+
+### 6. 反例清单（必须主动避开）
+
+- 把聚合页、榜单、star 数、被引数当证据。
+- 只记录支持证据，删掉反对/限制证据。
+- 把 AI 生成的引用当来源——必须回链到可核验 URL，并确认内容确实支持主张。
+- 用“没有搜到”写“不存在”。
+- 不记录 query/入口/日期，导致结果不可复现。
+- 同一新闻多站转载当“多个独立来源”。
+- 用旧版本结论回答当前事实，却不核对时效。
+
+### 7. 源族归一化：检测“伪独立”
+
+- 跨库去重按 `DOI / URL / canonical title / repo commit / version` 判定身份，不按“文字相似”判定同一。
+- 两个 URL 若同通稿、同数据源、同一母库派生、同作者/机构 → 归为同一“源族”。
+- 源族内只计 1 个来源；要升到 L3，必须再找一个真正独立、且不共享该源族的来源。
+- 反例：把同一新闻的 10 个转载链接列成 10 条证据。
+
+### 本轮来源
+
+- [PRISMA-S: 系统综述检索报告扩展](https://doi.org/10.1186/s13643-020-01542-z)
+- [Cochrane Handbook Chapter 4: Searching for and selecting studies](https://training.cochrane.org/handbook/current/chapter-04)
+- [PRESS 2015 电子检索策略同行评审指南](https://www.cda-amc.ca/press-peer-review-electronic-search-strategies-2015-guideline-explanation-and-elaboration)
+- [TREC Overview（NIST）](https://trec.nist.gov/overview.html)
+- [NIST Special Publication 500-249（检索运行评估）](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication500-249.pdf)
+- [Google 搜索质量评估者指南（E-E-A-T）](https://developers.google.com/search/blog/2022/12/google-raters-guidelines-e-e-a-t)
+- [Google 搜索运算符文档](https://developers.google.com/search/docs/monitor-debug/search-operators)
+- [Georgetown: Evaluating Web Sources with SIFT](https://guides.library.georgetown.edu/c.php?g=1497500&p=11189585)
+- [Queen's University: Evaluating Sources](https://guides.library.queensu.ca/politicalstudies/112/evaluation)
+- [Cochrane: GRADE 证据分级方法](https://www.cochrane.org/learn/courses-and-resources/cochrane-methodology/grade)
+- [OpenAlex: Searching（查询构造）](https://developers.openalex.org/guides/searching)
+- [GitHub: 代码搜索语法](https://docs.github.com/zh/search-github/github-code-search/understanding-github-code-search-syntax)

@@ -1,8 +1,8 @@
 ---
 name: web-research-consensus
 description: 网络信息搜集与核验共识——可靠来源判断、精确检索、高效核验与 Agent 引用纪律；用于网络调研、事实核查、开源信息收集、学术检索等任务前。
+whenToUse: - 用户要“查资料 / 做调研 / 核实事实 / 比较来源 / 搜代码 / 查论文 / 验证图片或视频”。
 ---
-
 # 网络信息搜集共识 · 可调用摘要
 
 > 完整版见本目录 `CONSENSUS.md`；来源表见 `SOURCES.md`。
@@ -166,6 +166,69 @@ search_meta = {
 
 - 六阶段完整干跑样例见 `core-iteration/examples/smoke_pipeline.md`（workspace/vault 同步）。
 - 使用本 skill 后至少跑 3 个真实查询，确认 `raw_corpus`/`knowledge_gaps` 字段齐全再交给收益过滤器。
+
+## 2026 深度补强（Round 40）
+
+> 补强目标：把“检索可复现、证据分级、源族独立、反证检索、引用四要素”从原则落成可执行检查。以下规则在原有四步走、检查表、搜索预算之上新增，不替代旧规则。
+
+### 1. 先定证据门槛，再分配搜索预算
+
+- 每个子问题开搜前写一句“达标线”：只要概览（overview），还是要 `verified-high`（≥2 独立一手 + 反证检索过），还是只接受“单源待证”？门槛不同，搜索轮数与深度不同。
+- 达标线本身决定停止：达到门槛即停，不因“怕漏”继续空转；未到门槛继续，不因“已有结果”提前收工。
+- 把门槛写进 `search_meta.budget_notes`，供下游判断“这轮检索是否足以支撑结论”。
+
+反例：用户只要概览，却执行 6 轮深搜；或结论需要 verified-high，却只搜 1 轮就交付。
+
+### 2. 检索日志：每轮 query 留痕，结论才可复现
+
+- 每个关键 claim 至少记：`query 原文 / 引擎或数据库 / 日期 / 过滤条件 / 命中的独立域名 / 决策（采纳、降级、放弃）/ 下一步`。
+- 引用时带上“检索日期 + 版本/归档时间”；网页会变、论文会更正、包会发新版，裸 URL 无法证明“我当时看到什么”。
+- 失败也要留痕：0 结果、全是广告、只看到 AI 摘要，都写进 `search_meta.failures`；未留痕的“搜不到”不构成排除证据。
+
+反例：交付 3 条引用但不含检索日期与 query；或说“我已经查过没有”却拿不出查询记录。
+
+### 3. 证据定级：先定级，再过五维降级
+
+- 证据阶梯：L0 无来源 → `single-doubt`；L1 单一转载/聚合 → `verified-single`；L2 单一一手/官方文档；L3 ≥2 独立一手且无反证；L4 可复现（命令/数据/原件/重复实验）。
+- 升到 L3/L4 前过五问：是否偏倚（利益/公关/自述）？是否不一致（来源间互相矛盾）？是否间接（证据对象≠结论对象）？是否不精确（版本/日期/数字含糊）？是否只看到支持面（发表偏倚）？
+- 任一回答“是/无法判断”即降一级，并写进 `uncertainty`；不能靠“来源数量多”绕过降级。
+
+反例：10 篇转载同一公关稿 → 仍是 L1；只有官方白皮书无第三方 → 最多 L2/`verified-single`；只搜到支持证据就标 `verified-high`。
+
+### 4. 源族计数：数“独立来源族”，不数网页数
+
+- 用 `family_id` 归一：同 DOI/同 URL/同 canonical title/同 commit/同版本 = 同一族；同作者/同机构/同通讯社/同母库/同一原始数据集 = 同一族。
+- 一族的多个网页只计 1 个来源；跨族才可能算“多源支持”。若两个族最终都引用同一上游原始报告，标记 `same_upstream` 并降权。
+- 交付时给出“族计数”而非“链接计数”：例如 `families=2, links=11，其中 9 条同源转载`。
+
+反例：同一新闻 10 个站点转贴 → 1 族；同一作者博客+采访稿+机构页 → 1 族；两个独立机构引用同一数据集只能证明“都读了同一数据”，不能证明数据本身被独立验证。
+
+### 5. 反证检索：正面证据之外，必须定向找一次反面
+
+- 关键 claim 的支持证据齐了后，补 1 轮反证检索（`limitations` / `criticism` / `counterexample` / `does not` / `risk` / `争议` / `更正` / `retraction`）。
+- 没找到反证 ≠ 反证不存在；但定向找过并记录，才能把 `verified-high` 从“单边支持”升级为“抗反驳支持”。
+- 找到反证时不要合并：保留冲突分支，注明“支持面与反证并存”，`uncertainty` 升高，不得把反证删成“噪音”。
+
+反例：只搜“X 有效”，从不搜“X 副作用/争议”；把反对意见当水军删除；用“有 3 篇支持”掩盖“另有 2 篇不支持”。
+
+### 6. 引用四要素：作者/时间/可核验标识/检索时间，缺一不可
+
+- 每条引用至少四要素：谁说的（作者/机构）、何时发布/版本、哪里能核对（DOI/PMID/arXiv/commit/version/具体页+段落）、我何时检索到（retrieved date）。
+- 优先稳定标识与原始出处：DOI/版本号/commit/tag 优于会失效的搜索 URL；原件优于聚合页/镜像/转帖。
+- 引用有更正/撤回历史的来源时，必须附带“是否有更正/撤回”状态；引用存档须同时给原始 URL 与存档 URL。
+
+反例：只给 home page；引用 PDF 不给版本/日期；引用论文不带 DOI 且未查是否被撤回；把 AI 生成的“看起来像引文”的字符串当来源。
+
+### 本轮来源（详细表见 SOURCES.md）
+
+- [Cochrane Handbook Chapter 4: Searching for and selecting studies](https://training.cochrane.org/handbook/current/chapter-04)
+- [Cochrane: GRADE approach](https://www.cochrane.org/learn/courses-and-resources/cochrane-methodology/grade)
+- [PRISMA-S](https://doi.org/10.1186/s13643-020-01542-z)
+- [PRESS 2015](https://doi.org/10.1016/j.jclinepi.2016.01.021)
+- [NIST TREC Overview](https://trec.nist.gov/overview.html)
+- [OpenAlex: Searching](https://developers.openalex.org/guides/searching)
+- [Lateral reading: College students learn to critically evaluate internet sources in an online course](https://doi.org/10.37016/mr-2020-56)
+- [How Unique Are Hallucinated Citations Offered by Generative Artificial Intelligence Models?](https://doi.org/10.3390/publications14030038)
 
 ## 主要来源
 

@@ -1,8 +1,8 @@
 ---
 name: work-consensus
 description: 开工/重构前预载的工作共识：深模块、Deletion Test、接口即测试面、模块地图、AI 即新人。用于任何会话开始、架构重构、代码库整理前。
+whenToUse: 任何会话开始、架构重构、代码库整理前。
 ---
-
 # 工作共识预载
 
 本技能是全局共识的可调用版本。开工前调用本技能，然后按以下流程执行。
@@ -47,9 +47,120 @@ description: 开工/重构前预载的工作共识：深模块、Deletion Test�
 - [ ] 目录/命名能让新人从文件树看出这个模块在做什么。
 - [ ] 修改后跑完了测试/类型检查/构建，并提交了可回滚的一步。
 
+## 2026 深度补强（Round 38）
+
+> 本轮补强聚焦“把已有共识落到动作”：边界怎么切、接口按什么设计、测试锁什么、重构前怎么保护、泄漏怎么防、AI 怎么导航。每条均为新增可执行项。
+
+### 1. 模块边界：先看“依赖与变更”，再决定拆/合
+
+**触发**：看到“某个模块太大/太乱”时，不要直接按行数或目录层级拆。
+
+**动作**：
+- 列出模块间的 import/调用边，区分 **usage dependency**（调用方法）与 **creation dependency**（创建/装配对象）。
+- 按“变更同频”切：同一需求下总是一起改的代码放同一/邻近模块；变化速度不同的代码分开。
+- 把创建/装配依赖集中到一个配置/组合根模块，业务模块只保留 usage dependency，降低对供应方内部的耦合。
+- 拆完用“改一个需求要动几个模块”做观测：数字变小且每处改动局部，边界才变好。
+
+**反例/边界**：不要机械按 presentation/domain/data 分层；这些层常常必须一起改，不是天然模块边界。
+
+**来源**：Martin Fowler《Refactoring Module Dependencies》。
+
+### 2. 接口按“角色”设计，不按“实现全貌”设计
+
+**触发**：准备抽接口；或已有接口没人用完；或新实现被迫实现一堆无关方法。
+
+**动作**：
+- 从每个真实客户端的需求定义 **Role Interface**，接口方法应被至少一个当前客户端使用。
+- 只有出现真实可替换性需求（第二种实现/第二种用法）时才建接口。
+- 若一个接口方法在现有调用方中无人使用，先删方法，不要为“未来可能”预留。
+
+**反例/边界**：把实现类全部 public 方法复制成 **Header Interface** 不是真接缝；例如一个 `Repository` 接口同时给多个 service 用、但每个 service 只用其中两个方法，这是“接口是实现的镜像”，不是“调用方的角色”。
+
+**来源**：Martin Fowler《Role Interface》；关联既有“真接缝才有抽象”。
+
+### 3. 测试锁“契约”，不锁“实现细节”；测不动就调接口
+
+**触发**：写测试时忍不住访问私有成员、用 `FRIEND_TEST`、mock 一堆内部对象、或靠断言“内部方法被调用”才能测到行为。
+
+**动作**：
+- 先通过公开接口断言可观察行为；测试代码应像其他客户端一样只依赖契约。
+- 公开接口覆盖不足时，优先把实现细节抽成“可测的子组件”，或把真正需要测的逻辑提升为公开接口（可加 `ForTesting` 标注），而不是把生产类私有状态全部暴露。
+- 实在需要内部访问时才用最小化的 **test peer**，避免 `FRIEND_TEST`、整个 fixture friend 这类大面积破坏封装。
+- 判断标准：实现被 AI 重写后，测试仍应通过；凡测试因“内部结构变了”而红，都是在测实现而非契约。
+
+**反例/边界**：契约包含错误模式、调用顺序、不变量，所以“测契约”不等于只测 happy path；若公开接口完全无法覆盖关键行为，更可能是接口太浅，应改接口而不是开内部访问后门。
+
+**来源**：Abseil TOTW #135《Test the Contract, not the Implementation》；Google Testing Blog《Prefer Testing Public APIs Over Implementation-Detail Classes》；Kent C. Dodds《The Testing Trophy and Testing Classifications》。
+
+### 4. 重构老代码前先写特征化测试，把“现状”变成规格
+
+**触发**：接手没有测试的旧模块；准备重构/重写但不确定现有行为。
+
+**动作**：
+- 先通过公开接口写“解释现状”的测试：用占位期望值跑一次，把实际输出回填，再按真实理解命名。
+- 这些测试不是为了“正确”，而是为了“说明现状”；重构中一旦变红，即为行为变化。
+- 有意的行为变更单独提交、单独改测试，不与重构混在一起。
+
+**反例/边界**：特征化测试把生产代码当作自己的规格，所以会保留看起来像 bug 的行为；不要一边重构一边“顺手修 bug”。依赖难拆时先用 seam/边界隔离，再写测试。
+
+**来源**：Michael Feathers《Characterization Testing》。
+
+### 5. 边界上不要让内部实现细节泄漏给调用方
+
+**触发**：调用方为了正确使用模块，必须知道底层引擎、异常类型、性能特性、远程时序或失败模式。
+
+**动作**：
+- 逐条列出“调用方被迫知道但接口没表达的细节”。
+- 把这些细节向模块内部收：异常转换、重试/回滚、默认策略、配置默认值；或把接口收窄/拆成不同抽象（不同层用不同抽象）。
+- 对外部世界（I/O、数据库、时间、网络）的副作用尽量推到模块外壳，核心保持可测的纯计算（Functional Core, Imperative Shell 的边界思想）。
+- 无法消除的泄漏要在接口契约里显式声明，并给出调用方可处理的边界，而不是只写在 README。
+
+**反例/边界**：`save()` 抛裸 `SQLException` 并返回“部分成功”标志、让每个调用方自己回滚，是把数据库细节漏进业务层。所有非平凡抽象都会泄漏；目标不是零泄漏，而是让泄漏“可感知、可处理、不隐性”。
+
+**来源**：Joel Spolsky《The Law of Leaky Abstractions》；Gary Bernhardt《Boundaries》；John Ousterhout《A Philosophy of Software Design》。
+
+### 6. AI/新人导航：每模块一个入口说明 + 目录名=概念，禁“杂物间”
+
+**触发**：AI/新人进代码库不知道改哪里；目录里出现 `utils`/`common`/`misc`；模块入口分散。
+
+**动作**：
+- 仓库根有一份模块地图（README/AGENTS.md）：列入口、边界、约定、验证命令。
+- 每个模块顶部 3-5 行渐进披露：是什么 → 怎么用 → 接口 → 实现注意。
+- 目录名/文件名使用具体概念；一个文件一个主要责任；避免 `Manager`/`Helper`/`Util` 这类多功能命名。
+- 验收：要改某个功能，只凭文件树+模块顶部说明即可定位到唯一模块。
+
+**反例/边界**：不要用长篇 prompt 或超长 AGENTS.md 补救结构性混乱；文档是辅助，目录/接口/测试才是主地图。模块小且自明时，顶部说明可以只有一行。
+
+**来源**：sergioazoc《Context Architecture》；mixcode《agent-friendly-guide》；关联既有 Matt Pocock《Why Your Codebase Matters More Than Your Prompt》。
+
+### 7. 反例：深模块不等于大模块，深度不是可打分指标
+
+**触发**：有人把“接口小实现大”当唯一指标；或把大 Class 当深模块；或想把所有模块都改造成深模块。
+
+**动作**：用三个正交检验交叉判断：
+- **Deletion Test**：删掉它，复杂度是消失还是散落到 N 个调用方？
+- **变更分析**：改一个需求要动几个模块？
+- **依赖方向**：它是否只通过窄接口被使用？
+
+深模块还必须有强内聚的单一职责；如果一个大类把多个无关关注点藏在同一窄接口后面，是“伪深”。
+
+**反例/边界**：有实践者指出把 module depth 当单一指标是 bogus；不要拿深度当 KPI，也不要把所有模块都改造成深模块。一个浅但极稳、无第二实现的模块可能直接保留。
+
+**来源**：Eric Normand《PurelyFunctional.tv Newsletter 412: module depth is bogus》；John Ousterhout《A Philosophy of Software Design》。
+
+### Round 38 快速自检（新增）
+
+- [ ] 模块地图：看到一个目录/文件名，能否说出它的唯一职责？
+- [ ] 接口：每个接口方法是否至少被一个真实客户端使用？
+- [ ] 测试：是否通过公开接口测契约，而非测内部实现？
+- [ ] 重构：无测试的老模块是否先有特征化测试再动刀？
+- [ ] 边界：调用方是否需要知道模块内部细节才能正确使用？
+- [ ] 深模块：删除它，复杂度消失还是散落？
+- [ ] 是否把“深度”当唯一 KPI？
+
 ## 来源
 
-- https://www.pocoo.org/ 无关；源码参考：https://github.com/mattpocock/why-your-codebase-matters-more-than-your-prompt（公开演讲/文章）
+- 源码参考：https://github.com/mattpocock/why-your-codebase-matters-more-than-your-prompt（公开演讲/文章）
 - https://web.stanford.edu/~ouster/cgi-bin/book.php（A Philosophy of Software Design 作者页）
 
 基于 Matt Pocock《Why Your Codebase Matters More Than Your Prompt》与 John Ousterhout《A Philosophy of Software Design》的深模块思想整理。

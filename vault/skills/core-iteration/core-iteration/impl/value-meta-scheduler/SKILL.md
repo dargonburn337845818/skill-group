@@ -290,6 +290,83 @@ if core == false and round >= max_rounds:
 }
 ```
 
+## 2026 深度补强（Round 39）
+
+> 本轮针对调度器五个最容易“看起来收敛、其实没收敛”的深水区补强：非单调回归、语义热力、成本感知、评分卡防作弊、停止决策的预注册。原则：**先保留最优版本，再判断“新知识”是不是新；“会停”比“不停”更难，因此停止条件要在开跑前写下来。**
+
+### 新增规则 1：冠军-挑战者制与回滚（轮次控制）
+
+- 每轮维护两个版本：`champion`（历史最高分，含来源完整性的版本）与 `challenger`（本轮迭代产物）。
+- 接受 challenger 前必须满足：**总分不降，且五个评分维度没有任何一项硬性回退**（尤其“来源/可追溯”不得回退）。
+- 出现任一条件则 `rollback` 到 champion；本轮新增节点记 0，并在 `convergence_report.stop_reason` 标记 `regression_rollback`（若不接受 rollback 则记录 `forced_review`）。
+- 不要把“新版本”自动当“更优版本”。非单调性是常态，调度器必须默认怀疑 challenger，而不是默认收下。
+- [来源：S1, S2]
+
+### 新增规则 2：语义新颖度计数（收益曲线）
+
+- 收益曲线增加一列 `semantic_novelty`（语义新增节点），它与 `new_nodes` 分列，不允许只报后者。
+- 对每个候选知识节点，与当前 Skill 已覆盖节点做一次语义相似/改写检测（建议起步阈值：相似度 ≥ 0.85 判 `redundant_paraphrase`）。
+- 公式：
+
+```text
+semantic_novelty_rate = semantic_novelty / max(1, processed_verified_high)
+redundant_ratio       = redundant_paraphrase / max(1, processed_verified_high)
+```
+
+- 停止信号：`semantic_novelty_rate < 0.20` 连续两轮 → 标记 `semantic_static`，即使 `new_nodes` 仍为 2–3 也判定收益枯竭。
+- 反例：5 条“同一条原则换不同例子/措辞”不应计为 5 个有效新增，只能计 1 个语义新增。这正是“数字还在涨、认知已停”的典型来源。
+- [来源：S3, S7]
+
+### 新增规则 3：成本感知的期望收益门（收敛预测）
+
+- 调度器每轮记录 `round_cost` = token/时间/裁判调用/外部工具调用的标准化开销。
+- 继续下一轮的门槛不只是“还有 verified-high”，还要看成本收益：
+
+```text
+projected_ei = p(下周仍能新增语义节点) × expected_semantic_gain
+continue if projected_ei / round_cost 相对上一轮不显著恶化
+```
+
+- 硬性减速信号：`round_cost` 连续两轮增幅 > 1.5×，且 `marginal_yield` 未同步上升 → 直接标记 `cost_declining`，即使剩余语料充足也应先交用户判断。
+- 预测话术升级：原来只给“1–2 轮”，现在必须同时给“预计还需 N 轮 + 预计还要花多少成本”。只预测轮数、不预测成本，等于让用户盲投。
+- [来源：S4, S5]
+
+### 新增规则 4：评分卡防 Goodhart / 证据三角（评分卡）
+
+- 禁止用**同一套自评分数**既当改进目标、又当唯一验收裁判。`capability_gain` 必须至少有一项独立证据：held-out 任务跑分、真实样例干跑、对抗审查、或外部来源新增。
+- 无独立证据的分数增长记 `unverified_gain`，**不计入** `effective_new_nodes`。
+- 主观维度（定位/触发、可执行步骤）建议由两个独立裁判打分，记录 `inter_judge_disagreement`；分歧超过阈值（例如同维度差 ≥ 2 分）→ 标 `forced_review`，交人工仲裁，不让同一裁判自我纠正。
+- 分数作弊检测：当 `scorecard_delta` 上升但外部 `eval_delta` 持平或下降 → 标记 `score_hacking`，回退本轮，并禁止把“加了更多自评式金句”当成能力提升。
+- [来源：S6, S7, S8]
+
+### 新增规则 5：预注册停止条件与“感觉停”禁令（停止决策）
+
+- 每轮开跑前写入 `planned_stop_conditions`：列出本轮结束后会触发 stop 的具体规则 id 与阈值；收尾时先按预注册规则判定，再允许补充解释。
+- 禁止使用“我觉得差不多了 / 感觉没提升了”作为停止理由——必须翻译成可测量条件（语义新增率 < x、剩余高优 < y、成本收益恶化、外部 eval 不再变化）。
+- 若本轮所有 verified-high 节点都被归因到**已覆盖 gap id**，且没有打开任何新 `knowledge_gap`，即使原始计数为正也判 `gap_static` 并停止。
+- 预注册表至少包含四列：`round`、`planned_stop_rule`、`predicted_stop_round`、`actual_triggered_rule`。
+- [来源：S2, S3, S9]
+
+### Round 39 检查清单（收尾时逐项打勾）
+
+1. `champion` 与 `challenger` 是否分开维护？是否有 `rollback_count`？
+2. 收益曲线是否同时有 `new_nodes` 和 `semantic_novelty` 两列？是否算过 `redundant_ratio`？
+3. 本轮 `round_cost` 是否入账？成本增速与边际收益是否放在同一张表里看？
+4. `capability_gain` 是否有外部 eval/held-out 证据？有没有 `unverified_gain` 混入有效新增？
+5. 停止条件是否在开跑前预注册？收尾时是否引用了具体规则 id？
+6. 是否检查“新增节点全是旧概念换说法”？是否检查“剩余高优只是旧缺口换源”？
+7. 若发生了回滚，报告是否说明了回滚原因，而不是只写“迭代完成”？
+
+### Round 39 反例速查
+
+| 反例 | 判定 |
+|---|---|
+| 新节点数涨了 5，但 4 条是同一原则的改写 | 真实语义新增只算 1；按 `semantic_novelty` 记收益 |
+| 评分卡从 14 涨到 18，但外部任务跑分没变 | `score_hacking`，回退；不计有效新增 |
+| 为了“再磨一轮”无视剩余高优 < 10% | 违反预注册/剩余率，停止 |
+| 本轮分数略高但丢失了来源链路 | 不满足“来源不回归”，必须回滚 champion |
+| 只看 token 总量、不看 round_cost 增幅 | 成本盲区；必须记录成本增速与收益曲线对照 |
+
 ## 来源与可追溯
 
 - 完整来源声明见本目录 `SOURCES.md`。

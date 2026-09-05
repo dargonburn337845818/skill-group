@@ -68,3 +68,35 @@
 - The Design of Everyday Things 书页正文（未取）。
 - Apple HIG 主排版页（JS 渲染；暂用 Apple Help 对比度页替代）。
 - m3.material.io 类型 token 页静态正文（JS 渲染；用第三方辅助核验）。
+
+## Round 35 新增来源
+
+> 本轮于 2026-09-05 通过直接抓取/核验加入；均为公开可访问页面，服务 `SKILL.md` 中「2026 深度补强（Round 35）」的 R35-1～R35-8。
+> 核验方式：HTTP 200 + 页面正文提取；来源可信度沿用本文件既有分级约定。
+
+### 官方标准与设计系统（official）
+
+| 来源 | URL | 用途 / 贡献点 | 可信度 |
+|---|---|---|---|
+| WCAG 2.2 · Text Spacing | https://www.w3.org/WAI/WCAG22/Understanding/text-spacing | 文本重排：行高 ≥1.5、段后距 ≥2×字号、字距 ≥0.12em、词距 ≥0.16em；用户发起的样式覆盖不得导致内容丢失 | 官方一手，已抓取 |
+| WCAG 2.2 · Target Size (Minimum) | https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum | 指针目标最小 24×24 CSS px；不足时用 24px 直径圆不重叠做间距豁免；含 5 类例外说明 | 官方一手，已抓取 |
+| IBM Design Language · Color | https://www.ibm.com/design/language/color/ | 色阶步数估算对比度、渐变背景按最低对比色校核、色盲限制、色板/色族组织 | 官方设计系统，已抓取 |
+| Atlassian Design System · Color | https://atlassian.design/foundations/color/ | 语义色角色（neutral/brand/information/success/warning/danger/accent）、token 命名、饱和/中性/alpha 分类 | 官方设计系统，已抓取 |
+
+### 一手研究（research）
+
+| 来源 | URL | 用途 / 贡献点 | 可信度 |
+|---|---|---|---|
+| NN/g · Contrast: One of the 3 Cs for Better Charts | https://www.nngroup.com/articles/contrast-charts/ | 先灰后彩、标注层、标题同色、callout | 一手研究，已抓取 |
+| NN/g · Clutter-Free: One of the 3 Cs for Better Charts | https://www.nngroup.com/articles/clutter-charts/ | data-ink ratio、删 chartjunk、直接标签、去多余轴/网格/图例 | 一手研究，已抓取 |
+| NN/g · Using Color to Enhance Your Design | https://www.nngroup.com/articles/color-enhance-design/ | 色彩 harmony、60-30-10、限约 3 色、颜色一致性、灰色按钮警示 | 一手研究，已抓取 |
+| NN/g · Touch Targets on Touchscreens | https://www.nngroup.com/articles/touch-target-size/ | 触控目标 ≥1cm×1cm、Fitts 定律、位置与间距、主 CTA 更大 | 一手研究，已抓取 |
+| NN/g · Executing UX Animations: Duration and Motion Characteristics | https://www.nngroup.com/articles/animation-duration/ | 100–500ms、微交互 100ms、进入/退出时长、easing、动效无障碍 | 一手研究，已抓取 |
+| NN/g · The Dos and Don’ts of Pairing Typefaces | https://www.nngroup.com/articles/pairing-typefaces/ | 字体分类、多字重优先、装饰体边界、明确角色、易混字符 | 一手研究，已抓取 |
+| NN/g · Legibility, Readability, and Comprehension | https://www.nngroup.com/articles/legibility-readability-comprehension/ | 大字号可缩放、高对比、纯背景、干净字体；易读/可读/理解三层 | 一手研究，已抓取 |
+
+### 一手科研材料（research/tool）
+
+| 来源 | URL | 用途 / 贡献点 | 可信度 |
+|---|---|---|---|
+| Okabe & Ito · Color Universal Design (CUD) | https://jfly.uni-koeln.de/color/ | 色盲频率与原理、冗余编码、避免同亮度不同色相、红绿限制、色盲安全色板与检查工具 | 一手科研材料，已抓取 |

@@ -1,8 +1,8 @@
 ---
 name: dsh-optimization-consensus
 description: DSH 运维与优化共识——子代理数量有界、升级插件先隔离兼容+冒烟、运行中 agent 禁止热更、破坏性操作先提醒用户并准备回滚。用于任何 DSH/插件升级、子代理调度、热更新或重启决策前。
+whenToUse: 任何 DSH/插件升级、WSL+Windows 双端同步、子代理调度、热更新或重启决策前。
 ---
-
 # DSH 运维与优化共识
 
 ## 触发条件
@@ -84,6 +84,56 @@ description: DSH 运维与优化共识——子代理数量有界、升级插件
 - 不把“隔离冒烟通过”当成“可以热更运行中 agent”的许可。
 - 回滚必须恢复实际文件，不能只改 package.json pin。
 - 无法保证安全时，不自动执行；请用户在外部终端运行脚本并回贴输出。
+
+## 2026 深度补强（Round 37）
+
+### 1. 并发调度：白名单 + 配额 + 预检 + 超时四件套
+
+- **具名 agent 白名单**：不只设 `maxDepth`，还要有 `allowed_agent_types` / 允许的专家团/人设；按模型/effort 分档给配额，并禁止调用方覆盖模型/effort（参考 [Codex issue #33437](https://github.com/openai/codex/issues/33437) 的 project-scoped policy profile）。
+- **扇出前预检**：workflow / `parallel` 启动前先检查所有 worker/agent 引用存在、剩余配额、任务清单合法；缺一个就 fail-fast，不要跑一半才发现（参考 [Codex issue #23479](https://github.com/openai/codex/issues/23479)：主 agent 需要 capacity/status preflight，否则 spawn 失败会退化为“不回子代理”）。
+- **三件硬限制**：每个 workflow / 编排至少设 ①最大 agent 数 ②最大阶段/轮次数 ③最大时长；只设 `maxTotalAgents` 而漏掉轮次/时长，仍可能长跑失控（参考 [Loom multi-agent 架构](https://github.com/teradata-labs/loom/blob/main/docs/architecture/multi-agent.md)：默认 20 agents / 10 stages / 5 rounds，且明确 `workflow timeout（待实现）`）。
+- **反例**：`maxParallelToolCalls=50` + 不加白名单/配额，等于把 rate limit 和成本爆发的责任交给模型。Loom 的架构评审明确拒绝 “No limit / maximum parallelism, no blocking”，选择 `Limit=5` 以同时防死锁、压过 rate limit 并留 50% 余量。
+
+### 2. 子代理/技能 description 是上下文成本，不是免费元数据
+
+- `description` 会进入路由/上下文，必须一行说清“何时用 + 做什么”；长说明放正文/独立文档。
+- 聚合描述超阈值会启动警告（[Claude Code 文档](https://code.claude.com/docs/en/sub-agents)：自定义 subagent descriptions 合计 > 15,000 tokens 时启动警告）；DSH 同类路由也应周期性审计目录中的 description 总长度。
+- 反例：把整页指令塞进 description，导致每次路由都付一次上下文税。
+
+### 3. 插件热更要按“同权代码”对待，不是按“可加载”对待
+
+- 第三方防御审计明确：DSH 插件在宿主进程内以宿主权限运行；**安装/更新/篡改/持久化/热更路径没有签名/完整性/来源/确认门**；`!!js` 配置可以在加载时 RCE；安装后篡改零校验；`dsh plugin remove` 不清理 `!!js` 后门；用户 patch 热更约 15s 生效且不需要重启（来源：[deepseek-harness discussion #454](https://github.com/deepseek-ai/deepseek-harness/discussions/454) / [Fz0x00 audit repo](https://github.com/Fz0x00/deepseek-harness-plugin-security-audit)）。
+- 动作：新插件先审源码 + 查 npm integrity/provenance + OpenSSF Scorecard / [dsh-plugin-certification](https://github.com/PerryLink/dsh-plugin-certification) 这类机器可查证据；不要只靠 `--dump-config` 或“能启动”就放行。
+- 运行中 agent 禁止热更不只是“新旧版本混跑”问题，也是**权限边界**：不可信插件可能借 patch 热更路径静默生效，因此在正式环境保留最小 patch 面并记录 `cordis.patch.yml` 变更。
+
+### 4. 隔离冒烟必须包含“污染测试 + 卸载复原 + 回滚冒烟”
+
+- 在隔离 `DSH_HOME` 中，除 dump-config/启动外，至少再跑：①插件关键路径一次真实调用（如创建/读取/删除或对应 API smoke）②`plugin remove` 后 `--dump-config` 确认无 entry，且 `!!js`/后门型残留不会跨 restart 存在 ③用旧备份完整恢复后再次 boot + dump。
+- 反例：只验证 exit code / dump 通过；可能漏掉“安装即投毒但启动正常”“卸载后后门仍在”的情况。
+
+### 5. 回滚要恢复“锁文件快照 + node_modules 重建”，并区分 frozen 与 unfrozen
+
+- 恢复旧 `package.json` 后，优先把旧 `pnpm-lock.yaml` / `package-lock.json` 快照一并恢复，然后 `pnpm install --frozen-lockfile` / `npm ci`：这才是“精确恢复旧版”的路径。
+- 只有在没有 lockfile 快照、必须重新解析时才用 `--no-frozen-lockfile`；此时必须再做 `npm ls` / `require.resolve` / integrity 校验，确认真的是旧版，不能把“能安装”当“回滚成功”。
+- [pnpm install 文档](https://pnpm.io/cli/install)明确指出 integrity 不匹配是硬失败（`ERR_PNPM_TARBALL_INTEGRITY`），不要用 `--update-checksums` 掩盖；这是供应链边界的守卫。
+- [npm ci 文档](https://docs.npmjs.com/cli/v12/commands/npm-ci)：`npm ci` 会删除现有 `node_modules` 并按 lockfile 精确重建，是干净回滚的官方路径。
+
+### 6. 双端同步用 manifest，不用“复制目录/mtime”
+
+- 生成同步状态 manifest：两端 `dsh --version`、全局包/源码 commit、`package.json`+lockfile sha256、插件源码 commit、presets/Skills/开关状态、`require.resolve` 结果。
+- 同步时按 manifest 逐项核验；任何一项不符就停在“未同步”，不要用 `cp -r` 补。
+- 文件/工作树放在各自原生文件系统：WSL 侧用 `/home/...`，Windows 侧用 `C:\...`；不要在 `/mnt/c` 或 `\\wsl$` 之间维护 `node_modules`/git worktree（[Microsoft Learn: Working across file systems](https://learn.microsoft.com/en-us/windows/wsl/filesystems) 明确建议跨文件系统会损失性能且易混淆大小写/权限）。
+
+### 7. 子代理/后台“已完成但占用槽位”要显式处置
+
+- 已完成但仍有消息/队列的 child 可能继续占用 resident 槽位，使新 spawn 失败（[Codex issue #32353](https://github.com/openai/codex/issues/32353) 实证：completed agent 的 pending mailbox 会 pin 住线程槽，`.length` 值不能代表可用容量）。
+- 动作：启动时记录 child 数，收口时确认 queue/消息被消费或显式关闭；项目级配额不能只按“running 数”判断，要按“包含 pending/queued 的保留槽位”判断。
+- 反例：只看 `running` 数量以为有容量，实际 `spawn` 已 `agent thread limit reached`。
+
+### 8. 提醒模板与审计留痕
+
+- 升级/热更前多问一句：“这个插件/更新有没有签名、来源、许可证、已知漏洞？是否必须现在动？”；把答案写进操作记录。
+- 每次隔离冒烟输出固定四行证据：dump-config 退出码、真实 boot 退出码、关键路径 smoke 结果、remove 后残留检查结果。缺一行就不能进正式 profile。
 
 ## 来源
 

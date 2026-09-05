@@ -87,15 +87,31 @@ def main():
             shutil.copy2(s[f'{kind}_src'], target)
             evals_out.append({'id': task_id, 'task_dir': f'evals/{task_id}', **row})
             print(' ', task_id, row)
+        # Honest verdict: anti-trigger success must be 3/3; success must not regress.
+        anti = next((e for e in evals_out if e['id'].endswith('-anti')), None)
+        anti_ok = anti is not None and anti.get('success_with', 1.0) >= 1.0
+        eval_rows = [e for e in evals_out if not e['id'].endswith('-anti')]
+        success_ok = all(e.get('success_with', 0) >= e.get('success_without', 0) for e in eval_rows)
+        coverage_gain = any(e.get('coverage_with', 0) > e.get('coverage_without', 0) for e in eval_rows)
+        if anti_ok and success_ok and coverage_gain:
+            status, verdict = 'verified', 'verified'
+        elif anti_ok and coverage_gain:
+            status, verdict = 'verified-coverage', 'verified-coverage'
+        else:
+            status, verdict = 'needs_work', 'needs_work'
         verification = {
             'skill': s['skill'],
-            'status': 'verified',
+            'status': status,
             'model': 'deepseek-chat',
             'runs': 3,
             'runner': 'benchflow_runner.py / skilljack_runner.py (DeepSeek, skill-dir = skill directory)',
             'evals': evals_out,
             'checks_observed_red': True,
-            'verdict': 'verified',
+            'verdict': verdict,
+            'verification_notes': (
+                'anti-trigger 3/3 通过且正例成功率未回退。' if status == 'verified'
+                else '以 coverage 提升为有效证据；anti-trigger 或成功率未达 3/3 全绿，需后续复跑后升级为 verified。'
+            ),
         }
         (skill_dir / 'verification.json').write_text(json.dumps(verification, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         cm = []

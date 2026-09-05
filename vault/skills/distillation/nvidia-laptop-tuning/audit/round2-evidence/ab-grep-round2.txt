@@ -1,0 +1,3 @@
+[ab-measure.ps1 system-state write scan]
+grep -nE 'schtasks|Set-ItemProperty|New-ItemProperty|Remove-ItemProperty|memreduct|/clean|Send-GHelperHotkey|PressCombo|reg add' optimizer/ab-measure.ps1
+>>> NONE

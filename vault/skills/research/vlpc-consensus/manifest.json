@@ -20,7 +20,11 @@
     "课题组讨论"
   ],
   "sourceRefs": [
-    "vlpc-editorial-output/"
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/VLPC教师共识.md",
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/组会报告技巧共识.md",
+    "$PROJECT_ROOT/vault/skills/research/vlpc-consensus/vlpc_teacher_consensus.json",
+    "$WORKSPACE/vlpc-editorial-output/",
+    "https://doi.org/10.1109/LWC.2026.3660446"
   ],
   "activation": "catalog",
   "version": "0.1.0",

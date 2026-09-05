@@ -171,6 +171,65 @@ fallback.options = ["distill_expert", "use_llm_directly"]
 4. 按 `examples/distill_task.md` 的样例把本次任务归一化，再进入六步编排。
 5. 完成后运行 `node scripts/validate-vault.mjs`，并更新本地 `assignments/distill/assignment.json`（内部开发记录，未随公开仓库发布）。
 
+## 2026 深度补强（Round 38）
+
+> 本轮针对编排层最易翻车的六个场景补强可执行规则：**来源独立性、缺口去重、专家证据分级、评测卫生、回填事务、审计轨迹**。不改变既有流程，每条都带反例与来源。
+
+### R38-1 来源台账：先证明“这是独立来源”，再算证据数
+
+- 每条 `raw_corpus` 条目必须记录六元组：`canonical_url` / `title` / `publisher` / `publication_date` / `access_date` / `evidence_class`；无法补全 `access_date` 的来源按 `verify-needed` 处理，不标 `verified`。
+- 同文转载、镜像站、聚合页只算 **1 个来源**；独立来源 = 不同出版方/作者的一手或二手材料，不是同一篇文章的 N 个 URL。
+- 链接失效时用 `web.archive.org` 快照回溯，并在台账记录快照日期；没有亲自打开过的 URL 不得进入 `verified_high`。
+- 反例：3 个博客都在转述同一篇官方文章，不能算 3 条独立证据；更多独立来源要点见 [CRAAP Test](https://open.oregonstate.education/goodargument/chapter/craap-test/)。
+
+### R38-2 缺口去重/重叠闸门：先判“该新建还是该扩展”
+
+- 蒸馏前对 `existing_refs` 与目标模块已有 skill 做语义重叠扫描（关键词层、节点层、条目层三层都要看）。
+- 重叠 >60%：不新建 skill，把缺口标记为“已覆盖/并入 <skill-id>”；重叠 30–60%：只蒸馏“增量节点”，并在产出中写明“本产物不包含已有内容”。
+- 新 skill 的 `description` 必须能一句话区分于同模块所有 skill；区分不出来 = 重复。
+- 反例：已有 `dev-security` 再建 `dev-secure-config`，两者检查清单几乎相同；Skill 边界与格式参考 [OpenAI · Testing Agent Skills Systematically with Evals](https://developers.openai.com/blog/eval-skills) 与 [OWASP Universal Skill Format](https://owasp.org/www-project-agentic-skills-top-10/universal-skill-format.html)。
+
+### R38-3 专家蒸馏证据分级：Tier A/B/C，别用聚合语录升级 ready
+
+- `public-figure-style-reference` 证据分三档：
+  - **Tier A**：本人官方文档/著作/亲手维护代码仓库/亲自主讲演讲与逐字稿/个人博客原文；
+  - **Tier B**：主流媒体专访、正式访谈出版物、同行学术分析；
+  - **Tier C**：聚合语录、二手转述、SEO 文章、单一博客转载。
+- 每条 style rule 至少需要 **1 条 Tier A 或 2 条互相独立的 Tier B**；Tier C 只能做旁证，不能单独支撑 `status: ready`。
+- 输出必须写 `inferred`（风格/方法论推断），不得写成“他说过……”；保留原文链接与访问日期。
+- 反例：用某个“10 条名言”聚合页作为唯一来源，把 `pending_distill` 改成 `ready`。来源判断见 [CRAAP Test](https://open.oregonstate.education/goodargument/chapter/craap-test/) 与 [Where did this come from?](https://ouci.dntb.gov.ua/en/works/4KQLJBq9/)。
+
+### R38-4 评测卫生：防泄漏、防恒过、防单次运气
+
+- 任务 prompt 不得包含被测 skill 名称/关键词/示例路径；一旦出现即视为 leakage，需重建任务，不能“先跑再说”。参考 [OpenAI Evaluation Best Practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices) 与 [Anthropic Demystifying Evals](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)。
+- 无 skill 基线必须能失败：`no-skill success == 100%` 时先修 verifier/任务难度，不计为有效评测（环境与任务设计要点见 [LangChain: How We Build Agent Environments & Tasks](https://www.langchain.com/blog/building-agent-environments-and-tasks)）。
+- anti-trigger 误触发率必须低于配置阈值（默认 ≤0.5）；即使正例 Skill Lift 很高，误触发超标也禁止回填。
+- 每次 A/B 必须在台账记录：模型、temperature、seed、日期、每 run 原始结果；<3 runs 只能标 `single-effect`，不得写“有增益”。
+- 反例：用同一个任务既调 skill 又做发版评测，或只挑最好的一次 run 写进 `ENHANCEMENT_REPORT`。
+
+### R38-5 回填事务化：一个 gap 一个 diff，验证不过就整体回滚
+
+- 回填 = 发布动作，必须一个 gap 对应一个可审查 diff：`modules.json` + 新 skill 目录 + `manifest.json` + `CHANGELOG.md` + `SOURCES.md`（专家时另含 `EXPERT_LIBRARY.json` / `domain-profiles.json`）同批更新。
+- 更新后必须跑 `node scripts/validate-vault.mjs`；失败则**整体回滚本次 diff**，不得留下“模块已登记但目录/manifest 缺失”的半成品。
+- 新 skill 的 manifest 字段必须与同模块兄弟 skill 一致（id/scenario/version/sourceRefs/qualityCriteria 等）；缺字段先补模板再登记，格式对齐参考 [OWASP Universal Skill Format v1.0](https://owasp.org/www-project-agentic-skills-top-10/universal-skill-format.html)。
+- 反例：只把 skill id 塞进 `modules.json`，忘记写 manifest；validation 失败后仍宣称“已回填”。
+
+### R38-6 审计轨迹：负结果也落盘，缺字段按“未验证”处理
+
+- 每轮结束写 `round_ledger.json` / 证据台账：命令与工具路径、输入/输出摘要、verified 数量、decision（continue / stop / insufficient_corpus / blocked）、来源数、评测数。可复现性要点参考 [What Do ML Researchers Mean by Reproducible?](https://ar5iv.labs.arxiv.org/html/2412.03854)。
+- `BackfillResult` 中 `verification` / `eval` / `validation` 缺省或 null = **未验证**，不得显示为“已完成”；`insufficient_corpus` 也要写进台账，避免下轮重复搜索同一条死路。评测污染与基线设计可参考 [MMLU-CF: A Contamination-free Benchmark](https://ar5iv.labs.arxiv.org/html/2412.15194)。
+- 外部 runner 未配置 key 时，台账同时写 `external_runner: "not_configured"` 与 `local_runner: "ran"`；不得写“已接入外部 skilljack-evals”。
+- 反例：结论写“A/B 已接入”，但结果文件只有一张空表格。
+
+### Round 38 新增检查清单
+
+- [ ] 每个来源有 `canonical_url + access_date + publisher`，同文转载未重复计数
+- [ ] 重叠扫描完成，结论是“新建 / 扩展 / 已覆盖”，不是重复 skill
+- [ ] 专家规则有 Tier A/B 证据且标注 `inferred`，无聚合语录单源升级
+- [ ] eval prompt 无泄漏；基线可失败；anti-trigger 达标；≥3 runs
+- [ ] 一个 gap 一个 diff；`validate-vault.mjs` OK；失败已整体回滚
+- [ ] `BackfillResult` 无空字段；负结果也写入 `round_ledger`
+
 ## 来源
 
 - `$PROJECT_ROOT/FORMAL_SPEC.md` 第 2 节、第 4.4 节

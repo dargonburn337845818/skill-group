@@ -1,0 +1,10 @@
+[Static checks round2 0.4.0]
+=== old template colors/accent bars/dark sidebar: expect NONE ===
+grep -nE 'accentBar|Color.FromArgb\((59, 130, 246|249, 115, 22|16, 185, 129|139, 92, 246|6, 182, 212|100, 116, 139|15, 23, 42|30, 41, 59|148, 163, 184|203, 213, 225)' src/NvidiaTuningPanel.cs
+>>> NONE
+=== click handlers ===
+grep -nE 'btn(Start|Stop|Refresh|Apply|Restore|MemClean|Help|Exit)\.Click' src/NvidiaTuningPanel.cs
+>>> 8 lines present
+=== layout math ===
+Right content width = 900 - 200(sidebar) - 48(padding) = 652
+Button width 100 + margin 8 = 108; 6 per row = 648 <= 652; 8 buttons -> 2 rows; actions row height 100 fits 2*42 + padding.

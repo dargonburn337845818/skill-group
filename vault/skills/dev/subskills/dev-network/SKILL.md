@@ -161,6 +161,96 @@ mtr -rwzbc 50 <host>   # 若安装
 2. 每个“修复”都必须带撤销方式与验证命令；没有验证步骤的修复不得写入。
 3. 跑一次“故意破坏→恢复”：例如临时设错代理，确认诊断命令能发现；改回后重跑原命令确认恢复。
 
+## 2026 深度补强（Round 40）
+
+> 补强目标：把“第二层坑”补成可执行清单——DNS 到底谁在解析、代理环境变量的大小写与 NO_PROXY 匹配、TLS 验证链与进程级 CA、HTTP 时间线与状态码语义、包管理器/Git/Docker 的免改全局修复、GFW/SNI 的命令级绕行。以下为新增规则，不替代旧文，只加深证据与可逆操作。
+
+### 1. DNS：先确认“谁在解析”，再动 resolv.conf
+
+**最小检查链**
+
+```bash
+ls -l /etc/resolv.conf                 # systemd-resolved 常是 symlink
+readlink -f /etc/resolv.conf           # 是否指到 /run/systemd/resolve/stub-resolv.conf
+getent hosts <host>                    # glibc/NSS 视角
+dig @127.0.0.53 <host> +short          # 或 @实际 nameserver
+resolvectl status                      # 每链路 DNS / DoT / DoH 生效状态
+resolvectl query <host>                # systemd-resolved 实际答案
+```
+
+- `resolv.conf` 是 symlink 到 stub（127.0.0.53）时，直接改 symlink 目标会被 systemd-resolved 覆盖，且不是可逆修复；临时验证用 `resolvectl dns <iface> 1.1.1.1`，持久改动走网络管理配置。
+- `getent hosts` 失败但 `dig @1.1.1.1` 成功 → 根因在本机 NSS/`/etc/hosts`/缓存，不是上游 DNS；不要再改全局 DNS。
+- `.local`（mDNS）、容器别名、K8s `*.svc` 不走普通解析链；对应工具是 `avahi`/Docker 内嵌 DNS/kube-dns。
+
+**反例**：`ENOTFOUND` 就写死 `/etc/resolv.conf` 为 8.8.8.8；若 stub 未启动或名称属 mDNS，写死一台公共 DNS 也无效，且破坏原配置难回收。
+
+### 2. 代理：大小写、NO_PROXY 匹配、进程内验证
+
+- curl/libcurl：`http_proxy` **只认小写**（`HTTP_PROXY` 不生效）；`HTTPS_PROXY`/`ALL_PROXY`/`NO_PROXY` 可大小写，小写优先。排障时把大小写两种都列出。
+- `NO_PROXY` 匹配：`example.com` 会匹配 `www.example.com` 及带端口形式；支持 IP 和 CIDR（curl ≥ 7.86），`*` 匹配全部；命令行 `--noproxy` 可覆盖环境变量禁代理列表。
+- 验证“是否真的走代理”：先 `curl -v --noproxy "*" https://<target>` 做直连基线，再 `curl -x http://127.0.0.1:<port> -v https://<target>`，看 `* Connected to`/`CONNECT` 行。
+- “UI 能开网页、CLI 失败”先查进程继承：`env | grep -i proxy`，对顽固进程用 `strace -e connect` 或应用日志确认。
+
+**反例**：只 `echo $HTTP_PROXY` 就认为代理已生效；实际该进程读的是小写 `http_proxy`，或没有继承环境。
+
+### 3. TLS：用 SNI + 验证链 + 进程级 CA，不用“关校验”
+
+```bash
+openssl s_client -connect <host>:443 -servername <host> -showcerts -verify_return_error </dev/null
+openssl s_client -connect <host>:443 -servername <host> -showcerts </dev/null | openssl x509 -noout -subject -issuer -dates
+openssl verify -CAfile <root.pem> -untrusted <intermediate.pem> <leaf.pem>
+```
+
+- `s_client` 默认“接受任何证书”只为调试；要看真实信任结论必须加 `-verify_return_error`，并配 `-CAfile`/`-CApath`。
+- 缺中间证书时，用进程级 CA 注入，不改全局信任库：`curl --cacert <ca.pem>`、`NODE_EXTRA_CA_CERTS=<ca.pem>`、`GIT_SSL_CAINFO=<ca.pem>`、`REQUESTS_CA_BUNDLE=<ca.pem>`、`SSL_CERT_FILE=<ca.pem>`。
+- 证书“过期”先 `date -u` 查本机时钟；`notBefore/notAfter` 与时钟偏差是常见假象，不要先关校验。
+
+**反例**：`NODE_TLS_REJECT_UNAUTHORIZED=0` / `--insecure` 当修复；先定位具体校验失败（issuer/日期/hostname），再进程级白名单，并记录恢复。
+
+### 4. HTTP：时间线分解 + 状态码语义 + 受控重试
+
+```bash
+curl -sS -o /dev/null -w 'DNS=%{time_namelookup}s TCP=%{time_connect}s TLS=%{time_appconnect}s TTFB=%{time_starttransfer}s TOTAL=%{time_total}s HTTP=%{http_code}\n' https://<host>/
+curl -sS -D - -o /dev/null https://<host>/    # 看 Proxy-Authenticate / Retry-After / Via / Server
+```
+
+- `time_namelookup` 大 → DNS；`time_connect` 大 → TCP/路由/防火墙；`time_appconnect` 大 → TLS 握手；`time_starttransfer` 大而前三者正常 → 服务端/代理响应慢。
+- 407 = 代理认证缺失（看 `Proxy-Authenticate`）；403 = 服务端授权/IP 白名单；429 = 限流（看 `Retry-After`）；502/504 = 网关/上游问题，不等于你本机网络坏。
+- `curl --retry` 默认只重试超时与 408/429/500/502/503/504/522/524，并遵守 `Retry-After`；`--retry-all-errors` 可能产生重复数据，不默认放进 curlrc/脚本。
+
+**反例**：502 就换代理/镜像；先 `--noproxy "*"` 直连或看 `Via`/`Server`，确认是上游还是代理再动手。
+
+### 5. 免改全局：命令级与进程级优先
+
+| 工具 | 单次/局部修复 | 回滚方式 |
+|---|---|---|
+| curl | `--resolve host:443:IP`、`--cacert <ca>`、`--proxy`、`--noproxy "*"`、`--doh-url` | 命令结束即还原，无文件残留 |
+| npm | `npm install --registry <url> --fetch-retries 5 --fetch-timeout 60000`；项目级 `.npmrc` | `npm config delete registry`/删项目 `.npmrc` |
+| pip | `pip install --index-url <mirror> --timeout 60 --retries 5`；`pip config debug` 看来源 | `pip config unset global.index-url` |
+| git | `git -c http.proxy=... clone ...`；`GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.proxy GIT_CONFIG_VALUE_0=http://... git clone ...`；`git config --local` | `git config --local --unset http.proxy` |
+| Docker | `docker run --dns 1.1.1.1`、`--network host`；build 时临时代理参数 | 删容器/网络即还原，不动宿主 DNS/代理 |
+
+- `GIT_CONFIG_COUNT` 把配置注入当前 git 进程，不写任何配置文件；适合 CI 和一次性 clone，显式 `git -c` 优先于它。
+- 不要在 CI 里把个人代理/镜像写进 `~/.gitconfig`、`~/.npmrc`；用环境注入或命令级参数替换。
+- 容器内 `127.0.0.1` 是容器自己，不是宿主；Docker 的自动 DNS 只保证同一用户自定义网络内名字可解析，跨宿主/外部域名仍走宿主 DNS 配置。
+
+**反例**：为了一次拉包改全局 npm registry / daemon.json；应先试验命令级参数，确认根因后再说是否持久化。
+
+### 6. GFW/SNI：命令级临时地址/DoH，不动全局
+
+```bash
+# 先拿正确解析，再单命令验证（不写 /etc/hosts、不改系统 DNS）
+curl --doh-url https://cloudflare-dns.com/dns-query \
+     --resolve cloudflare-dns.com:443:<ip> -I https://<target>
+curl --resolve <target>:443:<ip> -I https://<target>
+```
+
+- `curl --resolve` 是命令行级“/etc/hosts”，只影响该命令；适合验证是“解析污染/解析错”还是“路由/SNI”问题。
+- 用 DoH 拿到 IP 后先 `--resolve` 单命令确认；确认后可选择是否配置代理/镜像，且必须记录原 DNS/hosts 并可还原。
+- Git 可用 `GIT_CONFIG_COUNT` 或 `url.<base>.insteadOf` 在单次命令中重定向，不写全局配置。
+
+**反例**：把 `github.com` 写死进 `/etc/hosts` 当长期修复；hosts 不参与证书校验，IP 池变化会导致证书/可用性漂移，只做临时证据，不做“修复”。
+
 ## 来源
 
 - [CacinieP/network-troubleshoot-skill（开发者网络排障技能仓库，MIT）](https://github.com/CacinieP/network-troubleshoot-skill)

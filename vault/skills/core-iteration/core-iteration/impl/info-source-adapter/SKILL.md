@@ -47,18 +47,18 @@ input = {
 
 ```bash
 # GitHub 仓库搜索
-python3 tools/info_source_cli.py github --query "topic:rust stars:>100" --limit 10
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" github --query "topic:rust stars:>100" --limit 10
 
 # OSV 漏洞查询
-python3 tools/info_source_cli.py osv --package requests --version 2.31.0
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" osv --package requests --version 2.31.0
 
 # 包生态元数据
-python3 tools/info_source_cli.py pypi --package requests
-python3 tools/info_source_cli.py npm --package typescript
-python3 tools/info_source_cli.py crates --package serde
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" pypi --package requests
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" npm --package typescript
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" crates --package serde
 
 # 自动检测 Watt Toolkit / Windows 代理（默认优先 host 代理）
-python3 tools/info_source_cli.py --detect-proxy
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" --detect-proxy
 # 当前机器（WSL）实际返回:
 #   system: http://127.0.0.1:26501       (系统代理，已弃用)
 #   host:   http://172.30.160.1:443      (host 代理模式，默认使用)
@@ -70,32 +70,32 @@ python3 tools/info_source_cli.py --detect-proxy
 #   --proxy-mode none   # 不使用代理
 
 # 使用 host 代理真实调用 GitHub（已实测 OK）
-python3 tools/info_source_cli.py --proxy-mode host github --query "topic:rust stars:>100" --limit 10
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" --proxy-mode host github --query "topic:rust stars:>100" --limit 10
 
 # GitHub Issues / PR
-python3 tools/info_source_cli.py --proxy-mode host github-issues --query "repo:rust-lang/rust bug" --limit 5
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" --proxy-mode host github-issues --query "repo:rust-lang/rust bug" --limit 5
 
 # GitHub Releases
-python3 tools/info_source_cli.py --proxy-mode host github-releases --repo rust-lang/rust --limit 5
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" --proxy-mode host github-releases --repo rust-lang/rust --limit 5
 
 # GitHub Code Search（需 GITHUB_TOKEN）
-GITHUB_TOKEN=xxx python3 tools/info_source_cli.py --proxy-mode host github-code --query "repo:rust-lang/rust fn main" --limit 5
+GITHUB_TOKEN=xxx python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" --proxy-mode host github-code --query "repo:rust-lang/rust fn main" --limit 5
 
 # GitHub 单个文件/文档（Docs/Config/源码，Contents API，可回溯 sha）
-python3 tools/info_source_cli.py --proxy-mode host github-file --repo WordPress/agent-skills --path docs/authoring-guide.md
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" --proxy-mode host github-file --repo WordPress/agent-skills --path docs/authoring-guide.md
 
 # 对抓到的真实 raw_corpus 做质量预筛
-python3 tools/repo_quality.py --input tools/output/info_dump.json --top 10
+python3 "\$CORE_ITERATION_ROOT/tools/repo_quality.py" --input $CORE_ITERATION_ROOT/tools/output/info_dump.json --top 10
 
 # 注意：Watt host 代理不是标准 CONNECT 代理。
 # --proxy-mode host 会改用 curl --resolve 直连 TLS 反代。
 # 已实测：GitHub 真实可用；OSV/PyPI/npm/crates 若未被 Watt 加速会返回明确错误。
 
-# 沙箱/离线验证（使用 tools/fixtures/*.json）
-python3 tools/info_source_cli.py --offline github --query demo
+# 沙箱/离线验证（使用 $CORE_ITERATION_ROOT/tools/fixtures/*.json）
+python3 "\$CORE_ITERATION_ROOT/tools/info_source_cli.py" --offline github --query demo
 
 # 一键跑“能力提升 → 验证”循环
-python3 tools/run_improve_validate.py --offline
+python3 "\$CORE_ITERATION_ROOT/tools/run_improve_validate.py" --offline
 ```
 
 - 真实调用：Watt host 代理可加速的域名（如 GitHub）可真实返回；未加速域名可使用 `--offline` 固定样本验证同一契约。
@@ -146,6 +146,57 @@ raw_corpus_entry = {
 ## 简单用户话术
 
 > 我可以把 GitHub、漏洞公告、包仓库、论文库这些入口串起来，统一抓取并归一化成可过滤的语料；每条都会标明来源和限制，不会拿 star 数或下载量冒充证据。
+
+## 2026 深度补强（Round 39）
+
+> 本轮补强方向：不重复上面的“入口清单”，而是把多源结果如何**归一化、定证据类别、扛限流、可离线回归**以及如何识别“伪多源”变成可执行动作。
+
+### 1. 来源归一化：先定实体主键，再合并多源
+
+- 每条 `raw_corpus` 必须同时带 `source.provider`（`github` / `osv` / `npm` / `pypi` / `crates` / `go_proxy` / `arxiv` / `s2` / `crossref` / `openalex` / `oss_community`）与 `source.external_id`（GitHub repo id、OSV id、DOI、arXiv id、CVE id、`name@version`）。
+- 对外给用户的 URL 用**人读 canonical URL**：GitHub 用 `html_url` 而不是 `api_url`；包用 registry 的页面/项目 URL；论文优先 DOI/arXiv id，不要把临时搜索结果页当稳定引用。
+- 同一实体跨源合并时按 `provider + external_id` 分组，**不能只按名字**：同名包、同名论文在不同生态可能是两个实体。合并时保留每条来源的原始 URL 与抓取时间，不覆盖 provenance。
+- 缺少 `external_id` 或 canonical URL 的条目标记 `unattributable`，按硬性纪律第 2 条不得进入正式 raw_corpus，只能进待核验区。
+
+### 2. 证据类别：用“证据等级 + 独立验证”二维判定
+
+| 类别 | 定义 | 能否进最终证据库 |
+|---|---|---|
+| `primary_official` | 官方文档 / API schema / 发布公告 / 官方 advisory / 官方 changelog | 可以 |
+| `primary_author` | 作者/维护者在 README、issue、release 中的明确陈述 | 可以（需作者身份可核验） |
+| `secondary_independent` | 第三方独立验证：独立审计、复现实验、OSV 交叉条目、同行评审论文（非预印本） | 可以 |
+| `tertiary_clue` | 社区讨论、awesome/landscape、博客、star/downloads/citation 数 | 只作线索，不作证据 |
+| `preprint` | arXiv/预印本，未经同行评审 | 可作研究线索，标 `not_peer_reviewed`，不可冒充同行评审 |
+
+- 蒸馏门槛：最终证据库只收前三类；`tertiary_clue` 与 `preprint` 只能在线索表出现，且必须标注“未经独立验证”。
+- 反例：Semantic Scholar 的 `citationCount` 不是质量证据；arXiv 列表里的论文不是“已发表”；OSV 的 `aliases` 是同一漏洞的不同编号，不是多条独立证据。
+
+### 3. 限流先行：读 header 再决定，不靠蒙
+
+- GitHub 未认证：搜索类 10 req/min，REST core 约 60 req/hr（认证后按当期文档）。每次请求后记录 `x-ratelimit-remaining`、`x-ratelimit-reset`、`retry-after`。
+- 收到 429/403/abuse 后：先把失败写进 `source_scope_report.rate_limits`，按 `retry-after` 退避；**不要立即重试同一请求，更不要吞掉失败继续抓**。
+- 对按小时限流的源做 token bucket 或固定速率整形，不是简单 `sleep(1)` 循环。
+- OSV/PyPI/npm/crates/arXiv/Crossref 等免费接口也都有礼貌并发与 User-Agent 要求；不要多线程无节制打爆。
+- 降级顺序固定为：官方 API → 官方网页/文档 → 可信第三方镜像/网页搜索 → `--offline` fixture；每一级降级都必须写入 `degradation`。
+
+### 4. 离线验证：fixtures 要“真”，断言要“锁契约”
+
+- `fixtures/*.json` 必须来自**真实响应快照**（含 status、关键 headers、body），不要手造“理想 JSON”；至少覆盖成功、未认证限流、缺 token、空结果、schema 变化（缺失/新增字段）五类。
+- 离线断言至少要锁：必需字段存在、`external_id` 跨条目唯一、canonical URL 非空、降级路径 `degradation` 非空、`rate_limits` 有数值可复核。
+- 外部 API 改字段时，离线测试应先变红，再更新适配器与 fixture；不要直接“容错掉新字段”而失去回归保护。
+- CI 用 `--offline` + fixtures 做契约回归；真实调用只做冒烟，避免把网络抖动当适配器失败。
+
+### 5. 多源独立性检查：同一上游只算一源
+
+- 汇总后按 `source.provider + owner/org + author/group` 做独立主体分组；同一仓库、同一作者、同一上游数据库（如 PyPI JSON 与该项目 README 指向同一项目）只算 1 个独立视角。
+- 报告里给 `independent_sources`，而不是只用 `total_candidates` 或来源数宣称“多源佐证”；至少 2 个不相关主体才可称“多源交叉”。
+- 反例：一个组织的 3 个仓库、同一作者的 3 篇论文、同一条 issue 下的 3 条评论，都不构成 3 个独立来源。
+
+### 6. 查询审计与反例
+
+- 每个查询记录：`raw_query`、`normalized_query`、`endpoint`、`total_count`、`returned_count`、`deduped_count`、`failures`、`truncated`。
+- 未认证搜索 API 的 `total_count` 是“命中数”不是“全量可获取数”；超过 `max_per_source` 必须标记 `truncated=true`，不能用 `total_count` 冒充“已全量覆盖”。
+- 反例：把 `stargazers_count` / downloads / `citationCount` 当质量证据；把 issue 标题当结论；从 500 条命中只抓前 10 条却写“已覆盖全部”；把 `aliases` 当多条独立证据。
 
 ## 来源
 

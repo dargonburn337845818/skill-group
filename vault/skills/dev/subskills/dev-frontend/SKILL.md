@@ -74,6 +74,59 @@ whenToUse: 用户写/改前端页面、组件、交互、状态管理、样式�
 | “页面能用就行，不管键盘” | 键盘可达 + 可见焦点是基本可用性，不是加分项 |
 | “用 div 模拟按钮” | 原生 button 自带键盘/焦点/语义；非要自定义则补全 keyboard 行为 |
 
+## 2026 深度补强（Round 32）
+
+> 本轮不替代 1–5 节；补强重点是“可执行检查 + 反例”，并新增独立来源台账（见 `SOURCES.md` 的 Round 32 新增来源）。
+
+### 6. 组件边界：组合优先于布尔旗标
+
+- 可执行：当组件开始出现 `variant`/`size`/`mode`/`showX` 等并行开关，或一个展示形态需要改组件内部多处 if/switch 时，先拆子组件并用 `children`/slot/命名插槽组合；不要继续堆 prop。
+- 检查：新增形态只需在调用方组合既有子组件就完成 → 边界健康；必须改组件内部渲染分支 → 边界已破，抽出去。
+- 反例：`<Card showHeader showFooter isEditable isCollapsible>` 无法预知组合效果；正确：`<Card><CardHeader .../><CardBody>…</CardBody><CardFooter .../></Card>`。
+- 来源：Vue Slots、React Docs Thinking in React（已有，组件边界）。
+
+### 7. 状态管理：渲染期派生，不用 effect 同步 state
+
+- 可执行：能从 props/现有 state 计算得到的值，在 render 顶部计算或记忆化；不要把“过滤、排序、格式化结果”同步进另一个 state。
+- 反例：`useEffect(() => setFiltered(list.filter(...)), [list])` 会多一次整树渲染；正确：`const filtered = useMemo(() => list.filter(...), [list])`。
+- 来源：React Docs You Might Not Need an Effect、Keeping Components Pure。
+
+### 8. 状态管理：服务端状态走缓存协议，不复制进本地 state
+
+- 可执行：服务端数据用 TanStack Query/SWR/Apollo 等查询缓存；更新/失效用 `invalidateQueries`/refetch；不要复制到 `useState` 后手工同步。
+- 反例：把 API 响应放进组件 state，另一个组件改了数据后原组件 stale；或者每个页面重复请求同一接口。
+- 来源：TanStack Query React Overview。
+
+### 9. 可访问性：弹层必须管焦点，关闭后还焦点
+
+- 可执行：模态 dialog 打开时焦点进入弹层并 trap；关闭/ESC 后焦点回到触发元素；优先原生 `<dialog>` 或 ARIA APG 对话框模式；背景不能只 `aria-hidden` 而不管焦点。
+- 反例：点“关闭”后焦点掉到 body，Tab 进入不可见区域；或只给遮罩设 `aria-hidden`，屏幕阅读器仍能读到背景内容。
+- 来源：WAI ARIA APG、MDN dialog role。
+
+### 10. 可访问性：语义优先，自动化 a11y 进 CI
+
+- 可执行：能用原生 HTML 就用原生（`button`/`nav`/`main`/`label`），ARIA 只补缺失语义；CI 跑 axe/Lighthouse/Playwright accessibility，把已知违规当门禁。
+- 反例：给 div 加 `role="button"` 却不实现键盘/焦点；到处用 `aria-label` 覆盖可见文本/占位符当 label。
+- 来源：WAI ARIA APG、Playwright Accessibility Testing。
+
+### 11. 性能：先防 CLS/INP，再谈微优化
+
+- 可执行：图片/视频标注 `width`/`height` 或 `aspect-ratio`；字体用 `font-display: swap` 并必要时 preload；长列表用虚拟化或 `content-visibility: auto` + `contain-intrinsic-size` 预留尺寸；LCP 图用 `fetchpriority="high"`/preload，非首屏图懒加载。
+- 反例：不设尺寸的图片让首屏跳动；首屏一次渲染 1000 行导致 INP 卡顿；字体 FOIT 白屏。
+- 来源：MDN content-visibility、web.dev Learn Performance（已有）。
+
+### 12. 安全：默认转义 + 白名单 sanitize + CSP + 外链防反向 tabnabbing
+
+- 可执行：用户内容默认文本转义，富文本用 DOMPurify 等白名单 sanitize；配置 CSP（`default-src 'self'`，避免 `unsafe-inline`/`unsafe-eval`）；`target="_blank"` 必须带 `rel="noopener noreferrer"`；`window.open`/redirect 的 URL 协议必须白名单；依赖漏洞用 `npm audit`/`pnpm audit` 入 CI。
+- 反例：`v-html`/`dangerouslySetInnerHTML` 直渲染接口 HTML；CSP 开后门 `unsafe-inline` 又依赖它防 XSS；把 access token 放 `localStorage` 且无 CSP/转义。
+- 来源：OWASP XSS Prevention、OWASP CSP Cheat Sheet、MDN rel=noopener。
+
+### 13. 测试：以用户可见行为为准，并覆盖错误/空/加载态
+
+- 可执行：查询用 `getByRole`/`getByLabelText`/`getByText` 等用户可见方式；`getByTestId` 只在非语义元素无其他查询方式时作最后手段；每个核心组件至少覆盖正常/空/加载/错误 + 键盘操作；核心用户流用 Playwright e2e，并把 a11y 自动化纳入同一流水线。
+- 反例：断言组件私有 state、mock 子组件实现、用 class/样式断言；只测 happy path，错误态留到线上。
+- 来源：Testing Library Guiding Principles、Playwright Accessibility Testing。
+
 ## 来源
 
 - [MDN Web Docs: Web 开发入门/标准](https://developer.mozilla.org/)

@@ -99,6 +99,35 @@ whenToUse: 用户搭建或评审部署流程、CI/CD、容器镜像、监控告�
 - **dev-backend**：服务分层与可观测性基础有重叠；本技能从“发布与运行”视角补充，不重复 API/数据模型规范。
 - **dev-network**：DNS/代理/TLS/连通性/开发机网络访问的逐层定位与可逆修复交给 dev-network；本技能只把“网络可达”作为发布前检查的一部分。
 
+## 2026 深度补强（Round 32）
+
+> 本批新增规则聚焦“CI 供应链硬门禁 / 容器不可变证明 / 指标基数 / 采样策略 / 燃烧率告警 / 自动金丝雀”，补足旧版“有监控有告警但不防真事故”的空隙；来源见 `SOURCES.md` 的 Round 32 新增来源。
+
+### 7. CI/CD 供应链与运行卫生
+
+- **第三方 Action 固定到完整 commit SHA**：`uses: actions/checkout@<40位SHA>` 优于 `@v4` 等可变 tag；tag 可被移动/删除，即使作者可信也有风险。默认 `permissions: contents: read` 按 job 增权；云部署优先 OIDC 获取短时凭据，不在仓库里长期放云密钥。
+- **CI 运行要设边界**：部署/发布 workflow 用 `concurrency: { group: <env>, cancel-in-progress: true }` 防同环境并发部署（旧 run 覆盖新 run / 重复构建）；每个 job 设 `timeout-minutes`，避免挂起 runner 白耗成本。
+- 反例：“第三方 action 追 `@main`/`@v4` + AWS 长密钥放 repo secret + 不设超时”。
+
+### 8. 容器不可变与运行时硬门禁
+
+- **构建即产生证明**：`docker buildx build --sbom=true --provenance=true --push`（用 `docker-container` driver 并推送 registry；默认 driver/`--load` 会丢证明）。provenance 默认 `mode=min`；SBOM/provenance 以 in-toto 格式附加到镜像索引，部署前应校验，不能只“扫过一遍就发”。
+- **运行时按 Restricted 纲验收**：部署准入要求 `runAsNonRoot: true`、`allowPrivilegeEscalation: false`、`seccompProfile.type: RuntimeDefault`、`capabilities.drop: [ALL]`（只加回必需项），并拒绝 privileged/root 容器；再按 OWASP 补 `readOnlyRootFilesystem: true` 与 `resources.requests/limits`。
+- 反例：“镜像里 `USER root`，指望 runtime 补；或 `--privileged --cap-add SYS_ADMIN` 直上生产”。
+
+### 9. 可观测性：基数、采样、燃烧率
+
+- **指标标签是乘法**：每个唯一 label 组合 = 一条时间序列；不要放 `request_id`、完整 `path`（含参数）、用户 ID 等无界标签；保留 `service/operation/status_class/region/version` 等低基数维度，需要逐请求关联时用 `trace_id`/日志，不要烧指标基数。
+- **采样先分层**：高流量先 head（如 5% 一致性概率）再 tail；只用 head 无法保证保留错误/慢链路，tail 按整条 trace 的 error/latency 决策。tail 组件要监控资源，过载要有降级兜底（回退低成本采样）。
+- **SLO 燃烧率用多窗口复合告警**：短窗抓快烧、长窗抓慢漏；例如 AWS/Google SRE 的 1h+5min（2% 预算）、6h+30min（5%）、3d+6h（10%）复合告警；阈值公式 `X% × 评估区间 / 回看窗口`。单窗口无法同时快速察觉尖峰又识别持续燃烧。
+- 反例：“指标上加 `path`/`request_id`”、“采样只留 5% 随机并丢了所有错误链路”、“单条 5 分钟错误率告警疯狂 page”。
+
+### 10. 渐进发布与自动回滚
+
+- **Canary 门禁自动化**：用 Argo Rollouts/类似工具定义 `AnalysisTemplate`（`successCondition` / `failureCondition` + `failureLimit`），金丝雀期间按间隔查询 Prometheus/其他指标；失败则中止并切回旧版本（canary weight = 0），成功才继续放量。
+- **自动化门禁不是免人工**：选用户可感知指标（错误率、延迟、SLO），不选 CPU/内存；阈值与采样间隔要能容忍瞬时抖动；仍需人工审批/runbook 处理 inconclusive 与根因。
+- 反例：“金丝雀靠人盯 dashboard 再决定”、“用单个 CPU 尖峰当发布门禁”、“`failureLimit: 1` 导致一次抖动就全量回滚”。
+
 ## 来源
 
 - [GitHub Actions Docs](https://docs.github.com/en/actions)

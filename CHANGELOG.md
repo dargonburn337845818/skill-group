@@ -1,6 +1,28 @@
 # Changelog
 
 ## Unreleased
+- **v0.2.7 内容蒸馏补强完成（Round 39–40，收敛）**：
+  - 最后 10 个注册技能完成搜索/蒸馏补强：benefit-filter、inspiration-miner、return-forensics、value-effect-audit、value-iterator、value-validator、web-research-consensus、dev-network、eval-task、nvidia-laptop-tuning。
+  - vault 正式注册技能 **50/50 全部包含内容补强章节**；包检 50/50、本地 20/20、validate-vault/tags OK。
+- **v0.2.6 内容蒸馏补强（Round 36）**：
+  - 第六批 6 个模块壳/协议技能：dev-design-aesthetics / expert-team / teacher-module / writing-module / dev-module / research-module。
+  - 每个技能追加高质量来源蒸馏出的新规则/反例/示例并更新 SOURCES；校验全绿。
+- **v0.2.4 内容蒸馏补强（Round 34）**：
+  - 第四批 6 个技能：prompt-writing / document-report / speech-writing / career-path / teacher-math-consensus / submission。
+  - 每个技能追加高质量来源蒸馏出的新规则/反例/示例并更新 SOURCES；校验全绿。
+- **v0.2.3 内容蒸馏补强（Round 33）**：
+  - 第三批 6 个技能：paper-reading / paper-writing / group-meeting / research-ppt / mentor-review / dev-art-ppt。
+  - 每个技能追加高质量来源蒸馏出的新规则/反例/示例并更新 SOURCES；校验全绿。
+- **v0.2.2 内容蒸馏补强（Round 32）**：
+  - 对 dev-security / dev-frontend / dev-testing / dev-performance / copywriting / paper-outline 搜索并蒸馏新增 36 条可执行规则/反例/示例，新增 73 条权威来源。
+  - 每个技能追加 “2026 深度补强（Round 32）” 章节并更新 SOURCES 台账；未改 manifest、未删旧内容。
+  - 校验：vault 包检 50/50、本地 20/20、validate-vault/validate-tags OK。
+
+- **v0.2.1 存量技能库质量翻新（Round 31）**：
+  - 50 个 vault 注册 skill 全部补齐 `whenToUse` / `SOURCES` / `CHANGELOG` / `examples`，`skill_package_check` 100 分。
+  - 修复内容级问题：`dsh-optimization-consensus` 补脚本与触发节、`skill-management` 失效引用、`research-module` 专家状态、`vlpc-consensus` 来源与 DOI、`nvidia-laptop-tuning` tags 超限、core-iteration 工具路径统一为 `$CORE_ITERATION_ROOT/tools/`。
+  - 本地源目录同步补齐 manifest 与门禁，20/20 包检 100 分。
+  - 校验：`validate-vault` OK（22 skills）、`validate-tags` OK（50 manifests）。
 
 - **v0.2.0 专家团标准化与全量补全**：
   - 新增 `vault/skills/teacher/expert-team/SKILL.md`：任意模块（dev/writing/teacher/research/distill）统一的专家团调用协议。

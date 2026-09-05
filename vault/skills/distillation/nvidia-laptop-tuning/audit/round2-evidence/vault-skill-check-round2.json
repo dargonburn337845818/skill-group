@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "results": [
+    {
+      "id": "nvidia-laptop-tuning",
+      "ok": true,
+      "issues": [],
+      "warnings": [],
+      "score": 100,
+      "path": "$HOME/work/dsh-skill-vault/vault/skills/distillation/nvidia-laptop-tuning"
+    }
+  ]
+}

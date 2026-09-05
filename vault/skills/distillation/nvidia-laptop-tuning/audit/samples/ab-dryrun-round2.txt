@@ -1,0 +1,9 @@
+[DRY-RUN] A/B 测量计划
+  Arm              : baseline
+  Duration         : 180 秒
+  Interval         : 1 秒
+  预计采样点       : 180
+  OutputDir        : D:\<工具目录>\ab-data
+  将采集字段       : timestamp, arm, gpu_util, gpu_temp_c, gpu_power_w, vram_used_mb, cpu_load, mem_pct, mem_used_gb, mem_total_gb, clock_sm_mhz
+  系统状态         : 只读 nvidia-smi / WMI / state.json / status-report；不切换档位、不清理内存、不改注册表
+  [DRY-RUN] 完成，未采集任何数据，未创建目录。

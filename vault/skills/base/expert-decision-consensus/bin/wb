@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# wb — DSH research workbench CLI wrapper
+set -euo pipefail
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+HERE="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
+exec python3 "$HERE/../tools/workbench_cli.py" "$@"

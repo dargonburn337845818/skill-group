@@ -1,6 +1,6 @@
 {
   "skill": "dev-architecture",
-  "status": "verified",
+  "status": "needs_work",
   "model": "deepseek-chat",
   "runs": 3,
   "runner": "benchflow_runner.py / skilljack_runner.py (DeepSeek, skill-dir = skill directory)",
@@ -27,5 +27,6 @@
     }
   ],
   "checks_observed_red": true,
-  "verdict": "verified"
+  "verdict": "needs_work",
+  "verification_notes": "以 coverage 提升为有效证据；anti-trigger 或成功率未达 3/3 全绿，需后续复跑后升级为 verified。"
 }

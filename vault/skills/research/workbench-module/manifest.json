@@ -1,0 +1,53 @@
+{
+  "id": "workbench-module",
+  "name": "workbench-module",
+  "title": "科研工作台编排模块",
+  "description": "用 wb CLI + 九段决策环把科研/专家决策跑成 LightRead 式工作台：项目台账、多源检索、引用核验、专家团、门禁、记忆、文件交付。",
+  "whenToUse": "开始科研任务、读论文、文献调研、写综述、设计实验、准备组会/PPT、或希望像 LightRead 一样在一个工作区里搜读写算并留下可追溯产物时。",
+  "boundary": "不替代论文原文与实验实跑；无 ready 专家时走 expert_gap；简单一次性问答不必开项目。",
+  "notWhenToUse": "纯单点问答、无需项目台账的琐碎任务，或用户明确只需要一段聊天而不需要文件交付时。",
+  "scenario": "research",
+  "scenarios": [
+    "research",
+    "teaching",
+    "dev",
+    "writing"
+  ],
+  "routing": "domain",
+  "activation": "catalog",
+  "qualityCriteria": {
+    "high": [
+      "每个科研任务有项目台账（brief/claims/decisions/conflicts/gates）",
+      "引用经过 wb verify 或 OpenAlex/Crossref 核验",
+      "阶段通过 wb gate 留痕，未 PASS 不宣称完成",
+      "交付物（报告/PPT/代码/笔记）落在 artifacts/"
+    ],
+    "reject": [
+      "只输出聊天不给文件",
+      "引用未核验却写进结论",
+      "无 ready 专家却用大模型冒充专家团",
+      "跳过 gate 直接说完成"
+    ],
+    "minIndependentSources": 2,
+    "notes": "本模块是编排层，具体领域判断仍由 research/teacher/dev 模块提供。"
+  },
+  "tags": [
+    "科研工作台",
+    "多Agent",
+    "证据台账",
+    "阶段门禁",
+    "可交付",
+    "LightRead",
+    "工作流编排"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://lightingread.cn/",
+    "$HOME/work/skills/expert-decision-consensus/",
+    "dsh-skill-vault/vault/skills/research/research-module",
+    "dsh-skill-vault/vault/skills/teacher/teacher-module",
+    "dsh-skill-vault/vault/skills/core-iteration/dev-workflow-consensus"
+  ],
+  "version": "0.1.0",
+  "license": "MIT"
+}

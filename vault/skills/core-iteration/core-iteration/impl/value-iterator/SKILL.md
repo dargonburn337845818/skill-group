@@ -1,8 +1,8 @@
 ---
 name: value-iterator
 description: 价值驱动迭代器——接收当前 Skill 草案与外部反馈/新验证语料，比较新旧两版知识节点数量，按收益规则决定接受或回退，并强制生成变更日志。用于核心能力 Skill 的反复精修。
+whenToUse: - 持有当前 Skill 草案，并且收到新的外部反馈或新的已验证语料。
 ---
-
 # 迭代器（Value Iterator）
 
 > 定位：迭代器不是“让 Skill 变的更丰富”，而是“让 Skill 变出可量化的新有效知识”。如果新版本只是把旧话换一种说法，或只塞进一些未经验证的注脚，必须拒绝更新。
@@ -145,6 +145,100 @@ effective_new_count = count(new added/conflict nodes) - count(old effective node
 ### Rejected / Rollback
 - 若触发“收益不足，拒绝更新”，写明：effective_new_count, 新增来源构成, 回退原因。
 ```
+
+## 2026 深度补强（Round 40）
+
+> 本轮把迭代器的四个核心动作升级为可执行判据：**结构指纹比对**（判定新旧是否同一条）、**同题基线守卫**（判定能否接受）、**行为探针计数**（判定新增是否有效）、**原子快照回退**（判定是否真的回退）。新增来源见 `SOURCES.md`「Round 40 新增来源」。
+
+### R40-1 结构指纹比对：新旧等价不能只靠文本相似
+
+- **触发**：比较候选 Node 与旧 Node，判定 `new / updated / merged / conflict` 之前。
+- **动作**：每个 Node 先归一化并生成结构指纹：
+
+  ```text
+  fingerprint = {
+    trigger_hash:  归一化触发条件,
+    action_hash:   归一化动作 + 作用对象,
+    boundary_hash: 归一化失效边界,
+    source_overlap: 与旧 Node 共享 source_refs / trace_chain 条目数,
+    neighbor_overlap: 共享 gap_id / effect_ref / 关联 Node 的 Jaccard 重合度
+  }
+  ```
+
+  - 判同义/合并：必须同时满足 `trigger_hash`、`action_hash`、`boundary_hash` 一致，且至少 2 个独立结构信号（如 source_overlap 与 neighbor_overlap）支持。
+  - 文本相似度只是弱信号：别名/不同措辞的同一规则可能文本相似度很低；反之措辞极像但 action/boundary 不同必须拆开。
+  - 判 `updated`：三件套只有一处更精确或证据更强；判 `conflict`：三件套至少一处互斥，且互斥可由行为探针触发差异。
+- **边界**：没有单一模型或阈值能自动证明等价；低于置信度时保守保留为两条，标 `alias-candidate` 交给校验器，不能为了“少一条”硬合并。
+- **反例**：两句话文本分很高，但一个触发是“收到用户反馈”，另一个是“收到测试失败”，却合并成一条——丢失了触发差异。
+- 来源：S4。
+
+### R40-2 变更日志：按类型分组、写 why/impact、breaking 显式
+
+- **触发**：生成 changelog 或更新 `CHANGELOG.md` 时。
+- **动作**：
+  - 按 `Added / Changed / Deprecated / Removed / Fixed / Security` 分组；同类型归组，不把“git log 全文”倒进来。
+  - 每条变更至少写三件事：**改了什么**、**为什么**、**影响谁/何时失效**；只写“Added xxx”不达标。
+  - 涉及删除/弃用时，在前一版本标 `Deprecated`（至少一个 minor 版本），再在本版标 `Removed`；不能一步删除。
+  - 破坏性变更必须在 changelog 中显式写 `BREAKING CHANGE`（或 `!`），不依赖正文读者自行推断。
+  - 没有变更的版本保留空类别是无用噪音；空组应删除，不写占位。
+- **边界**：changelog 是给人类看的可审计叙事，不替代机器可读 `node_delta`；两者可并存，但都不能缺失。
+- **反例**：把版本间的 commit/diff 原样粘进 changelog；或者新增条目只写“提升表现”却不写改的是哪个 trigger/action/boundary。
+- 来源：S1、S2、S3。
+
+### R40-3 champion/challenger 基线守卫：同题对照才可接受
+
+- **触发**：计算 `effective_new_count` 后、输出 `accepted=true` 前。
+- **动作**：
+  - 用同一批任务、同一 seed/环境，分别跑 `old_skill`（champion）与 `new_skill`（challenger），记录 `target_pass_rate`。
+  - 同时跑守卫指标：来源/可追溯不回退、旧能力回归任务不回退、反触发任务不恶化。
+  - 接受条件：`challenger.target >= champion.target` 且所有守卫指标不回退；若目标提升但任一守卫回退 → `forced_review`，不得自动 accept。
+  - 没有同题基线时，输出 `acceptance_evidence: "none"`，只能算“草稿接受”，不能宣称“已验证提升”。
+- **边界**：不能用不同题目集分别跑新旧版本再比较；也不能只看新版本分数，不报旧版本基线。
+- **反例**：`effective_new_count=3` 就接受，但没跑任何旧任务对照；或目标分涨了，旧版独有的“单源保护”反被删掉。
+- 来源：S5、S6、S7。
+
+### R40-4 有效新增计数前先过“行为探针”归因
+
+- **触发**：每个候选 Node 准备计入 `effective_new_count` 之前。
+- **动作**：
+  - 给每个候选 Node 写一个最小探针任务，使得“删掉该 Node、其余不变”时，任务输出应发生可观察变化。
+  - 探针必须可执行判分：优先确定性断言，其次双人盲判；LLM judge 只做诊断，不做唯一门禁。
+  - 同题跑 `with_node` 与 `without_node`：若输出/行为无差异 → `effective=0`，标 `cosmetic`；若多 Node 混在同一 diff 导致无法归因 → `attribution_ambiguous`，计数前先拆成单 Node 补丁。
+  - 只有能通过独立探针归因到该 Node 的行为变化才计入 1。
+- **边界**：没有探针的候选只能进 `unverified_candidate`，不计入有效新增；不能把“看起来新”当作“有效新”。
+- **反例**：同一轮新增 5 个 Node，但 5 个探针输出全部不变——effective_new_count 应为 0，而不是 5。
+- 来源：S4、S5、S7、S8。
+
+### R40-5 回退是原子快照：不是只回正文
+
+- **触发**：触发“收益不足，拒绝更新”或任何 `rollback`。
+- **动作**：回退必须恢复完整快照：`old_skill` 正文、`node_registry`、`CHANGELOG.md`、`round_ledger`/审计台账、`effect_ref` 注册表；恢复后给快照盖 `rollback_snapshot_id`。
+  - 在 changelog 的 `Rejected / Rollback` 段写：`rolled_back_node_ids`、`kept_out_of_scope`、`why`、`next_action`。
+  - 若任一产物未恢复，标记 `rollback_incomplete`，禁止宣称“已回退”。
+- **边界**：回退不是“删掉新增段落”，而是把版本指针和所有派生记录一起还原；否则审计链会看到“正文是旧版、账本还记着新增”。
+- **反例**：SKILL.md 回退了，但 CHANGELOG 仍写着“Added 3 nodes”；或 `round_ledger` 的 effective_new_count 仍保留 challenger 的 3。
+- 来源：S1、S2、S4。
+
+### Round 40 检查清单
+
+1. 新旧 Node 是否做了结构指纹比对（至少 trigger/action/boundary + 2 个结构信号）？
+2. changelog 是否按类型分组，每条含 why/impact，breaking 是否显式写出？
+3. 接受前是否有同题 champion/challenger 基线？守卫指标是否无回退？
+4. 每个有效新增是否都有独立行为探针？`cosmetic`/`attribution_ambiguous` 是否已排除？
+5. 回退是否恢复了全部快照并在 changelog 中记录了 `rollback_snapshot_id`？
+6. 是否避免把“文本相似但行为不同”硬合并、把“无探针但看着新”直接计数？
+
+### Round 40 反例速查
+
+| 反例 | 判定 |
+|---|---|
+| 文本相似度很高就合并两条 Node | 结构指纹不一致 → 不得合并 |
+| changelog 只写“Added 3 条” | 缺 why/impact；不合格 |
+| 新版本跑 A 题、旧版本跑 B 题后说“提升” | 无同题基线；不算已验证 |
+| 加了 5 条 Node，但同题去掉后输出不变 | effective_new_count=0 |
+| SKILL.md 回退了，账本/CHANGELOG 仍留着新增记录 | rollback_incomplete；未完成回退 |
+| 删除规则前没有 Deprecated 过渡版本 | 违反弃用路径；须先补 minor 弃用再移除 |
+
 
 ## 来源与可追溯
 

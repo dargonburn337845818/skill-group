@@ -57,3 +57,19 @@
 - `distillation-consensus`：本 skill 的父共识，要求每条规则带触发/动作/边界/来源。
 - `github-repo-consensus`：同类“从外部资料蒸馏成可执行检查表”的本地实例。
 - `teacher-consensus-skill`：信息论/提问协议在教研场景的具体应用。
+
+## Round 40 新增来源
+
+> 本轮补强针对“检索可复现、证据分级、源族独立、反证检索、引用四要素”补充的高质量来源；分级沿用前文：`consensus` / `style` / `warning`。
+
+| 来源 | 主题 | 贡献 | 分级 |
+|---|---|---|---|
+| [Cochrane Handbook Chapter 4: Searching for and selecting studies](https://training.cochrane.org/handbook/current/chapter-04) | 系统综述检索 | 检索式设计、去重、研究选择；支撑检索日志、源族归一与覆盖检查 | consensus |
+| [Cochrane: GRADE approach](https://www.cochrane.org/learn/courses-and-resources/cochrane-methodology/grade) | 证据确定性 | 高/中/低/极低分级与降级因素；支撑“证据定级 + 五维降级” | consensus |
+| [PRISMA-S: an extension to the PRISMA Statement for Reporting Literature Searches in Systematic Reviews](https://doi.org/10.1186/s13643-020-01542-z) | 检索报告规范 | 应报告完整检索式、数据库、检索日期与筛选过程；支撑可复现检索日志 | consensus |
+| [PRESS Peer Review of Electronic Search Strategies: 2015 Guideline Statement](https://doi.org/10.1016/j.jclinepi.2016.01.021) | 检索策略评审 | 电子检索策略同行评审清单；支撑检索质量自检 | consensus |
+| [NIST TREC Overview](https://trec.nist.gov/overview.html) | 检索评测 | 用标准任务测检索引擎覆盖与质量；支撑搜索质量验收 | consensus |
+| [NIST Special Publication 500-249（Search Engine Evaluation）](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication500-249.pdf) | 检索评测方法 | 检索系统评估的度量与测试集；支撑覆盖偏差/召回意识 | consensus |
+| [Lateral reading: College students learn to critically evaluate internet sources in an online course](https://doi.org/10.37016/mr-2020-56) | 横向阅读实证 | 横向阅读训练有效性的实证研究；支撑横向阅读与源族独立判断 | consensus |
+| [How Unique Are Hallucinated Citations Offered by Generative Artificial Intelligence Models?](https://doi.org/10.3390/publications14030038) | AI 幻觉引文 | 生成式 AI 输出引文的真实性与可回溯风险；支撑引用四要素与反幻觉纪律 | warning |
+| [OpenAlex: Searching](https://developers.openalex.org/guides/searching) | 跨库检索 | 学术 API 查询构造；支撑“不同入口用各自语法，不混用” | consensus |

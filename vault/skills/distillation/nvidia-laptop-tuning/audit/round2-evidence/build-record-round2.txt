@@ -1,0 +1,13 @@
+[Build record round2 0.4.0]
+Command (same as src/build-exe.bat):
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /nologo /target:winexe /out:D:\<工具目录>\NvidiaTuningPanel.exe D:\<工具目录>\src\NvidiaTuningPanel.cs /r:System.Windows.Forms.dll /r:System.Drawing.dll /win32manifest:D:\<工具目录>\src\app.manifest
+Result: exit 0, no error output (non-zero only UNC-current-dir notice).
+Artifacts:
+D:\<工具目录>\NvidiaTuningPanel.exe 31744 bytes 2026-09-05 19:20 (rebuilt, no debug flag)
+D:\<工具目录>\NvidiaTuningPanel_v3.exe 31744 bytes 2026-09-05 19:20 (rebuilt, no debug flag)
+Binary markers: CardPanel, MetricIcon present.
+
+Windows-side artifact check (from WSL mount):
+D:\<工具目录>\NvidiaTuningPanel.exe  31744 2026-09-05 19:02
+D:\<工具目录>\NvidiaTuningPanel_v3.exe 31744 2026-09-05 19:02
+sha256: (recorded in conversation; mirror can ls -la /mnt/d/<工具目录>)

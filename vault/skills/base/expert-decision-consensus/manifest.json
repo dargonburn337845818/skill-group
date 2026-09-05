@@ -1,0 +1,58 @@
+{
+  "id": "expert-decision-consensus",
+  "name": "expert-decision-consensus",
+  "title": "规范化专家决策共识",
+  "description": "通用专家决策流程：专家团回合、证据台账、阶段门禁、子代理执行、裁决留痕与技能蒸馏；科研/教学/开发/写作/蒸馏均复用。",
+  "whenToUse": "任何需要多人专家/导师/审稿人评审方案、做科研/教学/开发决策、给流程加验收门禁、或想把重复工作流沉淀为 Skill 时。",
+  "boundary": "是流程层，不替代领域知识；专家观点为风格参考非本人原话；简单一次性问答不必走完整九段。",
+  "notWhenToUse": "纯单点事实问答、无需多人决策的琐碎任务，或已经由 dev-workflow/teacher/research 模块明确接管时。",
+  "scenario": "base",
+  "scenarios": [
+    "base",
+    "core-iteration",
+    "research",
+    "teaching",
+    "dev",
+    "distill",
+    "writing"
+  ],
+  "routing": "base",
+  "activation": "always-on",
+  "qualityCriteria": {
+    "high": [
+      "每个阶段有可检查 gate",
+      "每条关键结论有 source_refs 或明确标 unknown",
+      "冲突不静默合并，未决分支保留",
+      "输出带专家署名与裁决人",
+      "生成物是可编辑文件/产物，不是纯聊天"
+    ],
+    "reject": [
+      "无来源的专家断言",
+      "无 ready 专家却用大模型冒充",
+      "有冲突却揉成 50% 共识",
+      "润色改变数字/引用/术语/claim 强度",
+      "声称完成但没见过验证变红"
+    ],
+    "minIndependentSources": 2,
+    "notes": "本 skill 与 teacher/expert-team、dev-workflow-consensus、skill-verification-consensus 分工：前者给协议，后者给领域适配与验证手段。"
+  },
+  "tags": [
+    "专家决策",
+    "流程门禁",
+    "证据台账",
+    "多Agent",
+    "阶段验收",
+    "可追溯",
+    "通用共识"
+  ],
+  "experts": [],
+  "sourceRefs": [
+    "https://lightingread.cn/",
+    "https://github.com/M-24rjgc/research-workbench",
+    "vault/skills/teacher/expert-team/SKILL.md",
+    "vault/skills/core-iteration/dev-workflow-consensus/SKILL.md",
+    "vault/skills/core-iteration/skill-verification-consensus/SKILL.md"
+  ],
+  "version": "0.0.1",
+  "license": "MIT"
+}

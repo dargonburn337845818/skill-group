@@ -97,6 +97,7 @@ whenToUse: 用户搭建或评审部署流程、CI/CD、容器镜像、监控告�
 - **dev-performance**：指标可用于性能定位，但 profiling/慢查询/优化优先级交给 dev-performance；本技能只负责“采集哪些信号”。
 - **dev-testing**：测试分层与 flaky 处理细节交给 dev-testing；本技能只定义“哪些测试要进发布门禁”。
 - **dev-backend**：服务分层与可观测性基础有重叠；本技能从“发布与运行”视角补充，不重复 API/数据模型规范。
+- **dev-network**：DNS/代理/TLS/连通性/开发机网络访问的逐层定位与可逆修复交给 dev-network；本技能只把“网络可达”作为发布前检查的一部分。
 
 ## 来源
 

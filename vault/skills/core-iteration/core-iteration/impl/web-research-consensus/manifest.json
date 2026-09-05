@@ -32,5 +32,6 @@
     "https://hermes-agent.nousresearch.com/docs/user-guide/skills/bundled/research/research-grounded-citations"
   ],
   "version": "0.3.0",
-  "license": "MIT"
+  "license": "MIT",
+  "whenToUse": "- 用户要“查资料 / 做调研 / 核实事实 / 比较来源 / 搜代码 / 查论文 / 验证图片或视频”。"
 }

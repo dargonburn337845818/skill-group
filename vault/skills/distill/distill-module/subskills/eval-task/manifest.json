@@ -1,6 +1,6 @@
 {
   "id": "distill-eval-task",
-  "name": "distill-eval-task",
+  "name": "eval-task",
   "title": "评测任务包制作（已蒸馏）",
   "description": "蒸馏子技能：把 scaffold_eval_task / skilljack_runner / benchflow_runner 变成可照着做的操作手册；产出任务包、真实 A/B 对照、anti-trigger 与 Skill Lift 解读。",
   "whenToUse": "要为 Skill 建评测任务包、跑无 skill/有 skill 对照、做 anti-trigger 防误触发、解读 Skill Lift 或落地评测证据时。",

@@ -26,6 +26,13 @@
 - `results/dev-security.result.json`：矩阵 + bench + 门禁结果
 - `../tools/output/ENHANCEMENT_REPORT.md/.json`：增强指数报告
 
+## 专家决策评测（2026-09-05）
+
+- `expert-decision-enforce/`：正例任务——要求输出九段决策环关键阶段与 `decision_log_entry`，验证“规范流程是否被真正落到产出”。
+- `expert-decision-anti/`：反触发任务——简单事实问答不应触发完整决策环。
+- verifier 已做过可证伪检查：缺少阶段标记会 FAIL，完整报告 PASS；反例混入决策环标记会 FAIL。
+- 待跑 A/B：`expert-decision-enforce` 需要以后补无 skill vs 有 skill 的 Skill Lift 数据。
+
 ## 复现命令
 
 ```bash

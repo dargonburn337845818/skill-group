@@ -16,5 +16,6 @@
     "用户规格：认知收益架构 / 价值驱动递归提升模块"
   ],
   "version": "0.2.0",
-  "license": "MIT"
+  "license": "MIT",
+  "whenToUse": "- 每轮迭代器输出新 Skill 后。"
 }

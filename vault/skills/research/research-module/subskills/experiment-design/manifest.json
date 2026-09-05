@@ -1,6 +1,6 @@
 {
   "id": "research-experiment-design",
-  "name": "research-experiment-design",
+  "name": "experiment-design",
   "title": "实验设计与统计可复现（已蒸馏）",
   "description": "科研实验设计/统计/可复现子技能：从变量与假设、检验选择、p值与效应量、样本量功效分析到可复现性清单的可执行检查流程。",
   "whenToUse": "设计实验、选统计检验、解读显著性/效应量、计算样本量、写或审查方法节/实验设置，以及评估研究可复现性时。",
