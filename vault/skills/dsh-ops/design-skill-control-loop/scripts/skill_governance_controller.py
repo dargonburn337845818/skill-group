@@ -301,7 +301,7 @@ def cmd_flow(args: argparse.Namespace) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="skill governance controller")
-    ap.add_argument("--repo", default=str(Path("$HOME/work/dsh-skill-vault")), help="skill vault repo root")
+    ap.add_argument("--repo", default=str(Path.home() / "work" / "dsh-skill-vault"), help="skill vault repo root")
     ap.add_argument("--json", action="store_true", help="json output for suggest")
     sub = ap.add_subparsers(dest="cmd")
 
