@@ -2,6 +2,8 @@
 
 > DSH 技能保险库：统一管理蒸馏出的 skill，按场景/单 skill 开关启用，并提供 agent 工具与 Web 面板。
 
+**中文** | [English](README.en.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## 简介
