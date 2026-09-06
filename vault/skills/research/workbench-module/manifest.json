@@ -20,16 +20,18 @@
       "每个科研任务有项目台账（brief/claims/decisions/conflicts/gates）",
       "引用经过 wb verify 或 OpenAlex/Crossref 核验",
       "阶段通过 wb gate 留痕，未 PASS 不宣称完成",
-      "交付物（报告/PPT/代码/笔记）落在 artifacts/"
+      "交付物（报告/PPT/代码/笔记）落在 artifacts/",
+      "专家缺口默认直接继续并记入台账，不弹 DSH 对话框"
     ],
     "reject": [
       "只输出聊天不给文件",
       "引用未核验却写进结论",
-      "无 ready 专家却用大模型冒充专家团",
-      "跳过 gate 直接说完成"
+      "无 ready 专家仍伪装成人名专家署名",
+      "跳过 gate 直接说完成",
+      "用 DSH 弹窗打断用户确认琐碎选择"
     ],
     "minIndependentSources": 2,
-    "notes": "本模块是编排层，具体领域判断仍由 research/teacher/dev 模块提供。"
+    "notes": "本模块是编排层，具体领域判断仍由 research/teacher/dev 模块提供；无 ready 专家时默认用大模型直接继续，不冒充专家团。"
   },
   "tags": [
     "科研工作台",
@@ -48,6 +50,6 @@
     "dsh-skill-vault/vault/skills/teacher/teacher-module",
     "dsh-skill-vault/vault/skills/core-iteration/dev-workflow-consensus"
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT"
 }

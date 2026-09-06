@@ -24,8 +24,8 @@ from pathlib import Path
 
 HOME = Path.home()
 DEFAULT_ROOTS = [
-    Path("$HOME/work/skills"),
-    Path("$HOME/work/dsh-skill-vault/vault/skills"),
+    Path.home() / "work" / "skills",
+    Path.home() / "work" / "dsh-skill-vault" / "vault" / "skills",
 ]
 DEFAULT_ENABLED_FILE = HOME / ".dsh" / "skill-vault" / "enabled.json"
 
