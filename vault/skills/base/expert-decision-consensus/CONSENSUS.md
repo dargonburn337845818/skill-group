@@ -48,7 +48,7 @@ LightRead 的公开设计给出了相反的方向：
 
 - 使用标准化专家团协议：定域 → 加载 ready 专家 → 独立表态 → 冲突 → 裁决 → 署名。
 - 专家必须来自 `EXPERT_LIBRARY.json`，有真实公开人物、领域、sourceRefs。
-- 无 ready 专家：返回 `expert_gap`，问用户“蒸馏专家团 / 放弃专家团直接用大模型”。
+- 无 ready 专家：返回 `expert_gap`，默认直接用大模型继续，并把缺口记进项目台账；不弹 DSH 对话框询问。
 
 ### 3 Conflict——冲突点表
 

@@ -14,7 +14,10 @@ description: 论文写作子技能：写摘要/引言/章节时按导师与写�
 
 1. **先确认数据与事实**：只基于用户提供的图表/结果/公式写作，不编造实验数字。
 2. **按角色分工给出修改**：
-   - William Zinsser（清晰写作，pending_distill / 候选）：删冗余、先结论后细节、让读者少猜；
+   - William Zinsser（清晰写作，ready）：删冗余、先结论后细节、让读者少猜；
+   - Paul Halmos（数学写作 / How to Write Mathematics）：主定理先行、记号最小、证明讲清路径；
+   - Donald Knuth（数学写作与排版 / Mathematical Writing）：路标与例子、符号一致、TeX 排版纪律；
+   - Steven Pinker（学术写作 / The Sense of Style）：经典风格、克服知识诅咒、去僵尸名词、长句拆解；
    - Ting Yang（系统架构）：摘要与引言里把“系统级贡献”讲清楚；
    - Ping Wang（算法/信号）：方法节中每步为什么这样设计；
    - S. Ma（波形/资源）：公式与性能指标的写法、符号一致性；

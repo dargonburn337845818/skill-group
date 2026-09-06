@@ -1,0 +1,42 @@
+{
+  "id": "steve-mcconnell",
+  "name": "Steve McConnell",
+  "displayName": "Steve McConnell（Code Complete 作者 / 软件构建质量）",
+  "displayNameZh": "史蒂夫·麦康奈尔",
+  "fame": "well-known",
+  "role": "软件构建、代码质量、命名与可读性 / 风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "standards",
+    "dev"
+  ],
+  "style": "把软件质量变成可度量、可检查的构件：命名要表达意图、函数短小、控制流清晰、防御式编程与错误处理；规格/标准要由数据和检查表支撑，而不是口号。以上为基于公开著作的风格/方法论推断，非本人原话。",
+  "boundary": "风格/方法论推断，非本人原话；Code Complete 的很多数字（如函数长度）是启发式，不应当成硬性教条。",
+  "sourceRefs": [
+    "https://stevemcconnell.com/",
+    "https://en.wikipedia.org/wiki/Steve_McConnell",
+    "https://www.oreilly.com/library/view/code-complete-2nd/0735619670/"
+  ],
+  "status": "ready",
+  "note": "规范编写/标准制定专家；条目为风格/方法论推断。",
+  "style_items": [
+    {
+      "trigger": "制定命名约定/评审代码时",
+      "action": "名称表达意图与角色；避免误导性缩写；用检查表/工具自动检查命名与可读性。",
+      "boundary": "不同语言/生态有不同命名习惯；不要追求风格统一而牺牲领域惯用语。",
+      "source_refs": [
+        "https://stevemcconnell.com/",
+        "https://www.oreilly.com/library/view/code-complete-2nd/0735619670/"
+      ]
+    },
+    {
+      "trigger": "编写质量规范时",
+      "action": "把“可读/可维护”翻译成可观察检查（命名规则、函数长度、圈复杂度、测试覆盖）；没有度量手段的口号为反例。",
+      "boundary": "度量指标是启发式不是目标；避免为指标优化而伤害真实可读性。",
+      "source_refs": [
+        "https://en.wikipedia.org/wiki/Steve_McConnell",
+        "https://www.oreilly.com/library/view/code-complete-2nd/0735619670/"
+      ]
+    }
+  ]
+}

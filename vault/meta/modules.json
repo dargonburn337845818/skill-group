@@ -9,7 +9,8 @@
       "dsh-optimization-consensus",
       "skill-verification-consensus",
       "dev-workflow-consensus",
-      "info-layer-skill-routing"
+      "info-layer-skill-routing",
+      "ai-behavior-standards"
     ]
   },
   "alpha_hidden": true,
@@ -184,7 +185,10 @@
         "andrej-karpathy",
         "william-zinsser",
         "ting-yang",
-        "ping-wang"
+        "ping-wang",
+        "paul-halmos",
+        "donald-knuth",
+        "steven-pinker"
       ],
       "assignments": [
         "distill"
@@ -328,7 +332,10 @@
         "y-chen",
         "o-k-h-shanker",
         "a-k-sah",
-        "richard-feynman"
+        "richard-feynman",
+        "paul-halmos",
+        "donald-knuth",
+        "steven-pinker"
       ],
       "assignments": [
         "research"
@@ -416,7 +423,10 @@
         "jakob-nielsen",
         "julie-zhuo",
         "ting-yang",
-        "ping-wang"
+        "ping-wang",
+        "paul-halmos",
+        "donald-knuth",
+        "steven-pinker"
       ],
       "assignments": [
         "writing"

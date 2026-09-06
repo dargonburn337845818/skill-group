@@ -15,7 +15,7 @@ whenToUse: 用户进入教师模式，需要“具体人名专家团”而不是
 
 - **人名专家团**：每个专家是真实公开人物，只作为“风格/方法论参考”，不伪造原话。
 - **回合式讨论协议**：每轮每位专家独立表态 → 汇总冲突点表 → 主持人/用户裁决 → 每条结论标注 `expert_id` + `expert_name`。
-- **专家缺口**：识别到领域但没有 ready 人名专家时，明确询问“蒸馏专家团 / 放弃专家团直接用大模型”，不静默降级。
+- **专家缺口**：识别到领域但没有 ready 人名专家时，默认直接用大模型继续，并把缺口记进项目台账；不弹 DSH 对话框询问。若用户后续明确要求，再蒸馏专家团。
 
 ## 何时使用
 
@@ -29,8 +29,8 @@ whenToUse: 用户进入教师模式，需要“具体人名专家团”而不是
 2. 也可以先调用 `skill_domain_recognize`（或 `python3 scripts/domain_recognize.py --text ... --json`）查看识别结果。
 3. 读取输出：
    - `decision = "expert_team"`：`experts[]` 是已 ready 的人名专家，直接使用。
-   - `decision = "expert_gap"`：会话 `discussion.status = "expert_gap"`，向用户明确提问，选项为 `distill_expert` / `use_llm_directly`；**不要静默用大模型扮演专家**。
-   - `decision = "ask_domain"`：询问用户具体领域，不猜测。
+   - `decision = "expert_gap"`：会话 `discussion.status = "expert_gap"`，默认按 `use_llm_directly` 继续；不弹窗，把缺口记进项目台账。若用户明确要求，再蒸馏专家团。
+   - `decision = "ask_domain"`：默认按 `use_llm_directly` 继续；如需用户指定领域，用普通文字列出候选，不弹窗。
 4. 如果用户指定人数/风格，可用 **`teacher_expert_select`** 选择子集（选择规则见 `expert-selection.md`）。
 
 ## 二、回合式讨论协议（单轮）

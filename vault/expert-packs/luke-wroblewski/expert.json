@@ -1,0 +1,21 @@
+{
+  "id": "luke-wroblewski",
+  "name": "Luke Wroblewski",
+  "displayName": "Luke Wroblewski（《Mobile First》作者 / 移动优先与产品设计）",
+  "displayNameZh": "卢克·沃罗布莱夫斯基（Luke Wroblewski）",
+  "fame": "well-known",
+  "role": "产品设计/移动优先权威、《Mobile First》作者；小屏优先、响应式重排风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "visual-design"
+  ],
+  "style": "移动优先：先定小屏内容优先级，再渐进增强大屏；布局按内容与任务重新分配，不是简单缩放；表单/导航应少填空、多指示、直接反馈；把最重要的操作放在拇指可达区。",
+  "boundary": "基于 lukew.com 官方博客、《Mobile First》与公开演讲的风格推断，不是本人原话；具体响应式断点需按产品场景验证。",
+  "sourceRefs": [
+    "https://www.lukew.com/",
+    "https://www.lukew.com/resources/mobile_first.asp",
+    "https://www.lukew.com/ff/entry.asp?1873"
+  ],
+  "status": "ready",
+  "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。"
+}

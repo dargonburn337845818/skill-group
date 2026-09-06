@@ -10,6 +10,7 @@
 | 03-state-notification.md | 状态提示：只靠颜色 | R1.3 不只靠颜色、R1.2 非文本对比 |
 | 04-style-boundary.md | 风格边界：Editorial 风格误用于数据盘 | S8.1 风格分支、R1.3/R5.1 通用底线 |
 | 05-dark-mode.md | 深色模式：只测浅色导致不可读 | R1.4 双主题、R2.1 token、R1.1 对比 |
+| 06-inspiration-selection.md | 灵感站选型：小窗简约大气的学习档案 | R36-1~6、R1.1、R35-3、R35-5 |
 
 ## 怎么用
 

@@ -5,8 +5,8 @@
 ----
 从用户自然语言自动识别 domain_id（算法 / 前端 / 后端 / 安全 / 性能 / 数学 /
 物理 / 写作等），然后按该领域 expert_ids 从 EXPERT_LIBRARY.json 加载“具体人名
-专家团”。若该领域没有 ready 的人名专家，明确返回“蒸馏专家团 / 放弃专家团”二选一，
-不静默降级；未识别到领域时返回询问分支。
+专家团”。若该领域没有 ready 的人名专家，默认返回 use_llm_directly（不弹窗）；
+未识别到领域时同样默认继续，不打断用户。
 
 数据
 ----
@@ -29,7 +29,7 @@
   "decision": "expert_team" | "expert_gap" | "ask_domain",
   "experts": [已 ready 的完整专家对象],
   "candidate_experts": [未 ready 的候选专家对象],
-  "fallback": {"type": "ask_user", "question": ..., "options": [...]} | null
+  "fallback": {"type": "use_llm_directly", "question": ..., "options": [...]} | null
 }
 """
 
@@ -203,9 +203,9 @@ class DomainRecognizer:
         }
         if not ready:
             result["fallback"] = self.profiles.get("fallback_action", {
-                "type": "ask_user",
-                "question": "该领域暂无已备好的人名专家：要我蒸馏该领域专家团，还是放弃专家团、直接用大模型解答？",
-                "options": ["distill_expert", "use_llm_directly"],
+                "type": "use_llm_directly",
+                "question": "该领域暂无已备好的人名专家，默认直接用大模型继续；可后续再蒸馏该领域专家团。",
+                "options": ["use_llm_directly", "distill_expert"],
             })
         return result
 
@@ -224,9 +224,9 @@ class DomainRecognizer:
             "reason": reason,
             "suggested_domains": [d["id"] for d in self.profiles.get("domains", [])],
             "fallback": self.profiles.get("unknown_domain_action", {
-                "type": "ask_user",
-                "question": "没有识别出领域。请告诉我具体领域，或选择处理方式。",
-                "options": ["specify_domain", "use_llm_directly"],
+                "type": "use_llm_directly",
+                "question": "没有识别出领域，默认直接用大模型继续；如需指定领域可在回复中说明。",
+                "options": ["use_llm_directly", "specify_domain"],
             }),
         }
 
@@ -250,14 +250,13 @@ def _human(result: Dict[str, Any]) -> str:
             lines.append(f"专家团：{' / '.join(names)}")
             lines.append("说明：人名专家为风格/方法论参考，不代表本人原话，引用保留 sourceRefs。")
         else:
-            lines.append("专家缺口：该领域无 ready 人名专家，不静默降级。")
+            lines.append("专家缺口：该领域无 ready 人名专家，默认直接用大模型继续。")
     else:
-        lines.append("未识别领域：需要用户澄清，不静默降级。")
+        lines.append("未识别领域：默认直接用大模型继续；如需指定领域可在回复中说明。")
 
     fallback = result.get("fallback")
     if fallback:
-        lines.append(f"询问：{fallback.get('question', '')}")
-        lines.append("选项：" + " / ".join(fallback.get("options", [])))
+        lines.append(f"默认处理：{fallback.get('question', '')}")
     return "\n".join(lines)
 
 
@@ -278,8 +277,8 @@ def _self_test() -> int:
     r = DomainRecognizer()
     cases = [
         ("这道算法竞赛题 dp 怎么写", True, "algorithm", "expert_team"),
-        ("我在做前端 React 页面", True, "frontend", "expert_gap"),
-        ("后端接口怎么设计？", True, "backend", "expert_gap"),
+        ("我在做前端 React 页面", True, "frontend", "expert_team"),
+        ("后端接口怎么设计？", True, "backend", "expert_team"),
         ("随便聊聊天气", False, None, "ask_domain"),
     ]
     for text, recognized, domain_id, decision in cases:

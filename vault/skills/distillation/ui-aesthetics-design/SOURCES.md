@@ -100,3 +100,17 @@
 | 来源 | URL | 用途 / 贡献点 | 可信度 |
 |---|---|---|---|
 | Okabe & Ito · Color Universal Design (CUD) | https://jfly.uni-koeln.de/color/ | 色盲频率与原理、冗余编码、避免同亮度不同色相、红绿限制、色盲安全色板与检查工具 | 一手科研材料，已抓取 |
+
+## 7. 视觉灵感站（inspiration，不作证据）
+
+> 本轮于 2026-09-06 收录；这些站点用于“找灵感/选风格/看动效/找现成组件”，**不是 UI 规则证据**。可信度统一标为：灵感参考/第三方，不作独立证据。若与 R1–R35 冲突，以官方/研究来源为准。
+
+| 来源 | URL | 用途 / 贡献点 | 可信度 |
+|---|---|---|---|
+| landing.love | https://www.landing.love/ | 落地页动效、滚动叙事、微交互；用于提取动效节奏 | 灵感参考/第三方，已抓标题 |
+| land-book | https://land-book.com/ | 整体美感、排版、配色组合；用于审美基线 | 灵感参考/第三方，页面有反爬，待深度核验 |
+| awwwards | https://www.awwwards.com/ | 创意、实验性布局、趋势；用于突破“平庸” | 灵感参考/第三方，已抓标题 |
+| One Page Love | https://onepagelove.com/ | 单页精致排版、内容节奏；用于“精致感” | 灵感参考/第三方，已抓标题 |
+| Lapa Ninja | https://www.lapa.ninja/ | 落地页酷炫视觉、现代趋势；用于“酷/现代” | 灵感参考/第三方，已抓标题 |
+| 21st.dev | https://21st.dev/ | 现成 React 组件、模板与主题；用于快速复用（需过导入检查） | 灵感参考/第三方，已抓标题 |
+| SiteInspire | https://www.siteinspire.com/ | 高端设计感、编辑/品牌叙事；用于“设计感/精致” | 灵感参考/第三方，页面有安全校验，待深度核验 |

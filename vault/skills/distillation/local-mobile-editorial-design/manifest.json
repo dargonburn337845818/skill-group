@@ -1,0 +1,26 @@
+{
+  "id": "local-mobile-editorial-design",
+  "name": "local-mobile-editorial-design",
+  "title": "本地简约大气设计规范",
+  "description": "本地“简约大气”离线自学/长阅读 HTML 设计规范：纸色/墨色/珊瑚 token、衬线标题+无衬线正文、单列编辑流、可点击卡片、本地进度保存；用于生成/审查学习工作台。",
+  "scenario": "distillation",
+  "tags": [
+    "UI",
+    "设计",
+    "简约大气",
+    "StyleKit",
+    "Mobile Editorial",
+    "学习档案"
+  ],
+  "experts": [
+    "ui-aesthetics-design",
+    "DSH-UI-DESIGN-SPEC"
+  ],
+  "sourceRefs": [
+    "algorithm-coaching/tier1_pack_stylekit.html",
+    "dsh-skill-vault/vault/skills/distillation/ui-aesthetics-design/examples/06-inspiration-selection.md",
+    "dsh-deep-whale-inspect/DSH-UI-DESIGN-SPEC.md"
+  ],
+  "version": "0.0.1",
+  "license": "MIT"
+}

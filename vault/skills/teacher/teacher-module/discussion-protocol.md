@@ -9,7 +9,7 @@
 start
   → identify_domain        # 领域识别
   → load_experts           # 加载该领域 ready 人名专家
-  → expert_gap?            # 无 ready 专家时询问 distill/use_llm_directly
+  → expert_gap?            # 无 ready 专家时默认 use_llm_directly，不弹窗
   → select_experts         # 默认全量，用户可点名子集
   → round_loop
        ├─ independent_speak   # 每位专家独立表态
@@ -163,7 +163,7 @@ start
 | `discussion.status` | string | `active` / `finished` / `expert_gap` |
 | `discussion.current_round` | number | 当前轮号 |
 | `discussion.rounds` | array | 每轮完整记录 |
-| `discussion.gap_fallback` | object/null | 专家缺口时的二选一询问 |
+| `discussion.gap_fallback` | object/null | 专家缺口时的默认处理说明（不弹窗） |
 
 ### 3.2 Round 完整记录
 

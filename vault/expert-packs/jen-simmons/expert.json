@@ -1,0 +1,21 @@
+{
+  "id": "jen-simmons",
+  "name": "Jen Simmons",
+  "displayName": "Jen Simmons（CSS 布局专家 / Layout Land 作者）",
+  "displayNameZh": "珍·西蒙斯（Jen Simmons）",
+  "fame": "well-known",
+  "role": "CSS Grid/Flexbox 布局专家、Layout Land 作者；内在设计、编辑式布局与响应式重塑风格参考",
+  "persona_type": "public-figure-style-reference",
+  "domains": [
+    "visual-design"
+  ],
+  "style": "现代 CSS 布局/内在设计：用 Grid/Flexbox 做内容驱动的自然布局，而非固定列；布局像编辑排版一样有节奏与留白；响应式是重新编排而不是缩放；关注小窗、长文、可读性与容器查询。",
+  "boundary": "基于 jen4web.com 官方、Layout Land 公开发言与 Smashing Magazine 署名文章的风格推断，不是本人原话；具体 CSS 能力以公开标准/官方文档为准。",
+  "sourceRefs": [
+    "https://jen4web.com/",
+    "https://www.youtube.com/@JenSimmons",
+    "https://www.smashingmagazine.com/author/jen-simmons/"
+  ],
+  "status": "ready",
+  "note": "风格/方法论参考，非本人原话；讨论时保留 sourceRefs。"
+}

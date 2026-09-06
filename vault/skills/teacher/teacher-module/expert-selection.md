@@ -43,7 +43,7 @@
 - **自然语言点名**：用户说“用 tourist 和 um-nik 就行”，会话按 `id`/`name` 匹配专家库并构建子集。
 - **运行时工具**：已实现 `teacher_discussion_start`（建会话时传 `expert_ids`）与 `teacher_expert_select(session_id, expert_ids)`；agent 按上述规则直接调用即可。
 
-若用户点名了未 ready 的专家，应提示该专家仍是 `pending_distill`，并询问“先蒸馏该专家”还是“换用其他 ready 专家”。
+若用户点名了未 ready 的专家，应在普通回复里提示该专家仍是 `pending_distill`，并给出“先蒸馏该专家 / 换用其他 ready 专家”的默认选项；不要弹 DSH 对话框。
 
 ## 5. 用户添加专家（接口）
 
@@ -80,8 +80,8 @@
 若领域识别成功但 `experts` 为空/全部未 ready：
 
 - 不静默降级，不伪造人名专家。
-- 向用户明确询问：**“该领域暂无已备好的人名专家：要我蒸馏该领域专家团，还是放弃专家团、直接用大模型解答？”**
-- 选项：`distill_expert`（进入蒸馏任务） / `use_llm_directly`（无专家团，直接用大模型）。
+- 默认按 `use_llm_directly` 继续，并把专家缺口记进项目台账；不弹 DSH 对话框。
+- 若用户明确要求，再进入 `distill_expert` 蒸馏任务。
 
 ## 7. 边界
 

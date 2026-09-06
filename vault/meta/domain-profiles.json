@@ -1,11 +1,11 @@
 {
   "version": "0.2.0",
-  "description": "正式版领域识别字典：路由先识别用户“在说哪个领域”，再按 expert_ids 从 EXPERT_LIBRARY.json 加载该领域已备好的人名专家团。识别到领域但无 ready 专家时，走“蒸馏专家 / 放弃专家团”分支；未识别或低置信度时先向用户询问，不静默降级。",
+  "description": "正式版领域识别字典：路由先识别用户“在说哪个领域”，再按 expert_ids 从 EXPERT_LIBRARY.json 加载该领域已备好的人名专家团。识别到领域但无 ready 专家时，默认直接用大模型继续；未识别或低置信度时不弹窗，默认继续并在回复中说明。",
   "recognizer": {
-    "strategy": "keyword-dictionary + low-confidence-ask",
+    "strategy": "keyword-dictionary + low-confidence-default",
     "low_confidence_threshold": 1,
-    "unknown_fallback": "ask_domain",
-    "expert_gap_fallback": "ask_user_distill_or_llm"
+    "unknown_fallback": "use_llm_directly",
+    "expert_gap_fallback": "use_llm_directly"
   },
   "domains": [
     {
@@ -193,10 +193,13 @@
         "research"
       ],
       "expert_ids": [
-        "terence-tao"
+        "terence-tao",
+        "paul-halmos",
+        "donald-knuth",
+        "steven-pinker"
       ],
       "status": "ready",
-      "note": "Terence Tao 已蒸馏为 ready；来源为其本人博客一手页面（7 条 verified-high）。",
+      "note": "数学域名专家团含 Terence Tao（数学问题/写作）与 Paul Halmos / Donald Knuth / Steven Pinker（论文撰写与排版）；均为公开人物风格/方法论参考，非本人原话。",
       "adjacent": [
         "algorithm",
         "physics"
@@ -246,10 +249,13 @@
         "research"
       ],
       "expert_ids": [
-        "william-zinsser"
+        "william-zinsser",
+        "paul-halmos",
+        "donald-knuth",
+        "steven-pinker"
       ],
       "status": "ready",
-      "note": "William Zinsser 已蒸馏为 ready；来源为 On Writing Well / NPR / Yale / Edutopia。",
+      "note": "写作/文案域名专家团：William Zinsser（清晰写作），并并入 Paul Halmos / Donald Knuth / Steven Pinker（论文撰写与排版视角）；均为公开人物风格/方法论参考，非本人原话。",
       "adjacent": [
         "research",
         "frontend"
@@ -294,10 +300,13 @@
         "y-chen",
         "o-k-h-shanker",
         "a-k-sah",
-        "richard-feynman"
+        "richard-feynman",
+        "paul-halmos",
+        "donald-knuth",
+        "steven-pinker"
       ],
       "status": "ready",
-      "note": "科研论文/组会场景：聚合 VLPC/物理材料中已备好的具体人名导师；Richard Feynman 已作为 ready 物理风格参考并入。",
+      "note": "科研论文/组会场景：聚合 VLPC/物理材料中已备好的具体人名导师；并并入 Paul Halmos / Donald Knuth / Steven Pinker 论文撰写视角；Richard Feynman 已作为 ready 物理风格参考并入。",
       "adjacent": [
         "physics",
         "math",
@@ -591,22 +600,104 @@
         "ai-llm-agent",
         "dev"
       ]
+    },
+    {
+      "id": "visual-design",
+      "name": "视觉设计 / 设计规范",
+      "keywords": [
+        "视觉设计",
+        "设计规范",
+        "ui 设计",
+        "ux 设计",
+        "布局",
+        "审美",
+        "美学",
+        "设计感",
+        "呼吸感",
+        "流动感",
+        "信息设计",
+        "可用性",
+        "设计原则",
+        "less but better",
+        "data-ink",
+        "don't make me think",
+        "mobile first",
+        "grid",
+        "responsive",
+        "css layout"
+      ],
+      "modules": [
+        "dev",
+        "distill"
+      ],
+      "expert_ids": [
+        "dieter-rams",
+        "edward-tufte",
+        "steve-krug",
+        "jen-simmons",
+        "luke-wroblewski"
+      ],
+      "status": "ready",
+      "note": "视觉设计/设计规范专家团已蒸馏为 ready（Dieter Rams / Edward Tufte / Steve Krug / Jen Simmons / Luke Wroblewski）；均为公开人物风格/方法论参考，非本人原话。",
+      "adjacent": [
+        "frontend",
+        "product-ux",
+        "writing"
+      ]
+    },
+    {
+      "id": "standards",
+      "name": "规范编写 / 标准制定",
+      "keywords": [
+        "规范",
+        "标准",
+        "约定",
+        "命名",
+        "文件管理",
+        "目录结构",
+        "style guide",
+        "conventions",
+        "工程规范",
+        "代码风格"
+      ],
+      "modules": [
+        "dev",
+        "writing",
+        "dsh-ops"
+      ],
+      "expert_ids": [
+        "kent-beck",
+        "john-ousterhout",
+        "eric-s-raymond",
+        "martin-kleppmann",
+        "steve-mcconnell",
+        "w-richard-stevens",
+        "michael-w-lucas",
+        "martin-fowler"
+      ],
+      "status": "ready",
+      "note": "规范编写专家团已蒸馏为 ready；均为公开人物风格/方法论参考，非本人原话。",
+      "adjacent": [
+        "dev",
+        "writing",
+        "dsh-ops"
+      ]
     }
   ],
   "fallback_action": {
-    "type": "ask_user",
-    "question": "该领域暂无已备好的人名专家：要我蒸馏该领域专家团，还是放弃专家团、直接用大模型解答？",
+    "type": "use_llm_directly",
+    "question": "该领域暂无已备好的人名专家，默认直接用大模型继续；可后续再蒸馏该领域专家团。",
     "options": [
-      "distill_expert",
-      "use_llm_directly"
+      "use_llm_directly",
+      "distill_expert"
     ]
   },
   "unknown_domain_action": {
-    "type": "ask_user",
-    "question": "没有识别出你正在说的领域。请告诉我具体领域（算法/前端/后端/安全/性能/数学/物理/写作等），或直接说明处理方式。",
+    "type": "use_llm_directly",
+    "question": "没有识别出你正在说的领域，默认直接用大模型继续；如需指定领域可在回复中说明。",
     "options": [
-      "specify_domain",
-      "use_llm_directly"
+      "use_llm_directly",
+      "specify_domain"
     ]
   }
 }

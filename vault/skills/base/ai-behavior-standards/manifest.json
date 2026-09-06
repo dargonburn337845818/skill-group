@@ -1,0 +1,51 @@
+{
+  "id": "ai-behavior-standards",
+  "name": "ai-behavior-standards",
+  "title": "AI 行为与文件管理规范总册",
+  "description": "AI 行为与文件管理规范总册：少而深的硬底线 + 轻量长期记忆（AI_MEMORY/DRIVE_LAYOUT）+ 全盘符接管安全协议，重点解决文件系统混乱、AI 跨会话失忆、无人监管整理全盘符的危险。",
+  "whenToUse": "任何 AI 要创建/移动/清理文件、跨会话记忆、整理任意盘符、开始新工程、写文档或用户说“电脑乱了/规范不够/AI 别再乱放/让 AI 接管整理所有盘”时优先加载。",
+  "scenario": "base",
+  "scenarios": [
+    "base",
+    "dsh-ops"
+  ],
+  "routing": "base",
+  "tags": [
+    "规范",
+    "文件管理",
+    "目录结构",
+    "命名",
+    "工作区",
+    "AI友好",
+    "清单",
+    "可执行"
+  ],
+  "experts": [
+    "Andrej Karpathy",
+    "Lilian Weng",
+    "Chip Huyen",
+    "Martin Fowler",
+    "Kent Beck",
+    "John Ousterhout",
+    "Eric S. Raymond",
+    "Martin Kleppmann",
+    "Steve McConnell",
+    "Filesystem Hierarchy Standard"
+  ],
+  "sourceRefs": [
+    "~/.dsh/AGENTS.md",
+    "$HOME/work/AGENTS.md",
+    "$HOME/work/REPO_STANDARD.md",
+    "$HOME/work/dsh-optimization-consensus.md",
+    "$HOME/work/editorial-style-spec.md",
+    "$HOME/work/SKILL_MAP.md",
+    "https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard",
+    "https://developers.google.com/style/filenames",
+    "https://12factor.net/",
+    "https://lilianweng.github.io/posts/2023-06-23-agent/",
+    "https://huyenchip.com/2023/05/02/machine-learning-design.html"
+  ],
+  "activation": "always-on",
+  "version": "0.2.0",
+  "license": "MIT"
+}
