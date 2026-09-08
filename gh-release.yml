@@ -1,0 +1,22 @@
+# 由 gh-automation/scripts/install-repo-config.py 生成；改这里而不是改脚本。
+# 说明：ghp.py 读取本文件；字段含义见 gh-automation/templates/release.yml。
+repo: dsh-skill-vault
+default_branch: main
+version_source: package.json#version
+build: npm ci && npm run build && npm run build:client
+artifacts:
+- lib/**
+- '*.tgz'
+checks:
+- privacy
+- style
+ci_required: false
+release:
+  enabled: true
+  tag_prefix: v
+allow_dirty: false
+timeout_seconds: 300
+retries: 2
+local_dir: dsh-skill-vault
+privacy_level: warn
+privacy_note: skill 语料库含内部路径（vault 审计数据），已知并接受；发布前人工复核
